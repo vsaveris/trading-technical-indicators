@@ -73,7 +73,7 @@ def validateInputData(input_data, required_columns, indicator_name,
             raise ValueError('The input_data pandas.DataFrame must hold ' +
                              'columns of numeric type, but column `' +
                              column + '` is of type `' +
-                             str(input_data[column].dtype + '`.'))
+                             str(input_data[column].dtype) + '`.')
 
     # Remove not required columns, if any
     for column in input_data.columns:

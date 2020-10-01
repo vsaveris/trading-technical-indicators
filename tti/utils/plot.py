@@ -5,6 +5,7 @@ File name: plot.py
     Plotting methods defined under the tti.utils package.
 """
 
+import pandas as pd
 import matplotlib.pyplot as plt
 
 
@@ -15,14 +16,14 @@ def linesGraph(data, y_label, title, lines_color, alpha_values, areas,
     a figure with a single plot, or a figure containing two vertical subplots.
     
     Parameters:
-        data (pandas.DataFrame or a list of maximum two pandas.DataFrame
-            objects): The data to include in the graph. If data is a single
-            pandas.DataFrame then a single plot is prepared. If data is a list
-            of two pandas.DataFrame, then a plot with two subplots vertically
-            stacked is prepared. Each pandas.DataFrame in the list is used for
-            a separate subplot. The index of the dataframe represents the data
-            on the x-axis and it should be of type pandas.DatetimeIndex. Each
-            column of the dataframe represents a line in the graph.
+        data (pandas.DataFrame or a list of pandas.DataFrame objects): The data
+            to include in the graph. If data is a single pandas.DataFrame then
+            a single plot is prepared. If data is a list of pandas.DataFrame,
+            then a plot with subplots vertically stacked is prepared. Each
+            pandas.DataFrame in the list is used for a separate subplot. The
+            index of the dataframe represents the data on the x-axis and it
+            should be of type pandas.DatetimeIndex. Each column of the
+            dataframe represents a line in the graph.
             
         y_label (string): The label of the y-axis of the graph.
 
@@ -48,7 +49,7 @@ def linesGraph(data, y_label, title, lines_color, alpha_values, areas,
             is `Date`.
         
     Raises:
-        -
+        TypeError
 
     Returns:
         matplotlib.pyplot: The prepared graph object.
@@ -58,14 +59,28 @@ def linesGraph(data, y_label, title, lines_color, alpha_values, areas,
     if type(data) != list:
         data = [data]
 
+    for df in data:
+
+        # Validate that the input_data parameter is a pandas.DataFrame object
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError('Invalid input_data type. It was expected ' +
+                            '`pd.DataFrame` but `' +
+                            str(type(df).__name__) + '` was found.')
+
+        # Validate that the index of the pandas.DataFrame is of type date
+        if not isinstance(df.index, pd.DatetimeIndex):
+            raise TypeError('Invalid input_data index type. It was expected ' +
+                            '`pd.DatetimeIndex` but `' +
+                            str(type(df.index).__name__) + '` was found.')
+
     plt.figure(figsize=(7, 5))
     
     # Add the subplots
     j = 0  # Used for plot attributes use in rotation
 
     # Maximum of two DataFrames are considered from the data parameter
-    for i in range(2):
-        plt.subplot(min(2, len(data)), 1, i + 1)
+    for i in range(len(data)):
+        plt.subplot(len(data), 1, i + 1)
 
         for line_name in data[i].columns.values:
             plt.plot(data[i].index, data[i][line_name], label=line_name,
