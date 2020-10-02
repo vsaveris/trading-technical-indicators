@@ -51,9 +51,9 @@ class OnBalanceVolume(TechnicalIndicator):
         """
 
         obv = pd.DataFrame(index=self._input_data.index, columns=['OBV'],
-                           data=None)
+                           data=None, dtype='int64')
 
-        obv.iat[0, 0] = 0.0
+        obv.iat[0, 0] = 0
         for i in range(1, len(self._input_data.index)):
 
             # Today's close is greater than yesterday's close
