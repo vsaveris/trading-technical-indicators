@@ -1,35 +1,35 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: test_indicator_on_balance_volume.py
-    tti.indicators package, on_balance_volume.py module unit tests.
+File name: test_indicator_fibonacci_retracement.py
+    tti.indicators package, _fibonacci_retracement.py module unit tests.
 """
 
 import unittest
 import pandas as pd
 import matplotlib.pyplot
 
-from tti.indicators import OnBalanceVolume
+from tti.indicators import FibonacciRetracement
 
 
-class TestOnBalanceVolume(unittest.TestCase):
+class TestFibonacciRetracement(unittest.TestCase):
 
     # Validate input_data parameter
 
     def test_input_data_missing(self):
         with self.assertRaises(TypeError):
-            OnBalanceVolume()
+            FibonacciRetracement()
 
     def test_input_data_wrong_type(self):
         with self.assertRaises(TypeError):
-            OnBalanceVolume('NO_DF')
+            FibonacciRetracement('NO_DF')
 
     def test_input_data_wrong_index_type(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=1)
 
         with self.assertRaises(TypeError):
-            OnBalanceVolume(df)
+            FibonacciRetracement(df)
 
     def test_input_data_required_column_close_missing(self):
 
@@ -37,21 +37,21 @@ class TestOnBalanceVolume(unittest.TestCase):
                          index_col=0)
 
         with self.assertRaises(ValueError):
-            OnBalanceVolume(pd.DataFrame(df.drop(columns=['close'])))
+            FibonacciRetracement(pd.DataFrame(df.drop(columns=['close'])))
 
     def test_input_data_required_column_volume_missing(self):
         df = pd.read_csv('./data/sample_data.csv',
                          parse_dates=True, index_col=0)
 
         with self.assertRaises(ValueError):
-            OnBalanceVolume(pd.DataFrame(df.drop(columns=['volume'])))
+            FibonacciRetracement(pd.DataFrame(df.drop(columns=['volume'])))
 
     def test_input_data_empty(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
         with self.assertRaises(ValueError):
-            OnBalanceVolume(pd.DataFrame(df[df.index >= '2032-01-01']))
+            FibonacciRetracement(pd.DataFrame(df[df.index >= '2032-01-01']))
 
     def test_input_data_values_wrong_type(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
@@ -61,7 +61,7 @@ class TestOnBalanceVolume(unittest.TestCase):
         df['close'].iat[0] = 'no-numeric'
 
         with self.assertRaises(ValueError):
-            OnBalanceVolume(df)
+            FibonacciRetracement(df)
 
     # Validate fill_missing_values input argument
 
@@ -73,7 +73,8 @@ class TestOnBalanceVolume(unittest.TestCase):
                                          parse_dates=True,
                                          index_col=0)[['close', 'volume']]
 
-        df_result = OnBalanceVolume(df, fill_missing_values=True)._input_data
+        df_result = FibonacciRetracement(df, fill_missing_values=True)\
+            ._input_data
 
         pd.testing.assert_frame_equal(df_result, df_expected_result)
 
@@ -85,7 +86,8 @@ class TestOnBalanceVolume(unittest.TestCase):
             './data/missing_values_data_sorted.csv', parse_dates=True,
             index_col=0)[['close', 'volume']]
 
-        df_result = OnBalanceVolume(df, fill_missing_values=False)._input_data
+        df_result = FibonacciRetracement(df, fill_missing_values=False)\
+            ._input_data
 
         pd.testing.assert_frame_equal(df_result, df_expected_result)
 
@@ -97,7 +99,7 @@ class TestOnBalanceVolume(unittest.TestCase):
                                          parse_dates=True,
                                          index_col=0)[['close', 'volume']]
 
-        df_result = OnBalanceVolume(df)._input_data
+        df_result = FibonacciRetracement(df)._input_data
 
         pd.testing.assert_frame_equal(df_result, df_expected_result)
 
@@ -112,7 +114,7 @@ class TestOnBalanceVolume(unittest.TestCase):
             parse_dates=True,
             index_col=0)
 
-        df_result = OnBalanceVolume(df[df.index == '2000-02-01'])._ti_data
+        df_result = FibonacciRetracement(df[df.index == '2000-02-01'])._ti_data
 
         pd.testing.assert_frame_equal(df_expected_result[df_expected_result.
                                       index == '2000-02-01'], df_result)
@@ -126,7 +128,7 @@ class TestOnBalanceVolume(unittest.TestCase):
             parse_dates=True,
             index_col=0)
 
-        df_result = OnBalanceVolume(df)._ti_data
+        df_result = FibonacciRetracement(df)._ti_data
 
         pd.testing.assert_frame_equal(df_expected_result, df_result)
 
@@ -136,7 +138,7 @@ class TestOnBalanceVolume(unittest.TestCase):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
-        obv = OnBalanceVolume(df)
+        obv = FibonacciRetracement(df)
 
         # Needs manual check of the produced graph
         self.assertEqual(obv.getTiGraph(), matplotlib.pyplot)
@@ -153,7 +155,7 @@ class TestOnBalanceVolume(unittest.TestCase):
             index_col=0)
 
         pd.testing.assert_frame_equal(df_expected_result,
-                                      OnBalanceVolume(df).getTiData())
+                                      FibonacciRetracement(df).getTiData())
 
     def test_getTiValue_specific(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
@@ -165,7 +167,7 @@ class TestOnBalanceVolume(unittest.TestCase):
             index_col=0)
 
         self.assertEqual(df_expected_result.loc['2000-04-25', 'OBV'],
-                         OnBalanceVolume(df).getTiValue('2000-04-25'))
+                         FibonacciRetracement(df).getTiValue('2000-04-25'))
 
     def test_getTiValue_latest(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
@@ -177,13 +179,13 @@ class TestOnBalanceVolume(unittest.TestCase):
             index_col=0)
 
         self.assertEqual(df_expected_result.iloc[-1, 0],
-                         OnBalanceVolume(df).getTiValue())
+                         FibonacciRetracement(df).getTiValue())
 
     def test_getTiSignal(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
-        self.assertIn(OnBalanceVolume(df).getTiSignal(),
+        self.assertIn(FibonacciRetracement(df).getTiSignal(),
                       [('buy', -1), ('hold', 0), ('sell', 1)])
 
 

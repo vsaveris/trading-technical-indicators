@@ -1,35 +1,35 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: test_indicator_on_balance_volume.py
-    tti.indicators package, on_balance_volume.py module unit tests.
+File name: test_indicator_ichimoku_cloud.py
+    tti.indicators package, _ichimoku_cloud.py module unit tests.
 """
 
 import unittest
 import pandas as pd
 import matplotlib.pyplot
 
-from tti.indicators import OnBalanceVolume
+from tti.indicators import IchimokuCloud
 
 
-class TestOnBalanceVolume(unittest.TestCase):
+class TestIchimokuCloud(unittest.TestCase):
 
     # Validate input_data parameter
 
     def test_input_data_missing(self):
         with self.assertRaises(TypeError):
-            OnBalanceVolume()
+            IchimokuCloud()
 
     def test_input_data_wrong_type(self):
         with self.assertRaises(TypeError):
-            OnBalanceVolume('NO_DF')
+            IchimokuCloud('NO_DF')
 
     def test_input_data_wrong_index_type(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=1)
 
         with self.assertRaises(TypeError):
-            OnBalanceVolume(df)
+            IchimokuCloud(df)
 
     def test_input_data_required_column_close_missing(self):
 
@@ -37,21 +37,21 @@ class TestOnBalanceVolume(unittest.TestCase):
                          index_col=0)
 
         with self.assertRaises(ValueError):
-            OnBalanceVolume(pd.DataFrame(df.drop(columns=['close'])))
+            IchimokuCloud(pd.DataFrame(df.drop(columns=['close'])))
 
     def test_input_data_required_column_volume_missing(self):
         df = pd.read_csv('./data/sample_data.csv',
                          parse_dates=True, index_col=0)
 
         with self.assertRaises(ValueError):
-            OnBalanceVolume(pd.DataFrame(df.drop(columns=['volume'])))
+            IchimokuCloud(pd.DataFrame(df.drop(columns=['volume'])))
 
     def test_input_data_empty(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
         with self.assertRaises(ValueError):
-            OnBalanceVolume(pd.DataFrame(df[df.index >= '2032-01-01']))
+            IchimokuCloud(pd.DataFrame(df[df.index >= '2032-01-01']))
 
     def test_input_data_values_wrong_type(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
@@ -61,7 +61,7 @@ class TestOnBalanceVolume(unittest.TestCase):
         df['close'].iat[0] = 'no-numeric'
 
         with self.assertRaises(ValueError):
-            OnBalanceVolume(df)
+            IchimokuCloud(df)
 
     # Validate fill_missing_values input argument
 
@@ -73,7 +73,7 @@ class TestOnBalanceVolume(unittest.TestCase):
                                          parse_dates=True,
                                          index_col=0)[['close', 'volume']]
 
-        df_result = OnBalanceVolume(df, fill_missing_values=True)._input_data
+        df_result = IchimokuCloud(df, fill_missing_values=True)._input_data
 
         pd.testing.assert_frame_equal(df_result, df_expected_result)
 
@@ -85,7 +85,7 @@ class TestOnBalanceVolume(unittest.TestCase):
             './data/missing_values_data_sorted.csv', parse_dates=True,
             index_col=0)[['close', 'volume']]
 
-        df_result = OnBalanceVolume(df, fill_missing_values=False)._input_data
+        df_result = IchimokuCloud(df, fill_missing_values=False)._input_data
 
         pd.testing.assert_frame_equal(df_result, df_expected_result)
 
@@ -97,7 +97,7 @@ class TestOnBalanceVolume(unittest.TestCase):
                                          parse_dates=True,
                                          index_col=0)[['close', 'volume']]
 
-        df_result = OnBalanceVolume(df)._input_data
+        df_result = IchimokuCloud(df)._input_data
 
         pd.testing.assert_frame_equal(df_result, df_expected_result)
 
@@ -112,7 +112,7 @@ class TestOnBalanceVolume(unittest.TestCase):
             parse_dates=True,
             index_col=0)
 
-        df_result = OnBalanceVolume(df[df.index == '2000-02-01'])._ti_data
+        df_result = IchimokuCloud(df[df.index == '2000-02-01'])._ti_data
 
         pd.testing.assert_frame_equal(df_expected_result[df_expected_result.
                                       index == '2000-02-01'], df_result)
@@ -126,7 +126,7 @@ class TestOnBalanceVolume(unittest.TestCase):
             parse_dates=True,
             index_col=0)
 
-        df_result = OnBalanceVolume(df)._ti_data
+        df_result = IchimokuCloud(df)._ti_data
 
         pd.testing.assert_frame_equal(df_expected_result, df_result)
 
@@ -136,7 +136,7 @@ class TestOnBalanceVolume(unittest.TestCase):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
-        obv = OnBalanceVolume(df)
+        obv = IchimokuCloud(df)
 
         # Needs manual check of the produced graph
         self.assertEqual(obv.getTiGraph(), matplotlib.pyplot)
@@ -153,7 +153,7 @@ class TestOnBalanceVolume(unittest.TestCase):
             index_col=0)
 
         pd.testing.assert_frame_equal(df_expected_result,
-                                      OnBalanceVolume(df).getTiData())
+                                      IchimokuCloud(df).getTiData())
 
     def test_getTiValue_specific(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
@@ -165,7 +165,7 @@ class TestOnBalanceVolume(unittest.TestCase):
             index_col=0)
 
         self.assertEqual(df_expected_result.loc['2000-04-25', 'OBV'],
-                         OnBalanceVolume(df).getTiValue('2000-04-25'))
+                         IchimokuCloud(df).getTiValue('2000-04-25'))
 
     def test_getTiValue_latest(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
@@ -177,13 +177,13 @@ class TestOnBalanceVolume(unittest.TestCase):
             index_col=0)
 
         self.assertEqual(df_expected_result.iloc[-1, 0],
-                         OnBalanceVolume(df).getTiValue())
+                         IchimokuCloud(df).getTiValue())
 
     def test_getTiSignal(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
-        self.assertIn(OnBalanceVolume(df).getTiSignal(),
+        self.assertIn(IchimokuCloud(df).getTiSignal(),
                       [('buy', -1), ('hold', 0), ('sell', 1)])
 
 
