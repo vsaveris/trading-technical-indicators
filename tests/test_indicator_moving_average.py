@@ -10,9 +10,11 @@ import pandas as pd
 import matplotlib.pyplot
 
 from tti.indicators import MovingAverage
+from tti.utils.exceptions import NotEnoughInputData, \
+    WrongTypeForInputParameter, WrongValueForInputParameter
 
 
-class MovingAverage(unittest.TestCase):
+class TestMovingAverage(unittest.TestCase):
 
     # Validate input_data parameter
 
@@ -38,20 +40,6 @@ class MovingAverage(unittest.TestCase):
         with self.assertRaises(ValueError):
             MovingAverage(pd.DataFrame(df.drop(columns=['close'])))
 
-    def test_input_data_required_column_high_missing(self):
-        df = pd.read_csv('./data/sample_data.csv',
-                         parse_dates=True, index_col=0)
-
-        with self.assertRaises(ValueError):
-            MovingAverage(pd.DataFrame(df.drop(columns=['high'])))
-
-    def test_input_data_required_column_low_missing(self):
-        df = pd.read_csv('./data/sample_data.csv',
-                         parse_dates=True, index_col=0)
-
-        with self.assertRaises(ValueError):
-            MovingAverage(pd.DataFrame(df.drop(columns=['low'])))
-
     def test_input_data_empty(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
@@ -69,78 +57,41 @@ class MovingAverage(unittest.TestCase):
         with self.assertRaises(ValueError):
             MovingAverage(df)
 
-    def test_k_periods_parameter_wrong_type(self):
+    def test_ma_type_parameter_wrong_type(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
         with self.assertRaises(WrongTypeForInputParameter):
-            MovingAverage(df, k_periods='1', k_slowing_periods=3,
-                                 d_periods=3, d_method='simple')
+            MovingAverage(df, ma_type=1, period=30)
 
-    def test_k_periods_parameter_wrong_value(self):
+    def test_ma_type_parameter_wrong_value(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
         with self.assertRaises(WrongValueForInputParameter):
-            MovingAverage(df, k_periods=0, k_slowing_periods=3,
-                                 d_periods=3, d_method='simple')
+            MovingAverage(df, ma_type='something', period=30)
 
-    def test_k_slowing_periods_parameter_wrong_type(self):
+    def test_period_parameter_wrong_type(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
         with self.assertRaises(WrongTypeForInputParameter):
-            MovingAverage(df, k_periods=14, k_slowing_periods='3',
-                                 d_periods=3, d_method='simple')
+            MovingAverage(df, ma_type='simple', period='30')
 
-    def test_k_slowing_periods_parameter_wrong_value(self):
+    def test_period_parameter_wrong_value(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
         with self.assertRaises(WrongValueForInputParameter):
-            MovingAverage(df, k_periods=14, k_slowing_periods=2,
-                                 d_periods=3, d_method='simple')
-
-    def test_d_periods_parameter_wrong_type(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        with self.assertRaises(WrongTypeForInputParameter):
-            MovingAverage(df, k_periods=14, k_slowing_periods=3,
-                                 d_periods='3', d_method='simple')
-
-    def test_d_periods_parameter_wrong_value(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        with self.assertRaises(WrongValueForInputParameter):
-            MovingAverage(df, k_periods=14, k_slowing_periods=3,
-                                 d_periods=0, d_method='simple')
-
-    def test_d_method_parameter_wrong_type(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        with self.assertRaises(WrongTypeForInputParameter):
-            MovingAverage(df, k_periods=14, k_slowing_periods=3,
-                                 d_periods=3, d_method=1)
-
-    def test_d_method_parameter_wrong_value(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        with self.assertRaises(WrongValueForInputParameter):
-            MovingAverage(df, k_periods=14, k_slowing_periods=3,
-                                 d_periods=3, d_method='something')
+            MovingAverage(df, ma_type='simple', period=0)
 
     def test_fill_missing_values_parameter_wrong_type(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
         with self.assertRaises(WrongTypeForInputParameter):
-            MovingAverage(df, k_periods=14, k_slowing_periods=3,
-                                 d_periods=3, d_method='simple',
-                                 fill_missing_values=1)
+            MovingAverage(df,  ma_type='simple', period=200,
+                          fill_missing_values=1)
 
     # Validate fill_missing_values input argument
 
@@ -150,9 +101,9 @@ class MovingAverage(unittest.TestCase):
 
         df_expected_result = pd.read_csv('./data/missing_values_filled.csv',
                                          parse_dates=True,
-                                         index_col=0)[['high', 'low', 'close']]
+                                         index_col=0)[['close']]
 
-        df_result = MovingAverage(df, fill_missing_values=True) \
+        df_result = MovingAverage(df, period=20, fill_missing_values=True) \
             ._input_data
 
         pd.testing.assert_frame_equal(df_result, df_expected_result)
@@ -163,9 +114,9 @@ class MovingAverage(unittest.TestCase):
 
         df_expected_result = pd.read_csv(
             './data/missing_values_data_sorted.csv', parse_dates=True,
-            index_col=0)[['high', 'low', 'close']]
+            index_col=0)[['close']]
 
-        df_result = MovingAverage(df, fill_missing_values=False) \
+        df_result = MovingAverage(df, period=20, fill_missing_values=False) \
             ._input_data
 
         pd.testing.assert_frame_equal(df_result, df_expected_result)
@@ -176,9 +127,9 @@ class MovingAverage(unittest.TestCase):
 
         df_expected_result = pd.read_csv('./data/missing_values_filled.csv',
                                          parse_dates=True,
-                                         index_col=0)[['high', 'low', 'close']]
+                                         index_col=0)[['close']]
 
-        df_result = MovingAverage(df)._input_data
+        df_result = MovingAverage(df, period=20)._input_data
 
         pd.testing.assert_frame_equal(df_result, df_expected_result)
 
@@ -188,18 +139,15 @@ class MovingAverage(unittest.TestCase):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
-        with self.assertRaises(WrongTypeForInputParameter):
-            MovingAverage(df.iloc[0:13], k_periods=14,
-                                 k_slowing_periods=3,
-                                 d_periods=3, d_method='simple',
-                                 fill_missing_values=1)
+        with self.assertRaises(NotEnoughInputData):
+            MovingAverage(df.iloc[:199], ma_type='simple', period=200)
 
-    def test_validate_indicator_fast_full_data(self):
+    def test_validate_indicator_simple_full_data(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
         df_expected_result = pd.read_csv(
-            './data/test_stochastic_oscillator_fast_on_sample_data.csv',
+            './data/test_moving_average_simple_on_sample_data.csv',
             parse_dates=True,
             index_col=0)
 
@@ -207,16 +155,16 @@ class MovingAverage(unittest.TestCase):
 
         pd.testing.assert_frame_equal(df_expected_result, df_result)
 
-    def test_validate_indicator_slow_full_data(self):
+    def test_validate_indicator_exponential_full_data(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
         df_expected_result = pd.read_csv(
-            './data/test_stochastic_oscillator_slow_on_sample_data.csv',
+            './data/test_moving_average_exponential_on_sample_data.csv',
             parse_dates=True,
             index_col=0)
 
-        df_result = MovingAverage(df, k_slowing_periods=3)._ti_data
+        df_result = MovingAverage(df, ma_type='exponential')._ti_data
 
         pd.testing.assert_frame_equal(df_expected_result, df_result)
 
@@ -238,7 +186,7 @@ class MovingAverage(unittest.TestCase):
                          index_col=0)
 
         df_expected_result = pd.read_csv(
-            './data/test_stochastic_oscillator_fast_on_sample_data.csv',
+            './data/test_moving_average_simple_on_sample_data.csv',
             parse_dates=True,
             index_col=0)
 
@@ -250,19 +198,19 @@ class MovingAverage(unittest.TestCase):
                          index_col=0)
 
         df_expected_result = pd.read_csv(
-            './data/test_stochastic_oscillator_fast_on_sample_data.csv',
+            './data/test_moving_average_simple_on_sample_data.csv',
             parse_dates=True,
             index_col=0)
 
-        self.assertEqual(list(df_expected_result.loc['2000-04-25', :]),
-                         MovingAverage(df).getTiValue('2000-04-25'))
+        self.assertEqual(list(df_expected_result.loc['2009-10-19', :]),
+                         MovingAverage(df).getTiValue('2009-10-19'))
 
     def test_getTiValue_latest(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
         df_expected_result = pd.read_csv(
-            './data/test_stochastic_oscillator_fast_on_sample_data.csv',
+            './data/test_moving_average_simple_on_sample_data.csv',
             parse_dates=True,
             index_col=0)
 

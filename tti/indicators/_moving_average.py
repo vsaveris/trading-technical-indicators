@@ -99,7 +99,7 @@ class MovingAverage(TechnicalIndicator):
                 on=None, axis=0, closed=None).mean().round(4)
         else:
             ma = self._input_data.ewm(
-                span=self._period, min_periods=self._period, adjust=True,
+                span=self._period, min_periods=self._period, adjust=False,
                 axis=0).mean().round(4)
 
         ma.columns = ['MA']

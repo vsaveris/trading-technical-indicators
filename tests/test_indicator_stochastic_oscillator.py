@@ -191,11 +191,11 @@ class TestFastStochasticOscillator(unittest.TestCase):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
-        with self.assertRaises(WrongTypeForInputParameter):
+        with self.assertRaises(NotEnoughInputData):
             StochasticOscillator(df.iloc[0:13], k_periods=14,
                                  k_slowing_periods=3,
                                  d_periods=3, d_method='simple',
-                                 fill_missing_values=1)
+                                 fill_missing_values=True)
 
     def test_validate_indicator_fast_full_data(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
