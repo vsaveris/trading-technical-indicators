@@ -26,13 +26,128 @@ dictionary. The format for each indicator is:
 """
 
 INDICATORS_PROPERTIES = \
-  {"OnBalanceVolume":
+  {"AverageDirectionalMovementIndex":
+   {"long_name": "Average Directional Movement Index",
+    "short_name": "ADX",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "ADX | Price",
+    "graph_lines_color": ["black", "cornflowerblue"],
+    "graph_alpha_values": [0.5, 1.0, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "BollingerBands":
+   {"long_name": "Bollinger Bands",
+    "short_name": "BB",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "cornflowerblue", "limegreen", "tomato"],
+    "graph_alpha_values": [None],
+    "graph_areas": None,
+    "graph_subplots": False
+    }, "DirectionalMovementIndex":
+   {"long_name": "Directional Movement Index",
+    "short_name": "DX",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "DMI | Price",
+    "graph_lines_color": ["black", "limegreen", "red", "cornflowerblue"],
+    "graph_alpha_values": [1.0, 1.0, 1.0, 0.2],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "ExponentialMovingAverage":
+   {"long_name": "Exponential Moving Average",
+    "short_name": "EMA",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "cornflowerblue", "tomato"],
+    "graph_alpha_values": [0.5, 1.0, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
+    }, "StochasticOscillator":
+   {"long_name": "Stochastic Oscillator",
+    "short_name": "SO",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Percentage | Price",
+    "graph_lines_color": ["black", "cornflowerblue", "tomato"],
+    "graph_alpha_values": [None],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "FibonacciRetracement":
+   {"long_name": "Fibonacci Retracement",
+    "short_name": "FR",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "limegreen", "brown", "peru", "orange",
+                          "red"],
+    "graph_alpha_values": [None],
+    "graph_areas": None,
+    "graph_subplots": False
+    }, "IchimokuCloud":
+   {"long_name": "Ichimoku Cloud",
+    "short_name": "IC",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "cornflowerblue", "tomato", "limegreen",
+                          "orange", "purple"],
+    "graph_alpha_values": [None],
+    "graph_areas": [{'x': 'ti_index',
+                     'y1': ['ti_data', 'Senkou A'],
+                     'y2': ['ti_data', 'Senkou B'],
+                     'color': 'lightblue'}],
+    "graph_subplots": False
+    }, "MovingAverageConvergenceDivergence":
+   {"long_name": "Moving Average Convergence Divergence",
+    "short_name": "MACD",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "MACD | Price",
+    "graph_lines_color": ["black", "cornflowerblue", "tomato"],
+    "graph_alpha_values": [0.5, 1.0, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "OnBalanceVolume":
    {"long_name": "On Balance Volume",
     "short_name": "OBV",
     "required_input_data": ["close", "volume"],
     "graph_input_columns": ["close"],
     "graph_y_label": "Volume | Price",
     "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [None],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "RelativeStrengthIndex":
+   {"long_name": "Relative Strength Index",
+    "short_name": "RSI",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "RSI | Price",
+    "graph_lines_color": ["black", "tomato"],
+    "graph_alpha_values": [None],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "SimpleMovingAverage":
+   {"long_name": "Simple Moving Average",
+    "short_name": "SMA",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "cornflowerblue", "tomato"],
+    "graph_alpha_values": [0.5, 1.0, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
+    }, "StandardDeviation":
+   {"long_name": "Standard Deviation",
+    "short_name": "SD",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "SD | Price",
+    "graph_lines_color": ["black", "cornflowerblue"],
     "graph_alpha_values": [None],
     "graph_areas": None,
     "graph_subplots": True

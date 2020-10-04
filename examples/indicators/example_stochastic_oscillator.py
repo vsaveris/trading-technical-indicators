@@ -1,20 +1,20 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: example_on_balance_volume.py
-    Example code for the On Balance Volume technical indicator.
+File name: example_stochastic_oscillator.py
+    Example code for the Stochastic Oscillator technical indicator.
 """
 
 import re
 import pandas as pd
 
-from tti.indicators import OnBalanceVolume
+from tti.indicators import StochasticOscillator
 
 # Read data from csv file. Set the index to the correct column (dates column)
 df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
 # Create the indicator for a part of the input file
-ti = OnBalanceVolume(df[df.index >= '2012-01-01'])
+ti = StochasticOscillator(df[df.index >= '2012-01-01'])
 
 # Show the Graph for the calculated Technical Indicator
 ti.getTiGraph().show()

@@ -12,4 +12,4 @@ For complete documentation see https://www.trading-technical-indicators.org/
 
 __version__ = '0.1.dev'
 
-__all__ = ['indicators']
+__all__ = ['indicators', 'utils']

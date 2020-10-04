@@ -127,10 +127,10 @@ class TechnicalIndicator(ABC):
 
         try:
             if date is None:
-                return round(list(self._ti_data.iloc[-1, :])[0], 2)
+                return [round(x, 4) for x in list(self._ti_data.iloc[-1, :])]
             else:
-                return round(list(
-                    self._ti_data.loc[pd.to_datetime(date), :])[0], 2)
+                return [round(x, 4) for x in
+                        list(self._ti_data.loc[pd.to_datetime(date), :])]
         except (Exception, ValueError):
             return None
 
