@@ -1,20 +1,20 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: example_exponential_moving_average.py
-    Example code for the Exponential Moving Average technical indicator.
+File name: example_moving_average.py
+    Example code for the Moving Average technical indicator.
 """
 
 import re
 import pandas as pd
 
-from tti.indicators import ExponentialMovingAverage
+from tti.indicators import MovingAverage
 
 # Read data from csv file. Set the index to the correct column (dates column)
 df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
 # Create the indicator for a part of the input file
-ti = ExponentialMovingAverage(df[df.index >= '2012-01-01'])
+ti = MovingAverage(df)
 
 # Show the Graph for the calculated Technical Indicator
 ti.getTiGraph().show()

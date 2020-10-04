@@ -21,19 +21,20 @@ class StochasticOscillator(TechnicalIndicator):
         input_data (pandas.DataFrame): The input data.
 
         k_periods (integer, default is 14): Number of periods to be used in the
-        stochastic calculation %K.
+            stochastic calculation %K.
 
         k_slowing_periods (integer, 1 or 3, default is 1): Smoothing to be used
-        in the stochastic calculation. 1 is considered Fast Stochastic and 3
-        Slow Stochastic.
+            in the stochastic calculation. 1 is considered Fast Stochastic and
+            3 Slow Stochastic.
 
         d_periods (integer, default is 3): Periods to be used when calculating
-        the moving average %D of %K.
+            the moving average %D of %K.
 
         d_method (string, 'simple' or 'exponential', default is 'simple'): The
-        moving average to be used when calculating %D. Supported values are
-        'simple' for Simple Moving Average and 'exponential' for Exponential
-        Moving Average. More methods can be supported in a future release.
+            moving average to be used when calculating %D. Supported values are
+            'simple' for Simple Moving Average and 'exponential' for
+            Exponential Moving Average. More methods can be supported in a
+            future release.
 
         fill_missing_values (boolean, default is True): If set to True,
             missing values in the input data are being filled.

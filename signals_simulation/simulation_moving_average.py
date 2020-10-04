@@ -1,15 +1,15 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: simulation_exponential_moving_average.py
-    Trading signals simulation code for the Exponential Moving Average
-    technical indicator.
+File name: simulation_moving_average.py
+    Trading signals simulation code for the oving Average technical indicator.
 """
 
 import pandas as pd
 
-from tti.indicators import ExponentialMovingAverage
+from tti.indicators import MovingAverage
 from tti.utils import fillMissingValues
+from tti.utils.exceptions import NotEnoughInputData
 
 # Read data from csv file. Set the index to the correct column (dates column)
 df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
@@ -28,8 +28,13 @@ highest_balance = 0.0
 highest_number_of_stocks = 0
 
 for current_date in df.index:
+
     # Get trading signal
-    ts = ExponentialMovingAverage(df[df.index <= current_date]).getTiSignal()
+    try:
+        ts = MovingAverage(df[df.index <= current_date]).getTiSignal()
+    except NotEnoughInputData as e:
+        print('Error: ', e, ' Skipping this simulation round.', sep='')
+        continue
 
     # If `buy` signal, then buy one stock at `close` price
     if ts[0] == 'buy':
@@ -51,7 +56,7 @@ for current_date in df.index:
         number_of_stocks = 0
         highest_balance = max(highest_balance, balance)
 
-print('Exponential Moving Average trading signal simulation statistics')
+print('Moving Average trading signal simulation statistics')
 print('- number of trading days          :', len(df.index))
 print('- number of `buy` signals         :', number_of_buy_signals)
 print('- number of `sell` signals        :', number_of_sell_signals)

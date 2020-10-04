@@ -56,26 +56,6 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [1.0, 1.0, 1.0, 0.2],
     "graph_areas": None,
     "graph_subplots": True
-    }, "ExponentialMovingAverage":
-   {"long_name": "Exponential Moving Average",
-    "short_name": "EMA",
-    "required_input_data": ["close"],
-    "graph_input_columns": ["close"],
-    "graph_y_label": "Price",
-    "graph_lines_color": ["black", "cornflowerblue", "tomato"],
-    "graph_alpha_values": [0.5, 1.0, 1.0],
-    "graph_areas": None,
-    "graph_subplots": False
-    }, "StochasticOscillator":
-   {"long_name": "Stochastic Oscillator",
-    "short_name": "SO",
-    "required_input_data": ["high", "low", "close"],
-    "graph_input_columns": ["close"],
-    "graph_y_label": "Percentage | Price",
-    "graph_lines_color": ["black", "cornflowerblue", "tomato"],
-    "graph_alpha_values": [None],
-    "graph_areas": None,
-    "graph_subplots": True
     }, "FibonacciRetracement":
    {"long_name": "Fibonacci Retracement",
     "short_name": "FR",
@@ -100,6 +80,16 @@ INDICATORS_PROPERTIES = \
                      'y1': ['ti_data', 'Senkou A'],
                      'y2': ['ti_data', 'Senkou B'],
                      'color': 'lightblue'}],
+    "graph_subplots": False
+    }, "MovingAverage":
+   {"long_name": "Moving Average",
+    "short_name": "MA",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "tomato"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
     "graph_subplots": False
     }, "MovingAverageConvergenceDivergence":
    {"long_name": "Moving Average Convergence Divergence",
@@ -131,16 +121,6 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [None],
     "graph_areas": None,
     "graph_subplots": True
-    }, "SimpleMovingAverage":
-   {"long_name": "Simple Moving Average",
-    "short_name": "SMA",
-    "required_input_data": ["close"],
-    "graph_input_columns": ["close"],
-    "graph_y_label": "Price",
-    "graph_lines_color": ["black", "cornflowerblue", "tomato"],
-    "graph_alpha_values": [0.5, 1.0, 1.0],
-    "graph_areas": None,
-    "graph_subplots": False
     }, "StandardDeviation":
    {"long_name": "Standard Deviation",
     "short_name": "SD",
@@ -148,6 +128,16 @@ INDICATORS_PROPERTIES = \
     "graph_input_columns": ["close"],
     "graph_y_label": "SD | Price",
     "graph_lines_color": ["black", "cornflowerblue"],
+    "graph_alpha_values": [None],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "StochasticOscillator":
+   {"long_name": "Stochastic Oscillator",
+    "short_name": "SO",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Percentage | Price",
+    "graph_lines_color": ["black", "cornflowerblue", "tomato"],
     "graph_alpha_values": [None],
     "graph_areas": None,
     "graph_subplots": True

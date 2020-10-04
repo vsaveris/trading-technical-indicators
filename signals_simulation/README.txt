@@ -1,3 +1,16 @@
+Moving Average trading signal simulation statistics
+- number of trading days          : 3169
+- number of `buy` signals         : 38
+- number of `sell` signals        : 38
+- number of ignored `sell` signals: 1
+- lowest balance                  : -87.69000000000003
+- highest balance                 : 79.63
+- highest number of stocks        : 1
+- initial balance                 : 0.0
+- final balance                   : -77.47000000000001
+- final number of stocks          : 1
+- final number of stocks (value)  : 140.41
+
 On Balance Volume trading signal simulation statistics
 - number of trading days          : 3169
 - number of `buy` signals         : 704
