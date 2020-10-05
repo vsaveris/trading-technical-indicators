@@ -49,7 +49,7 @@ class BollingerBands(TechnicalIndicator):
             raise WrongTypeForInputParameter(
                 type(period), 'period', 'int')
 
-        if isinstance(std_number, (int,float)):
+        if isinstance(std_number, (int, float)):
             if std_number > 0.0:
                 self._std_number = std_number
             else:
@@ -58,6 +58,10 @@ class BollingerBands(TechnicalIndicator):
         else:
             raise WrongTypeForInputParameter(
                 type(std_number), 'std_number', 'int or float')
+
+        if not isinstance(fill_missing_values, bool):
+            raise WrongTypeForInputParameter(
+                type(fill_missing_values), 'fill_missing_values', 'bool')
 
         # Control is passing to the parent class
         super().__init__(calling_instance=self.__class__.__name__,
@@ -92,10 +96,14 @@ class BollingerBands(TechnicalIndicator):
             win_type=None, on=None, axis=0, closed=None).mean().round(4)
 
         # Calculate Upper and Lower Bands
-        standard_deviation = self._input_data.std(axis=0)
+        standard_deviation = self._input_data.rolling(
+            window=self._period, min_periods=self._period, center=False,
+            win_type=None, on=None, axis=0, closed=None).std(ddof=0)
+
         bb = pd.concat([bb,
-                        bb + standard_deviation * self._std_number,
-                        bb - standard_deviation * self._std_number], axis=1)
+                        round(bb + standard_deviation * self._std_number, 4),
+                        round(bb - standard_deviation * self._std_number, 4)],
+                       axis=1)
 
         bb.columns = ['middle_band', 'upper_band', 'lower_band']
 

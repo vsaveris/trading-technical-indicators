@@ -1,13 +1,13 @@
 Bollinger Bands trading signal simulation statistics
 - number of trading days          : 3169
-- number of `buy` signals         : 40
-- number of `sell` signals        : 66
-- number of ignored `sell` signals: 60
-- lowest balance                  : -823.26
-- highest balance                 : 178.85999999999993
-- highest number of stocks        : 21
+- number of `buy` signals         : 900
+- number of `sell` signals        : 1463
+- number of ignored `sell` signals: 1362
+- lowest balance                  : -2190.1000000000004
+- highest balance                 : 1759.6499999999983
+- highest number of stocks        : 38
 - initial balance                 : 0.0
-- final balance                   : 37.36999999999993
+- final balance                   : 1478.2899999999981
 - final number of stocks          : 2
 - final number of stocks (value)  : 280.82
 
