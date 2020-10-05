@@ -33,7 +33,8 @@ class BollingerBands(TechnicalIndicator):
         -
 
     Raises:
-        -
+        WrongTypeForInputParameter
+        WrongValueForInputParameter
     """
     def __init__(self, input_data, period=20, std_number=2,
                  fill_missing_values=True):
@@ -77,7 +78,7 @@ class BollingerBands(TechnicalIndicator):
             -
 
         Raises:
-            -
+            NotEnoughInputData
 
         Returns:
             pandas.DataFrame: The calculated indicator. Index is of type date.

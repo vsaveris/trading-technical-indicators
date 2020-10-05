@@ -13,6 +13,7 @@ from tti.indicators import BollingerBands
 from tti.utils.exceptions import NotEnoughInputData, \
     WrongTypeForInputParameter, WrongValueForInputParameter
 
+
 class TestBollingerBands(unittest.TestCase):
 
     # Validate input_data parameter

@@ -5,10 +5,10 @@ File name: _standard_deviation.py
     Implements the Standard Deviation technical indicator.
 """
 
-import pandas as pd
-
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
+from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
+    WrongValueForInputParameter
 
 
 class StandardDeviation(TechnicalIndicator):
@@ -18,6 +18,9 @@ class StandardDeviation(TechnicalIndicator):
     Parameters:
         input_data (pandas.DataFrame): The input data.
 
+        period (int, default is 20): The past periods to be used for the
+            calculation of the simple moving average.
+
         fill_missing_values (boolean, default is True): If set to True,
             missing values in the input data are being filled.
 
@@ -25,9 +28,25 @@ class StandardDeviation(TechnicalIndicator):
         -
 
     Raises:
-        -
+        WrongTypeForInputParameter
+        WrongValueForInputParameter
     """
-    def __init__(self, input_data, fill_missing_values=True):
+    def __init__(self, input_data, period=20, fill_missing_values=True):
+
+        # Validate and store if needed, the input parameters
+        if isinstance(period, int):
+            if period > 0:
+                self._period = period
+            else:
+                raise WrongValueForInputParameter(
+                    period, 'period', '>0')
+        else:
+            raise WrongTypeForInputParameter(
+                type(period), 'period', 'int')
+
+        if not isinstance(fill_missing_values, bool):
+            raise WrongTypeForInputParameter(
+                type(fill_missing_values), 'fill_missing_values', 'bool')
 
         # Control is passing to the parent class
         super().__init__(calling_instance=self.__class__.__name__,
@@ -43,36 +62,26 @@ class StandardDeviation(TechnicalIndicator):
             -
 
         Raises:
-            -
+            NotEnoughInputData
 
         Returns:
             pandas.DataFrame: The calculated indicator. Index is of type date.
-                It contains one column, the 'OBV'.
+                It contains one column, the 'sd'.
         """
 
-        obv = pd.DataFrame(index=self._input_data.index, columns=['OBV'],
-                           data=None, dtype='int64')
+        # Not enough data for the requested period
+        if len(self._input_data.index) < self._period:
+            raise NotEnoughInputData('Standard Deviation', self._period,
+                                     len(self._input_data.index))
 
-        obv.iat[0, 0] = 0
-        for i in range(1, len(self._input_data.index)):
+        # Calculate Upper and Lower Bands
+        sd = self._input_data.rolling(
+            window=self._period, min_periods=self._period, center=False,
+            win_type=None, on=None, axis=0, closed=None).std(ddof=0).round(4)
 
-            # Today's close is greater than yesterday's close
-            if self._input_data['close'].iat[i] > \
-                    self._input_data['close'].iat[i - 1]:
-                obv.iat[i, 0] = obv.iat[i - 1, 0] + \
-                                self._input_data['volume'].iat[i]
+        sd.columns = ['sd']
 
-            # Today's close is less than yesterday's close
-            elif self._input_data['close'].iat[i] < \
-                    self._input_data['close'].iat[i - 1]:
-                obv.iat[i, 0] = obv.iat[i - 1, 0] - \
-                                self._input_data['volume'].iat[i]
-
-            # Today's close is equal the yesterday's close
-            else:
-                obv.iat[i, 0] = obv.iat[i - 1, 0]
-
-        return obv
+        return sd
 
     def getTiSignal(self):
         """
@@ -92,22 +101,19 @@ class StandardDeviation(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
-        # Trading signals on warnings for breakout (upward or downward)
-        # 3-days period is used for trend calculation
+        # Calculate Simple Moving Average
+        sma = self._input_data.rolling(
+            window=self._period, min_periods=self._period, center=False,
+            win_type=None, on=None, axis=0, closed=None).mean().round(4)
 
-        # Not enough data for calculating trading signal
-        if len(self._ti_data.index) < 3:
-            return TRADE_SIGNALS['hold']
-
-        # Warning for a downward breakout
-        if self._ti_data['OBV'].iat[-3] > self._ti_data['OBV'].iat[-2] > \
-                self._ti_data['OBV'].iat[-1]:
-            return TRADE_SIGNALS['buy']
-
-        # Warning for a upward breakout
-        elif self._ti_data['OBV'].iat[-3] < self._ti_data['OBV'].iat[-2] < \
-                self._ti_data['OBV'].iat[-1]:
+        # Price above average and volatility is high
+        if self._input_data['close'].iat[-1] > sma.iat[-1, 0] and \
+                self._ti_data['sd'].iat[-1] > 2:
             return TRADE_SIGNALS['sell']
 
-        else:
-            return TRADE_SIGNALS['hold']
+        # Price below average and volatility is high
+        if self._input_data['close'].iat[-1] < sma.iat[-1, 0] and \
+                self._ti_data['sd'].iat[-1] > 2:
+            return TRADE_SIGNALS['buy']
+
+        return TRADE_SIGNALS['hold']
