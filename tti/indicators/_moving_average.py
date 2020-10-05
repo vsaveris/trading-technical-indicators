@@ -5,8 +5,6 @@ File name: _moving_average.py
     Implements the Moving Average (Simple and Exponential) technical indicator.
 """
 
-import pandas as pd
-
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
 from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
@@ -84,7 +82,7 @@ class MovingAverage(TechnicalIndicator):
 
         Returns:
             pandas.DataFrame: The calculated indicator. Index is of type date.
-                It contains one column, the 'MA'.
+                It contains one column, the 'ma'.
         """
 
         # Not enough data for the requested period
@@ -102,7 +100,7 @@ class MovingAverage(TechnicalIndicator):
                 span=self._period, min_periods=self._period, adjust=False,
                 axis=0).mean().round(4)
 
-        ma.columns = ['MA']
+        ma.columns = ['ma']
 
         return ma
 
@@ -125,13 +123,13 @@ class MovingAverage(TechnicalIndicator):
         """
 
         # Close price goes below Moving Average
-        if self._input_data['close'].iat[-2] > self._ti_data['MA'].iat[-2] and\
-           self._input_data['close'].iat[-1] < self._ti_data['MA'].iat[-1]:
+        if self._input_data['close'].iat[-2] > self._ti_data['ma'].iat[-2] and\
+           self._input_data['close'].iat[-1] < self._ti_data['ma'].iat[-1]:
             return TRADE_SIGNALS['sell']
 
         # Close price goes above Moving Average
-        if self._input_data['close'].iat[-2] < self._ti_data['MA'].iat[-2] and\
-           self._input_data['close'].iat[-1] > self._ti_data['MA'].iat[-1]:
+        if self._input_data['close'].iat[-2] < self._ti_data['ma'].iat[-2] and\
+           self._input_data['close'].iat[-1] > self._ti_data['ma'].iat[-1]:
             return TRADE_SIGNALS['buy']
 
         return TRADE_SIGNALS['hold']

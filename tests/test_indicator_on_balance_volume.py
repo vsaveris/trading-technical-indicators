@@ -164,7 +164,7 @@ class TestOnBalanceVolume(unittest.TestCase):
             parse_dates=True,
             index_col=0)
 
-        self.assertEqual(df_expected_result.loc['2000-04-25', 'OBV'],
+        self.assertEqual(df_expected_result.loc['2000-04-25', 'obv'],
                          OnBalanceVolume(df).getTiValue('2000-04-25'))
 
     def test_getTiValue_latest(self):

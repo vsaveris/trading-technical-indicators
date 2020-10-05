@@ -47,10 +47,10 @@ class OnBalanceVolume(TechnicalIndicator):
 
         Returns:
             pandas.DataFrame: The calculated indicator. Index is of type date.
-                It contains one column, the 'OBV'.
+                It contains one column, the 'obv'.
         """
 
-        obv = pd.DataFrame(index=self._input_data.index, columns=['OBV'],
+        obv = pd.DataFrame(index=self._input_data.index, columns=['obv'],
                            data=None, dtype='int64')
 
         obv.iat[0, 0] = 0
@@ -100,13 +100,13 @@ class OnBalanceVolume(TechnicalIndicator):
             return TRADE_SIGNALS['hold']
 
         # Warning for a downward breakout
-        if self._ti_data['OBV'].iat[-3] > self._ti_data['OBV'].iat[-2] > \
-                self._ti_data['OBV'].iat[-1]:
+        if self._ti_data['obv'].iat[-3] > self._ti_data['obv'].iat[-2] > \
+                self._ti_data['obv'].iat[-1]:
             return TRADE_SIGNALS['buy']
 
         # Warning for a upward breakout
-        elif self._ti_data['OBV'].iat[-3] < self._ti_data['OBV'].iat[-2] < \
-                self._ti_data['OBV'].iat[-1]:
+        elif self._ti_data['obv'].iat[-3] < self._ti_data['obv'].iat[-2] < \
+                self._ti_data['obv'].iat[-1]:
             return TRADE_SIGNALS['sell']
 
         else:

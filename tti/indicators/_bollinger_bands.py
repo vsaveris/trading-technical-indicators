@@ -9,6 +9,8 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
+from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
+    WrongValueForInputParameter
 
 
 class BollingerBands(TechnicalIndicator):
@@ -17,6 +19,12 @@ class BollingerBands(TechnicalIndicator):
 
     Parameters:
         input_data (pandas.DataFrame): The input data.
+
+        period (int, default is 20): The past periods to be used for the
+            calculation of the middle band (simple moving average).
+
+        std_number (int, default is 2): The number of standard deviations to
+            be used for calculating the upper and lower bands.
 
         fill_missing_values (boolean, default is True): If set to True,
             missing values in the input data are being filled.
@@ -27,7 +35,29 @@ class BollingerBands(TechnicalIndicator):
     Raises:
         -
     """
-    def __init__(self, input_data, fill_missing_values=True):
+    def __init__(self, input_data, period=20, std_number=2,
+                 fill_missing_values=True):
+
+        # Validate and store if needed, the input parameters
+        if isinstance(period, int):
+            if period > 0:
+                self._period = period
+            else:
+                raise WrongValueForInputParameter(
+                    period, 'period', '>0')
+        else:
+            raise WrongTypeForInputParameter(
+                type(period), 'period', 'int')
+
+        if isinstance(std_number, (int,float)):
+            if std_number > 0.0:
+                self._std_number = std_number
+            else:
+                raise WrongValueForInputParameter(
+                    std_number, 'std_number', '>0')
+        else:
+            raise WrongTypeForInputParameter(
+                type(std_number), 'std_number', 'int or float')
 
         # Control is passing to the parent class
         super().__init__(calling_instance=self.__class__.__name__,
@@ -47,32 +77,29 @@ class BollingerBands(TechnicalIndicator):
 
         Returns:
             pandas.DataFrame: The calculated indicator. Index is of type date.
-                It contains one column, the 'OBV'.
+                It contains three columns, the 'middle_band', 'upper_band' and
+                'lower_band'.
         """
 
-        obv = pd.DataFrame(index=self._input_data.index, columns=['OBV'],
-                           data=None, dtype='int64')
+        # Not enough data for the requested period
+        if len(self._input_data.index) < self._period:
+            raise NotEnoughInputData('Bollinger Bands', self._period,
+                                     len(self._input_data.index))
 
-        obv.iat[0, 0] = 0
-        for i in range(1, len(self._input_data.index)):
+        # Calculate the Middle Band using Simple Moving Average
+        bb = self._input_data.rolling(
+            window=self._period, min_periods=self._period, center=False,
+            win_type=None, on=None, axis=0, closed=None).mean().round(4)
 
-            # Today's close is greater than yesterday's close
-            if self._input_data['close'].iat[i] > \
-                    self._input_data['close'].iat[i - 1]:
-                obv.iat[i, 0] = obv.iat[i - 1, 0] + \
-                                self._input_data['volume'].iat[i]
+        # Calculate Upper and Lower Bands
+        standard_deviation = self._input_data.std(axis=0)
+        bb = pd.concat([bb,
+                        bb + standard_deviation * self._std_number,
+                        bb - standard_deviation * self._std_number], axis=1)
 
-            # Today's close is less than yesterday's close
-            elif self._input_data['close'].iat[i] < \
-                    self._input_data['close'].iat[i - 1]:
-                obv.iat[i, 0] = obv.iat[i - 1, 0] - \
-                                self._input_data['volume'].iat[i]
+        bb.columns = ['middle_band', 'upper_band', 'lower_band']
 
-            # Today's close is equal the yesterday's close
-            else:
-                obv.iat[i, 0] = obv.iat[i - 1, 0]
-
-        return obv
+        return bb
 
     def getTiSignal(self):
         """
@@ -92,22 +119,15 @@ class BollingerBands(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
-        # Trading signals on warnings for breakout (upward or downward)
-        # 3-days period is used for trend calculation
-
-        # Not enough data for calculating trading signal
-        if len(self._ti_data.index) < 3:
-            return TRADE_SIGNALS['hold']
-
-        # Warning for a downward breakout
-        if self._ti_data['OBV'].iat[-3] > self._ti_data['OBV'].iat[-2] > \
-                self._ti_data['OBV'].iat[-1]:
-            return TRADE_SIGNALS['buy']
-
-        # Warning for a upward breakout
-        elif self._ti_data['OBV'].iat[-3] < self._ti_data['OBV'].iat[-2] < \
-                self._ti_data['OBV'].iat[-1]:
+        # Price goes above upper band
+        if self._input_data['close'].iat[-1] > \
+                self._ti_data['upper_band'].iat[-1]:
             return TRADE_SIGNALS['sell']
+
+        # Price goes below lower band
+        elif self._input_data['close'].iat[-1] < \
+                self._ti_data['lower_band'].iat[-1]:
+            return TRADE_SIGNALS['buy']
 
         else:
             return TRADE_SIGNALS['hold']

@@ -141,7 +141,7 @@ class TestBollingerBands(unittest.TestCase):
         # Needs manual check of the produced graph
         self.assertEqual(obv.getTiGraph(), matplotlib.pyplot)
 
-        obv.getTiGraph().savefig('./figures/test_on_balance_volume.png')
+        obv.getTiGraph().savefig('./figures/test_bollinger_bands.png')
 
     def test_getTiData(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
