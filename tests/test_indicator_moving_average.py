@@ -179,7 +179,7 @@ class TestMovingAverage(unittest.TestCase):
         # Needs manual check of the produced graph
         self.assertEqual(obv.getTiGraph(), matplotlib.pyplot)
 
-        obv.getTiGraph().savefig('./figures/test_stochastic_oscillator.png')
+        obv.getTiGraph().savefig('./figures/test_moving_average.png')
 
     def test_getTiData(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
