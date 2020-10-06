@@ -43,7 +43,7 @@ INDICATORS_PROPERTIES = \
     "graph_input_columns": ["close"],
     "graph_y_label": "Price",
     "graph_lines_color": ["black", "cornflowerblue", "limegreen", "tomato"],
-    "graph_alpha_values": [None],
+    "graph_alpha_values": [0.5, 1.0, 1.0, 1.0],
     "graph_areas": None,
     "graph_subplots": False
     }, "DirectionalMovementIndex":
@@ -87,7 +87,7 @@ INDICATORS_PROPERTIES = \
     "required_input_data": ["close"],
     "graph_input_columns": ["close"],
     "graph_y_label": "Price",
-    "graph_lines_color": ["black", "tomato"],
+    "graph_lines_color": ["black", "limegreen"],
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": False
@@ -108,7 +108,7 @@ INDICATORS_PROPERTIES = \
     "graph_input_columns": ["close"],
     "graph_y_label": "Volume | Price",
     "graph_lines_color": ["black", "limegreen"],
-    "graph_alpha_values": [None],
+    "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
     }, "RelativeStrengthIndex":
@@ -127,8 +127,8 @@ INDICATORS_PROPERTIES = \
     "required_input_data": ["close"],
     "graph_input_columns": ["close"],
     "graph_y_label": "SD | Price",
-    "graph_lines_color": ["black", "cornflowerblue"],
-    "graph_alpha_values": [None],
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
     }, "StochasticOscillator":
@@ -138,7 +138,7 @@ INDICATORS_PROPERTIES = \
     "graph_input_columns": ["close"],
     "graph_y_label": "Percentage | Price",
     "graph_lines_color": ["black", "cornflowerblue", "tomato"],
-    "graph_alpha_values": [None],
+    "graph_alpha_values": [0.5, 1.0, 1.0],
     "graph_areas": None,
     "graph_subplots": True
     }

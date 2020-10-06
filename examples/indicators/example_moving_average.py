@@ -14,7 +14,7 @@ from tti.indicators import MovingAverage
 df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
 # Create the indicator for a part of the input file
-ti = MovingAverage(df)
+ti = MovingAverage(df[df.index >= '2012-01-01'], period=20)
 
 # Show the Graph for the calculated Technical Indicator
 ti.getTiGraph().show()

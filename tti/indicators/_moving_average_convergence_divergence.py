@@ -9,6 +9,7 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
+from ..utils.exceptions import NotEnoughInputData
 
 
 class MovingAverageConvergenceDivergence(TechnicalIndicator):
@@ -48,32 +49,30 @@ class MovingAverageConvergenceDivergence(TechnicalIndicator):
 
         Returns:
             pandas.DataFrame: The calculated indicator. Index is of type date.
-                It contains one column, the 'OBV'.
+                It contains two columns, the 'macd' and the 'signal_line'.
         """
 
-        obv = pd.DataFrame(index=self._input_data.index, columns=['OBV'],
-                           data=None, dtype='int64')
+        # Not enough data, 26 periods are required
+        if len(self._input_data.index) < 26:
+            raise NotEnoughInputData('Moving Average', 26,
+                                     len(self._input_data.index))
 
-        obv.iat[0, 0] = 0
-        for i in range(1, len(self._input_data.index)):
+        # Calculate Exponential Moving Average for 26 periods
+        ema_26 = self._input_data.ewm(span=26, min_periods=26, adjust=False,
+                                      axis=0).mean().round(4)
 
-            # Today's close is greater than yesterday's close
-            if self._input_data['close'].iat[i] > \
-                    self._input_data['close'].iat[i - 1]:
-                obv.iat[i, 0] = obv.iat[i - 1, 0] + \
-                                self._input_data['volume'].iat[i]
+        # Calculate Exponential Moving Average for 12 periods
+        ema_12 = self._input_data.ewm(span=12, min_periods=12, adjust=False,
+                                      axis=0).mean().round(4)
 
-            # Today's close is less than yesterday's close
-            elif self._input_data['close'].iat[i] < \
-                    self._input_data['close'].iat[i - 1]:
-                obv.iat[i, 0] = obv.iat[i - 1, 0] - \
-                                self._input_data['volume'].iat[i]
+        # Calculate MACD
+        macd = ema_12 - ema_26
+        macd = pd.concat([macd, macd.ewm(span=9, min_periods=9, adjust=False,
+                                         axis=0).mean()], axis=1).round(4)
 
-            # Today's close is equal the yesterday's close
-            else:
-                obv.iat[i, 0] = obv.iat[i - 1, 0]
+        macd.columns = ['macd', 'signal_line']
 
-        return obv
+        return macd
 
     def getTiSignal(self):
         """
@@ -93,22 +92,23 @@ class MovingAverageConvergenceDivergence(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
-        # Trading signals on warnings for breakout (upward or downward)
-        # 3-days period is used for trend calculation
-
-        # Not enough data for calculating trading signal
-        if len(self._ti_data.index) < 3:
-            return TRADE_SIGNALS['hold']
-
-        # Warning for a downward breakout
-        if self._ti_data['OBV'].iat[-3] > self._ti_data['OBV'].iat[-2] > \
-                self._ti_data['OBV'].iat[-1]:
+        # MACD rises above zero
+        if self._ti_data['macd'][-2] < 0 < self._ti_data['macd'][-1]:
             return TRADE_SIGNALS['buy']
 
-        # Warning for a upward breakout
-        elif self._ti_data['OBV'].iat[-3] < self._ti_data['OBV'].iat[-2] < \
-                self._ti_data['OBV'].iat[-1]:
+        # MACD fall below zero
+        if self._ti_data['macd'][-2] > 0 > self._ti_data['macd'][-1]:
             return TRADE_SIGNALS['sell']
 
-        else:
-            return TRADE_SIGNALS['hold']
+        # MACD falls below Signal Line
+        if self._ti_data['macd'][-2] > self._ti_data['signal_line'][-2] and \
+           self._ti_data['macd'][-1] < self._ti_data['signal_line'][-1]:
+            return TRADE_SIGNALS['sell']
+
+        # MACD rises above Signal Line
+        if self._ti_data['macd'][-2] < self._ti_data['signal_line'][-2] and \
+           self._ti_data['macd'][-1] > self._ti_data['signal_line'][-1]:
+            return TRADE_SIGNALS['buy']
+
+        return TRADE_SIGNALS['hold']
+

@@ -11,6 +11,19 @@ Bollinger Bands trading signal simulation statistics
 - final number of stocks          : 2
 - final number of stocks (value)  : 280.82
 
+Moving Average Convergence Divergence trading signal simulation statistics
+- number of trading days          : 3169
+- number of `buy` signals         : 180
+- number of `sell` signals        : 187
+- number of ignored `sell` signals: 50
+- lowest balance                  : -361.55999999999995
+- highest balance                 : 68.05000000000011
+- highest number of stocks        : 2
+- initial balance                 : 0.0
+- final balance                   : -76.07999999999998
+- final number of stocks          : 0
+- final number of stocks (value)  : 0.0
+
 Moving Average trading signal simulation statistics
 - number of trading days          : 3169
 - number of `buy` signals         : 38

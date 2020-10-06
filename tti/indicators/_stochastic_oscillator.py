@@ -89,10 +89,6 @@ class StochasticOscillator(TechnicalIndicator):
         else:
             raise WrongTypeForInputParameter(type(d_method), 'd_method', 'str')
 
-        if not isinstance(fill_missing_values, bool):
-            raise WrongTypeForInputParameter(
-                type(fill_missing_values), 'fill_missing_values', 'bool')
-
         # Control is passing to the parent class
         super().__init__(calling_instance=self.__class__.__name__,
                          input_data=input_data,

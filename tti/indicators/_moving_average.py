@@ -60,10 +60,6 @@ class MovingAverage(TechnicalIndicator):
         else:
             raise WrongTypeForInputParameter(type(ma_type), 'ma_type', 'str')
 
-        if not isinstance(fill_missing_values, bool):
-            raise WrongTypeForInputParameter(
-                type(fill_missing_values), 'fill_missing_values', 'bool')
-
         # Control is passing to the parent class
         super().__init__(calling_instance=self.__class__.__name__,
                          input_data=input_data,

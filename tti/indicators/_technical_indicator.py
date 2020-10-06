@@ -11,6 +11,7 @@ from abc import ABC, abstractmethod
 from .properties.indicators_properties import INDICATORS_PROPERTIES
 from ..utils.plot import linesGraph
 from ..utils.data_validation import validateInputData
+from ..utils.exceptions import WrongTypeForInputParameter
 
 
 class TechnicalIndicator(ABC):
@@ -41,6 +42,11 @@ class TechnicalIndicator(ABC):
     """
 
     def __init__(self, calling_instance, input_data, fill_missing_values=True):
+
+        # Validate fill missing values input parameter
+        if not isinstance(fill_missing_values, bool):
+            raise WrongTypeForInputParameter(
+                type(fill_missing_values), 'fill_missing_values', 'bool')
 
         self._calling_instance = calling_instance
 
