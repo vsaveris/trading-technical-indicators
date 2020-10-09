@@ -26,17 +26,7 @@ dictionary. The format for each indicator is:
 """
 
 INDICATORS_PROPERTIES = \
-  {"AverageDirectionalMovementIndex":
-   {"long_name": "Average Directional Movement Index",
-    "short_name": "ADX",
-    "required_input_data": ["high", "low", "close"],
-    "graph_input_columns": ["close"],
-    "graph_y_label": "ADX | Price",
-    "graph_lines_color": ["black", "cornflowerblue"],
-    "graph_alpha_values": [0.5, 1.0, 1.0],
-    "graph_areas": None,
-    "graph_subplots": True
-    }, "BollingerBands":
+  {"BollingerBands":
    {"long_name": "Bollinger Bands",
     "short_name": "BB",
     "required_input_data": ["close"],
@@ -52,8 +42,9 @@ INDICATORS_PROPERTIES = \
     "required_input_data": ["high", "low", "close"],
     "graph_input_columns": ["close"],
     "graph_y_label": "DMI | Price",
-    "graph_lines_color": ["black", "limegreen", "red", "cornflowerblue"],
-    "graph_alpha_values": [1.0, 1.0, 1.0, 0.2],
+    "graph_lines_color": ["black", "limegreen", "red", "cornflowerblue",
+                          "tomato", "orange"],
+    "graph_alpha_values": [0.5, 1.0, 1.0, 1.0, 1.0],
     "graph_areas": None,
     "graph_subplots": True
     }, "FibonacciRetracement":

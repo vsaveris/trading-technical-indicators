@@ -22,7 +22,6 @@ ti.getTiGraph().show()
 # Save the Graph for the calculated Technical Indicator
 name = '_'.join(x.lower() for x in re.findall('[A-Z][^A-Z]*',
                                               ti.__class__.__name__))
-
 ti.getTiGraph().savefig('./figures/indicators_' + name + '_example.png')
 print('- Graph ../figures/indicators_' + name + '_example.png saved.')
 

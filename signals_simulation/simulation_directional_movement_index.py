@@ -10,12 +10,13 @@ import pandas as pd
 
 from tti.indicators import DirectionalMovementIndex
 from tti.utils import fillMissingValues
+from tti.utils.exceptions import NotEnoughInputData
 
 # Read data from csv file. Set the index to the correct column (dates column)
 df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
 # Fill missing values (it sorts also on index ascending)
-df = fillMissingValues(df)
+df = fillMissingValues(df[df.index >= '2010-01-01'])
 
 # Trading simulation based on the indicator's trading signals
 balance = 0.0
@@ -28,8 +29,13 @@ highest_balance = 0.0
 highest_number_of_stocks = 0
 
 for current_date in df.index:
+
     # Get trading signal
-    ts = DirectionalMovementIndex(df[df.index <= current_date]).getTiSignal()
+    try:
+        ts = DirectionalMovementIndex(df[df.index <= current_date]).getTiSignal()
+    except NotEnoughInputData as e:
+        print('Error: ', e, ' Skipping this simulation round.', sep='')
+        continue
 
     # If `buy` signal, then buy one stock at `close` price
     if ts[0] == 'buy':

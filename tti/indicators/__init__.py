@@ -5,8 +5,6 @@ the `tti.indicators` package includes the implementation of all of the
 supported Technical Indicators.
 """
 
-from ._average_directional_movement_index import \
-    AverageDirectionalMovementIndex
 from ._bollinger_bands import BollingerBands
 from ._directional_movement_index import DirectionalMovementIndex
 from ._fibonacci_retracement import FibonacciRetracement
@@ -20,8 +18,8 @@ from ._standard_deviation import StandardDeviation
 from ._stochastic_oscillator import StochasticOscillator
 
 
-__all__ = ['AverageDirectionalMovementIndex', 'BollingerBands',
-           'DirectionalMovementIndex', 'FibonacciRetracement', 'IchimokuCloud',
-           'MovingAverage', 'MovingAverageConvergenceDivergence',
-           'OnBalanceVolume', 'RelativeStrengthIndex', 'StandardDeviation',
+__all__ = ['BollingerBands', 'DirectionalMovementIndex',
+           'FibonacciRetracement', 'IchimokuCloud', 'MovingAverage',
+           'MovingAverageConvergenceDivergence', 'OnBalanceVolume',
+           'RelativeStrengthIndex', 'StandardDeviation',
            'StochasticOscillator']

@@ -9,6 +9,7 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
+from ..utils.exceptions import NotEnoughInputData
 
 
 class DirectionalMovementIndex(TechnicalIndicator):
@@ -27,12 +28,37 @@ class DirectionalMovementIndex(TechnicalIndicator):
     Raises:
         -
     """
+
     def __init__(self, input_data, fill_missing_values=True):
 
         # Control is passing to the parent class
         super().__init__(calling_instance=self.__class__.__name__,
                          input_data=input_data,
                          fill_missing_values=fill_missing_values)
+
+    @staticmethod
+    def _rolling_pipe(df, window, function):
+        """
+        Applies a function to a pandas rolling pipe.
+
+        Parameters:
+            df (pandas.DataFrame): The input pandas.DataFrame.
+
+            window (int): The size of the rolling window.
+
+            function (function object): The function to be applied.
+
+        Raises:
+            -
+
+        Returns:
+           pandas.Series: The result of the applied function.
+        """
+
+        return pd.Series(
+            [df.iloc[i - window: i].pipe(function) if i >= window
+             else None for i in range(1, len(df) + 1)],
+            index=df.index)
 
     def _calculateTi(self):
         """
@@ -47,32 +73,99 @@ class DirectionalMovementIndex(TechnicalIndicator):
 
         Returns:
             pandas.DataFrame: The calculated indicator. Index is of type date.
-                It contains one column, the 'OBV'.
+                It contains three columns, the '+di', '-di', 'dx', 'adx' and
+                the 'adxr'.
         """
 
-        obv = pd.DataFrame(index=self._input_data.index, columns=['OBV'],
-                           data=None, dtype='int64')
+        # Not enough data for the requested period
+        if len(self._input_data.index) < 28:
+            raise NotEnoughInputData('Moving Average', 28,
+                                     len(self._input_data.index))
 
-        obv.iat[0, 0] = 0
-        for i in range(1, len(self._input_data.index)):
+        dmi = pd.DataFrame(
+            index=self._input_data.index,
+            columns=['true_range', '+dm1', '-dm1', 'tr14', '+dm14', '-dm14',
+                     '+di14', '-di14', 'di_diff', 'di_sum', 'dx', 'adx',
+                     'adxr'], dtype='float64', data=None)
 
-            # Today's close is greater than yesterday's close
-            if self._input_data['close'].iat[i] > \
-                    self._input_data['close'].iat[i - 1]:
-                obv.iat[i, 0] = obv.iat[i - 1, 0] + \
-                                self._input_data['volume'].iat[i]
+        # Calculate thr True Range
+        dmi['true_range'].iloc[1:] = self._input_data[
+            ['high', 'low', 'close']].pipe(
+            self._rolling_pipe, 2,
+            lambda x: max(x['high'][1] - x['low'][1],
+                          x['high'][1] - x['close'][0],
+                          x['close'][0] - x['low'][1],
+                          )
+        )
 
-            # Today's close is less than yesterday's close
-            elif self._input_data['close'].iat[i] < \
-                    self._input_data['close'].iat[i - 1]:
-                obv.iat[i, 0] = obv.iat[i - 1, 0] - \
-                                self._input_data['volume'].iat[i]
+        # Calculate Directional Movement for 1 period
+        dmi['+dm1'].iloc[1:] = self._input_data[['high', 'low', 'close']].pipe(
+            self._rolling_pipe, 2,
+            lambda x: x['high'][1] - x['high'][0]
+            if x['high'][1] - x['high'][0] > x['low'][0] - x['low'][1] and
+            x['high'][1] - x['high'][0] > 0
+            else 0,
+        )
 
-            # Today's close is equal the yesterday's close
-            else:
-                obv.iat[i, 0] = obv.iat[i - 1, 0]
+        dmi['-dm1'].iloc[1:] = self._input_data[['high', 'low', 'close']].pipe(
+            self._rolling_pipe, 2,
+            lambda x: x['low'][0] - x['low'][1]
+            if x['high'][1] - x['high'][0] < x['low'][0] - x['low'][1] and
+            x['low'][0] - x['low'][1] > 0
+            else 0,
+        )
 
-        return obv
+        # Calculate True Range and Directional Movement for 14 periods
+        # (smoothed)
+        dmi['tr14'].iat[13] = dmi['true_range'].iloc[:14].sum()
+        dmi['+dm14'].iat[13] = dmi['+dm1'].iloc[:14].sum()
+        dmi['-dm14'].iat[13] = dmi['-dm1'].iloc[:14].sum()
+
+        for i in range(14, len(dmi.index)):
+            dmi['tr14'].iat[i] = \
+                dmi['tr14'].iat[i - 1] - (dmi['tr14'].iat[i - 1] / 14) +   \
+                dmi['true_range'].iat[i]
+
+            dmi['+dm14'].iat[i] = \
+                dmi['+dm14'].iat[i - 1] - (dmi['+dm14'].iat[i - 1] / 14) + \
+                dmi['+dm1'].iat[i]
+
+            dmi['-dm14'].iat[i] = \
+                dmi['-dm14'].iat[i - 1] - (dmi['-dm14'].iat[i - 1] / 14) + \
+                dmi['-dm1'].iat[i]
+
+        # Calculate the +DI and -DI
+        dmi['+di14'].iloc[14:] = dmi[['+dm14', 'tr14']].iloc[14:].pipe(
+            self._rolling_pipe, 1,
+            lambda x: round(100 * x['+dm14'][0] / x['tr14'][0]),
+        )
+
+        dmi['-di14'].iloc[14:] = dmi[['-dm14', 'tr14']].iloc[14:].pipe(
+            self._rolling_pipe, 1,
+            lambda x: round(100 * x['-dm14'][0] / x['tr14'][0]),
+        )
+
+        # Calculate DX, ADX and ADXR
+        dmi['di_diff'] = abs(dmi['+di14'] - dmi['-di14'])
+        dmi['di_sum'] = abs(dmi['+di14'] + dmi['-di14'])
+
+        dmi['dx'] = (100. * dmi['di_diff'] / dmi['di_sum']).round()
+
+        dmi['adx'].iat[27] = round(dmi['dx'].iloc[:28].sum() / 14)
+
+        for i in range(28, len(dmi.index)):
+            dmi['adx'].iat[i] = round(
+                ((13 * dmi['adx'].iat[i - 1]) + dmi['dx'][i]) / 14)
+
+        for i in range(40, len(dmi.index)):
+            dmi['adxr'].iat[i] = round(
+                (dmi['adx'].iat[i] + dmi['adx'].iat[i - 13]) / 2.0)
+
+        # Keep the required columns
+        dmi = dmi[['+di14', '-di14', 'dx', 'adx', 'adxr']]
+        dmi.columns = ['+di', '-di', 'dx', 'adx', 'adxr']
+
+        return dmi
 
     def getTiSignal(self):
         """
@@ -92,22 +185,19 @@ class DirectionalMovementIndex(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
-        # Trading signals on warnings for breakout (upward or downward)
-        # 3-days period is used for trend calculation
+        # A buy signal is given when +DI crosses above -DI
+        # A sell signal is given when -DI crosses above +DI
+        # ADX > 25 is a strong trend, ADX < 20 indicates no trend
 
-        # Not enough data for calculating trading signal
-        if len(self._ti_data.index) < 3:
-            return TRADE_SIGNALS['hold']
-
-        # Warning for a downward breakout
-        if self._ti_data['OBV'].iat[-3] > self._ti_data['OBV'].iat[-2] > \
-                self._ti_data['OBV'].iat[-1]:
-            return TRADE_SIGNALS['buy']
-
-        # Warning for a upward breakout
-        elif self._ti_data['OBV'].iat[-3] < self._ti_data['OBV'].iat[-2] < \
-                self._ti_data['OBV'].iat[-1]:
+        if self._ti_data['+di'].iat[-2] > self._ti_data['-di'].iat[-2] and \
+                self._ti_data['+di'].iat[-1] < self._ti_data['-di'].iat[-1] \
+                and self._ti_data['adx'].iat[-1] >= 20:
             return TRADE_SIGNALS['sell']
+
+        elif self._ti_data['+di'].iat[-2] < self._ti_data['-di'].iat[-2] and \
+                self._ti_data['+di'].iat[-1] > self._ti_data['-di'].iat[-1] \
+                and self._ti_data['adx'].iat[-1] >= 20:
+            return TRADE_SIGNALS['buy']
 
         else:
             return TRADE_SIGNALS['hold']
