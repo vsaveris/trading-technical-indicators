@@ -37,6 +37,19 @@ Fibonacci Retracement trading signal simulation statistics
 - final number of stocks          : 0
 - final number of stocks (value)  : 0.0
 
+Ichimoku Cloud trading signal simulation statistics
+- number of trading days          : 3169
+- number of `buy` signals         : 19
+- number of `sell` signals        : 6
+- number of ignored `sell` signals: 5
+- lowest balance                  : -1426.9399999999998
+- highest balance                 : 55.849999999999966
+- highest number of stocks        : 4
+- initial balance                 : 0.0
+- final balance                   : -1426.9399999999998
+- final number of stocks          : 15
+- final number of stocks (value)  : 2106.15
+
 Moving Average Convergence Divergence trading signal simulation statistics
 - number of trading days          : 3169
 - number of `buy` signals         : 180

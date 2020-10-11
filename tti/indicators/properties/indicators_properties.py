@@ -66,10 +66,10 @@ INDICATORS_PROPERTIES = \
     "graph_y_label": "Price",
     "graph_lines_color": ["black", "cornflowerblue", "tomato", "limegreen",
                           "orange", "purple"],
-    "graph_alpha_values": [None],
+    "graph_alpha_values": [0.5, 1.0, 1.0, 1.0, 1.0, 1.0],
     "graph_areas": [{'x': 'ti_index',
-                     'y1': ['ti_data', 'Senkou A'],
-                     'y2': ['ti_data', 'Senkou B'],
+                     'y1': [0, 'ti_data', 'senkou_a'],
+                     'y2': [0, 'ti_data', 'senkou_b'],
                      'color': 'lightblue'}],
     "graph_subplots": False
     }, "MovingAverage":

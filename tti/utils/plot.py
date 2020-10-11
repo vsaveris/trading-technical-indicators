@@ -108,7 +108,27 @@ def linesGraph(data, y_label, title, lines_color, alpha_values, areas,
     
     # Plot areas
     if areas is not None:
+
+        # Translate the areas to python objects
+        areas_objects = []
+
         for a in areas:
+            areas_objects.append({})
+
+            for area_key, area_value in a.items():
+
+                if type(area_value) == list:
+                    # If list it contains the data list index, the constant
+                    # 'ti_data', and the ti_data column name
+                    areas_objects[-1][area_key] = \
+                        data[area_value[0]][area_value[2]].to_list()
+
+                elif area_value == 'ti_index':
+                    areas_objects[-1][area_key] = data[0].index
+                else:
+                    areas_objects[-1][area_key] = a[area_key]
+
+        for a in areas_objects:
             plt.gca().fill_between(x=a['x'], y1=a['y1'], y2=a['y2'],
                                    color=a['color'])
 

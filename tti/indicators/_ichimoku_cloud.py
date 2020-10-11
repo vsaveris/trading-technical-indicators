@@ -52,63 +52,41 @@ class IchimokuCloud(TechnicalIndicator):
         """
 
         # Build the indicator's dataframe
-        ic = pd.DataFrame(index = input_data.index, columns = ['Tenkan Sen',
-            'Kijun Sen', 'Senkou A', 'Senkou B'], data = None)
+        ic = pd.DataFrame(
+            index=self._input_data.index,
+            columns=['tenkan_sen', 'kijun_sen', 'senkou_a', 'senkou_b'],
+            data=None)
 
-        ic['Tenkan Sen'] = (input_data['High'].rolling(window = 9,
-            min_periods = 1).max() + input_data['Low'].rolling(window = 9,
-            min_periods = 1).min())/2
+        ic['tenkan_sen'] = (self._input_data['high'].
+                            rolling(window=9, min_periods=1).max() +
+                            self._input_data['low'].
+                            rolling(window=9, min_periods=1).min()) / 2
 
-        ic['Kijun Sen'] = (input_data['High'].rolling(window = 26,
-            min_periods = 1).max() + input_data['Low'].rolling(window = 26,
-            min_periods = 1).min())/2
+        ic['kijun_sen'] = (self._input_data['high'].
+                           rolling(window=26, min_periods=1).max() +
+                           self._input_data['low'].
+                           rolling(window=26, min_periods=1).min()) / 2
 
-        # Is optional, not needed in this version of the indicator. Column
-        # removed also from the ic dataframe definition.
-        #ic['Chiku Span'] = input_data['Adj Close'].shift(-26)
+        ic['senkou_a'] = ((ic['tenkan_sen'] + ic['kijun_sen']) / 2).shift(26)
 
-        ic['Senkou A'] = ((ic['Tenkan Sen'] + ic['Kijun Sen'])/2).shift(26)
-
-        ic['Senkou B'] = ((input_data['High'].rolling(window = 52,
-            min_periods = 1).max() + input_data['Low'].rolling(window = 52,
-            min_periods = 1).min())/2).shift(26)
+        ic['senkou_b'] = ((self._input_data['high'].
+                           rolling(window=52, min_periods=1).max() +
+                           self._input_data['low'].
+                           rolling(window=52, min_periods=1).min()) / 2).\
+            shift(26)
 
         return ic
 
-
-        obv = pd.DataFrame(index=self._input_data.index, columns=['OBV'],
-                           data=None, dtype='int64')
-
-        obv.iat[0, 0] = 0
-        for i in range(1, len(self._input_data.index)):
-
-            # Today's close is greater than yesterday's close
-            if self._input_data['close'].iat[i] > \
-                    self._input_data['close'].iat[i - 1]:
-                obv.iat[i, 0] = obv.iat[i - 1, 0] + \
-                                self._input_data['volume'].iat[i]
-
-            # Today's close is less than yesterday's close
-            elif self._input_data['close'].iat[i] < \
-                    self._input_data['close'].iat[i - 1]:
-                obv.iat[i, 0] = obv.iat[i - 1, 0] - \
-                                self._input_data['volume'].iat[i]
-
-            # Today's close is equal the yesterday's close
-            else:
-                obv.iat[i, 0] = obv.iat[i - 1, 0]
-
-        return obv
-
-    def _whereInCloud(self, value, cloud):
-        '''
+    @staticmethod
+    def _whereInCloud(value, cloud):
+        """
         Checks the relative position of the value to the cloud.
 
-        Args:
-            value (pfloat): The value for which the relative position to the
+        Parameters:
+            value (float): The value for which the relative position to the
                 cloud should be calculated.
 
-            cloud (list of two floats): Bounds of the cloud in not guaranteed
+            cloud (list of two floats): Bounds of the cloud in a not guaranteed
                 order.
 
         Raises:
@@ -117,7 +95,7 @@ class IchimokuCloud(TechnicalIndicator):
         Returns:
             int: 0 means that value is within the cloud, 1 means that value
                 is above the cloud, -1 means that value is below the cloud.
-        '''
+        """
 
         ordered_values = cloud + [value]
         ordered_values.sort()
@@ -142,56 +120,43 @@ class IchimokuCloud(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
-        # A buy signal is reinforced when the Tenkan Sen crosses above the Kijun
-        # Sen while the Tenkan Sen, Kijun Sen, and price are all above the cloud
-        if self._ti_data.iat[-1, 0] > self._ti_data.iat[-1, 1] and \
-                self._whereInCloud(
-                    self._input_data['Adj Close'].to_frame().iat[-1, 0],
-                    [self._ti_data.iat[-1, 2],
-                     self._ti_data.iat[-1, 3]]) == 1 and \
-                self._whereInCloud(self._ti_data.iat[-1, 0],
-                                   [self._ti_data.iat[-1, 2],
-                                    self._ti_data.iat[-1, 3]]) == 1 and \
-                self._whereInCloud(self._ti_data.iat[-1, 1],
-                                   [self._ti_data.iat[-1, 2],
-                                    self._ti_data.iat[-1, 3]]) == 1:
-            return ('Buy', TRADE_SIGNALS['Buy'])
-
-        # A sell signal is reinforced when the TenKan Sen crosses below the
-        # Kijun Sen while the Tenkan Sen, Kijun Sen, and price are all below the
-        # cloud.
-        if self._ti_data.iat[-1, 0] < self._ti_data.iat[-1, 1] and \
-                self._whereInCloud(
-                    self._input_data['Adj Close'].to_frame().iat[-1, 0],
-                    [self._ti_data.iat[-1, 2],
-                     self._ti_data.iat[-1, 3]]) == -1 and \
-                self._whereInCloud(self._ti_data.iat[-1, 0],
-                                   [self._ti_data.iat[-1, 2],
-                                    self._ti_data.iat[-1, 3]]) == -1 and \
-                self._whereInCloud(self._ti_data.iat[-1, 1],
-                                   [self._ti_data.iat[-1, 2],
-                                    self._ti_data.iat[-1, 3]]) == -1:
-            return ('Sell', TRADE_SIGNALS['Sell'])
-
-        return ('Hold', TRADE_SIGNALS['Hold'])
-
-
-        # Trading signals on warnings for breakout (upward or downward)
-        # 3-days period is used for trend calculation
-
-        # Not enough data for calculating trading signal
-        if len(self._ti_data.index) < 3:
+        # Not enough data for calculating a trading signal
+        if len(self._input_data.index) < 2:
             return TRADE_SIGNALS['hold']
 
-        # Warning for a downward breakout
-        if self._ti_data['OBV'].iat[-3] > self._ti_data['OBV'].iat[-2] > \
-                self._ti_data['OBV'].iat[-1]:
+        # If 3 all 'close', 'tenkan_sen' and 'kijun_sen' are above the cloud
+        # if -3 all 'close', 'tenkan_sen' and 'kijun_sen' are below the cloud
+        position_in_cloud = \
+            self._whereInCloud(self._input_data['close'].iat[-1],
+                               [self._ti_data['senkou_a'].iat[-1],
+                                self._ti_data['senkou_b'].iat[-1]]) + \
+            self._whereInCloud(self._ti_data['tenkan_sen'].iat[-1],
+                               [self._ti_data['senkou_a'].iat[-1],
+                                self._ti_data['senkou_b'].iat[-1]]) + \
+            self._whereInCloud(self._ti_data['kijun_sen'].iat[-1],
+                               [self._ti_data['senkou_a'].iat[-1],
+                                self._ti_data['senkou_b'].iat[-1]])
+
+        # A buy signal is reinforced when the Tenkan Sen crosses above the
+        # Kijun Sen while the Tenkan Sen, Kijun Sen, and price are all above
+        # the cloud
+        if self._ti_data['tenkan_sen'].iat[-2] < self._ti_data['kijun_sen']. \
+                iat[-2] and \
+           self._ti_data['tenkan_sen'].iat[-1] > self._ti_data['kijun_sen']. \
+                iat[-1] and \
+           position_in_cloud == 3:
+
             return TRADE_SIGNALS['buy']
 
-        # Warning for a upward breakout
-        elif self._ti_data['OBV'].iat[-3] < self._ti_data['OBV'].iat[-2] < \
-                self._ti_data['OBV'].iat[-1]:
+        # A sell signal is reinforced when the TenKan Sen crosses below the
+        # Kijun Sen while the Tenkan Sen, Kijun Sen, and price are all below
+        # the cloud.
+        if self._ti_data['tenkan_sen'].iat[-2] > self._ti_data['kijun_sen']. \
+                iat[-2] and \
+           self._ti_data['tenkan_sen'].iat[-1] < self._ti_data['kijun_sen']. \
+                iat[-1] and \
+           position_in_cloud == -3:
+
             return TRADE_SIGNALS['sell']
 
-        else:
-            return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS['hold']
