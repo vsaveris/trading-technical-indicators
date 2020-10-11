@@ -14,7 +14,7 @@ from tti.indicators import RelativeStrengthIndex
 df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
 # Create the indicator for a part of the input file
-ti = RelativeStrengthIndex(df[df.index >= '2012-01-01'])
+ti = RelativeStrengthIndex(df[df.index >= '2012-01-01'], period=9)
 
 # Show the Graph for the calculated Technical Indicator
 ti.getTiGraph().show()

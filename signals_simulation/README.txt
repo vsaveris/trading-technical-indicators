@@ -76,6 +76,19 @@ On Balance Volume trading signal simulation statistics
 - final number of stocks          : 2
 - final number of stocks (value)  : 280.82
 
+Relative Strength Index trading signal simulation statistics
+- number of trading days          : 3169
+- number of `buy` signals         : 61
+- number of `sell` signals        : 124
+- number of ignored `sell` signals: 99
+- lowest balance                  : -472.2099999999999
+- highest balance                 : 230.4300000000001
+- highest number of stocks        : 9
+- initial balance                 : 0.0
+- final balance                   : -48.4499999999999
+- final number of stocks          : 2
+- final number of stocks (value)  : 280.82
+
 Standard Deviation trading signal simulation statistics
 - number of trading days          : 3169
 - number of `buy` signals         : 657

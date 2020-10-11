@@ -108,8 +108,8 @@ INDICATORS_PROPERTIES = \
     "required_input_data": ["close"],
     "graph_input_columns": ["close"],
     "graph_y_label": "RSI | Price",
-    "graph_lines_color": ["black", "tomato"],
-    "graph_alpha_values": [None],
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
     }, "StandardDeviation":

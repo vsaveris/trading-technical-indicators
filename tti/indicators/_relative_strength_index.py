@@ -9,6 +9,8 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
+from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
+    WrongValueForInputParameter
 
 
 class RelativeStrengthIndex(TechnicalIndicator):
@@ -17,6 +19,9 @@ class RelativeStrengthIndex(TechnicalIndicator):
 
     Parameters:
         input_data (pandas.DataFrame): The input data.
+
+        period (int, default is 14): The past periods to be used for the
+            calculation of the indicator. Popular values are 14, 9 and 25.
 
         fill_missing_values (boolean, default is True): If set to True,
             missing values in the input data are being filled.
@@ -27,7 +32,18 @@ class RelativeStrengthIndex(TechnicalIndicator):
     Raises:
         -
     """
-    def __init__(self, input_data, fill_missing_values=True):
+    def __init__(self, input_data, period=14, fill_missing_values=True):
+
+        # Validate and store if needed, the input parameters
+        if isinstance(period, int):
+            if period > 0:
+                self._period = period
+            else:
+                raise WrongValueForInputParameter(
+                    period, 'period', '>0')
+        else:
+            raise WrongTypeForInputParameter(
+                type(period), 'period', 'int')
 
         # Control is passing to the parent class
         super().__init__(calling_instance=self.__class__.__name__,
@@ -50,36 +66,54 @@ class RelativeStrengthIndex(TechnicalIndicator):
                 It contains one column 'rsi'.
         """
 
-        rsi = pd.DataFrame(data = None, index = input_data.index,
-            columns = ['RSI'])
+        # Not enough data for the requested period
+        if len(self._input_data.index) < self._period + 1:
+            raise NotEnoughInputData('Relative Strength Index',
+                                     self._period + 1,
+                                     len(self._input_data.index))
 
-        # Calculate RSI for each period (first look_back periods are skipped)
-        for i in range (self._look_back, len(input_data.index)):
+        rsi = pd.DataFrame(data=None, index=self._input_data.index,
+                           columns=['rsi'])
 
-            # Initialize for each look_back period
-            upward_price_change = 0
-            downward_price_change = 0
+        # Calculate Upward Price Change
+        upc = pd.DataFrame(data=None, index=self._input_data.index,
+                           columns=['upc', 'smoothed_upc'])
 
-            # Calculate the total upward and downward changes in the look_back
-            # period
-            for t in range(i - self._look_back+1, i+1):
+        upc['upc'] = self._input_data.rolling(
+            window=2, min_periods=2, center=False, win_type=None, on=None,
+            axis=0, closed=None).apply(
+            lambda x: x[-1] - x[-2] if x[-1] > x[-2] else 0.0).round(4)
 
-                delta = input_data.iat[t, 0] - input_data.iat[t-1, 0]
+        upc['smoothed_upc'].iat[self._period] = \
+            upc['upc'].iloc[:self._period + 1].mean()
 
-                if delta >= 0.:
-                    upward_price_change += delta
-                else:
-                    downward_price_change -= delta
+        for i in range(self._period + 1, len(self._input_data.index)):
+            upc['smoothed_upc'].iat[i] = round(
+                upc['smoothed_upc'].iat[i - 1] +
+                (upc['upc'].iat[i] - upc['smoothed_upc'].iat[i - 1]
+                 ) / self._period, 4)
 
-            # Calculate the averages for upward and downward changes
-            upward_average = upward_price_change/self._look_back
-            downward_average = downward_price_change/self._look_back
+        # Calculate Downward Price Change
+        dpc = pd.DataFrame(data=None, index=self._input_data.index,
+                           columns=['dpc', 'smoothed_dpc'])
 
-            # Set RSI for the day i
-            if downward_average == 0.:
-                rsi.iat[i, 0] = 100
-            else:
-                rsi.iat[i, 0] = 100-(100/(1+(upward_average/downward_average)))
+        dpc['dpc'] = self._input_data.rolling(
+            window=2, min_periods=2, center=False, win_type=None, on=None,
+            axis=0, closed=None).apply(
+            lambda x: x[-2] - x[-1] if x[-1] < x[-2] else 0.0).round(4)
+
+        dpc['smoothed_dpc'].iat[self._period] = \
+            dpc['dpc'].iloc[:self._period + 1].mean()
+
+        for i in range(self._period + 1, len(self._input_data.index)):
+            dpc['smoothed_dpc'].iat[i] = round(
+                dpc['smoothed_dpc'].iat[i - 1] +
+                (dpc['dpc'].iat[i] - dpc['smoothed_dpc'].iat[i - 1]
+                 ) / self._period, 4)
+
+        rsi['rsi'] = \
+            100.0 - \
+            (100.0 / ((upc['smoothed_upc'] / dpc['smoothed_dpc']) + 1.0))
 
         return rsi
 
@@ -102,32 +136,11 @@ class RelativeStrengthIndex(TechnicalIndicator):
         """
 
         # Overbought region
-        if self._ti_data.iat[-2, 0] < 70. and self._ti_data.iat[-1, 0] > 70.:
-            return ('Sell', TRADE_SIGNALS['Sell'])
-
-        # Oversold region
-        if self._ti_data.iat[-2, 0] > 30. and self._ti_data.iat[-1, 0] < 30.:
-            return ('Buy', TRADE_SIGNALS['Buy'])
-
-        return ('Hold', TRADE_SIGNALS['Hold'])
-
-
-        # Trading signals on warnings for breakout (upward or downward)
-        # 3-days period is used for trend calculation
-
-        # Not enough data for calculating trading signal
-        if len(self._ti_data.index) < 3:
-            return TRADE_SIGNALS['hold']
-
-        # Warning for a downward breakout
-        if self._ti_data['OBV'].iat[-3] > self._ti_data['OBV'].iat[-2] > \
-                self._ti_data['OBV'].iat[-1]:
-            return TRADE_SIGNALS['buy']
-
-        # Warning for a upward breakout
-        elif self._ti_data['OBV'].iat[-3] < self._ti_data['OBV'].iat[-2] < \
-                self._ti_data['OBV'].iat[-1]:
+        if self._ti_data['rsi'].iat[-2] < 70. < self._ti_data['rsi'].iat[-1]:
             return TRADE_SIGNALS['sell']
 
-        else:
-            return TRADE_SIGNALS['hold']
+        # Oversold region
+        if self._ti_data['rsi'].iat[-2] > 30. > self._ti_data['rsi'].iat[-1]:
+            return TRADE_SIGNALS['buy']
+
+        return TRADE_SIGNALS['hold']
