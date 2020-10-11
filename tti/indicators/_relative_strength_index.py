@@ -73,7 +73,7 @@ class RelativeStrengthIndex(TechnicalIndicator):
                                      len(self._input_data.index))
 
         rsi = pd.DataFrame(data=None, index=self._input_data.index,
-                           columns=['rsi'])
+                           columns=['rsi'], dtype='float64')
 
         # Calculate Upward Price Change
         upc = pd.DataFrame(data=None, index=self._input_data.index,
@@ -115,7 +115,7 @@ class RelativeStrengthIndex(TechnicalIndicator):
             100.0 - \
             (100.0 / ((upc['smoothed_upc'] / dpc['smoothed_dpc']) + 1.0))
 
-        return rsi
+        return rsi.astype('float64').round(4)
 
     def getTiSignal(self):
         """
