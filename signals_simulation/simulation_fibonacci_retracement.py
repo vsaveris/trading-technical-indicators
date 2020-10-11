@@ -44,6 +44,7 @@ for current_date in df.index:
 
         if number_of_stocks == 0:
             number_of_ignored_sell_signals += 1
+            continue
 
         highest_number_of_stocks = max(highest_number_of_stocks,
                                        number_of_stocks)

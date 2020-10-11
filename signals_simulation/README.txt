@@ -24,6 +24,19 @@ Directional Movement Index trading signal simulation statistics
 - final number of stocks          : 0
 - final number of stocks (value)  : 0.0
 
+Fibonacci Retracement trading signal simulation statistics
+- number of trading days          : 3169
+- number of `buy` signals         : 99
+- number of `sell` signals        : 98
+- number of ignored `sell` signals: 19
+- lowest balance                  : -192.29
+- highest balance                 : 126.03000000000006
+- highest number of stocks        : 4
+- initial balance                 : 0.0
+- final balance                   : 126.03000000000006
+- final number of stocks          : 0
+- final number of stocks (value)  : 0.0
+
 Moving Average Convergence Divergence trading signal simulation statistics
 - number of trading days          : 3169
 - number of `buy` signals         : 180

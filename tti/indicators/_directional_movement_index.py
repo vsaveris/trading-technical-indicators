@@ -69,7 +69,7 @@ class DirectionalMovementIndex(TechnicalIndicator):
             -
 
         Raises:
-            -
+            NotEnoughInputData
 
         Returns:
             pandas.DataFrame: The calculated indicator. Index is of type date.
