@@ -54,8 +54,8 @@ class MovingAverageConvergenceDivergence(TechnicalIndicator):
 
         # Not enough data, 26 periods are required
         if len(self._input_data.index) < 26:
-            raise NotEnoughInputData('Moving Average', 26,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData('Moving Average Convergence Divergence',
+                                     26, len(self._input_data.index))
 
         # Calculate Exponential Moving Average for 26 periods
         ema_26 = self._input_data.ewm(span=26, min_periods=26, adjust=False,

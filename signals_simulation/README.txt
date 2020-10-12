@@ -1,129 +1,158 @@
+$python trading_signals_simulation.py tti.indicators.BollingerBands 20 0.6
+
 Bollinger Bands trading signal simulation statistics
-- number of trading days          : 3169
-- number of `buy` signals         : 900
-- number of `sell` signals        : 1463
-- number of ignored `sell` signals: 1362
-- lowest balance                  : -2190.1000000000004
-- highest balance                 : 1759.6499999999983
-- highest number of stocks        : 38
-- initial balance                 : 0.0
-- final balance                   : 1478.2899999999981
-- final number of stocks          : 2
-- final number of stocks (value)  : 280.82
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 900
+	- sell signals        : 101
+	- ignored buy signals : 0
+	- ignored sell signals: 1362
+- Portfolio Information
+	- balance             : 1478.29
+	- stocks              : 2
+	- stocks latest price : 140.41
+	- total value         : 1759.11
+
+
+$python trading_signals_simulation.py tti.indicators.DirectionalMovementIndex
 
 Directional Movement Index trading signal simulation statistics
-- number of trading days          : 680
-- number of `buy` signals         : 8
-- number of `sell` signals        : 8
-- number of ignored `sell` signals: 0
-- lowest balance                  : -98.88000000000001
-- highest balance                 : 45.7
-- highest number of stocks        : 1
-- initial balance                 : 0.0
-- final balance                   : 45.7
-- final number of stocks          : 0
-- final number of stocks (value)  : 0.0
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 42
+	- sell signals        : 38
+	- ignored buy signals : 0
+	- ignored sell signals: 12
+- Portfolio Information
+	- balance             : 0.58
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 0.58
+
+
+$python trading_signals_simulation.py tti.indicators.FibonacciRetracement
 
 Fibonacci Retracement trading signal simulation statistics
-- number of trading days          : 3169
-- number of `buy` signals         : 99
-- number of `sell` signals        : 98
-- number of ignored `sell` signals: 19
-- lowest balance                  : -192.29
-- highest balance                 : 126.03000000000006
-- highest number of stocks        : 4
-- initial balance                 : 0.0
-- final balance                   : 126.03000000000006
-- final number of stocks          : 0
-- final number of stocks (value)  : 0.0
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 99
+	- sell signals        : 79
+	- ignored buy signals : 0
+	- ignored sell signals: 19
+- Portfolio Information
+	- balance             : 126.03
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 126.03
+
+
+$python trading_signals_simulation.py tti.indicators.IchimokuCloud
 
 Ichimoku Cloud trading signal simulation statistics
-- number of trading days          : 3169
-- number of `buy` signals         : 19
-- number of `sell` signals        : 6
-- number of ignored `sell` signals: 5
-- lowest balance                  : -1426.9399999999998
-- highest balance                 : 55.849999999999966
-- highest number of stocks        : 4
-- initial balance                 : 0.0
-- final balance                   : -1426.9399999999998
-- final number of stocks          : 15
-- final number of stocks (value)  : 2106.15
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 19
+	- sell signals        : 1
+	- ignored buy signals : 0
+	- ignored sell signals: 5
+- Portfolio Information
+	- balance             : -1426.94
+	- stocks              : 15
+	- stocks latest price : 140.41
+	- total value         : 679.21
 
-Moving Average Convergence Divergence trading signal simulation statistics
-- number of trading days          : 3169
-- number of `buy` signals         : 180
-- number of `sell` signals        : 187
-- number of ignored `sell` signals: 50
-- lowest balance                  : -361.55999999999995
-- highest balance                 : 68.05000000000011
-- highest number of stocks        : 2
-- initial balance                 : 0.0
-- final balance                   : -76.07999999999998
-- final number of stocks          : 0
-- final number of stocks (value)  : 0.0
+
+$python trading_signals_simulation.py tti.indicators.MovingAverage
 
 Moving Average trading signal simulation statistics
-- number of trading days          : 3169
-- number of `buy` signals         : 38
-- number of `sell` signals        : 38
-- number of ignored `sell` signals: 1
-- lowest balance                  : -87.69000000000003
-- highest balance                 : 79.63
-- highest number of stocks        : 1
-- initial balance                 : 0.0
-- final balance                   : -77.47000000000001
-- final number of stocks          : 1
-- final number of stocks (value)  : 140.41
+- Trading Statistics
+    - trading days        : 3169
+    - buy signals         : 38
+    - sell signals        : 37
+    - ignored buy signals : 0
+    - ignored sell signals: 1
+- Portfolio Information
+    - balance             : -77.47
+    - stocks              : 1
+    - stocks latest price : 140.41
+    - total value         : 62.94
+
+
+$python trading_signals_simulation.py tti.indicators.MovingAverageConvergenceDivergence
+
+Moving Average Convergence Divergence trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 180
+	- sell signals        : 137
+	- ignored buy signals : 0
+	- ignored sell signals: 50
+- Portfolio Information
+	- balance             : -76.08
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : -76.08
+
+
+$python trading_signals_simulation.py tti.indicators.OnBalanceVolume
 
 On Balance Volume trading signal simulation statistics
-- number of trading days          : 3169
-- number of `buy` signals         : 704
-- number of `sell` signals        : 833
-- number of ignored `sell` signals: 588
-- lowest balance                  : -1450.9400000000003
-- highest balance                 : 500.09999999999957
-- highest number of stocks        : 21
-- initial balance                 : 0.0
-- final balance                   : 217.43999999999963
-- final number of stocks          : 2
-- final number of stocks (value)  : 280.82
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 704
+	- sell signals        : 245
+	- ignored buy signals : 0
+	- ignored sell signals: 588
+- Portfolio Information
+	- balance             : 217.44
+	- stocks              : 2
+	- stocks latest price : 140.41
+	- total value         : 498.26
+
+
+$python trading_signals_simulation.py tti.indicators.RelativeStrengthIndex 9
 
 Relative Strength Index trading signal simulation statistics
-- number of trading days          : 3169
-- number of `buy` signals         : 61
-- number of `sell` signals        : 124
-- number of ignored `sell` signals: 99
-- lowest balance                  : -472.2099999999999
-- highest balance                 : 230.4300000000001
-- highest number of stocks        : 9
-- initial balance                 : 0.0
-- final balance                   : -48.4499999999999
-- final number of stocks          : 2
-- final number of stocks (value)  : 280.82
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 61
+	- sell signals        : 25
+	- ignored buy signals : 0
+	- ignored sell signals: 99
+- Portfolio Information
+	- balance             : -48.45
+	- stocks              : 2
+	- stocks latest price : 140.41
+	- total value         : 232.37
+
+
+$python trading_signals_simulation.py tti.indicators.StandardDeviation
 
 Standard Deviation trading signal simulation statistics
-- number of trading days          : 3169
-- number of `buy` signals         : 657
-- number of `sell` signals        : 782
-- number of ignored `sell` signals: 682
-- lowest balance                  : -1544.7500000000007
-- highest balance                 : 2485.519999999999
-- highest number of stocks        : 27
-- initial balance                 : 0.0
-- final balance                   : 2485.519999999999
-- final number of stocks          : 0
-- final number of stocks (value)  : 0.0
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 657
+	- sell signals        : 100
+	- ignored buy signals : 0
+	- ignored sell signals: 682
+- Portfolio Information
+	- balance             : 2485.52
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 2485.52
+
+
+$python trading_signals_simulation.py tti.indicators.StochasticOscillator
 
 Stochastic Oscillator trading signal simulation statistics
-- number of trading days          : 3169
-- number of `buy` signals         : 377
-- number of `sell` signals        : 621
-- number of ignored `sell` signals: 537
-- lowest balance                  : -1041.94
-- highest balance                 : 533.99
-- highest number of stocks        : 16
-- initial balance                 : 0.0
-- final balance                   : 533.99
-- final number of stocks          : 0
-- final number of stocks (value)  : 0.0
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 377
+	- sell signals        : 84
+	- ignored buy signals : 0
+	- ignored sell signals: 537
+- Portfolio Information
+	- balance             : 533.99
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 533.99

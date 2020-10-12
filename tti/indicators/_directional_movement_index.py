@@ -36,30 +36,6 @@ class DirectionalMovementIndex(TechnicalIndicator):
                          input_data=input_data,
                          fill_missing_values=fill_missing_values)
 
-    @staticmethod
-    def _rolling_pipe(df, window, function):
-        """
-        Applies a function to a pandas rolling pipe.
-
-        Parameters:
-            df (pandas.DataFrame): The input pandas.DataFrame.
-
-            window (int): The size of the rolling window.
-
-            function (function object): The function to be applied.
-
-        Raises:
-            -
-
-        Returns:
-           pandas.Series: The result of the applied function.
-        """
-
-        return pd.Series(
-            [df.iloc[i - window: i].pipe(function) if i >= window
-             else None for i in range(1, len(df) + 1)],
-            index=df.index)
-
     def _calculateTi(self):
         """
         Calculates the technical indicator for the given input data. The input
@@ -79,7 +55,7 @@ class DirectionalMovementIndex(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < 28:
-            raise NotEnoughInputData('Moving Average', 28,
+            raise NotEnoughInputData('Directional Movement Index', 28,
                                      len(self._input_data.index))
 
         dmi = pd.DataFrame(

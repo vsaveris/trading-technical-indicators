@@ -63,6 +63,30 @@ class TechnicalIndicator(ABC):
         # Calculation of the Technical Indicator
         self._ti_data = self._calculateTi()
 
+    @staticmethod
+    def _rolling_pipe(df, window, function):
+        """
+        Applies a function to a pandas rolling pipe.
+
+        Parameters:
+            df (pandas.DataFrame): The input pandas.DataFrame.
+
+            window (int): The size of the rolling window.
+
+            function (function object): The function to be applied.
+
+        Raises:
+            -
+
+        Returns:
+           pandas.Series: The result of the applied function.
+        """
+
+        return pd.Series(
+            [df.iloc[i - window: i].pipe(function) if i >= window
+             else None for i in range(1, len(df) + 1)],
+            index=df.index)
+
     @abstractmethod
     def _calculateTi(self):
         """
