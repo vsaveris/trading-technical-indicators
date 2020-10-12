@@ -7,7 +7,7 @@ File name: test_indicator_relative_strength_index.py
 
 import unittest
 import pandas as pd
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 
 from tti.indicators import RelativeStrengthIndex
 from tti.utils.exceptions import NotEnoughInputData, \
@@ -121,6 +121,13 @@ class TestRelativeStrengthIndex(unittest.TestCase):
 
     # Validate indicator creation
 
+    def test_validate_indicator_one_row(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        with self.assertRaises(NotEnoughInputData):
+            RelativeStrengthIndex(df[df.index == '2000-02-01'])
+
     def test_validate_indicator_less_than_required_data(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
@@ -150,9 +157,10 @@ class TestRelativeStrengthIndex(unittest.TestCase):
         obv = RelativeStrengthIndex(df)
 
         # Needs manual check of the produced graph
-        self.assertEqual(obv.getTiGraph(), matplotlib.pyplot)
+        self.assertEqual(obv.getTiGraph(), plt)
 
-        obv.getTiGraph().savefig('./figures/test_moving_average.png')
+        obv.getTiGraph().savefig('./figures/test_relative_strength_index.png')
+        plt.close('all')
 
     def test_getTiData(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,

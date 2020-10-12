@@ -29,8 +29,8 @@ def linesGraph(data, y_label, title, lines_color, alpha_values, areas,
 
         title (string): The title on the top of the graph.
 
-        lines_color (list of matplotlib.colors): The colors to be used for
-            each line of the graph, in the defined order. In case where the 
+        lines_color (list of str): The colors (matplotlib.colors) to be used
+            for each line of the graph, in the defined order. In case where the
             lines are more than the colors, then the list is scanned again from 
             the zero index.
         
@@ -39,9 +39,9 @@ def linesGraph(data, y_label, title, lines_color, alpha_values, areas,
             lines are more than the members of the list, then the list is 
             scanned again from the zero index.
             
-        areas (list of dictionaries): Includes the areas to be plotted by using
-            the fill_between matplotlib method. Each member of the list should
-            be a dictionary with the below keys:
+        areas (list of dictionaries or None): Includes the areas to be plotted
+            by using the fill_between matplotlib method. Each member of the
+            list should be a dictionary with the below keys:
             {'x':, 'y1':, 'y2':, 'color':}, see fill_between matplotlib method
             for more details.
 

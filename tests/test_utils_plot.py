@@ -7,6 +7,7 @@ File name: test_utils_plot.py
 
 import unittest
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from tti.utils import plot
 
@@ -72,6 +73,7 @@ class TestLinesGraph(unittest.TestCase):
         self.assertIsNotNone(plot.linesGraph(data=df, y_label='Y', title='T',
                                              lines_color=['r'],
                                              alpha_values=[0.5], areas=None))
+        plt.close('all')
 
     def test_data_parameter_wrong_type(self):
 
@@ -95,6 +97,7 @@ class TestLinesGraph(unittest.TestCase):
                                              title='T', lines_color=['r', 'g'],
                                              alpha_values=[0.5, 0.5],
                                              areas=None, x_label='X'))
+        plt.close('all')
 
     def test_data_parameter_three_dataframes(self):
         df = pd.DataFrame(index=pd.DatetimeIndex(['2018-01-01', '2018-01-02',
@@ -107,6 +110,7 @@ class TestLinesGraph(unittest.TestCase):
                                              lines_color=['r', 'g', 'b'],
                                              alpha_values=[0.5, 0.5, 0.5],
                                              areas=None, x_label='X'))
+        plt.close('all')
 
     def test_input_parameter_title(self):
         df = pd.DataFrame(index=pd.DatetimeIndex(['2018-01-01', '2018-01-02',
@@ -118,6 +122,7 @@ class TestLinesGraph(unittest.TestCase):
                                          alpha_values=[0.5], areas=None,
                                          x_label='X').gca().
                          get_title(), 'T')
+        plt.close('all')
 
     def test_input_parameter_x_label(self):
         df = pd.DataFrame(index=pd.DatetimeIndex(['2018-01-01', '2018-01-02',
@@ -128,6 +133,7 @@ class TestLinesGraph(unittest.TestCase):
                                          lines_color=['r'],
                                          alpha_values=[0.5], areas=None,
                                          x_label='X').gca().get_xlabel(), 'X')
+        plt.close('all')
 
     # y_label is not tested because is defined with text function
 
@@ -140,6 +146,7 @@ class TestLinesGraph(unittest.TestCase):
                                              lines_color=['red'],
                                              alpha_values=[0.5], areas=None,
                                              x_label='X'))
+        plt.close('all')
 
     def test_input_parameter_alpha_values(self):
         df = pd.DataFrame(index=pd.DatetimeIndex(['2018-01-01', '2018-01-02',
@@ -150,6 +157,7 @@ class TestLinesGraph(unittest.TestCase):
                                              lines_color=['red'],
                                              alpha_values=[0.5], areas=None,
                                              x_label='X'))
+        plt.close('all')
 
     def test_input_parameter_areas(self):
         df = pd.DataFrame(index=pd.DatetimeIndex(['2018-01-01', '2018-01-02',
@@ -162,12 +170,13 @@ class TestLinesGraph(unittest.TestCase):
                                              lines_color=['red', 'green',
                                                           'blue', 'black'],
                                              alpha_values=[0.5, 0.5, 0.5, 0.5],
-                                             areas=[{'x': ['2018-01-01',
-                                                           '2018-01-02'],
-                                                     'y1': [1., 1.],
-                                                     'y2': [3., 3.],
-                                                     'color': 'red'}],
+                                             areas=[
+                                                 {'x': 'ti_index',
+                                                  'y1': [0, 'ti_data', 'A1'],
+                                                  'y2': [1, 'ti_data', 'A2'],
+                                                  'color': 'lightblue'}],
                                              x_label='X'))
+        plt.close('all')
 
 
 if __name__ == '__main__':

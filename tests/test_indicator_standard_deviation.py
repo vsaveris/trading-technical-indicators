@@ -6,7 +6,7 @@ File name: test_indicator_standard_deviation.py
 """
 import unittest
 import pandas as pd
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 
 from tti.indicators import StandardDeviation
 from tti.utils.exceptions import NotEnoughInputData, \
@@ -119,6 +119,13 @@ class TestStandardDeviation(unittest.TestCase):
 
     # Validate indicator creation
 
+    def test_validate_indicator_one_row(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        with self.assertRaises(NotEnoughInputData):
+            StandardDeviation(df[df.index == '2000-02-01'])
+
     def test_validate_indicator_less_than_required_data(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
@@ -148,9 +155,10 @@ class TestStandardDeviation(unittest.TestCase):
         obv = StandardDeviation(df)
 
         # Needs manual check of the produced graph
-        self.assertEqual(obv.getTiGraph(), matplotlib.pyplot)
+        self.assertEqual(obv.getTiGraph(), plt)
 
         obv.getTiGraph().savefig('./figures/test_standard_deviation.png')
+        plt.close('all')
 
     def test_getTiData(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,

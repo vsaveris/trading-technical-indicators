@@ -7,7 +7,7 @@ File name: test_indicator_bollinger_bands.py
 
 import unittest
 import pandas as pd
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 
 from tti.indicators import BollingerBands
 from tti.utils.exceptions import NotEnoughInputData, \
@@ -164,9 +164,11 @@ class TestBollingerBands(unittest.TestCase):
         obv = BollingerBands(df)
 
         # Needs manual check of the produced graph
-        self.assertEqual(obv.getTiGraph(), matplotlib.pyplot)
+        self.assertEqual(obv.getTiGraph(), plt)
 
         obv.getTiGraph().savefig('./figures/test_bollinger_bands.png')
+
+        plt.close('all')
 
     def test_getTiData(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,

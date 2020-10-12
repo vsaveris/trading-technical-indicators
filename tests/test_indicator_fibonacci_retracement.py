@@ -7,7 +7,7 @@ File name: test_indicator_fibonacci_retracement.py
 
 import unittest
 import pandas as pd
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 
 from tti.indicators import FibonacciRetracement
 from tti.utils.exceptions import WrongTypeForInputParameter
@@ -105,6 +105,16 @@ class TestFibonacciRetracement(unittest.TestCase):
 
     # Validate indicator creation
 
+    def test_validate_indicator_one_row(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        expected_result = [[34.5, 34.5, 34.5, 34.5, 34.5, 34.5]]
+
+        df_result = FibonacciRetracement(df[df.index == '2000-02-01'])._ti_data
+
+        self.assertListEqual(expected_result, df_result.values.tolist())
+
     def test_validate_indicator_full_data(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
@@ -127,9 +137,11 @@ class TestFibonacciRetracement(unittest.TestCase):
         obv = FibonacciRetracement(df)
 
         # Needs manual check of the produced graph
-        self.assertEqual(obv.getTiGraph(), matplotlib.pyplot)
+        self.assertEqual(obv.getTiGraph(), plt)
 
-        obv.getTiGraph().savefig('./figures/test_moving_average.png')
+        obv.getTiGraph().savefig('./figures/test_fibonacci_retracement.png')
+
+        plt.close('all')
 
     def test_getTiData(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,

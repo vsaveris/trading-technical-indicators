@@ -7,11 +7,10 @@ File name: test_indicator_ichimoku_cloud.py
 
 import unittest
 import pandas as pd
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 
 from tti.indicators import IchimokuCloud
-from tti.utils.exceptions import NotEnoughInputData, \
-    WrongTypeForInputParameter, WrongValueForInputParameter
+from tti.utils.exceptions import WrongTypeForInputParameter
 
 
 class TestIchimokuCloud(unittest.TestCase):
@@ -118,6 +117,20 @@ class TestIchimokuCloud(unittest.TestCase):
 
     # Validate indicator creation
 
+    def test_validate_indicator_one_row(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        df_expected_result = pd.read_csv(
+            './data/test_ichimoku_cloud_on_sample_data.csv',
+            parse_dates=True,
+            index_col=0)
+
+        df_result = IchimokuCloud(df[df.index == '2000-02-01'])._ti_data
+
+        pd.testing.assert_frame_equal(df_expected_result[df_expected_result.
+                                      index == '2000-02-01'], df_result)
+
     def test_validate_indicator_full_data(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
@@ -140,9 +153,10 @@ class TestIchimokuCloud(unittest.TestCase):
         obv = IchimokuCloud(df)
 
         # Needs manual check of the produced graph
-        self.assertEqual(obv.getTiGraph(), matplotlib.pyplot)
+        self.assertEqual(obv.getTiGraph(), plt)
 
-        obv.getTiGraph().savefig('./figures/test_moving_average.png')
+        obv.getTiGraph().savefig('./figures/test_ichimoku_cloud.png')
+        plt.close('all')
 
     def test_getTiData(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,

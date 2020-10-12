@@ -7,7 +7,7 @@ File name: test_indicator_directional_movement_index.py
 
 import unittest
 import pandas as pd
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 
 from tti.indicators import DirectionalMovementIndex
 from tti.utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter
@@ -100,12 +100,8 @@ class TestDirectionalMovementIndex(unittest.TestCase):
         df = pd.read_csv('./data/missing_values_data.csv', parse_dates=True,
                          index_col=0)
 
-        df_expected_result = pd.read_csv(
-            './data/missing_values_data_sorted.csv', parse_dates=True,
-            index_col=0)[['high', 'low', 'close']]
-
         with self.assertRaises(ValueError):
-            DirectionalMovementIndex(df, fill_missing_values=False)._input_data
+            DirectionalMovementIndex(df, fill_missing_values=False)
 
     def test_fill_missing_values_is_default_true(self):
         df = pd.read_csv('./data/missing_values_data.csv', parse_dates=True,
@@ -151,10 +147,12 @@ class TestDirectionalMovementIndex(unittest.TestCase):
         obv = DirectionalMovementIndex(df)
 
         # Needs manual check of the produced graph
-        self.assertEqual(obv.getTiGraph(), matplotlib.pyplot)
+        self.assertEqual(obv.getTiGraph(), plt)
 
         obv.getTiGraph().savefig('./figures/test_directional_movement_' +
                                  'index.png')
+
+        plt.close('all')
 
     def test_getTiData(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,

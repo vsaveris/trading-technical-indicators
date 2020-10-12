@@ -7,7 +7,7 @@ File name: test_indicator_on_balance_volume.py
 
 import unittest
 import pandas as pd
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 
 from tti.indicators import OnBalanceVolume
 
@@ -139,9 +139,10 @@ class TestOnBalanceVolume(unittest.TestCase):
         obv = OnBalanceVolume(df)
 
         # Needs manual check of the produced graph
-        self.assertEqual(obv.getTiGraph(), matplotlib.pyplot)
+        self.assertEqual(obv.getTiGraph(), plt)
 
         obv.getTiGraph().savefig('./figures/test_on_balance_volume.png')
+        plt.close('all')
 
     def test_getTiData(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
