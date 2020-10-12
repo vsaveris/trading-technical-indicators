@@ -73,7 +73,7 @@ def createIndicator(indicator_name, data, input_args):
         -
 
     Returns:
-        (tti.indicators object: The created indicator object.
+        (tti.indicators object): The created indicator object.
     """
 
     if len(input_args) == 3:
@@ -93,33 +93,31 @@ def createIndicator(indicator_name, data, input_args):
         return indicator_name(data[data.index >= '2012-01-01'])
 
 
-if __name__ == '__main__':
+ti_name, gf_name = readArguments(sys.argv)
 
-    ti_name, gf_name = readArguments(sys.argv)
+# Read data from csv file. Set the index to the correct column
+# (dates column)
+df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
-    # Read data from csv file. Set the index to the correct column
-    # (dates column)
-    df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
+# Create the indicator for a part of the input file
+ti = createIndicator(ti_name, df, sys.argv)
 
-    # Create the indicator for a part of the input file
-    ti = createIndicator(ti_name, df, sys.argv)
+# Show the Graph for the calculated Technical Indicator
+ti.getTiGraph().show()
 
-    # Show the Graph for the calculated Technical Indicator
-    ti.getTiGraph().show()
+ti.getTiGraph().savefig(gf_name)
+print('- Graph ' + gf_name + ' saved.')
 
-    ti.getTiGraph().savefig(gf_name)
-    print('- Graph ' + gf_name + ' saved.')
+# Get indicator's calculated data
+print('\nTechnical Indicator data:\n', ti.getTiData())
 
-    # Get indicator's calculated data
-    print('\nTechnical Indicator data:\n', ti.getTiData())
+# Get indicator's value for a specific date
+print('\nTechnical Indicator value at 2012-09-06:',
+      ti.getTiValue('2012-09-06'))
 
-    # Get indicator's value for a specific date
-    print('\nTechnical Indicator value at 2012-09-06:',
-          ti.getTiValue('2012-09-06'))
+# Get the most recent indicator's value
+print('\nTechnical Indicator value at', ti.getTiData().index[-1], ':',
+      ti.getTiValue())
 
-    # Get the most recent indicator's value
-    print('\nTechnical Indicator value at', ti.getTiData().index[-1], ':',
-          ti.getTiValue())
-
-    # Get signal from indicator
-    print('\nTechnical Indicator signal:', ti.getTiSignal())
+# Get signal from indicator
+print('\nTechnical Indicator signal:', ti.getTiSignal())

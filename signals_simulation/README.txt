@@ -1,4 +1,4 @@
-$python trading_signals_simulation.py tti.indicators.BollingerBands 20 0.6
+$python simulation_trading_signals.py tti.indicators.BollingerBands 20 0.6
 
 Bollinger Bands trading signal simulation statistics
 - Trading Statistics
@@ -14,7 +14,7 @@ Bollinger Bands trading signal simulation statistics
 	- total value         : 1759.11
 
 
-$python trading_signals_simulation.py tti.indicators.DirectionalMovementIndex
+$python simulation_trading_signals.py tti.indicators.DirectionalMovementIndex
 
 Directional Movement Index trading signal simulation statistics
 - Trading Statistics
@@ -30,7 +30,7 @@ Directional Movement Index trading signal simulation statistics
 	- total value         : 0.58
 
 
-$python trading_signals_simulation.py tti.indicators.FibonacciRetracement
+$python simulation_trading_signals.py tti.indicators.FibonacciRetracement
 
 Fibonacci Retracement trading signal simulation statistics
 - Trading Statistics
@@ -46,7 +46,7 @@ Fibonacci Retracement trading signal simulation statistics
 	- total value         : 126.03
 
 
-$python trading_signals_simulation.py tti.indicators.IchimokuCloud
+$python simulation_trading_signals.py tti.indicators.IchimokuCloud
 
 Ichimoku Cloud trading signal simulation statistics
 - Trading Statistics
@@ -62,7 +62,7 @@ Ichimoku Cloud trading signal simulation statistics
 	- total value         : 679.21
 
 
-$python trading_signals_simulation.py tti.indicators.MovingAverage
+$python simulation_trading_signals.py tti.indicators.MovingAverage
 
 Moving Average trading signal simulation statistics
 - Trading Statistics
@@ -78,7 +78,7 @@ Moving Average trading signal simulation statistics
     - total value         : 62.94
 
 
-$python trading_signals_simulation.py tti.indicators.MovingAverageConvergenceDivergence
+$python simulation_trading_signals.py tti.indicators.MovingAverageConvergenceDivergence
 
 Moving Average Convergence Divergence trading signal simulation statistics
 - Trading Statistics
@@ -94,7 +94,7 @@ Moving Average Convergence Divergence trading signal simulation statistics
 	- total value         : -76.08
 
 
-$python trading_signals_simulation.py tti.indicators.OnBalanceVolume
+$python simulation_trading_signals.py tti.indicators.OnBalanceVolume
 
 On Balance Volume trading signal simulation statistics
 - Trading Statistics
@@ -110,7 +110,7 @@ On Balance Volume trading signal simulation statistics
 	- total value         : 498.26
 
 
-$python trading_signals_simulation.py tti.indicators.RelativeStrengthIndex 9
+$python simulation_trading_signals.py tti.indicators.RelativeStrengthIndex 9
 
 Relative Strength Index trading signal simulation statistics
 - Trading Statistics
@@ -126,7 +126,7 @@ Relative Strength Index trading signal simulation statistics
 	- total value         : 232.37
 
 
-$python trading_signals_simulation.py tti.indicators.StandardDeviation
+$python simulation_trading_signals.py tti.indicators.StandardDeviation
 
 Standard Deviation trading signal simulation statistics
 - Trading Statistics
@@ -142,7 +142,7 @@ Standard Deviation trading signal simulation statistics
 	- total value         : 2485.52
 
 
-$python trading_signals_simulation.py tti.indicators.StochasticOscillator
+$python simulation_trading_signals.py tti.indicators.StochasticOscillator
 
 Stochastic Oscillator trading signal simulation statistics
 - Trading Statistics
