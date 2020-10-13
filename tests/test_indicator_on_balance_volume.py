@@ -110,7 +110,7 @@ class TestOnBalanceVolume(unittest.TestCase):
         df_expected_result = pd.read_csv(
             './data/test_on_balance_volume_on_sample_data.csv',
             parse_dates=True,
-            index_col=0)
+            index_col=0, dtype='int64')
 
         df_result = OnBalanceVolume(df[df.index == '2000-02-01'])._ti_data
 
@@ -124,7 +124,7 @@ class TestOnBalanceVolume(unittest.TestCase):
         df_expected_result = pd.read_csv(
             './data/test_on_balance_volume_on_sample_data.csv',
             parse_dates=True,
-            index_col=0)
+            index_col=0, dtype='int64')
 
         df_result = OnBalanceVolume(df)._ti_data
 
@@ -151,7 +151,7 @@ class TestOnBalanceVolume(unittest.TestCase):
         df_expected_result = pd.read_csv(
             './data/test_on_balance_volume_on_sample_data.csv',
             parse_dates=True,
-            index_col=0)
+            index_col=0, dtype='int64')
 
         pd.testing.assert_frame_equal(df_expected_result,
                                       OnBalanceVolume(df).getTiData())

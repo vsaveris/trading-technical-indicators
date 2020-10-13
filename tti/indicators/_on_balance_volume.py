@@ -51,27 +51,15 @@ class OnBalanceVolume(TechnicalIndicator):
         """
 
         obv = pd.DataFrame(index=self._input_data.index, columns=['obv'],
-                           data=None, dtype='int64')
+                           data=0, dtype='int64')
 
-        obv['obv'].iat[0] = 0
+        obv['obv'][self._input_data['close'] > self._input_data['close'].
+            shift(1)] = self._input_data['volume']
 
-        for i in range(1, len(self._input_data.index)):
+        obv['obv'][self._input_data['close'] < self._input_data['close'].
+            shift(1)] = -self._input_data['volume']
 
-            # Today's close is greater than yesterday's close
-            if self._input_data['close'].iat[i] > \
-                    self._input_data['close'].iat[i - 1]:
-                obv['obv'].iat[i] = obv['obv'].iat[i - 1] + \
-                                self._input_data['volume'].iat[i]
-
-            # Today's close is less than yesterday's close
-            elif self._input_data['close'].iat[i] < \
-                    self._input_data['close'].iat[i - 1]:
-                obv['obv'].iat[i] = obv['obv'].iat[i - 1] - \
-                                self._input_data['volume'].iat[i]
-
-            # Today's close is equal the yesterday's close
-            else:
-                obv['obv'].iat[i] = obv['obv'].iat[i - 1]
+        obv['obv'] = obv['obv'].cumsum()
 
         return obv
 
