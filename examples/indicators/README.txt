@@ -1,3 +1,5 @@
+$python example_technical_indicator.py tti.indicators.AccumulationDistributionLine
+
 $python example_technical_indicator.py tti.indicators.BollingerBands
 
 $python example_technical_indicator.py tti.indicators.DirectionalMovementIndex

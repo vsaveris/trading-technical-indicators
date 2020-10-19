@@ -26,7 +26,17 @@ dictionary. The format for each indicator is:
 """
 
 INDICATORS_PROPERTIES = \
-  {"BollingerBands":
+  {"AccumulationDistributionLine":
+   {"long_name": "Accumulation Distribution Line",
+    "short_name": "ADL",
+    "required_input_data": ["close", "volume", "high", "low"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "ADL | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "BollingerBands":
    {"long_name": "Bollinger Bands",
     "short_name": "BB",
     "required_input_data": ["close"],
