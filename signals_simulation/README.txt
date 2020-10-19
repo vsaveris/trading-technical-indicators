@@ -3,15 +3,15 @@ $python simulation_trading_signals.py tti.indicators.AccumulationDistributionLin
 Accumulation Distribution Line trading signal simulation statistics
 - Trading Statistics
 	- trading days        : 3169
-	- buy signals         : 422
-	- sell signals        : 222
+	- buy signals         : 653
+	- sell signals        : 242
 	- ignored buy signals : 0
-	- ignored sell signals: 263
+	- ignored sell signals: 700
 - Portfolio Information
-	- balance             : 109.04
-	- stocks              : 1
+	- balance             : 29.57
+	- stocks              : 3
 	- stocks latest price : 140.41
-	- total value         : 249.45
+	- total value         : 450.8
 
 
 $python simulation_trading_signals.py tti.indicators.BollingerBands 20 0.6

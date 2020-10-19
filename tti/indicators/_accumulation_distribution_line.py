@@ -51,14 +51,17 @@ class AccumulationDistributionLine(TechnicalIndicator):
         """
 
         adl = pd.DataFrame(index=self._input_data.index, columns=['adl'],
-                           data=0, dtype='float64')
+                           data=0, dtype='int64')
 
         adl['adl'] = self._input_data['volume'] * (
                 (self._input_data['close'] - self._input_data['low']) -
                 (self._input_data['high'] - self._input_data['close'])
-        ) / (self._input_data['high'] - self._input_data['close'])
+        ) / (self._input_data['high'] - self._input_data['low'])
 
-        return adl
+        for i in range(1, len(adl.index)):
+            adl['adl'].iat[i] += adl['adl'].iat[i - 1]
+
+        return adl.astype(dtype='int64', errors='ignore')
 
     def getTiSignal(self):
         """
@@ -81,20 +84,18 @@ class AccumulationDistributionLine(TechnicalIndicator):
         # Trading signals Divergences calculated in 2-days period
 
         # Not enough data for calculating trading signal
-        if len(self._ti_data.index) < 2:
+        if len(self._ti_data.index) < 3:
             return TRADE_SIGNALS['hold']
 
         # Warning for a upward breakout
-        if self._ti_data['adl'].iat[-2] > self._ti_data['adl'].iat[-1] and \
-                self._input_data['close'].iat[-2] < \
-                self._input_data['close'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        if self._ti_data['adl'].iat[-3] > self._ti_data['adl'].iat[-2] > \
+                self._ti_data['adl'].iat[-1]:
+            return TRADE_SIGNALS['buy']
 
         # Warning for a downward breakout
-        elif self._ti_data['adl'].iat[-2] < self._ti_data['adl'].iat[-1] and \
-                self._input_data['close'].iat[-2] > \
-                self._input_data['close'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        elif self._ti_data['adl'].iat[-3] < self._ti_data['adl'].iat[-2] < \
+                self._ti_data['adl'].iat[-1]:
+            return TRADE_SIGNALS['sell']
 
         else:
             return TRADE_SIGNALS['hold']
