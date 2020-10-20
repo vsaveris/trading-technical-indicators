@@ -46,6 +46,22 @@ Bollinger Bands trading signal simulation statistics
 	- total value         : 1759.11
 
 
+$python simulation_trading_signals.py tti.indicators.ChaikinMoneyFlow
+
+Chaikin Money Flow trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 299
+	- sell signals        : 146
+	- ignored buy signals : 0
+	- ignored sell signals: 239
+- Portfolio Information
+	- balance             : 285.05
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 425.46
+
+
 $python simulation_trading_signals.py tti.indicators.DirectionalMovementIndex
 
 Directional Movement Index trading signal simulation statistics

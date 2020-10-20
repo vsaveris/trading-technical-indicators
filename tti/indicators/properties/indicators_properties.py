@@ -56,6 +56,16 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0, 1.0, 1.0],
     "graph_areas": None,
     "graph_subplots": False
+    }, "ChaikinMoneyFlow":
+   {"long_name": "Chaikin Money Flow",
+    "short_name": "CMF",
+    "required_input_data": ["close", "volume", "high", "low"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "ADL | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }, "DirectionalMovementIndex":
    {"long_name": "Directional Movement Index",
     "short_name": "DX",

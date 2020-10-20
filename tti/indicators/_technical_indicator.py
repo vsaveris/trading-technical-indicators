@@ -53,6 +53,9 @@ class TechnicalIndicator(ABC):
         # Read the properties for the specific Technical Indicator
         self._properties = INDICATORS_PROPERTIES[calling_instance]
 
+        # Make the column names case insensitive
+        input_data.columns = [x.lower() for x in input_data.columns]
+
         # Input data preprocessing
         self._input_data = \
             validateInputData(input_data,
