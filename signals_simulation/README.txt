@@ -19,15 +19,15 @@ $python simulation_trading_signals.py tti.indicators.AverageTrueRange
 Average True Range trading signal simulation statistics
 - Trading Statistics
 	- trading days        : 3169
-	- buy signals         : 729
-	- sell signals        : 107
+	- buy signals         : 920
+	- sell signals        : 129
 	- ignored buy signals : 0
-	- ignored sell signals: 390
+	- ignored sell signals: 400
 - Portfolio Information
-	- balance             : 1621.15
-	- stocks              : 2
+	- balance             : 2174.89
+	- stocks              : 0
 	- stocks latest price : 140.41
-	- total value         : 1901.97
+	- total value         : 2174.89
 
 
 $python simulation_trading_signals.py tti.indicators.BollingerBands 20 0.6

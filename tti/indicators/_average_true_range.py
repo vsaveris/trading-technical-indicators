@@ -52,7 +52,7 @@ class AverageTrueRange(TechnicalIndicator):
         """
 
         # Not enough data for the requested period
-        if len(self._input_data.index) < 2:
+        if len(self._input_data.index) < 14:
             raise NotEnoughInputData('Average True Range', 2,
                                      len(self._input_data.index))
 
@@ -62,9 +62,9 @@ class AverageTrueRange(TechnicalIndicator):
         # Calculate Today's High - Today's Low
         atr['TH-TL'] = self._input_data['high'] - self._input_data['low']
 
-        # Calculate Yesterday's Close - Today's High
+        # Calculate Today's High - Yesterday's Close
         atr['YC-TH'] = \
-            self._input_data['close'].shift(1) - self._input_data['high']
+            self._input_data['high'] - self._input_data['close'].shift(1)
 
         # Calculate Yesterday's Close - Today's Low
         atr['YC-TL'] = \
@@ -72,7 +72,13 @@ class AverageTrueRange(TechnicalIndicator):
 
         atr['atr'] = atr[['TH-TL', 'YC-TH', 'YC-TL']].max(axis=1)
 
-        return atr[['atr']].round(4)
+        # Wilder's Moving Average
+        atr['atr'] = pd.Series(
+            data=[atr['atr'].iloc[:14].mean()], index=[atr.index[13]]
+        ).append(atr['atr'].iloc[14:]).ewm(alpha=1 / 14,
+                                           adjust=False,).mean().round(4)
+
+        return atr[['atr']]
 
     def getTiSignal(self):
         """
@@ -94,15 +100,15 @@ class AverageTrueRange(TechnicalIndicator):
 
         # Calculate Simple Moving Average
         sma = self._input_data.rolling(
-            window=20, min_periods=20, center=False,
+            window=14, min_periods=14, center=False,
             win_type=None, on=None, axis=0, closed=None).mean().round(4)
 
-        # Price above average and volatility is high
+        # Price above average and ATR is high
         if self._input_data['close'].iat[-1] > sma.iat[-1, 0] and \
                 self._ti_data['atr'].iat[-1] > 2:
             return TRADE_SIGNALS['sell']
 
-        # Price below average and volatility is high
+        # Price below average and ATR is high
         if self._input_data['close'].iat[-1] < sma.iat[-1, 0] and \
                 self._ti_data['atr'].iat[-1] > 2:
             return TRADE_SIGNALS['buy']
