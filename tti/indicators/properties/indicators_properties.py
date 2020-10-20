@@ -76,6 +76,16 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
+    }, "ChandeMomentumOscillator":
+   {"long_name": "Chande Momentum Oscillator",
+    "short_name": "CMO",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "CMO | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }, "DirectionalMovementIndex":
    {"long_name": "Directional Movement Index",
     "short_name": "DX",

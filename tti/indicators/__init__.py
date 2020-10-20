@@ -10,6 +10,7 @@ from ._average_true_range import AverageTrueRange
 from ._bollinger_bands import BollingerBands
 from ._chaikin_money_flow import ChaikinMoneyFlow
 from ._chaikin_oscillator import ChaikinOscillator
+from ._chande_momentum_oscillator import ChandeMomentumOscillator
 from ._directional_movement_index import DirectionalMovementIndex
 from ._fibonacci_retracement import FibonacciRetracement
 from ._ichimoku_cloud import IchimokuCloud
@@ -24,7 +25,7 @@ from ._stochastic_oscillator import StochasticOscillator
 
 __all__ = ['AccumulationDistributionLine', 'AverageTrueRange',
            'BollingerBands', 'ChaikinMoneyFlow', 'ChaikinOscillator',
-           'DirectionalMovementIndex',
+           'ChandeMomentumOscillator', 'DirectionalMovementIndex',
            'FibonacciRetracement', 'IchimokuCloud', 'MovingAverage',
            'MovingAverageConvergenceDivergence', 'OnBalanceVolume',
            'RelativeStrengthIndex', 'StandardDeviation',
