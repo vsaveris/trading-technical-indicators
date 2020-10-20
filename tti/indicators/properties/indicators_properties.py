@@ -36,6 +36,16 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
+    }, "AverageTrueRange":
+   {"long_name": "Average True Range",
+    "short_name": "ATR",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "ATR | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }, "BollingerBands":
    {"long_name": "Bollinger Bands",
     "short_name": "BB",
