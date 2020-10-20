@@ -62,6 +62,22 @@ Chaikin Money Flow trading signal simulation statistics
 	- total value         : 425.46
 
 
+$python simulation_trading_signals.py tti.indicators.ChaikinOscillator
+
+Chaikin Oscillator trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 281
+	- sell signals        : 13
+	- ignored buy signals : 0
+	- ignored sell signals: 227
+- Portfolio Information
+	- balance             : 1989.12
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 1989.12
+
+
 $python simulation_trading_signals.py tti.indicators.DirectionalMovementIndex
 
 Directional Movement Index trading signal simulation statistics

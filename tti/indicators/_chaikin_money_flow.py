@@ -116,7 +116,7 @@ class ChaikinMoneyFlow(TechnicalIndicator):
         if len(self._ti_data.index) < 3:
             return TRADE_SIGNALS['hold']
 
-        # A ell signal occurs when price reaches a higher high into overbought
+        # A sell signal occurs when price reaches a higher high into overbought
         # with the CMF starting to fall.
         if self._ti_data['cmf'].iat[-2] > self._ti_data['cmf'].iat[-1] and \
                 max(self._input_data['close'].iloc[-3:-1]) < \

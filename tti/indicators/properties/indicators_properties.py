@@ -61,7 +61,17 @@ INDICATORS_PROPERTIES = \
     "short_name": "CMF",
     "required_input_data": ["close", "volume", "high", "low"],
     "graph_input_columns": ["close"],
-    "graph_y_label": "ADL | Price",
+    "graph_y_label": "CMF | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "ChaikinOscillator":
+   {"long_name": "Chaikin Oscillator",
+    "short_name": "CO",
+    "required_input_data": ["close", "volume", "high", "low"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "CO | Price",
     "graph_lines_color": ["black", "limegreen"],
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
