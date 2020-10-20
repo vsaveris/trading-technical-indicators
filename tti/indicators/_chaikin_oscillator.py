@@ -102,7 +102,8 @@ class ChaikinOscillator(TechnicalIndicator):
         # Sell signal when price below 90-MA and indicator downturns in the
         # positive area
         elif self._input_data['close'].iat[-1] < ma_90 and \
-                self._ti_data['co'].iat[-2] > self._ti_data['co'].iat[-1] > 0.0:
+                self._ti_data['co'].iat[-2] > \
+                self._ti_data['co'].iat[-1] > 0.0:
             return TRADE_SIGNALS['sell']
 
         else:
