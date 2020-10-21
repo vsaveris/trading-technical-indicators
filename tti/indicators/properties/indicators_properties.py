@@ -101,14 +101,14 @@ INDICATORS_PROPERTIES = \
     "short_name": "DPO",
     "required_input_data": ["close"],
     "graph_input_columns": ["close"],
-    "graph_y_label": "CCI | Price",
+    "graph_y_label": "DPO | Price",
     "graph_lines_color": ["black", "limegreen"],
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
     }, "DirectionalMovementIndex":
    {"long_name": "Directional Movement Index",
-    "short_name": "DX",
+    "short_name": "DMI",
     "required_input_data": ["high", "low", "close"],
     "graph_input_columns": ["close"],
     "graph_y_label": "DMI | Price",
@@ -117,6 +117,16 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0, 1.0, 1.0, 1.0],
     "graph_areas": None,
     "graph_subplots": True
+    }, "DoubleExponentialMovingAverage":
+   {"long_name": "Double Exponential Moving Average",
+    "short_name": "DEMA",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
     }, "FibonacciRetracement":
    {"long_name": "Fibonacci Retracement",
     "short_name": "FR",

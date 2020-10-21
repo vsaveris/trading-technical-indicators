@@ -142,6 +142,22 @@ Directional Movement Index trading signal simulation statistics
 	- total value         : 0.58
 
 
+$python simulation_trading_signals.py tti.indicators.DoubleExponentialMovingAverage
+
+Double Exponential Moving Average trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 1603
+	- sell signals        : 582
+	- ignored buy signals : 0
+	- ignored sell signals: 976
+- Portfolio Information
+	- balance             : 62.78
+	- stocks              : 3
+	- stocks latest price : 140.41
+	- total value         : 484.01
+
+
 $python simulation_trading_signals.py tti.indicators.FibonacciRetracement
 
 Fibonacci Retracement trading signal simulation statistics

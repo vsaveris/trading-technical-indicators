@@ -14,6 +14,7 @@ from ._chande_momentum_oscillator import ChandeMomentumOscillator
 from ._commodity_channel_index import CommodityChannelIndex
 from ._detrended_price_oscillator import DetrendedPriceOscillator
 from ._directional_movement_index import DirectionalMovementIndex
+from ._double_exponential_moving_average import DoubleExponentialMovingAverage
 from ._fibonacci_retracement import FibonacciRetracement
 from ._ichimoku_cloud import IchimokuCloud
 from ._moving_average import MovingAverage
@@ -29,7 +30,8 @@ __all__ = ['AccumulationDistributionLine', 'AverageTrueRange',
            'BollingerBands', 'ChaikinMoneyFlow', 'ChaikinOscillator',
            'ChandeMomentumOscillator', 'CommodityChannelIndex',
            'DetrendedPriceOscillator', 'DirectionalMovementIndex',
-           'FibonacciRetracement', 'IchimokuCloud', 'MovingAverage',
+           'DoubleExponentialMovingAverage', 'FibonacciRetracement',
+           'IchimokuCloud', 'MovingAverage',
            'MovingAverageConvergenceDivergence', 'OnBalanceVolume',
            'RelativeStrengthIndex', 'StandardDeviation',
            'StochasticOscillator']

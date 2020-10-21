@@ -1,8 +1,24 @@
 $python example_technical_indicator.py tti.indicators.AccumulationDistributionLine
 
+$python example_technical_indicator.py tti.indicators.AverageTrueRange
+
 $python example_technical_indicator.py tti.indicators.BollingerBands
 
+$python example_technical_indicator.py tti.indicators.ChaikinMoneyFlow
+
+$python example_technical_indicator.py tti.indicators.ChaikinOscillator
+
+$python example_technical_indicator.py tti.indicators.ChandeMomentumOscillator
+
+$python example_technical_indicator.py tti.indicators.CommodityChannelIndex
+
+$python example_technical_indicator.py tti.indicators.DetrendedPriceOscillator
+
 $python example_technical_indicator.py tti.indicators.DirectionalMovementIndex
+
+$python example_technical_indicator.py tti.indicators.DoubleExponentialMovingAverage
+
+$python example_technical_indicator.py tti.indicators.DynamicMomentumIndex
 
 $python example_technical_indicator.py tti.indicators.FibonacciRetracement
 
