@@ -110,6 +110,22 @@ Commodity Channel Index trading signal simulation statistics
 	- total value         : 691.19
 
 
+$python simulation_trading_signals.py tti.indicators.DetrendedPriceOscillator
+
+Detrended Price Oscillator trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 519
+	- sell signals        : 517
+	- ignored buy signals : 0
+	- ignored sell signals: 1
+- Portfolio Information
+	- balance             : -15.29
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 125.12
+
+
 $python simulation_trading_signals.py tti.indicators.DirectionalMovementIndex
 
 Directional Movement Index trading signal simulation statistics

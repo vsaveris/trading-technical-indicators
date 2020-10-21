@@ -96,6 +96,16 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
+    }, "DetrendedPriceOscillator":
+   {"long_name": "Detrended Price Oscillator",
+    "short_name": "DPO",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "CCI | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }, "DirectionalMovementIndex":
    {"long_name": "Directional Movement Index",
     "short_name": "DX",
