@@ -86,6 +86,16 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
+    }, "CommodityChannelIndex":
+   {"long_name": "Commodity Channel Index",
+    "short_name": "CCI",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "CCI | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }, "DirectionalMovementIndex":
    {"long_name": "Directional Movement Index",
     "short_name": "DX",

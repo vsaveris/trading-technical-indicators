@@ -94,6 +94,22 @@ Chande Momentum Oscillator trading signal simulation statistics
 	- total value         : 233.26
 
 
+$python simulation_trading_signals.py tti.indicators.CommodityChannelIndex
+
+Commodity Channel Index trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 543
+	- sell signals        : 195
+	- ignored buy signals : 0
+	- ignored sell signals: 462
+- Portfolio Information
+	- balance             : 550.78
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 691.19
+
+
 $python simulation_trading_signals.py tti.indicators.DirectionalMovementIndex
 
 Directional Movement Index trading signal simulation statistics

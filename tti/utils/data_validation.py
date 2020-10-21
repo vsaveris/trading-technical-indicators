@@ -59,7 +59,10 @@ def validateInputData(input_data, required_columns, indicator_name,
     # Validate that the data frame is not empty
     if input_data.empty:
         raise ValueError('The input_data cannot be an empty pandas.DataFrame.')
-   
+
+    # Make columns case insensitive
+    input_data.columns = [c.lower() for c in input_data.columns]
+
     # Validate that the data frame holds columns of numeric type and that all
     # the required columns are contained.
     for column in required_columns:
