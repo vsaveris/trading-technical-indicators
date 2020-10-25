@@ -18,7 +18,7 @@ $python example_technical_indicator.py tti.indicators.DirectionalMovementIndex
 
 $python example_technical_indicator.py tti.indicators.DoubleExponentialMovingAverage
 
-$python example_technical_indicator.py tti.indicators.DynamicMomentumIndex
+$python example_technical_indicator.py tti.indicators.EaseOfMovement
 
 $python example_technical_indicator.py tti.indicators.FibonacciRetracement
 

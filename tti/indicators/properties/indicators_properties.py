@@ -127,6 +127,16 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": False
+    }, "EaseOfMovement":
+   {"long_name": "Ease Of Movement",
+    "short_name": "EMV",
+    "required_input_data": ["high", "low", "volume"],
+    "graph_input_columns": [],
+    "graph_y_label": "EMV",
+    "graph_lines_color": ["limegreen", "tomato"],
+    "graph_alpha_values": [1.0, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
     }, "FibonacciRetracement":
    {"long_name": "Fibonacci Retracement",
     "short_name": "FR",

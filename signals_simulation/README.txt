@@ -158,6 +158,22 @@ Double Exponential Moving Average trading signal simulation statistics
 	- total value         : 484.01
 
 
+$python simulation_trading_signals.py tti.indicators.EaseOfMovement
+
+Ease Of Movement trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 86
+	- sell signals        : 79
+	- ignored buy signals : 0
+	- ignored sell signals: 4
+- Portfolio Information
+	- balance             : 46.69
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 46.69
+
+
 $python simulation_trading_signals.py tti.indicators.FibonacciRetracement
 
 Fibonacci Retracement trading signal simulation statistics
