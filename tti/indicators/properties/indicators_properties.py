@@ -285,7 +285,7 @@ INDICATORS_PROPERTIES = \
     }, "TimeSeriesForecast":
    {"long_name": "Time Series Forecast",
     "short_name": "TSF",
-    "required_input_data": ["close",],
+    "required_input_data": ["close"],
     "graph_input_columns": ["close"],
     "graph_y_label": "Price",
     "graph_lines_color": ["black", "limegreen"],

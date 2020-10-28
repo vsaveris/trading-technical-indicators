@@ -1,8 +1,8 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: <_indicator_name.py>
-    Implements the <Indicator Name> technical indicator.
+File name: _time_series_forecast.py
+    Implements the Time Series Forecast technical indicator.
 """
 
 import pandas as pd
@@ -17,7 +17,7 @@ from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
 
 class TimeSeriesForecast(TechnicalIndicator):
     """
-    <Indicator Name> Technical Indicator class implementation.
+    Time Series Forecast Technical Indicator class implementation.
 
     Parameters:
         input_data (pandas.DataFrame): The input data.
