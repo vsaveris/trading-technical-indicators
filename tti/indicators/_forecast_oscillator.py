@@ -1,8 +1,8 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: <_indicator_name.py>
-    Implements the <Indicator Name> technical indicator.
+File name: _forecast_oscillator.py
+    Implements the Forecast Oscillator technical indicator.
 """
 
 import pandas as pd
@@ -16,7 +16,7 @@ from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
 
 class ForecastOscillator(TechnicalIndicator):
     """
-    <Indicator Name> Technical Indicator class implementation.
+    Forecast Oscillator Technical Indicator class implementation.
 
     Parameters:
         input_data (pandas.DataFrame): The input data.
