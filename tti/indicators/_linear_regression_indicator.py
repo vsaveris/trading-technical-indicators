@@ -1,8 +1,8 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: <_indicator_name.py>
-    Implements the <Indicator Name> technical indicator.
+File name: _linear_regression_indicator.py
+    Implements the Linear Regression technical indicator.
 """
 
 import pandas as pd
@@ -18,7 +18,7 @@ from sklearn.linear_model import LinearRegression
 
 class LinearRegressionIndicator(TechnicalIndicator):
     """
-    <Indicator Name> Technical Indicator class implementation.
+    Linear regression Technical Indicator class implementation.
 
     Parameters:
         input_data (pandas.DataFrame): The input data.
@@ -83,10 +83,13 @@ class LinearRegressionIndicator(TechnicalIndicator):
                               copy_X=True, n_jobs=None)
 
         # n-period forecast
+        # use fillna, in case NaN values exist in the input data, the fit
+        # method fails. Not required when fill_missing_values is True
         for i in range(self._period, len(self._input_data.index) + 1):
 
             lr.fit(np.reshape(range(i - self._period, i), (-1, 1)),
-                   self._input_data['close'].iloc[i - self._period:i])
+                   self._input_data['close'].fillna(
+                       value=0, inplace=False).iloc[i - self._period:i])
 
             lri['lri'].iat[i - 1] = lr.predict(np.reshape(i - 1, (1, -1)))
 
