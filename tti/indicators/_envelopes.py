@@ -15,7 +15,7 @@ from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
 
 class Envelopes(TechnicalIndicator):
     """
-    <Indicator Name> Technical Indicator class implementation.
+    Envelopes Technical Indicator class implementation.
 
     Parameters:
         input_data (pandas.DataFrame): The input data.
