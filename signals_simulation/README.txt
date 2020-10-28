@@ -174,6 +174,22 @@ Ease Of Movement trading signal simulation statistics
 	- total value         : 46.69
 
 
+$python simulation_trading_signals.py tti.indicators.Envelopes
+
+Envelopes trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 54
+	- sell signals        : 5
+	- ignored buy signals : 0
+	- ignored sell signals: 45
+- Portfolio Information
+	- balance             : 396.87
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 396.87
+
+
 $python simulation_trading_signals.py tti.indicators.FibonacciRetracement
 
 Fibonacci Retracement trading signal simulation statistics
@@ -190,6 +206,22 @@ Fibonacci Retracement trading signal simulation statistics
 	- total value         : 126.03
 
 
+$python simulation_trading_signals.py tti.indicators.ForecastOscillator
+
+Forecast Oscillator trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 369
+	- sell signals        : 368
+	- ignored buy signals : 0
+	- ignored sell signals: 0
+- Portfolio Information
+	- balance             : 11.44
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 151.85
+
+
 $python simulation_trading_signals.py tti.indicators.IchimokuCloud
 
 Ichimoku Cloud trading signal simulation statistics
@@ -204,6 +236,70 @@ Ichimoku Cloud trading signal simulation statistics
 	- stocks              : 15
 	- stocks latest price : 140.41
 	- total value         : 679.21
+
+
+$python simulation_trading_signals.py tti.indicators.IntradayMovementIndex
+
+Intraday Movement Index trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 73
+	- sell signals        : 38
+	- ignored buy signals : 0
+	- ignored sell signals: 88
+- Portfolio Information
+	- balance             : 322.7
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 322.7
+
+
+$python simulation_trading_signals.py tti.indicators.KlingerOscillator
+
+Klinger Oscillator trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 118
+	- sell signals        : 117
+	- ignored buy signals : 0
+	- ignored sell signals: 0
+- Portfolio Information
+	- balance             : -60.18
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 80.23
+
+
+$python simulation_trading_signals.py tti.indicators.LinearRegressionIndicator
+
+Linear Regression Indicator trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 371
+	- sell signals        : 370
+	- ignored buy signals : 0
+	- ignored sell signals: 0
+- Portfolio Information
+	- balance             : -31.85
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 108.56
+
+
+$python simulation_trading_signals.py tti.indicators.LinearRegressionSlope
+
+Linear Regression Slope trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 118
+	- sell signals        : 117
+	- ignored buy signals : 0
+	- ignored sell signals: 1
+- Portfolio Information
+	- balance             : -19.76
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 120.65
 
 
 $python simulation_trading_signals.py tti.indicators.MovingAverage
@@ -300,3 +396,19 @@ Stochastic Oscillator trading signal simulation statistics
 	- stocks              : 0
 	- stocks latest price : 140.41
 	- total value         : 533.99
+
+
+$python simulation_trading_signals.py tti.indicators.TimeSeriesForecast
+
+Time Series Forecast trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 341
+	- sell signals        : 340
+	- ignored buy signals : 0
+	- ignored sell signals: 0
+- Portfolio Information
+	- balance             : -39.26
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 101.15

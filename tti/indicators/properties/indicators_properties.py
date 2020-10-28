@@ -137,6 +137,16 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [1.0, 1.0],
     "graph_areas": None,
     "graph_subplots": False
+    }, "Envelopes":
+   {"long_name": "Envelopes (Trading Bands)",
+    "short_name": "ENV",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "limegreen", "tomato"],
+    "graph_alpha_values": [0.5, 1.0, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
     }, "FibonacciRetracement":
    {"long_name": "Fibonacci Retracement",
     "short_name": "FR",
@@ -148,6 +158,16 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
     "graph_areas": None,
     "graph_subplots": False
+    }, "ForecastOscillator":
+   {"long_name": "Forecast Oscillator",
+    "short_name": "FOSC",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "FOSC | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }, "IchimokuCloud":
    {"long_name": "Ichimoku Cloud",
     "short_name": "IC",
@@ -162,6 +182,46 @@ INDICATORS_PROPERTIES = \
                      'y2': [0, 'ti_data', 'senkou_b'],
                      'color': 'lightblue'}],
     "graph_subplots": False
+    }, "IntradayMovementIndex":
+   {"long_name": "Intraday Movement Index",
+    "short_name": "IMI",
+    "required_input_data": ["open", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "IMI | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "KlingerOscillator":
+   {"long_name": "Klinger Oscillator",
+    "short_name": "KO",
+    "required_input_data": ["high", "low", "close", "volume"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "KO | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "LinearRegressionIndicator":
+   {"long_name": "Linear Regression Indicator",
+    "short_name": "LRI",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
+    }, "LinearRegressionSlope":
+   {"long_name": "Linear Regression Slope",
+    "short_name": "LRS",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "LRS | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }, "MovingAverage":
    {"long_name": "Moving Average",
     "short_name": "MA",
@@ -222,5 +282,15 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0, 1.0],
     "graph_areas": None,
     "graph_subplots": True
+    }, "TimeSeriesForecast":
+   {"long_name": "Time Series Forecast",
+    "short_name": "TSF",
+    "required_input_data": ["close",],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
     }
    }

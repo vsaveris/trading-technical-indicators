@@ -16,8 +16,14 @@ from ._detrended_price_oscillator import DetrendedPriceOscillator
 from ._directional_movement_index import DirectionalMovementIndex
 from ._double_exponential_moving_average import DoubleExponentialMovingAverage
 from ._ease_of_movement import EaseOfMovement
+from ._envelopes import Envelopes
 from ._fibonacci_retracement import FibonacciRetracement
+from ._forecast_oscillator import ForecastOscillator
 from ._ichimoku_cloud import IchimokuCloud
+from ._intraday_movement_index import IntradayMovementIndex
+from ._klinger_oscillator import KlingerOscillator
+from ._linear_regression_indicator import LinearRegressionIndicator
+from ._linear_regression_slope import LinearRegressionSlope
 from ._moving_average import MovingAverage
 from ._moving_average_convergence_divergence import \
     MovingAverageConvergenceDivergence
@@ -25,14 +31,18 @@ from ._on_balance_volume import OnBalanceVolume
 from ._relative_strength_index import RelativeStrengthIndex
 from ._standard_deviation import StandardDeviation
 from ._stochastic_oscillator import StochasticOscillator
+from ._time_series_forecast import TimeSeriesForecast
 
 
 __all__ = ['AccumulationDistributionLine', 'AverageTrueRange',
            'BollingerBands', 'ChaikinMoneyFlow', 'ChaikinOscillator',
            'ChandeMomentumOscillator', 'CommodityChannelIndex',
            'DetrendedPriceOscillator', 'DirectionalMovementIndex',
-           'DoubleExponentialMovingAverage', 'EaseOfMovement',
-           'FibonacciRetracement', 'IchimokuCloud', 'MovingAverage',
+           'DoubleExponentialMovingAverage', 'EaseOfMovement', 'Envelopes',
+           'FibonacciRetracement', 'ForecastOscillator', 'IchimokuCloud',
+           'IntradayMovementIndex', 'KlingerOscillator',
+           'LinearRegressionIndicator', 'LinearRegressionSlope',
+           'MovingAverage',
            'MovingAverageConvergenceDivergence', 'OnBalanceVolume',
            'RelativeStrengthIndex', 'StandardDeviation',
-           'StochasticOscillator']
+           'StochasticOscillator', 'TimeSeriesForecast']
