@@ -1,8 +1,8 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: <_indicator_name.py>
-    Implements the <Indicator Name> technical indicator.
+File name: _linear_regression_slope.py
+    Implements the Linear Regression Slope technical indicator.
 """
 
 import pandas as pd
@@ -15,7 +15,7 @@ from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
 
 class LinearRegressionSlope(TechnicalIndicator):
     """
-    <Indicator Name> Technical Indicator class implementation.
+    Linear Regression Slope Technical Indicator class implementation.
 
     Parameters:
         input_data (pandas.DataFrame): The input data.
