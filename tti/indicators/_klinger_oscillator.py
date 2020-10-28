@@ -1,8 +1,8 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: <_indicator_name.py>
-    Implements the <Indicator Name> technical indicator.
+File name: _klinger_oscillator.py
+    Implements the Klinger Oscillator technical indicator.
 """
 
 import pandas as pd
@@ -14,7 +14,7 @@ from ..utils.exceptions import NotEnoughInputData
 
 class KlingerOscillator(TechnicalIndicator):
     """
-    <Indicator Name> Technical Indicator class implementation.
+    Klinger Oscillator Technical Indicator class implementation.
 
     Parameters:
         input_data (pandas.DataFrame): The input data.
