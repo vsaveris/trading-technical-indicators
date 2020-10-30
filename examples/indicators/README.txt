@@ -36,11 +36,21 @@ $python example_technical_indicator.py tti.indicators.LinearRegressionIndicator
 
 $python example_technical_indicator.py tti.indicators.LinearRegressionSlope
 
+$python example_technical_indicator.py tti.indicators.MarketFacilitationIndex
+
+$python example_technical_indicator.py tti.indicators.MassIndex
+
+$python example_technical_indicator.py tti.indicators.MedianPrice
+
+$python example_technical_indicator.py tti.indicators.Momentum
+
 $python example_technical_indicator.py tti.indicators.LinearRegressionTrendlines
 
 $python example_technical_indicator.py tti.indicators.MovingAverage 20
 
 $python example_technical_indicator.py tti.indicators.MovingAverageConvergenceDivergence
+
+$python example_technical_indicator.py tti.indicators.NegativeVolumeIndex
 
 $python example_technical_indicator.py tti.indicators.OnBalanceVolume
 

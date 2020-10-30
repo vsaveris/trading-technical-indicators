@@ -222,6 +222,46 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
+    }, "MarketFacilitationIndex":
+   {"long_name": "Market Facilitation Index",
+    "short_name": "MFI",
+    "required_input_data": ["high", "low", "volume"],
+    "graph_input_columns": ["volume"],
+    "graph_y_label": "MFI | Volume",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "MassIndex":
+   {"long_name": "Mass Index",
+    "short_name": "MI",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close", "9_ema"],
+    "graph_y_label": "MI | Price",
+    "graph_lines_color": ["black", "tomato", "limegreen"],
+    "graph_alpha_values": [0.5, 0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "MedianPrice":
+   {"long_name": "Median Price",
+    "short_name": "MP",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close_ema"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["red", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
+    }, "Momentum":
+   {"long_name": "Momentum",
+    "short_name": "MOM",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "MOM | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }, "MovingAverage":
    {"long_name": "Moving Average",
     "short_name": "MA",
@@ -240,6 +280,16 @@ INDICATORS_PROPERTIES = \
     "graph_y_label": "MACD | Price",
     "graph_lines_color": ["black", "cornflowerblue", "tomato"],
     "graph_alpha_values": [0.5, 1.0, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "NegativeVolumeIndex":
+   {"long_name": "Negative Volume Index",
+    "short_name": "NVI",
+    "required_input_data": ["close", "volume"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "NVI | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
     }, "OnBalanceVolume":

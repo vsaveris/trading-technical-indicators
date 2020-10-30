@@ -68,7 +68,7 @@ class FibonacciRetracement(TechnicalIndicator):
                                    range(len(retracement_levels))]] * len(
                                 self._input_data.index),
                             columns=['rl_' + str(round(100*i, 1)) for i in
-                                     levels_multipliers])
+                                     levels_multipliers]).round(4)
 
     def getTiSignal(self):
         """

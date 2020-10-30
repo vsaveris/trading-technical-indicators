@@ -302,6 +302,70 @@ Linear Regression Slope trading signal simulation statistics
 	- total value         : 120.65
 
 
+$python simulation_trading_signals.py tti.indicators.MarketFacilitationIndex
+
+Market Facilitation Index trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 1599
+	- sell signals        : 1029
+	- ignored buy signals : 0
+	- ignored sell signals: 540
+- Portfolio Information
+	- balance             : 90.47
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 230.88
+
+
+$python simulation_trading_signals.py tti.indicators.MassIndex
+
+Mass Index trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 102
+	- sell signals        : 24
+	- ignored buy signals : 0
+	- ignored sell signals: 66
+- Portfolio Information
+	- balance             : 585.45
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 585.45
+
+
+$python simulation_trading_signals.py tti.indicators.MedianPrice
+
+Median Price trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 186
+	- sell signals        : 185
+	- ignored buy signals : 0
+	- ignored sell signals: 1
+- Portfolio Information
+	- balance             : 3.95
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 144.36
+
+
+$python simulation_trading_signals.py tti.indicators.Momentum
+
+Momentum trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 349
+	- sell signals        : 348
+	- ignored buy signals : 0
+	- ignored sell signals: 0
+- Portfolio Information
+	- balance             : 9.2
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 149.61
+
+
 $python simulation_trading_signals.py tti.indicators.MovingAverage
 
 Moving Average trading signal simulation statistics
@@ -332,6 +396,22 @@ Moving Average Convergence Divergence trading signal simulation statistics
 	- stocks              : 0
 	- stocks latest price : 140.41
 	- total value         : -76.08
+
+
+$python simulation_trading_signals.py tti.indicators.NegativeVolumeIndex
+
+Negative Volume Index trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 30
+	- sell signals        : 29
+	- ignored buy signals : 0
+	- ignored sell signals: 1
+- Portfolio Information
+	- balance             : -64.0
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 76.41
 
 
 $python simulation_trading_signals.py tti.indicators.OnBalanceVolume
