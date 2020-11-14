@@ -33,6 +33,16 @@ from ._moving_average_convergence_divergence import \
     MovingAverageConvergenceDivergence
 from ._negative_volume_index import NegativeVolumeIndex
 from ._on_balance_volume import OnBalanceVolume
+from ._parabolic_sar import ParabolicSAR
+from ._performance import Performance
+from ._positive_volume_index import PositiveVolumeIndex
+from ._price_and_volume_trend import PriceAndVolumeTrend
+from ._price_channel import PriceChannel
+from ._price_oscillator import PriceOscillator
+from ._price_rate_of_change import PriceRateOfChange
+from ._projection_bands import ProjectionBands
+from ._projection_oscillator import ProjectionOscillator
+from ._qstick import Qstick
 from ._relative_strength_index import RelativeStrengthIndex
 from ._standard_deviation import StandardDeviation
 from ._stochastic_oscillator import StochasticOscillator
@@ -49,5 +59,9 @@ __all__ = ['AccumulationDistributionLine', 'AverageTrueRange',
            'LinearRegressionIndicator', 'LinearRegressionSlope',
            'MarketFacilitationIndex', 'MassIndex', 'MedianPrice', 'Momentum',
            'MovingAverage', 'MovingAverageConvergenceDivergence',
-           'NegativeVolumeIndex', 'OnBalanceVolume', 'RelativeStrengthIndex',
-           'StandardDeviation', 'StochasticOscillator', 'TimeSeriesForecast']
+           'NegativeVolumeIndex', 'OnBalanceVolume', 'ParabolicSAR',
+           'Performance', 'PositiveVolumeIndex', 'PriceAndVolumeTrend',
+           'PriceChannel', 'PriceOscillator', 'PriceRateOfChange',
+           'ProjectionBands', 'ProjectionOscillator', 'Qstick',
+           'RelativeStrengthIndex', 'StandardDeviation',
+           'StochasticOscillator', 'TimeSeriesForecast']

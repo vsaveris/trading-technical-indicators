@@ -54,6 +54,10 @@ $python example_technical_indicator.py tti.indicators.NegativeVolumeIndex
 
 $python example_technical_indicator.py tti.indicators.OnBalanceVolume
 
+$python example_technical_indicator.py tti.indicators.ParabolicSAR
+
+$python example_technical_indicator.py tti.indicators.Performance
+
 $python example_technical_indicator.py tti.indicators.RelativeStrengthIndex 9
 
 $python example_technical_indicator.py tti.indicators.StandardDeviation

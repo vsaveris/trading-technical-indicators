@@ -302,6 +302,106 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
+    }, "ParabolicSAR":
+   {"long_name": "Parabolic SAR",
+    "short_name": "PSAR",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "PSAR",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
+    }, "Performance":
+   {"long_name": "Performance",
+    "short_name": "PERF",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "PERF | Price",
+    "graph_lines_color": ["black", "limegreen", "tomato"],
+    "graph_alpha_values": [0.5, 1.0, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "PositiveVolumeIndex":
+   {"long_name": "Positive Volume Index",
+    "short_name": "PVI",
+    "required_input_data": ["close", "volume"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "PVI | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "PriceAndVolumeTrend":
+   {"long_name": "Price And Volume Trend",
+    "short_name": "PVT",
+    "required_input_data": ["close", "volume"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "PVT | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "PriceChannel":
+   {"long_name": "Price Channel",
+    "short_name": "PCH",
+    "required_input_data": ["high", "low"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "PCH | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "PriceOscillator":
+   {"long_name": "Price Oscillator",
+    "short_name": "POSC",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "POSC | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "PriceRateOfChange":
+   {"long_name": "Price Rate Of Change",
+    "short_name": "PRC",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "PRC | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "ProjectionBands":
+   {"long_name": "Projection Bands",
+    "short_name": "PBS",
+    "required_input_data": ["high", "low"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "PBS | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "ProjectionOscillator":
+   {"long_name": "Projection Oscillator",
+    "short_name": "POSC",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "POSC | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "Qstick":
+   {"long_name": "Qstick",
+    "short_name": "QST",
+    "required_input_data": ["open", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "QST | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }, "RelativeStrengthIndex":
    {"long_name": "Relative Strength Index",
     "short_name": "RSI",

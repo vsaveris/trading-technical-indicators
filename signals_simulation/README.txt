@@ -430,6 +430,21 @@ On Balance Volume trading signal simulation statistics
 	- total value         : 498.26
 
 
+$python simulation_trading_signals.py tti.indicators.Performance
+Performance trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 0
+	- sell signals        : 0
+	- ignored buy signals : 0
+	- ignored sell signals: 3115
+- Portfolio Information
+	- balance             : 0.0
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 0.0
+
+
 $python simulation_trading_signals.py tti.indicators.RelativeStrengthIndex 9
 
 Relative Strength Index trading signal simulation statistics
