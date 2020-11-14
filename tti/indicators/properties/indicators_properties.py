@@ -345,13 +345,13 @@ INDICATORS_PROPERTIES = \
     }, "PriceChannel":
    {"long_name": "Price Channel",
     "short_name": "PCH",
-    "required_input_data": ["high", "low"],
+    "required_input_data": ["high", "low", "close"],
     "graph_input_columns": ["close"],
-    "graph_y_label": "PCH | Price",
-    "graph_lines_color": ["black", "limegreen"],
-    "graph_alpha_values": [0.5, 1.0],
+    "graph_y_label": "PCH",
+    "graph_lines_color": ["black", "limegreen", "tomato"],
+    "graph_alpha_values": [0.5, 1.0, 1.0],
     "graph_areas": None,
-    "graph_subplots": True
+    "graph_subplots": False
     }, "PriceOscillator":
    {"long_name": "Price Oscillator",
     "short_name": "POSC",

@@ -494,6 +494,22 @@ Price And Volume Trend trading signal simulation statistics
 	- total value         : 498.26
 
 
+$python simulation_trading_signals.py tti.indicators.PriceChannel
+
+Price Channel trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 371
+	- sell signals        : 131
+	- ignored buy signals : 0
+	- ignored sell signals: 407
+- Portfolio Information
+	- balance             : 634.97
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 775.38
+
+
 $python simulation_trading_signals.py tti.indicators.RelativeStrengthIndex 9
 
 Relative Strength Index trading signal simulation statistics
