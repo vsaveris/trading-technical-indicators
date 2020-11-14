@@ -510,6 +510,22 @@ Price Channel trading signal simulation statistics
 	- total value         : 775.38
 
 
+$python simulation_trading_signals.py tti.indicators.PriceOscillator
+
+Price Oscillator trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 60
+	- sell signals        : 59
+	- ignored buy signals : 0
+	- ignored sell signals: 0
+- Portfolio Information
+	- balance             : -127.9
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 12.51
+
+
 $python simulation_trading_signals.py tti.indicators.RelativeStrengthIndex 9
 
 Relative Strength Index trading signal simulation statistics
