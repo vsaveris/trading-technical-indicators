@@ -430,7 +430,24 @@ On Balance Volume trading signal simulation statistics
 	- total value         : 498.26
 
 
+$python simulation_trading_signals.py tti.indicators.ParabolicSAR
+
+Parabolic SAR trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 144
+	- sell signals        : 143
+	- ignored buy signals : 0
+	- ignored sell signals: 1
+- Portfolio Information
+	- balance             : -12.68
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 127.73
+
+
 $python simulation_trading_signals.py tti.indicators.Performance
+
 Performance trading signal simulation statistics
 - Trading Statistics
 	- trading days        : 3169
