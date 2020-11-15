@@ -558,6 +558,22 @@ Projection Bands trading signal simulation statistics
 	- total value         : 468.87
 
 
+$python simulation_trading_signals.py tti.indicators.ProjectionOscillator
+
+Projection Oscillator trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 425
+	- sell signals        : 234
+	- ignored buy signals : 0
+	- ignored sell signals: 208
+- Portfolio Information
+	- balance             : 87.14
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 87.14
+
+
 $python simulation_trading_signals.py tti.indicators.Qstick
 
 Qstick trading signal simulation statistics
