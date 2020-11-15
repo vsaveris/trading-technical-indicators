@@ -402,6 +402,26 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
+    }, "RangeIndicator":
+   {"long_name": "Range Indicator",
+    "short_name": "RI",
+    "required_input_data": ["high", "low", "close", "volume"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "RI | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "RelativeMomentumIndex":
+   {"long_name": "Relative Momentum Index",
+    "short_name": "RMI",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "RMI | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }, "RelativeStrengthIndex":
    {"long_name": "Relative Strength Index",
     "short_name": "RSI",
@@ -412,12 +432,32 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True
+    }, "RelativeVolatilityIndex":
+   {"long_name": "Relative Volatility Index",
+    "short_name": "RVI",
+    "required_input_data": ["high", "low"],
+    "graph_input_columns": ["high", "low"],
+    "graph_y_label": "RVI | Price",
+    "graph_lines_color": ["limegreen", "tomato", "blue"],
+    "graph_alpha_values": [0.5, 0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }, "StandardDeviation":
    {"long_name": "Standard Deviation",
     "short_name": "SD",
     "required_input_data": ["close"],
     "graph_input_columns": ["close"],
     "graph_y_label": "SD | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "StochasticMomentumIndex":
+   {"long_name": "Stochastic Momentum Index",
+    "short_name": "SMI",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "SMI | Price",
     "graph_lines_color": ["black", "limegreen"],
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
@@ -432,6 +472,16 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0, 1.0],
     "graph_areas": None,
     "graph_subplots": True
+    }, "SwingIndex":
+   {"long_name": "Swing Index",
+    "short_name": "SWI",
+    "required_input_data": ["open", "high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "SWI | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }, "TimeSeriesForecast":
    {"long_name": "Time Series Forecast",
     "short_name": "TSF",
@@ -442,5 +492,115 @@ INDICATORS_PROPERTIES = \
     "graph_alpha_values": [0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": False
+    }, "TripleExponentialMovingAverage":
+   {"long_name": "Triple Exponential Moving Average",
+    "short_name": "TEMA",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
+    }, "TypicalPrice":
+   {"long_name": "TypicalPrice",
+    "short_name": "TP",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
+    }, "UltimateOscillator":
+   {"long_name": "Ultimate Oscillator",
+    "short_name": "UOSC",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "UOSC | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "VerticalHorizontalFilter":
+   {"long_name": "Vertical Horizontal Filter",
+    "short_name": "VHF",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "VHF | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "VolatilityChaikins":
+   {"long_name": "Volatility Chaikins",
+    "short_name": "VCH",
+    "required_input_data": ["high", "low"],
+    "graph_input_columns": [],
+    "graph_y_label": "VCH",
+    "graph_lines_color": ["limegreen"],
+    "graph_alpha_values": [1.0],
+    "graph_areas": None,
+    "graph_subplots": False
+    }, "VolumeOscillator":
+   {"long_name": "Volume Oscillator",
+    "short_name": "VOSC",
+    "required_input_data": ["volume"],
+    "graph_input_columns": ["volume"],
+    "graph_y_label": "VOSC | Volume",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "VolumeRateOfChange":
+   {"long_name": "Volume Rate Of Change",
+    "short_name": "VROC",
+    "required_input_data": ["volume"],
+    "graph_input_columns": ["volume"],
+    "graph_y_label": "VROC | Volume",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "WeightedClose":
+   {"long_name": "WeightedClose",
+    "short_name": "WC",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
+    }, "WildersSmoothing":
+   {"long_name": "Wilders Smoothing",
+    "short_name": "WS",
+    "required_input_data": ["close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "WS | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": False
+    }, "WilliamsAccumulationDistribution":
+   {"long_name": "Williams Accumulation Distribution",
+    "short_name": "WAD",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "WAD | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
+    }, "WilliamsR":
+   {"long_name": "Williams %R",
+    "short_name": "WR",
+    "required_input_data": ["high", "low", "close"],
+    "graph_input_columns": ["close"],
+    "graph_y_label": "WR | Price",
+    "graph_lines_color": ["black", "limegreen"],
+    "graph_alpha_values": [0.5, 1.0],
+    "graph_areas": None,
+    "graph_subplots": True
     }
    }

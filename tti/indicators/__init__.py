@@ -43,10 +43,27 @@ from ._price_rate_of_change import PriceRateOfChange
 from ._projection_bands import ProjectionBands
 from ._projection_oscillator import ProjectionOscillator
 from ._qstick import Qstick
+from ._range_indicator import RangeIndicator
+from ._relative_momentum_index import RelativeMomentumIndex
 from ._relative_strength_index import RelativeStrengthIndex
+from ._relative_volatility_index import RelativeVolatilityIndex
 from ._standard_deviation import StandardDeviation
+from ._stochastic_momentum_index import StochasticMomentumIndex
 from ._stochastic_oscillator import StochasticOscillator
+from ._swing_index import SwingIndex
 from ._time_series_forecast import TimeSeriesForecast
+from ._triple_exponential_moving_average import TripleExponentialMovingAverage
+from ._typical_price import TypicalPrice
+from ._ultimate_oscillator import UltimateOscillator
+from ._vertical_horizontal_filter import VerticalHorizontalFilter
+from ._volatility_chaikins import VolatilityChaikins
+from ._volume_oscillator import VolumeOscillator
+from ._volume_rate_of_change import VolumeRateOfChange
+from ._weighted_close import WeightedClose
+from ._wilders_smoothing import WildersSmoothing
+from ._williams_accumulation_distribution import \
+    WilliamsAccumulationDistribution
+from ._williams_r import WilliamsR
 
 
 __all__ = ['AccumulationDistributionLine', 'AverageTrueRange',
@@ -63,5 +80,11 @@ __all__ = ['AccumulationDistributionLine', 'AverageTrueRange',
            'Performance', 'PositiveVolumeIndex', 'PriceAndVolumeTrend',
            'PriceChannel', 'PriceOscillator', 'PriceRateOfChange',
            'ProjectionBands', 'ProjectionOscillator', 'Qstick',
-           'RelativeStrengthIndex', 'StandardDeviation',
-           'StochasticOscillator', 'TimeSeriesForecast']
+           'RangeIndicator', 'RelativeMomentumIndex', 'RelativeStrengthIndex',
+           'RelativeVolatilityIndex', 'StandardDeviation',
+           'StochasticMomentumIndex', 'StochasticOscillator', 'SwingIndex',
+           'TimeSeriesForecast', 'TripleExponentialMovingAverage',
+           'TypicalPrice', 'UltimateOscillator', 'VerticalHorizontalFilter',
+           'VolatilityChaikins', 'VolumeOscillator', 'VolumeRateOfChange',
+           'WeightedClose', 'WildersSmoothing',
+           'WilliamsAccumulationDistribution', 'WilliamsR']
