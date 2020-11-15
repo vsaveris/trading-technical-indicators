@@ -101,7 +101,7 @@ class Qstick(TechnicalIndicator):
         """
 
         # Not enough data for trading signal
-        if len(self._input_data) < 4:
+        if len(self._input_data.index) < 4:
             return TRADE_SIGNALS['hold']
 
         # Signals based on Crossovers (zero line)
