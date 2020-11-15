@@ -93,16 +93,19 @@ def getIndicatorSignal(indicator_name, data, date, input_args):
     if len(input_args) == 3:
         return indicator_name(
             data[data.index <= date],
-            int(input_args[2]) if '.' not in input_args[2] else
-            float(input_args[2])).getTiSignal()
+            input_args[2] if not input_args[2].isnumeric() else (
+                int(input_args[2]) if '.' not in input_args[2] else
+                float(input_args[2]))).getTiSignal()
 
     elif len(input_args) == 4:
         return indicator_name(
             data[data.index <= date],
-            int(input_args[2]) if '.' not in input_args[2] else
-            float(input_args[2]),
-            int(input_args[3]) if '.' not in input_args[3] else
-            float(input_args[3])).getTiSignal()
+            input_args[2] if not input_args[2].isnumeric() else (
+                int(input_args[2]) if '.' not in input_args[2] else
+                float(input_args[2])),
+            input_args[3] if not input_args[3].isnumeric() else (
+                int(input_args[3]) if '.' not in input_args[3] else
+                float(input_args[3]))).getTiSignal()
     else:
         return indicator_name(data[data.index <= date]).getTiSignal()
 

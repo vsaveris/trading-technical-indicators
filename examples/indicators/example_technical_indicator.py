@@ -79,16 +79,19 @@ def createIndicator(indicator_name, data, input_args):
     if len(input_args) == 3:
         return indicator_name(
             data[data.index >= '2012-01-01'],
-            int(input_args[2]) if '.' not in input_args[2] else
-            float(input_args[2]))
+            input_args[2] if not input_args[2].isnumeric() else (
+                int(input_args[2]) if '.' not in input_args[2] else
+                float(input_args[2])))
 
     elif len(input_args) == 4:
         return indicator_name(
             data[data.index >= '2012-01-01'],
-            int(input_args[2]) if '.' not in input_args[2] else
-            float(input_args[2]),
-            int(input_args[3]) if '.' not in input_args[3] else
-            float(input_args[3]))
+            input_args[2] if not input_args[2].isnumeric() else (
+                int(input_args[2]) if '.' not in input_args[2] else
+                float(input_args[2])),
+            input_args[3] if not input_args[3].isnumeric() else (
+                int(input_args[3]) if '.' not in input_args[3] else
+                float(input_args[3])))
     else:
         return indicator_name(data[data.index >= '2012-01-01'])
 
