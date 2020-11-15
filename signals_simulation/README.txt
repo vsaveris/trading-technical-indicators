@@ -542,6 +542,22 @@ Price Rate Of Change trading signal simulation statistics
 	- total value         : 816.88
 
 
+$python simulation_trading_signals.py tti.indicators.ProjectionBands
+
+Projection Bands trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 374
+	- sell signals        : 123
+	- ignored buy signals : 0
+	- ignored sell signals: 372
+- Portfolio Information
+	- balance             : 328.46
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 468.87
+
+
 $python simulation_trading_signals.py tti.indicators.RelativeStrengthIndex 9
 
 Relative Strength Index trading signal simulation statistics

@@ -375,21 +375,21 @@ INDICATORS_PROPERTIES = \
     }, "ProjectionBands":
    {"long_name": "Projection Bands",
     "short_name": "PBS",
-    "required_input_data": ["high", "low"],
+    "required_input_data": ["high", "low", "close"],
     "graph_input_columns": ["close"],
-    "graph_y_label": "PBS | Price",
-    "graph_lines_color": ["black", "limegreen"],
-    "graph_alpha_values": [0.5, 1.0],
+    "graph_y_label": "PBS",
+    "graph_lines_color": ["black", "limegreen", "tomato"],
+    "graph_alpha_values": [0.5, 1.0, 1.0],
     "graph_areas": None,
-    "graph_subplots": True
+    "graph_subplots": False
     }, "ProjectionOscillator":
    {"long_name": "Projection Oscillator",
     "short_name": "POSC",
-    "required_input_data": ["close"],
+    "required_input_data": ["high", "low", "close"],
     "graph_input_columns": ["close"],
     "graph_y_label": "POSC | Price",
-    "graph_lines_color": ["black", "limegreen"],
-    "graph_alpha_values": [0.5, 1.0],
+    "graph_lines_color": ["black", "limegreen", "tomato"],
+    "graph_alpha_values": [0.5, 1.0, 1.0],
     "graph_areas": None,
     "graph_subplots": True
     }, "Qstick":
