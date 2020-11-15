@@ -2,9 +2,15 @@
 Trading-Technical-Indicators (tti) python library
 
 File name: _moving_average.py
-    Implements the Moving Average (Simple and Exponential) technical indicator.
+    Implements the Moving Average (Simple, Exponential, TimeSeries, Triangular,
+    and Variable) technical indicator.
 """
 
+import pandas as pd
+
+from ._linear_regression_slope import LinearRegressionSlope
+from ._linear_regression_indicator import LinearRegressionIndicator
+from ._chande_momentum_oscillator import ChandeMomentumOscillator
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
 from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
@@ -24,9 +30,9 @@ class MovingAverage(TechnicalIndicator):
             Intermediate, 50-100 days for Intermediate and 100-200 days are for
             Long Term.
 
-        ma_type (string, 'simple' or 'exponential', default is simple): The
-            type of the calculated moving average. More types can be supported
-            in a future release.
+        ma_type (string, 'simple', 'exponential', 'time_series', 'triangular',
+            and 'variable', default is 'simple'):
+            The type of the calculated moving average.
 
         fill_missing_values (boolean, default is True): If set to True,
             missing values in the input data are being filled.
@@ -52,11 +58,14 @@ class MovingAverage(TechnicalIndicator):
                 type(period), 'period', 'int')
 
         if isinstance(ma_type, str):
-            if ma_type in ['simple', 'exponential']:
+            if ma_type in ['simple', 'exponential', 'time_series',
+                           'triangular', 'variable']:
                 self._ma_type = ma_type
             else:
                 raise WrongValueForInputParameter(
-                    ma_type, 'ma_type', '\'simple\' or \'exponential\'')
+                    ma_type, 'ma_type',
+                    '\'simple\', \'exponential\', \'time_series\', ' +
+                    '\'triangular\' or \'variable\'')
         else:
             raise WrongTypeForInputParameter(type(ma_type), 'ma_type', 'str')
 
@@ -86,19 +95,69 @@ class MovingAverage(TechnicalIndicator):
             raise NotEnoughInputData('Moving Average', self._period,
                                      len(self._input_data.index))
 
+        if len(self._input_data.index) < 22 and self._ma_type == 'variable':
+            raise NotEnoughInputData('Moving Average (variable)', 22,
+                                     len(self._input_data.index))
+
+        ma = pd.DataFrame(index=self._input_data.index,
+                          columns=['ma-' + self._ma_type],
+                          data=None, dtype='float64')
+
         if self._ma_type == 'simple':
-            ma = self._input_data.rolling(
+
+            ma['ma-' + self._ma_type] = self._input_data.rolling(
                 window=self._period, min_periods=self._period, center=False,
-                win_type=None,
-                on=None, axis=0, closed=None).mean().round(4)
-        else:
-            ma = self._input_data.ewm(
+                win_type=None, on=None, axis=0, closed=None).mean()
+
+        elif self._ma_type == 'exponential':
+
+            ma['ma-' + self._ma_type] = self._input_data.ewm(
                 span=self._period, min_periods=self._period, adjust=False,
-                axis=0).mean().round(4)
+                axis=0).mean()
 
-        ma.columns = ['ma']
+        elif self._ma_type == 'time_series':
 
-        return ma
+            # Similar to Time Series Forecast
+            ma['ma-' + self._ma_type].iloc[self._period-1:] = pd.concat(objs=[
+                LinearRegressionSlope(input_data=self._input_data,
+                                      period=self._period).getTiData(),
+                LinearRegressionIndicator(input_data=self._input_data,
+                                          period=self._period).getTiData()],
+                axis=1).sum(axis=1)
+
+        elif self._ma_type == 'triangular':
+
+            # Simple Moving Average of the Simple Moving Average
+            ma['ma-' + self._ma_type] = self._input_data.rolling(
+                window=self._period, min_periods=self._period, center=False,
+                win_type=None, on=None, axis=0, closed=None).mean().rolling(
+                window=self._period, min_periods=self._period, center=False,
+                win_type=None, on=None, axis=0, closed=None).mean()
+
+        elif self._ma_type == 'variable':
+
+            # Calculate CMO indicator for 9 periods by default
+            cmo = ChandeMomentumOscillator(input_data=self._input_data,
+                                           period=9).getTiData()
+
+            # Calculate Volatility Ratio
+            vr = (cmo / 100).abs()
+
+            # Calculate Scaling Multiplier
+            sm = 2 / (self._period + 1)
+
+            # By default we start from period 22
+            ma['ma-' + self._ma_type].iat[21] = \
+                self._input_data['close'].iat[21]
+
+            for i in range(22, len(self._input_data.index)):
+
+                ma['ma-' + self._ma_type].iat[i] = (
+                    sm * self._input_data['close'].iat[i] * vr.iat[i, 0]) + (
+                    1 - (sm * vr.iat[i, 0])
+                ) * ma['ma-' + self._ma_type].iat[i-1]
+
+        return ma.round(4)
 
     def getTiSignal(self):
         """
@@ -119,13 +178,17 @@ class MovingAverage(TechnicalIndicator):
         """
 
         # Close price goes below Moving Average
-        if self._input_data['close'].iat[-2] > self._ti_data['ma'].iat[-2] and\
-           self._input_data['close'].iat[-1] < self._ti_data['ma'].iat[-1]:
+        if ((self._input_data['close'].iat[-2] >
+             self._ti_data['ma-' + self._ma_type].iat[-2]) and
+                (self._input_data['close'].iat[-1]
+                 < self._ti_data['ma-' + self._ma_type].iat[-1])):
             return TRADE_SIGNALS['sell']
 
         # Close price goes above Moving Average
-        if self._input_data['close'].iat[-2] < self._ti_data['ma'].iat[-2] and\
-           self._input_data['close'].iat[-1] > self._ti_data['ma'].iat[-1]:
+        if((self._input_data['close'].iat[-2] <
+            self._ti_data['ma-' + self._ma_type].iat[-2]) and
+                (self._input_data['close'].iat[-1] >
+                 self._ti_data['ma-' + self._ma_type].iat[-1])):
             return TRADE_SIGNALS['buy']
 
         return TRADE_SIGNALS['hold']
