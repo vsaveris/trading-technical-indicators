@@ -590,6 +590,22 @@ Qstick trading signal simulation statistics
 	- total value         : 100.8
 
 
+$python simulation_trading_signals.py tti.indicators.RangeIndicator
+
+Range Indicator trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 355
+	- sell signals        : 158
+	- ignored buy signals : 0
+	- ignored sell signals: 106
+- Portfolio Information
+	- balance             : 175.84
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 175.84
+
+
 $python simulation_trading_signals.py tti.indicators.RelativeStrengthIndex 9
 
 Relative Strength Index trading signal simulation statistics
