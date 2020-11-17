@@ -438,7 +438,7 @@ INDICATORS_PROPERTIES = \
     "required_input_data": ["high", "low"],
     "graph_input_columns": ["high", "low"],
     "graph_y_label": "RVI | Price",
-    "graph_lines_color": ["limegreen", "tomato", "blue"],
+    "graph_lines_color": ["limegreen", "tomato", "limegreen"],
     "graph_alpha_values": [0.5, 0.5, 1.0],
     "graph_areas": None,
     "graph_subplots": True

@@ -638,6 +638,22 @@ Relative Strength Index trading signal simulation statistics
 	- total value         : 232.37
 
 
+$python simulation_trading_signals.py tti.indicators.RelativeVolatilityIndex
+
+Relative Volatility Index trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 214
+	- sell signals        : 124
+	- ignored buy signals : 0
+	- ignored sell signals: 187
+- Portfolio Information
+	- balance             : 31.57
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 171.98
+
+
 $python simulation_trading_signals.py tti.indicators.StandardDeviation
 
 Standard Deviation trading signal simulation statistics
