@@ -606,6 +606,22 @@ Range Indicator trading signal simulation statistics
 	- total value         : 175.84
 
 
+$simulation_trading_signals.py tti.indicators.RelativeMomentumIndex
+
+Relative Momentum Index trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 77
+	- sell signals        : 48
+	- ignored buy signals : 0
+	- ignored sell signals: 63
+- Portfolio Information
+	- balance             : 3.57
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 143.98
+
+
 $python simulation_trading_signals.py tti.indicators.RelativeStrengthIndex 9
 
 Relative Strength Index trading signal simulation statistics
