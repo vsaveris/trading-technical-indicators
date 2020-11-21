@@ -829,3 +829,19 @@ Volume Oscillator trading signal simulation statistics
 	- stocks              : 5
 	- stocks latest price : 140.41
 	- total value         : 281.25
+
+
+$python simulation_trading_signals.py tti.indicators.VolumeRateOfChange
+
+Volume Rate Of Change trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 618
+	- sell signals        : 278
+	- ignored buy signals : 0
+	- ignored sell signals: 320
+- Portfolio Information
+	- balance             : -29.05
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 111.36
