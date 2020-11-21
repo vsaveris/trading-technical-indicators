@@ -748,3 +748,20 @@ Triple Exponential Moving Average trading signal simulation statistics
 	- stocks              : 3
 	- stocks latest price : 140.41
 	- total value         : 206.36
+
+
+$simulation_trading_signals.py tti.indicators.TypicalPrice
+
+simulation_trading_signals.py tti.indicators.TypicalPrice
+Typical Price trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 29
+	- sell signals        : 28
+	- ignored buy signals : 0
+	- ignored sell signals: 1
+- Portfolio Information
+	- balance             : -55.21
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 85.2
