@@ -781,3 +781,20 @@ Ultimate Oscillator trading signal simulation statistics
 	- stocks              : 0
 	- stocks latest price : 140.41
 	- total value         : 25.65
+
+
+$simulation_trading_signals.py tti.indicators.VerticalHorizontalFilter
+
+Vertical Horizontal Filter trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 466
+	- sell signals        : 219
+	- ignored buy signals : 0
+	- ignored sell signals: 271
+- Portfolio Information
+	- balance             : 158.76
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 299.17
+
