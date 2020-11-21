@@ -845,3 +845,20 @@ Volume Rate Of Change trading signal simulation statistics
 	- stocks              : 1
 	- stocks latest price : 140.41
 	- total value         : 111.36
+
+
+$python simulation_trading_signals.py tti.indicators.WeightedClose
+
+Weighted Close trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 763
+	- sell signals        : 756
+	- ignored buy signals : 0
+	- ignored sell signals: 1
+- Portfolio Information
+	- balance             : 88.54
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 228.95
+
