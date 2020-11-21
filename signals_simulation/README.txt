@@ -862,3 +862,19 @@ Weighted Close trading signal simulation statistics
 	- stocks latest price : 140.41
 	- total value         : 228.95
 
+
+$python simulation_trading_signals.py tti.indicators.WildersSmoothing
+
+Wilders Smoothing trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 309
+	- sell signals        : 308
+	- ignored buy signals : 0
+	- ignored sell signals: 0
+- Portfolio Information
+	- balance             : 8.62
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 149.03
+
