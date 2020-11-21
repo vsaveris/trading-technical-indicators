@@ -732,3 +732,19 @@ Time Series Forecast trading signal simulation statistics
 	- stocks              : 1
 	- stocks latest price : 140.41
 	- total value         : 101.15
+
+
+$simulation_trading_signals.py tti.indicators.TripleExponentialMovingAverage
+
+Triple Exponential Moving Average trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 1606
+	- sell signals        : 656
+	- ignored buy signals : 0
+	- ignored sell signals: 895
+- Portfolio Information
+	- balance             : -214.87
+	- stocks              : 3
+	- stocks latest price : 140.41
+	- total value         : 206.36
