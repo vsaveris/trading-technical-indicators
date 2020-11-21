@@ -670,7 +670,7 @@ Standard Deviation trading signal simulation statistics
 	- total value         : 2485.52
 
 
-$simulation_trading_signals.py tti.indicators.StochasticMomentumIndex
+$python simulation_trading_signals.py tti.indicators.StochasticMomentumIndex
 
 Stochastic Momentum Index trading signal simulation statistics
 - Trading Statistics
@@ -702,7 +702,7 @@ Stochastic Oscillator trading signal simulation statistics
 	- total value         : 533.99
 
 
-$simulation_trading_signals.py tti.indicators.SwingIndex
+$python simulation_trading_signals.py tti.indicators.SwingIndex
 
 Swing Index trading signal simulation statistics
 - Trading Statistics
@@ -734,7 +734,7 @@ Time Series Forecast trading signal simulation statistics
 	- total value         : 101.15
 
 
-$simulation_trading_signals.py tti.indicators.TripleExponentialMovingAverage
+$python simulation_trading_signals.py tti.indicators.TripleExponentialMovingAverage
 
 Triple Exponential Moving Average trading signal simulation statistics
 - Trading Statistics
@@ -750,7 +750,7 @@ Triple Exponential Moving Average trading signal simulation statistics
 	- total value         : 206.36
 
 
-$simulation_trading_signals.py tti.indicators.TypicalPrice
+$python simulation_trading_signals.py tti.indicators.TypicalPrice
 
 simulation_trading_signals.py tti.indicators.TypicalPrice
 Typical Price trading signal simulation statistics
@@ -765,3 +765,19 @@ Typical Price trading signal simulation statistics
 	- stocks              : 1
 	- stocks latest price : 140.41
 	- total value         : 85.2
+
+
+$python simulation_trading_signals.py tti.indicators.UltimateOscillator
+
+Ultimate Oscillator trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 46
+	- sell signals        : 10
+	- ignored buy signals : 0
+	- ignored sell signals: 750
+- Portfolio Information
+	- balance             : 25.65
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 25.65
