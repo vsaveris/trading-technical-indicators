@@ -783,7 +783,7 @@ Ultimate Oscillator trading signal simulation statistics
 	- total value         : 25.65
 
 
-$simulation_trading_signals.py tti.indicators.VerticalHorizontalFilter
+$python simulation_trading_signals.py tti.indicators.VerticalHorizontalFilter
 
 Vertical Horizontal Filter trading signal simulation statistics
 - Trading Statistics
@@ -798,3 +798,18 @@ Vertical Horizontal Filter trading signal simulation statistics
 	- stocks latest price : 140.41
 	- total value         : 299.17
 
+
+$python simulation_trading_signals.py tti.indicators.VolatilityChaikins
+
+Volatility Chaikins trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 868
+	- sell signals        : 271
+	- ignored buy signals : 0
+	- ignored sell signals: 592
+- Portfolio Information
+	- balance             : 102.54
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 242.95
