@@ -670,6 +670,22 @@ Standard Deviation trading signal simulation statistics
 	- total value         : 2485.52
 
 
+$simulation_trading_signals.py tti.indicators.StochasticMomentumIndex
+
+Stochastic Momentum Index trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 127
+	- sell signals        : 87
+	- ignored buy signals : 0
+	- ignored sell signals: 85
+- Portfolio Information
+	- balance             : 86.98
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 227.39
+
+
 $python simulation_trading_signals.py tti.indicators.StochasticOscillator
 
 Stochastic Oscillator trading signal simulation statistics
