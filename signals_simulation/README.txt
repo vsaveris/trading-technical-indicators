@@ -813,3 +813,19 @@ Volatility Chaikins trading signal simulation statistics
 	- stocks              : 1
 	- stocks latest price : 140.41
 	- total value         : 242.95
+
+
+$python simulation_trading_signals.py tti.indicators.VolumeOscillator
+
+Volume Oscillator trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 146
+	- sell signals        : 49
+	- ignored buy signals : 0
+	- ignored sell signals: 32
+- Portfolio Information
+	- balance             : -420.8
+	- stocks              : 5
+	- stocks latest price : 140.41
+	- total value         : 281.25
