@@ -878,3 +878,21 @@ Wilders Smoothing trading signal simulation statistics
 	- stocks latest price : 140.41
 	- total value         : 149.03
 
+
+$python simulation_trading_signals.py tti.indicators.WilliamsAccumulationDistribution
+
+Williams Accumulation Distribution trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 175
+	- sell signals        : 31
+	- ignored buy signals : 0
+	- ignored sell signals: 408
+- Portfolio Information
+	- balance             : 340.28
+	- stocks              : 2
+	- stocks latest price : 140.41
+	- total value         : 621.1
+
+
+
