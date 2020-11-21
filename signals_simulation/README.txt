@@ -895,4 +895,18 @@ Williams Accumulation Distribution trading signal simulation statistics
 	- total value         : 621.1
 
 
+$python simulation_trading_signals.py tti.indicators.WilliamsR
+
+Williams R trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 270
+	- sell signals        : 186
+	- ignored buy signals : 0
+	- ignored sell signals: 96
+- Portfolio Information
+	- balance             : 126.46
+	- stocks              : 0
+	- stocks latest price : 140.41
+	- total value         : 126.46
 
