@@ -702,6 +702,22 @@ Stochastic Oscillator trading signal simulation statistics
 	- total value         : 533.99
 
 
+$simulation_trading_signals.py tti.indicators.SwingIndex
+
+Swing Index trading signal simulation statistics
+- Trading Statistics
+	- trading days        : 3169
+	- buy signals         : 711
+	- sell signals        : 710
+	- ignored buy signals : 0
+	- ignored sell signals: 2
+- Portfolio Information
+	- balance             : 38.46
+	- stocks              : 1
+	- stocks latest price : 140.41
+	- total value         : 178.87
+
+
 $python simulation_trading_signals.py tti.indicators.TimeSeriesForecast
 
 Time Series Forecast trading signal simulation statistics
