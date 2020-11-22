@@ -67,7 +67,7 @@ class PriceRateOfChange(TechnicalIndicator):
         """
 
         # Not enough data for the requested period
-        if len(self._input_data.index) <= self._period:
+        if len(self._input_data.index) < self._period:
             raise NotEnoughInputData('Price Rate of Change', self._period,
                                      len(self._input_data.index))
 

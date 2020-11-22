@@ -3,6 +3,8 @@ Trading-Technical-Indicators (tti) python library
 
 File name: test_indicator_stochastic_oscillator_fast.py
     tti.indicators package, _stochastic_oscillator.py module unit tests.
+
+    Fast Stochastic Oscillator
 """
 
 import unittest
@@ -21,6 +23,8 @@ class TestStochasticOscillator(unittest.TestCase, TestIndicatorsCommon):
 
     indicator_input_arguments = {'k_periods': 14, 'k_slowing_periods': 1,
                                  'd_periods': 3, 'd_method': 'simple'}
+
+    indicator_other_input_arguments = [{'k_periods': 1}, {'k_periods': 3169}]
 
     indicator_minimum_required_data = indicator_input_arguments['k_periods']
 
@@ -52,7 +56,7 @@ class TestStochasticOscillator(unittest.TestCase, TestIndicatorsCommon):
         x.lower() for x in re.findall('[A-Z][^A-Z]*', str(
             indicator).split('.')[-1][:-2]))
 
-    graph_file_name = './figures/test_' + graph_file_name + '.png'
+    graph_file_name = './figures/test_' + graph_file_name + '_fast.png'
 
     indicator_test_data_file_name = '_'.join(
         x.lower() for x in re.findall('[A-Z][^A-Z]*', str(

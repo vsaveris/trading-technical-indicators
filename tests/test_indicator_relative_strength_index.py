@@ -21,6 +21,8 @@ class TestRelativeStrengthIndex(unittest.TestCase, TestIndicatorsCommon):
 
     indicator_input_arguments = {'period': 9}
 
+    indicator_other_input_arguments = [{'period': 1}, {'period': 3168}]
+
     indicator_minimum_required_data = indicator_input_arguments['period'] + 1
 
     mandatory_arguments_missing_cases = []

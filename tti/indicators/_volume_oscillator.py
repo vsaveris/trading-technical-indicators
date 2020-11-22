@@ -59,7 +59,7 @@ class VolumeOscillator(TechnicalIndicator):
             raise WrongTypeForInputParameter(
                 type(short_period), 'short_period', 'int')
 
-        if self._long_period < self._short_period:
+        if self._long_period <= self._short_period:
             raise WrongValueForInputParameter(
                 long_period, 'long_period ',
                 '> short_period [' + str(self._short_period) + ']')

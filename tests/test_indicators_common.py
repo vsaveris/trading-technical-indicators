@@ -46,6 +46,11 @@ class TestIndicatorsCommon(ABC):
 
     @property
     @abstractmethod
+    def indicator_other_input_arguments(self):
+        raise NotImplementedError
+
+    @property
+    @abstractmethod
     def indicator_minimum_required_data(self):
         raise NotImplementedError
 
@@ -234,13 +239,21 @@ class TestIndicatorsCommon(ABC):
 
         self.indicator(df)
 
+    def test_validate_indicator_full_data_other_arguments_values(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        for arguments_set in self.indicator_other_input_arguments:
+            with self.subTest(arguments_set=arguments_set):
+                self.indicator(df, **arguments_set)
+
     # Validate API
 
     def test_getTiGraph(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
-        indicator = self.indicator(df)
+        indicator = self.indicator(df, **self.indicator_input_arguments)
 
         # Needs manual check of the produced graph
         self.assertEqual(indicator.getTiGraph(), plt)
@@ -285,5 +298,15 @@ class TestIndicatorsCommon(ABC):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
-        self.assertIn(self.indicator(df).getTiSignal(), [('buy', -1),
-            ('hold', 0), ('sell', 1)])
+        self.assertIn(self.indicator(
+            df, **self.indicator_input_arguments).getTiSignal(),
+                      [('buy', -1), ('hold', 0), ('sell', 1)])
+
+    def test_getTiSignal_minimum_required_data(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        self.assertIn(
+            self.indicator(df.iloc[:self.indicator_minimum_required_data],
+                           **self.indicator_input_arguments).getTiSignal(),
+            [('buy', -1), ('hold', 0), ('sell', 1)])

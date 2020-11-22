@@ -21,6 +21,8 @@ class TestFibonacciRetracement(unittest.TestCase, TestIndicatorsCommon):
 
     indicator_input_arguments = {}
 
+    indicator_other_input_arguments = []
+
     indicator_minimum_required_data = 1
 
     mandatory_arguments_missing_cases = []

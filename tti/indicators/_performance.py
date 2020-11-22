@@ -86,14 +86,13 @@ class Performance(TechnicalIndicator):
         """
 
         prf = pd.DataFrame(index=self._input_data.index,
-                           columns=['prf', 'target ' + self._mode],
+                           columns=['prf', 'target_' + self._mode],
                            data=None, dtype='float64')
 
-        prf['prf'] = (
-            self._input_data['close'] - self._input_data['close'].iat[0]
-                     ) / self._input_data['close'].iat[0]
+        prf['prf'] = (self._input_data['close'] - self._input_data['close']. \
+            iat[0]) / self._input_data['close'].iat[0]
 
-        prf['target ' + self._mode] = self._target
+        prf['target_' + self._mode] = self._target
 
         return prf.round(4)
 

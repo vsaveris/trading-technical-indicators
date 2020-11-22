@@ -21,6 +21,9 @@ class TestMedianPrice(unittest.TestCase, TestIndicatorsCommon):
 
     indicator_input_arguments = {'period': 20}
 
+    indicator_other_input_arguments = [{'period': 1}, {'period': 3169},
+                                       {'period': 10000}]
+
     indicator_minimum_required_data = 1
 
     mandatory_arguments_missing_cases = []

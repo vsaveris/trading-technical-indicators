@@ -1,8 +1,8 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: test_indicator_simple_moving_average.py
-    tti.indicators package, _moving_average.py module unit tests.
+File name: test_indicator_volatility_chaikins.py
+    tti.indicators package, _volatility_chaikins.py module unit tests.
 """
 
 import unittest
@@ -13,31 +13,39 @@ import pandas as pd
 import re
 
 
-class TestSimpleMovingAverage(unittest.TestCase, TestIndicatorsCommon):
+class TestVolatilityChaikins(unittest.TestCase, TestIndicatorsCommon):
 
-    indicator = tti.indicators.MovingAverage
+    indicator = tti.indicators.VolatilityChaikins
 
     df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
-    indicator_input_arguments = {'period': 20, 'ma_type': 'simple'}
+    indicator_input_arguments = {'ema_period': 10, 'change_period': 10}
 
-    indicator_minimum_required_data = indicator_input_arguments['period']
+    indicator_other_input_arguments = [
+        {'ema_period': 1, 'change_period': 1},
+        {'ema_period': 3169, 'change_period': 3169},
+        {'ema_period': 3169, 'change_period': 1},
+        {'ema_period': 1, 'change_period': 3169}
+    ]
+
+    indicator_minimum_required_data = indicator_input_arguments['ema_period']
 
     mandatory_arguments_missing_cases = []
 
-    required_input_data_columns = ['close']
+    required_input_data_columns = ["high", "low"]
 
     arguments_wrong_type = [
         {'input_data': 'No_DataFrame'},
-        {'input_data': df, 'period': 'no_numeric'},
-        {'input_data': df, 'ma_type': 15},
+        {'input_data': df, 'ema_period': 'no_numeric'},
+        {'input_data': df, 'change_period': 'no_numeric'},
         {'input_data': df, 'fill_missing_values': 'no_boolean'}
     ]
 
     arguments_wrong_value = [
-        {'input_data': df, 'period': -1},
-        {'input_data': df, 'period': 0},
-        {'input_data': df, 'ma_type': 'does not exist'}
+        {'input_data': df, 'ema_period': -1},
+        {'input_data': df, 'ema_period': 0},
+        {'input_data': df, 'change_period': -1},
+        {'input_data': df, 'change_period': 0}
     ]
 
     graph_file_name = '_'.join(
@@ -51,8 +59,7 @@ class TestSimpleMovingAverage(unittest.TestCase, TestIndicatorsCommon):
             indicator).split('.')[-1][:-2]))
 
     indicator_test_data_file_name = \
-        './data/test_' + indicator_test_data_file_name + \
-        '_simple_on_sample_data.csv'
+        './data/test_' + indicator_test_data_file_name + '_on_sample_data.csv'
 
     assertRaises = unittest.TestCase.assertRaises
     assertEqual = unittest.TestCase.assertEqual

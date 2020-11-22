@@ -14,13 +14,16 @@ import pandas as pd
 import re
 
 
-class TestMovingAverageConvergenceDivergence(unittest.TestCase, TestIndicatorsCommon):
+class TestMovingAverageConvergenceDivergence(unittest.TestCase,
+                                             TestIndicatorsCommon):
 
     indicator = tti.indicators.MovingAverageConvergenceDivergence
 
     df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
     indicator_input_arguments = {}
+
+    indicator_other_input_arguments = []
 
     indicator_minimum_required_data = 26
 

@@ -22,6 +22,8 @@ class TestDoubleExponentialMovingAverage(unittest.TestCase, TestIndicatorsCommon
 
     indicator_input_arguments = {'period': 5}
 
+    indicator_other_input_arguments = [{'period': 1}, {'period': 3169}]
+
     indicator_minimum_required_data = indicator_input_arguments['period']
 
     mandatory_arguments_missing_cases = []

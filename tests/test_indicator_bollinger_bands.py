@@ -21,6 +21,11 @@ class TestBollingerBands(unittest.TestCase, TestIndicatorsCommon):
 
     indicator_input_arguments = {'period': 20, 'std_number': 2}
 
+    indicator_other_input_arguments = [{'period': 1},
+                                       {'period': 20, 'std_number': 0.001},
+                                       {'period': 20, 'std_number': 10000000},
+                                       {'period': 3169}]
+
     indicator_minimum_required_data = indicator_input_arguments['period']
 
     mandatory_arguments_missing_cases = []

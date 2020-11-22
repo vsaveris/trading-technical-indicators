@@ -11,7 +11,7 @@ from ._technical_indicator import TechnicalIndicator
 from ._projection_bands import ProjectionBands
 from ..utils.constants import TRADE_SIGNALS
 from ..utils.exceptions import WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+    WrongValueForInputParameter, NotEnoughInputData
 
 
 class ProjectionOscillator(TechnicalIndicator):
@@ -66,6 +66,11 @@ class ProjectionOscillator(TechnicalIndicator):
             pandas.DataFrame: The calculated indicator. Index is of type date.
                 It contains two columns, the 'posc' and the 'trigger_line'.
         """
+
+        # Not enough data for the requested period
+        if len(self._input_data.index) < self._period:
+            raise NotEnoughInputData('Projection Oscillator', self._period,
+                                     len(self._input_data.index))
 
         # Calculate Projection Bands
         projection_bands = ProjectionBands(input_data=self._input_data,

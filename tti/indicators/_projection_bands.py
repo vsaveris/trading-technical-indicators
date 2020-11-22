@@ -11,7 +11,7 @@ import numpy as np
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
 from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+    WrongValueForInputParameter, NotConverged
 
 
 class ProjectionBands(TechnicalIndicator):
@@ -77,16 +77,28 @@ class ProjectionBands(TechnicalIndicator):
                            data=None, dtype='float64')
 
         # Calculate n-periods slope of high values
-        high_slope = self._input_data['high'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).apply(
-            lambda x: np.polyfit(list(range(self._period)), x.values, 1)[0])
+        try:
+            high_slope = self._input_data['high'].rolling(
+                window=self._period, min_periods=self._period, center=False,
+                win_type=None, on=None, axis=0, closed=None).apply(
+                lambda x: np.polyfit(list(range(self._period)), x.values, 1)[0]
+            )
+
+        except np.linalg.LinAlgError:
+            raise NotConverged(input_arguments='(period = ' + str(self._period)
+                + ')', input_data_length=len(self._input_data.index))
 
         # Calculate n-periods slope of high values
-        low_slope = self._input_data['low'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).apply(
-            lambda x: np.polyfit(list(range(self._period)), x.values, 1)[0])
+        try:
+            low_slope = self._input_data['low'].rolling(
+                window=self._period, min_periods=self._period, center=False,
+                win_type=None, on=None, axis=0, closed=None).apply(
+                lambda x: np.polyfit(list(range(self._period)), x.values, 1)[0]
+            )
+
+        except np.linalg.LinAlgError:
+            raise NotConverged(input_arguments='(period = ' + str(self._period)
+                + ')', input_data_length=len(self._input_data.index))
 
         # Calculate the projection bands
         for i in range(self._period - 1, len(self._input_data.index)):
