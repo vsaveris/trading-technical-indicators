@@ -103,7 +103,7 @@ class TechnicalIndicator(ABC):
                 It can contain several columns depending the indicator.
         """
 
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def getTiSignal(self):
@@ -122,7 +122,7 @@ class TechnicalIndicator(ABC):
                 constant in the tti.utils package, constants.py module.
          """
 
-        pass
+        raise NotImplementedError
 
     def getTiData(self):
         """
