@@ -7,197 +7,51 @@ File name: test_indicator_moving_average_convergence_divergence.py
 """
 
 import unittest
+import tti.indicators
+from test_indicators_common import TestIndicatorsCommon
+
 import pandas as pd
-import matplotlib.pyplot as plt
-
-from tti.indicators import MovingAverageConvergenceDivergence
-from tti.utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter
+import re
 
 
-class TestMovingAverageConvergenceDivergence(unittest.TestCase):
+class TestMovingAverageConvergenceDivergence(unittest.TestCase, TestIndicatorsCommon):
 
-    # Validate input_data parameter
+    indicator = tti.indicators.MovingAverageConvergenceDivergence
 
-    def test_input_data_missing(self):
-        with self.assertRaises(TypeError):
-            MovingAverageConvergenceDivergence()
+    df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
-    def test_input_data_wrong_type(self):
-        with self.assertRaises(TypeError):
-            MovingAverageConvergenceDivergence('NO_DF')
+    indicator_input_arguments = {}
 
-    def test_input_data_wrong_index_type(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+    indicator_minimum_required_data = 26
 
-        with self.assertRaises(TypeError):
-            MovingAverageConvergenceDivergence(df)
+    mandatory_arguments_missing_cases = []
 
-    def test_input_data_required_column_close_missing(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
+    required_input_data_columns = ['close']
 
-        with self.assertRaises(ValueError):
-            MovingAverageConvergenceDivergence(pd.DataFrame(
-                df.drop(columns=['close'])))
+    arguments_wrong_type = [
+        {'input_data': 'No_DataFrame'},
+        {'input_data': df, 'fill_missing_values': 'no_boolean'}
+    ]
 
-    def test_input_data_empty(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
+    arguments_wrong_value = []
 
-        with self.assertRaises(ValueError):
-            MovingAverageConvergenceDivergence(pd.DataFrame(
-                df[df.index >= '2032-01-01']))
+    graph_file_name = '_'.join(
+        x.lower() for x in re.findall('[A-Z][^A-Z]*', str(
+            indicator).split('.')[-1][:-2]))
 
-    def test_input_data_values_wrong_type(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
+    graph_file_name = './figures/test_' + graph_file_name + '.png'
 
-        df = df.astype('str')
-        df['close'].iat[0] = 'no-numeric'
+    indicator_test_data_file_name = '_'.join(
+        x.lower() for x in re.findall('[A-Z][^A-Z]*', str(
+            indicator).split('.')[-1][:-2]))
 
-        with self.assertRaises(ValueError):
-            MovingAverageConvergenceDivergence(df)
+    indicator_test_data_file_name = \
+        './data/test_' + indicator_test_data_file_name + '_on_sample_data.csv'
 
-    def test_fill_missing_values_parameter_wrong_type(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        with self.assertRaises(WrongTypeForInputParameter):
-            MovingAverageConvergenceDivergence(df, fill_missing_values=1)
-
-    # Validate fill_missing_values input argument
-
-    def test_fill_missing_values_is_true(self):
-        df = pd.read_csv('./data/missing_values_data.csv', parse_dates=True,
-                         index_col=0)
-
-        df_expected_result = pd.read_csv('./data/missing_values_filled.csv',
-                                         parse_dates=True,
-                                         index_col=0)[['close']]
-
-        df_result = MovingAverageConvergenceDivergence(
-            df, fill_missing_values=True)._input_data
-
-        pd.testing.assert_frame_equal(df_result, df_expected_result)
-
-    def test_fill_missing_values_is_false(self):
-        df = pd.read_csv('./data/missing_values_data.csv', parse_dates=True,
-                         index_col=0)
-
-        df_expected_result = pd.read_csv(
-            './data/missing_values_data_sorted.csv', parse_dates=True,
-            index_col=0)[['close']]
-
-        df_result = MovingAverageConvergenceDivergence(
-            df, fill_missing_values=False)._input_data
-
-        pd.testing.assert_frame_equal(df_result, df_expected_result)
-
-    def test_fill_missing_values_is_default_true(self):
-        df = pd.read_csv('./data/missing_values_data.csv', parse_dates=True,
-                         index_col=0)
-
-        df_expected_result = pd.read_csv('./data/missing_values_filled.csv',
-                                         parse_dates=True,
-                                         index_col=0)[['close']]
-
-        df_result = MovingAverageConvergenceDivergence(df)._input_data
-
-        pd.testing.assert_frame_equal(df_result, df_expected_result)
-
-    # Validate indicator creation
-
-    def test_validate_indicator_one_row(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        with self.assertRaises(NotEnoughInputData):
-            MovingAverageConvergenceDivergence(df[df.index == '2000-02-01'])
-
-    def test_validate_indicator_less_than_required_data(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        with self.assertRaises(NotEnoughInputData):
-            MovingAverageConvergenceDivergence(df.iloc[:25])
-
-    def test_validate_indicator_full_data(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        df_expected_result = pd.read_csv(
-            './data/test_moving_average_convergence_divergence_on_' +
-            'sample_data.csv',
-            parse_dates=True,
-            index_col=0)
-
-        df_result = MovingAverageConvergenceDivergence(df)._ti_data
-
-        pd.testing.assert_frame_equal(df_expected_result, df_result)
-
-    # Validate API
-
-    def test_getTiGraph(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        obv = MovingAverageConvergenceDivergence(df)
-
-        # Needs manual check of the produced graph
-        self.assertEqual(obv.getTiGraph(), plt)
-
-        obv.getTiGraph().savefig('./figures/test_moving_average_convergence_' +
-                                 'divergence.png')
-        plt.close('all')
-
-    def test_getTiData(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        df_expected_result = pd.read_csv(
-            './data/test_moving_average_convergence_divergence_on_' +
-            'sample_data.csv',
-            parse_dates=True,
-            index_col=0)
-
-        pd.testing.assert_frame_equal(
-            df_expected_result, MovingAverageConvergenceDivergence(df)
-            .getTiData())
-
-    def test_getTiValue_specific(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        df_expected_result = pd.read_csv(
-            './data/test_moving_average_convergence_divergence_on_' +
-            'sample_data.csv',
-            parse_dates=True,
-            index_col=0)
-
-        self.assertEqual(list(df_expected_result.loc['2009-10-19', :]),
-                         MovingAverageConvergenceDivergence(df)
-                         .getTiValue('2009-10-19'))
-
-    def test_getTiValue_latest(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        df_expected_result = pd.read_csv(
-            './data/test_moving_average_convergence_divergence_on_' +
-            'sample_data.csv',
-            parse_dates=True,
-            index_col=0)
-
-        self.assertEqual(list(df_expected_result.iloc[-1]),
-                         MovingAverageConvergenceDivergence(df).getTiValue())
-
-    def test_getTiSignal(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=0)
-
-        self.assertIn(MovingAverageConvergenceDivergence(df).getTiSignal(),
-                      [('buy', -1), ('hold', 0), ('sell', 1)])
+    assertRaises = unittest.TestCase.assertRaises
+    assertEqual = unittest.TestCase.assertEqual
+    assertIn = unittest.TestCase.assertIn
+    subTest = unittest.TestCase.subTest
 
 
 if __name__ == '__main__':

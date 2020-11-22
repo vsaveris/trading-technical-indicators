@@ -113,35 +113,35 @@ class DirectionalMovementIndex(TechnicalIndicator):
         # Calculate the +DI and -DI
         dmi['+di14'].iloc[14:] = dmi[['+dm14', 'tr14']].iloc[14:].pipe(
             self._rolling_pipe, 1,
-            lambda x: round(100 * x['+dm14'][0] / x['tr14'][0]),
+            lambda x: 100 * x['+dm14'][0] / x['tr14'][0],
         )
 
         dmi['-di14'].iloc[14:] = dmi[['-dm14', 'tr14']].iloc[14:].pipe(
             self._rolling_pipe, 1,
-            lambda x: round(100 * x['-dm14'][0] / x['tr14'][0]),
+            lambda x: 100 * x['-dm14'][0] / x['tr14'][0],
         )
 
         # Calculate DX, ADX and ADXR
         dmi['di_diff'] = abs(dmi['+di14'] - dmi['-di14'])
         dmi['di_sum'] = abs(dmi['+di14'] + dmi['-di14'])
 
-        dmi['dx'] = (100. * dmi['di_diff'] / dmi['di_sum']).round()
+        dmi['dx'] = 100. * dmi['di_diff'] / dmi['di_sum']
 
-        dmi['adx'].iat[27] = round(dmi['dx'].iloc[:28].sum() / 14)
+        dmi['adx'].iat[27] = dmi['dx'].iloc[:28].sum() / 14
 
         for i in range(28, len(dmi.index)):
-            dmi['adx'].iat[i] = round(
-                ((13 * dmi['adx'].iat[i - 1]) + dmi['dx'][i]) / 14)
+            dmi['adx'].iat[i] = \
+                ((13 * dmi['adx'].iat[i - 1]) + dmi['dx'][i]) / 14
 
         for i in range(40, len(dmi.index)):
-            dmi['adxr'].iat[i] = round(
-                (dmi['adx'].iat[i] + dmi['adx'].iat[i - 13]) / 2.0)
+            dmi['adxr'].iat[i] = \
+                (dmi['adx'].iat[i] + dmi['adx'].iat[i - 13]) / 2.0
 
         # Keep the required columns
         dmi = dmi[['+di14', '-di14', 'dx', 'adx', 'adxr']]
         dmi.columns = ['+di', '-di', 'dx', 'adx', 'adxr']
 
-        return dmi
+        return dmi.round(4)
 
     def getTiSignal(self):
         """

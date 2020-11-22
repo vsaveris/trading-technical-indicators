@@ -11,6 +11,7 @@ import pandas.api.types as pdtypes
 from .data_preprocessing import fillMissingValues
 from .exceptions import WrongTypeForInputParameter
 
+
 def validateInputData(input_data, required_columns, indicator_name,
                       fill_missing_values=True):
     """
@@ -36,6 +37,7 @@ def validateInputData(input_data, required_columns, indicator_name,
     Raises:
         TypeError
         ValueError
+        WrongTypeForInputParameter
 
     Returns:
         pandas.DataFrame: The input data frame containing only the required

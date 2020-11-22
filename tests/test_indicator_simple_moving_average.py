@@ -1,8 +1,8 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: test_indicator_ease_of_movement.py
-    tti.indicators package, _ease_of_movement.py module unit tests.
+File name: test_indicator_simple_moving_average.py
+    tti.indicators package, _moving_average.py module unit tests.
 """
 
 import unittest
@@ -13,29 +13,31 @@ import pandas as pd
 import re
 
 
-class TestEaseOfMovement(unittest.TestCase, TestIndicatorsCommon):
+class TestSimpleMovingAverage(unittest.TestCase, TestIndicatorsCommon):
 
-    indicator = tti.indicators.EaseOfMovement
+    indicator = tti.indicators.MovingAverage
 
     df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
-    indicator_input_arguments = {'period': 14}
+    indicator_input_arguments = {'period': 20, 'ma_type': 'simple'}
 
     indicator_minimum_required_data = indicator_input_arguments['period']
 
     mandatory_arguments_missing_cases = []
 
-    required_input_data_columns = ["high", "low", "volume"]
+    required_input_data_columns = ['close']
 
     arguments_wrong_type = [
         {'input_data': 'No_DataFrame'},
         {'input_data': df, 'period': 'no_numeric'},
+        {'input_data': df, 'ma_type': 15},
         {'input_data': df, 'fill_missing_values': 'no_boolean'}
     ]
 
     arguments_wrong_value = [
         {'input_data': df, 'period': -1},
-        {'input_data': df, 'period': 0}
+        {'input_data': df, 'period': 0},
+        {'input_data': df, 'ma_type': 'does not exist'}
     ]
 
     graph_file_name = '_'.join(
@@ -49,7 +51,8 @@ class TestEaseOfMovement(unittest.TestCase, TestIndicatorsCommon):
             indicator).split('.')[-1][:-2]))
 
     indicator_test_data_file_name = \
-        './data/test_' + indicator_test_data_file_name + '_on_sample_data.csv'
+        './data/test_' + indicator_test_data_file_name + \
+        '_simple_on_sample_data.csv'
 
     assertRaises = unittest.TestCase.assertRaises
     assertEqual = unittest.TestCase.assertEqual

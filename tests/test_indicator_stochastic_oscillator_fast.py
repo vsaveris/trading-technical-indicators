@@ -1,8 +1,8 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: test_indicator_median_price.py
-    tti.indicators package, _median_price.py module unit tests.
+File name: test_indicator_stochastic_oscillator_fast.py
+    tti.indicators package, _stochastic_oscillator.py module unit tests.
 """
 
 import unittest
@@ -13,15 +13,16 @@ import pandas as pd
 import re
 
 
-class TestMedianPrice(unittest.TestCase, TestIndicatorsCommon):
+class TestStochasticOscillator(unittest.TestCase, TestIndicatorsCommon):
 
-    indicator = tti.indicators.MedianPrice
+    indicator = tti.indicators.StochasticOscillator
 
     df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
-    indicator_input_arguments = {'period': 20}
+    indicator_input_arguments = {'k_periods': 14, 'k_slowing_periods': 1,
+                                 'd_periods': 3, 'd_method': 'simple'}
 
-    indicator_minimum_required_data = 1
+    indicator_minimum_required_data = indicator_input_arguments['k_periods']
 
     mandatory_arguments_missing_cases = []
 
@@ -29,13 +30,22 @@ class TestMedianPrice(unittest.TestCase, TestIndicatorsCommon):
 
     arguments_wrong_type = [
         {'input_data': 'No_DataFrame'},
-        {'input_data': df, 'period': 'no_numeric'},
+        {'input_data': df, 'k_periods': 'no_numeric'},
+        {'input_data': df, 'k_slowing_periods': 'no_numeric'},
+        {'input_data': df, 'd_periods': 'no_numeric'},
+        {'input_data': df, 'd_method': 1},
         {'input_data': df, 'fill_missing_values': 'no_boolean'}
     ]
 
     arguments_wrong_value = [
-        {'input_data': df, 'period': -1},
-        {'input_data': df, 'period': 0}
+        {'input_data': df, 'k_periods': -1},
+        {'input_data': df, 'k_periods': 0},
+        {'input_data': df, 'k_slowing_periods': 2},
+        {'input_data': df, 'k_slowing_periods': 4},
+        {'input_data': df, 'k_slowing_periods': 0},
+        {'input_data': df, 'd_periods': -1},
+        {'input_data': df, 'd_periods': 0},
+        {'input_data': df, 'd_method': 'not_valid'}
     ]
 
     graph_file_name = '_'.join(
@@ -49,7 +59,8 @@ class TestMedianPrice(unittest.TestCase, TestIndicatorsCommon):
             indicator).split('.')[-1][:-2]))
 
     indicator_test_data_file_name = \
-        './data/test_' + indicator_test_data_file_name + '_on_sample_data.csv'
+        './data/test_' + indicator_test_data_file_name + \
+        '_fast_on_sample_data.csv'
 
     assertRaises = unittest.TestCase.assertRaises
     assertEqual = unittest.TestCase.assertEqual

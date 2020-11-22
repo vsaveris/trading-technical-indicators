@@ -9,6 +9,7 @@ import unittest
 import pandas as pd
 
 from tti.utils import data_validation as dv
+from tti.utils.exceptions import WrongTypeForInputParameter
 
 
 class TestValidateInputData(unittest.TestCase):
@@ -33,7 +34,7 @@ class TestValidateInputData(unittest.TestCase):
 
     def test_input_data_is_not_dataframe(self):
 
-        with self.assertRaises(TypeError):
+        with self.assertRaises(WrongTypeForInputParameter):
             dv.validateInputData(input_data='No_DF', required_columns=['C1'],
                                  indicator_name='I')
 
