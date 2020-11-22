@@ -9,7 +9,7 @@ File name: data_validation.py
 import pandas as pd
 import pandas.api.types as pdtypes
 from .data_preprocessing import fillMissingValues
-
+from .exceptions import WrongTypeForInputParameter
 
 def validateInputData(input_data, required_columns, indicator_name,
                       fill_missing_values=True):
@@ -46,9 +46,8 @@ def validateInputData(input_data, required_columns, indicator_name,
 
     # Validate that the input_data parameter is a pandas.DataFrame object
     if not isinstance(input_data, pd.DataFrame):
-        raise TypeError('Invalid input_data type. It was expected ' +
-                        '`pd.DataFrame` but `' +
-                        str(type(input_data).__name__) + '` was found.')
+        raise WrongTypeForInputParameter(
+            type(input_data), 'input_data', 'pd.DataFrame')
 
     # Validate that the index of the pandas.DataFrame is of type date
     if not isinstance(input_data.index, pd.DatetimeIndex):
