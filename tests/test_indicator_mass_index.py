@@ -21,6 +21,8 @@ class TestMassIndex(unittest.TestCase, TestIndicatorsCommon):
 
     indicator_input_arguments = {}
 
+    indicator_other_input_arguments = []
+
     indicator_minimum_required_data = 25
 
     mandatory_arguments_missing_cases = []

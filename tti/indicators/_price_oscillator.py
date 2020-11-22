@@ -57,7 +57,7 @@ class PriceOscillator(TechnicalIndicator):
             raise WrongTypeForInputParameter(
                 type(short_ma), 'short_ma', 'int')
 
-        if short_ma > long_ma:
+        if short_ma >= long_ma:
             raise WrongValueForInputParameter(
                 short_ma, 'short_ma', 'long_ma > short_ma')
 

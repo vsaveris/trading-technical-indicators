@@ -46,3 +46,18 @@ class WrongTypeForInputParameter(Exception):
         message = message.replace('<p_supported>', parameter_supported_type)
 
         super().__init__(message)
+
+
+class NotConverged(Exception):
+
+    def __init__(self, input_arguments, input_data_length,
+                 message='SVD did not converge in Linear Least Squares for ' +
+                         'the input arguments <p_input_arguments> and the ' +
+                         'input data (length <p_input_data_length>). Try ' +
+                         'adjusting input arguments or use more input data.'):
+
+        message = message.replace('<p_input_arguments>', input_arguments)
+        message = message.replace('<p_input_data_length>',
+                                  str(input_data_length))
+
+        super().__init__(message)
