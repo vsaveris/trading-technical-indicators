@@ -71,7 +71,7 @@ def validateInputData(input_data, required_columns, indicator_name,
             raise ValueError('Required column `' + column + '` for the ' +
                              'technical indicator `' + indicator_name +
                              '` does not exist in the input_data  ' +
-                             ' pandas.DataFrame.')
+                             'pandas.DataFrame.')
 
         if not pdtypes.is_numeric_dtype(input_data[column]):
             raise ValueError('The input_data pandas.DataFrame must hold ' +

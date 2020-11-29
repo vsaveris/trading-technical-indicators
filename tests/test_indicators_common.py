@@ -12,7 +12,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from tti.utils.exceptions import NotEnoughInputData, \
-    WrongTypeForInputParameter, WrongValueForInputParameter
+    WrongTypeForInputParameter, WrongValueForInputParameter, \
+    NotValidInputDataForSimulation
 
 
 class TestIndicatorsCommon(ABC):
@@ -310,3 +311,126 @@ class TestIndicatorsCommon(ABC):
             self.indicator(df.iloc[:self.indicator_minimum_required_data],
                            **self.indicator_input_arguments).getTiSignal(),
             [('buy', -1), ('hold', 0), ('sell', 1)])
+
+    def test_simulation_close_values_no_dataframe(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+            index_col=0)
+
+        with self.assertRaises(NotValidInputDataForSimulation):
+            self.indicator(df[df.index >= '2011-09-12'],
+                **self.indicator_input_arguments).runSimulation(
+                close_values='NO_DF')
+
+    def test_simulation_close_values_missing_close_column(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        with self.assertRaises(NotValidInputDataForSimulation):
+            self.indicator(df[df.index >= '2011-09-12'],
+                **self.indicator_input_arguments).runSimulation(
+                close_values=df[df.index >= '2011-09-12'].drop(
+                    columns=['close']))
+
+    def test_simulation_close_values_not_valid_index_data(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        with self.assertRaises(NotValidInputDataForSimulation):
+            self.indicator(df[df.index >= '2011-09-12'],
+                **self.indicator_input_arguments).runSimulation(
+                close_values=df)
+
+    def test_simulation_max_pieces_per_buy_wrong_type(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        with self.assertRaises(WrongTypeForInputParameter):
+            self.indicator(df[df.index >= '2011-09-12'],
+                **self.indicator_input_arguments).runSimulation(
+                close_values=df[df.index >= '2011-09-12'],
+                max_pieces_per_buy='1')
+
+    def test_simulation_max_pieces_per_buy_wrong_value_0(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        with self.assertRaises(WrongValueForInputParameter):
+            self.indicator(df[df.index >= '2011-09-12'],
+                **self.indicator_input_arguments).runSimulation(
+                close_values=df[df.index >= '2011-09-12'],
+                max_pieces_per_buy=0)
+
+    def test_simulation_max_pieces_per_buy_wrong_value_negative(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        with self.assertRaises(WrongValueForInputParameter):
+            self.indicator(df[df.index >= '2011-09-12'],
+                **self.indicator_input_arguments).runSimulation(
+                close_values=df[df.index >= '2011-09-12'],
+                max_pieces_per_buy=-1)
+
+    def test_simulation_commission_wrong_type(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        with self.assertRaises(WrongTypeForInputParameter):
+            self.indicator(df[df.index >= '2011-09-12'],
+                **self.indicator_input_arguments).runSimulation(
+                close_values=df[df.index >= '2011-09-12'], commission='0.05')
+
+    def test_simulation_commission_wrong_value_negative(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        with self.assertRaises(WrongValueForInputParameter):
+            self.indicator(df[df.index >= '2011-09-12'],
+                **self.indicator_input_arguments).runSimulation(
+                close_values=df[df.index >= '2011-09-12'], commission=-0.05)
+
+    def test_simulation_success(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        indicator = self.indicator(df[df.index >= '2011-09-12'],
+            **self.indicator_input_arguments)
+
+        simulation, statistics = indicator.runSimulation(
+            close_values=df[df.index >= '2011-09-12'])
+
+        with self.subTest(sub_test_name='simulation DataFrame structure'):
+
+            self.assertListEqual(list(simulation.columns), ['signal',
+                'stocks_in_transaction', 'stocks_in_possession', 'balance',
+                'total_value'])
+
+        with self.subTest(sub_test_name='simulation DataFrame index'):
+            self.assertEqual(simulation.index.equals(
+                indicator.getTiData().index), True)
+
+        with self.subTest(sub_test_name='statistics dictionary structure'):
+            self.assertListEqual(list(statistics.keys()),
+                ['number_of_trading_days', 'number_of_buy_signals',
+                'number_of_sell_signals', 'number_of_ignored_sell_signals',
+                'balance', 'stocks_in_possession', 'stock_value',
+                 'total_value'])
+
+        with self.subTest(sub_test_name='statistics has valid data'):
+            self.assertEqual(simulation.isnull().values.any(), False)
+
+        with self.subTest(sub_test_name='statistics values'):
+            self.assertEqual(statistics['number_of_trading_days'],
+                             len(indicator.getTiData().index))
+
+            self.assertIsInstance(statistics['number_of_buy_signals'], int)
+            self.assertIsInstance(statistics['number_of_sell_signals'], int)
+            self.assertIsInstance(statistics['number_of_ignored_sell_signals'],
+                                  int)
+            self.assertIsInstance(statistics['balance'], (int, float))
+            self.assertIsInstance(statistics['stocks_in_possession'], int)
+            self.assertIsInstance(statistics['stock_value'], (int, float))
+            self.assertIsInstance(statistics['total_value'], (int, float))
+
+
+
+
