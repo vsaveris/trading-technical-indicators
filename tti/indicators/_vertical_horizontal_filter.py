@@ -117,6 +117,10 @@ class VerticalHorizontalFilter(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
+        # Not enough data for trading signal
+        if len(self._input_data.index) < 3:
+            return TRADE_SIGNALS['hold']
+
         # Rising values indicate a trend
         if (self._ti_data['vhf'].iat[-3] < self._ti_data['vhf'].iat[-2] <
                 self._ti_data['vhf'].iat[-1]):
