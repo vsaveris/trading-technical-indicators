@@ -100,6 +100,10 @@ class MassIndex(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
+        # Not enough data for calculating trading signal
+        if len(self._ti_data.index) < 2:
+            return TRADE_SIGNALS['hold']
+
         # Look for a Reversal Bulge (indicator raises above 27 and then drops
         # below 26.5. Specific values for 25-Mass Index.
         reversal_bulge = False

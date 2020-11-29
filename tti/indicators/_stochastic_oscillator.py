@@ -175,6 +175,10 @@ class StochasticOscillator(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
+        # Not enough data for calculating trading signal
+        if len(self._ti_data.index) < 2:
+            return TRADE_SIGNALS['hold']
+
         # A sell signal is given when the oscillator rises above the 80 and
         # then falls below 80.
         if self._ti_data['%K'].iat[-2] > 80. > self._ti_data['%K'].iat[-1] or\

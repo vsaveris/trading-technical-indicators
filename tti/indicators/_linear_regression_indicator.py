@@ -113,6 +113,10 @@ class LinearRegressionIndicator(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
+        # Not enough data for calculating trading signal
+        if len(self._ti_data.index) < 2:
+            return TRADE_SIGNALS['hold']
+
         # Close price goes below Linear Regression
         if self._input_data['close'].iat[-2] > self._ti_data['lri'].iat[-2] \
            and \

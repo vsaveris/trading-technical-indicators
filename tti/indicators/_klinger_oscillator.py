@@ -105,6 +105,10 @@ class KlingerOscillator(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
+        # Not enough data for calculating trading signal
+        if len(self._ti_data.index) < 2:
+            return TRADE_SIGNALS['hold']
+
         # Signal based on crossovers with zero line
         if self._ti_data['ko'].iat[-2] < 0.0 < self._ti_data['ko'].iat[-1]:
             return TRADE_SIGNALS['sell']

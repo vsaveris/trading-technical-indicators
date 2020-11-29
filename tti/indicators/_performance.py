@@ -114,6 +114,10 @@ class Performance(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
+        # Not enough data for calculating trading signal
+        if len(self._ti_data.index) < 1:
+            return TRADE_SIGNALS['hold']
+
         if self._mode == 'LONG' and self._ti_data.iat[-1, 0] >= self._target:
             return TRADE_SIGNALS['sell']
 

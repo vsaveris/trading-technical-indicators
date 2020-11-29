@@ -97,6 +97,10 @@ class StandardDeviation(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
+        # Not enough data for calculating trading signal
+        if len(self._ti_data.index) < 1:
+            return TRADE_SIGNALS['hold']
+
         # Calculate Simple Moving Average
         sma = self._input_data.rolling(
             window=self._period, min_periods=self._period, center=False,

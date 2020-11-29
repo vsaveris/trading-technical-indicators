@@ -103,6 +103,10 @@ class AverageTrueRange(TechnicalIndicator):
             window=14, min_periods=14, center=False,
             win_type=None, on=None, axis=0, closed=None).mean().round(4)
 
+        # Not enough data for calculating trading signal
+        if len(self._ti_data.index) < 1:
+            return TRADE_SIGNALS['hold']
+
         # Price above average and ATR is high
         if self._input_data['close'].iat[-1] > sma.iat[-1, 0] and \
                 self._ti_data['atr'].iat[-1] > 2:

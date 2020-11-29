@@ -113,6 +113,10 @@ class CommodityChannelIndex(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
+        # Not enough data for calculating trading signal
+        if len(self._ti_data.index) < 1:
+            return TRADE_SIGNALS['hold']
+
         # Oversold area
         if self._ti_data['cci'].iat[-1] < -100:
             return TRADE_SIGNALS['buy']

@@ -161,6 +161,10 @@ class DirectionalMovementIndex(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
+        # Not enough data for calculating trading signal
+        if len(self._ti_data.index) < 2:
+            return TRADE_SIGNALS['hold']
+
         # A buy signal is given when +DI crosses above -DI
         # A sell signal is given when -DI crosses above +DI
         # ADX > 25 is a strong trend, ADX < 20 indicates no trend
