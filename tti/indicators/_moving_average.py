@@ -178,6 +178,10 @@ class MovingAverage(TechnicalIndicator):
                 constant in the tti.utils package, constants.py module.
         """
 
+        # Not enough data for calculating trading signal
+        if len(self._ti_data.index) < 2:
+            return TRADE_SIGNALS['hold']
+
         # Close price goes below Moving Average
         if ((self._input_data['close'].iat[-2] >
              self._ti_data['ma-' + self._ma_type].iat[-2]) and
