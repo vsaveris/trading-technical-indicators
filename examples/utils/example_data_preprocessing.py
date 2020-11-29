@@ -23,10 +23,10 @@ for data_file in ['example_data_missing_1.csv', 'example_data_missing_2.csv',
     df.columns = ['After', 'Before']
 
     # Plot the updates on the data
-    plt.plot(df.index, df['After'], label='After', color='firebrick',
-             linestyle='--', linewidth=1)
-    plt.plot(df.index, df['Before'], label='Before', color='rosybrown',
-             linestyle='-', linewidth=1.5)
+    plt.plot(df.index, df['After'], label='Filled Values', color='tomato',
+             linestyle='--', linewidth=1, alpha=1.0)
+    plt.plot(df.index, df['Before'], label='Before', color='limegreen',
+             linestyle='-', linewidth=1, alpha=1.0)
     plt.grid(which='major', axis='y', alpha=0.5)
     plt.xlabel('Date', fontsize=11, fontweight='bold')
     plt.ylabel('Price', fontsize=11, fontweight='bold')

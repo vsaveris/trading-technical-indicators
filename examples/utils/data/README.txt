@@ -1,0 +1,3 @@
+- example_data_missing_1.csv: Missing data at the beginning of the file.
+- example_data_missing_1.csv: Missing data at the end of the file.
+- example_data_missing_1.csv: Missing data at several places in the file.
