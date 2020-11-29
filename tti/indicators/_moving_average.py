@@ -24,7 +24,7 @@ class MovingAverage(TechnicalIndicator):
     Parameters:
         input_data (pandas.DataFrame): The input data.
 
-        period (int, default is 200): The past periods to be used for the
+        period (int, default is 20): The past periods to be used for the
             calculation of the moving average. 5-13 days are for Very Short
             Term, 14-25 days are for Short Term, 26-49 days are for Minor
             Intermediate, 50-100 days for Intermediate and 100-200 days are for
@@ -43,7 +43,7 @@ class MovingAverage(TechnicalIndicator):
     Raises:
         -
     """
-    def __init__(self, input_data, period=200, ma_type='simple',
+    def __init__(self, input_data, period=20, ma_type='simple',
                  fill_missing_values=True):
 
         # Validate and store if needed, the input parameters
