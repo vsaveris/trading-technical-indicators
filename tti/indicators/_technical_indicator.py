@@ -402,11 +402,13 @@ class TechnicalIndicator(ABC):
 
         # Update statistics
         statistics['number_of_trading_days'] = len(self._ti_data.index)
-        statistics['balance'] = simulation['balance'].iat[-1].round(2)
+        statistics['balance'] = round(simulation['balance'].iat[-1], 2)
+
         statistics['stocks_in_possession'] = \
             simulation['stocks_in_possession'].iat[-1]
+
         statistics['stock_value'] = close_values['close'].iat[-1]
-        statistics['total_value'] = simulation['total_value'].iat[-1].round(2)
+        statistics['total_value'] = round(simulation['total_value'].iat[-1], 2)
 
         # Restore input and indicator data to full range
         self._ti_data = full_ti_data
