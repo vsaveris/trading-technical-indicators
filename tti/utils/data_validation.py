@@ -85,7 +85,7 @@ def validateInputData(input_data, required_columns, indicator_name,
             input_data = input_data.drop(columns=column, inplace=False)
 
     # Sort dataframe on index ascending
-    input_data.sort_index(ascending=True, inplace=True)
+    input_data = input_data.sort_index(ascending=True, inplace=False)
 
     if fill_missing_values:
         input_data = fillMissingValues(input_data)

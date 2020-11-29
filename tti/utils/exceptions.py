@@ -61,3 +61,15 @@ class NotConverged(Exception):
                                   str(input_data_length))
 
         super().__init__(message)
+
+
+class NotValidInputDataForSimulation(Exception):
+
+    def __init__(self, input_argument, details,
+                 message='Not valid input data for simulation, input ' +
+                         'argument: <p_input_argument>. '):
+
+        message = message.replace('<p_input_argument>', input_argument)
+        message += details
+
+        super().__init__(message)
