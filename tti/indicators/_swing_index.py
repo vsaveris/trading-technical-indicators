@@ -102,8 +102,8 @@ class SwingIndex(TechnicalIndicator):
         ], axis=1).max(axis=1) + 0.25 * swi['abs_yc_yo_diff']
 
         swi['swi'] = 50 * (swi['numerator'] / swi['R']) * (swi['K'] / 3)
-        swi['swi'][swi['swi'] > 100.0] = 100.0
-        swi['swi'][swi['swi'] < -100.0] = -100.0
+        swi.loc[swi['swi'] > 100.0, ['swi']] = 100.0
+        swi.loc[swi['swi'] < -100.0, ['swi']] = -100.0
 
         return swi[['swi']].round(4)
 
