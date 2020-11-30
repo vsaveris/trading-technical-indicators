@@ -10,7 +10,7 @@ with open('README.md') as f:
     LONG_DESCRIPTION = f.read()
 
 setuptools.setup(name='tti',
-    version='0.1.beta',
+    version='0.1.b1',
     description='Trading Technical Indicators, python library. Where Traditional Technical Analysis and AI are met.',
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
@@ -43,5 +43,5 @@ setuptools.setup(name='tti',
     author_email='vsaveris@gmail.com',
     license='MIT',
     packages=setuptools.find_packages(),
-    install_requires=['pandas', 'matplotlib', 'sklearn'],
+    install_requires=['pandas', 'matplotlib', 'scikit-learn'],
     python_requires=">=3.8")

@@ -1,5 +1,5 @@
 # trading-technical-indicators
-Trading Technical Indicators python library, where Traditional Technical Analysis and AI are met. Version 0.1.beta
+Trading Technical Indicators python library, where Traditional Technical Analysis and AI are met. Version 0.1.b1
 
 - Calculate technical indicators (over 60 indicators supported).
 - Produce graphs for any technical indicator.

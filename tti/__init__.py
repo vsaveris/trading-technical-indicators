@@ -11,6 +11,6 @@ provides an API for:
 For complete documentation see https://www.trading-technical-indicators.org/
 """
 
-__version__ = '0.1.beta'
+__version__ = '0.1.b1'
 
 __all__ = ['indicators', 'utils']
