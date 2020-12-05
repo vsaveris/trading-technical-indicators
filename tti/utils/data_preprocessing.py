@@ -13,14 +13,15 @@ def fillMissingValues(input_data):
     Fills the missing values of a dataframe by executing first a forward pass
     and then a backward pass.
     
-    Parameters:
-        input_data (pandas.DataFrame): The input data.
-
-    Raises:
-        TypeError
+    Args:
+        input_data (pandas.DataFrame): The input data. The index is of type
+            ``pandas.DatetimeIndex``.
 
     Returns:
         pandas.DataFrame: The input data with missing values filled.
+
+    Raises:
+        TypeError: Type error occurred when validating the ``input_data``.
     """
     
     if isinstance(input_data, pd.DataFrame):

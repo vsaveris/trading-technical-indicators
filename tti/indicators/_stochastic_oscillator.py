@@ -17,34 +17,47 @@ class StochasticOscillator(TechnicalIndicator):
     """
     Stochastic Oscillator Technical Indicator class implementation.
 
-    Parameters:
-        input_data (pandas.DataFrame): The input data.
+    Args:
+        input_data (pandas.DataFrame): The input data. Required input columns
+            are ``high``, ``low``, ``close``. The index is of type
+            ``pandas.DatetimeIndex``.
 
-        k_periods (integer, default is 14): Number of periods to be used in the
+        k_periods (int, default=14): Number of periods to be used in the
             stochastic calculation %K.
 
-        k_slowing_periods (integer, 1 or 3, default is 1): Smoothing to be used
-            in the stochastic calculation. 1 is considered Fast Stochastic and
-            3 Slow Stochastic.
+        k_slowing_periods (int, default=1): Smoothing to be used in the
+            stochastic calculation. Supported values are `1` and `3`. ``1`` is
+            considered as ``Fast Stochastic`` and ``3`` is considered as
+            ``Slow Stochastic``.
 
-        d_periods (integer, default is 3): Periods to be used when calculating
-            the moving average %D of %K.
+        d_periods (int, default=3): Periods to be used when calculating the
+            moving average ``%D`` of ``%K``.
 
-        d_method (string, 'simple' or 'exponential', default is 'simple'): The
-            moving average to be used when calculating %D. Supported values are
-            'simple' for Simple Moving Average and 'exponential' for
-            Exponential Moving Average. More methods can be supported in a
-            future release.
+        d_method (str, default='simple'): The moving average to be used when
+            calculating ``%D``. Supported values are ``simple`` for Simple
+            Moving Average and ``exponential`` for Exponential Moving Average.
+            More methods can be supported in a future release.
 
-        fill_missing_values (boolean, default is True): If set to True,
-            missing values in the input data are being filled.
+        fill_missing_values (bool, default=True): If set to True, missing
+            values in the input data are being filled.
 
     Attributes:
-        -
+        _input_data (pandas.DataFrame): The ``input_data`` after preprocessing.
+
+        _ti_data (pandas.DataFrame): The calculated indicator. Index is of type
+            ``pandas.DatetimeIndex``. It contains two columns: the stochastic
+            oscillator ``%K`` and the moving average of ``%K`` the ``%D``.
+
+        _properties (dict): Indicator properties.
+
+        _calling_instance (str): The name of the class.
 
     Raises:
-        WrongTypeForInputParameter
-        WrongValueForInputParameter
+        WrongTypeForInputParameter: Input argument has wrong type.
+        WrongValueForInputParameter: Unsupported value for input argument.
+        NotEnoughInputData: Not enough data for calculating the indicator.
+        TypeError: Type error occurred when validating the ``input_data``.
+        ValueError: Value error occurred when validating the ``input_data``.
     """
     def __init__(self, input_data, k_periods=14, k_slowing_periods=1,
                  d_periods=3, d_method='simple', fill_missing_values=True):
@@ -99,16 +112,16 @@ class StochasticOscillator(TechnicalIndicator):
         Calculates the technical indicator for the given input data. The input
         data are taken from an attribute of the parent class.
 
-        Parameters:
-            -
-
         Raises:
             NotEnoughInputData
 
         Returns:
-            pandas.DataFrame: The calculated values of the Technical indicator.
-            Index is of type date. It contains two columns: the stochastic
-            oscillator %K and the moving average of %K the %D'.
+            pandas.DataFrame: The calculated indicator. Index is of type
+            ``pandas.DatetimeIndex``. It contains two columns: the stochastic
+            oscillator ``%K`` and the moving average of ``%K`` the ``%D``.
+
+        Raises:
+            NotEnoughInputData: Not enough data for calculating the indicator.
         """
 
         # Not enough data for the requested k_periods
@@ -159,20 +172,12 @@ class StochasticOscillator(TechnicalIndicator):
 
     def getTiSignal(self):
         """
-        Calculates and returns the signal of the technical indicator. The
-        Technical Indicator data are taken from an attribute of the parent
-        class.
-
-        Parameters:
-            -
-
-        Raises:
-            -
+        Calculates and returns the trading signal for the calculated technical
+        indicator.
 
         Returns:
-            tuple (string, integer): The Trading signal. Possible values are
-                ('hold', 0), ('buy', -1), ('sell', 1). See TRADE_SIGNALS
-                constant in the tti.utils package, constants.py module.
+            {('hold', 0), ('buy', -1), ('sell', 1)}: The calculated trading
+            signal.
         """
 
         # Not enough data for calculating trading signal

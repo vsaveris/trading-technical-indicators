@@ -17,26 +17,40 @@ class Performance(TechnicalIndicator):
     """
     Performance Technical Indicator class implementation.
 
-    Parameters:
-        input_data (pandas.DataFrame): The input data.
+    Args:
+        input_data (pandas.DataFrame): The input data. Required input column
+            is ``close``. The index is of type ``pandas.DatetimeIndex``.
 
-        mode (string, 'LONG' or 'SHORT', default is 'LONG'): The current
-            position entered at period 0 (first row in the input data).
+        mode (str, default='LONG'): The current position entered at period 0
+            (first row in the input data). Possible values are ``LONG`` and
+            ``SHORT``.
 
-        target (int or float, default is 0.05): The target percentage movement
-            of the price. When mode is `LONG` the target is positive, and an
+        target (numeric, default is 0.05): The target percentage movement
+            of the price. When mode is ``LONG`` the target is positive, and an
             exit signal is produced when the target is reached. When mode is
-            `SHORT` the target is negative, and an exit signal is produced when
-            the target is reached.
+            ``SHORT`` the target is negative, and an exit signal is produced
+            when the target is reached.
 
-        fill_missing_values (boolean, default is True): If set to True,
-            missing values in the input data are being filled.
+        fill_missing_values (bool, default=True): If set to True, missing
+            values in the input data are being filled.
 
     Attributes:
-        -
+        _input_data (pandas.DataFrame): The ``input_data`` after preprocessing.
+
+        _ti_data (pandas.DataFrame): The calculated indicator. Index is of type
+            ``pandas.DatetimeIndex``. It contains two columns, the ``prf`` and
+            the ``target_<mode>``.
+
+        _properties (dict): Indicator properties.
+
+        _calling_instance (str): The name of the class.
 
     Raises:
-        -
+        WrongTypeForInputParameter: Input argument has wrong type.
+        WrongValueForInputParameter: Unsupported value for input argument.
+        NotEnoughInputData: Not enough data for calculating the indicator.
+        TypeError: Type error occurred when validating the ``input_data``.
+        ValueError: Value error occurred when validating the ``input_data``.
     """
     def __init__(self, input_data, mode='LONG', target=0.05,
                  fill_missing_values=True):
@@ -74,15 +88,10 @@ class Performance(TechnicalIndicator):
         Calculates the technical indicator for the given input data. The input
         data are taken from an attribute of the parent class.
 
-        Parameters:
-            -
-
-        Raises:
-            -
-
         Returns:
-            pandas.DataFrame: The calculated indicator. Index is of type date.
-                It contains two columns, the 'prf' and the 'target <mode>'.
+            pandas.DataFrame: The calculated indicator. Index is of type
+            ``pandas.DatetimeIndex``. It contains two columns, the ``prf`` and
+            the ``target_<mode>``.
         """
 
         prf = pd.DataFrame(index=self._input_data.index,
@@ -98,20 +107,12 @@ class Performance(TechnicalIndicator):
 
     def getTiSignal(self):
         """
-        Calculates and returns the signal of the technical indicator. The
-        Technical Indicator data are taken from an attribute of the parent
-        class.
-
-        Parameters:
-            -
-
-        Raises:
-            -
+        Calculates and returns the trading signal for the calculated technical
+        indicator.
 
         Returns:
-            tuple (string, integer): The Trading signal. Possible values are
-                ('hold', 0), ('buy', -1), ('sell', 1). See TRADE_SIGNALS
-                constant in the tti.utils package, constants.py module.
+            {('hold', 0), ('buy', -1), ('sell', 1)}: The calculated trading
+            signal.
         """
 
         # Not enough data for calculating trading signal

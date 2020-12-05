@@ -16,17 +16,31 @@ class DirectionalMovementIndex(TechnicalIndicator):
     """
     Directional Movement Index Technical Indicator class implementation.
 
-    Parameters:
-        input_data (pandas.DataFrame): The input data.
+    Args:
+        input_data (pandas.DataFrame): The input data. Required input columns
+            are ``high``, ``low``, ``close``. The index is of type
+            ``pandas.DatetimeIndex``.
 
-        fill_missing_values (boolean, default is True): If set to True,
-            missing values in the input data are being filled.
+        fill_missing_values (bool, default=True): If set to True, missing
+            values in the input data are being filled.
 
     Attributes:
-        -
+        _input_data (pandas.DataFrame): The ``input_data`` after preprocessing.
+
+        _ti_data (pandas.DataFrame): The calculated indicator. Index is of type
+            ``pandas.DatetimeIndex``. It contains three columns, the ``+di``,
+            ``-di``, ``dx``, ``adx`` and the ``adxr``.
+
+        _properties (dict): Indicator properties.
+
+        _calling_instance (str): The name of the class.
 
     Raises:
-        -
+        WrongTypeForInputParameter: Input argument has wrong type.
+        WrongValueForInputParameter: Unsupported value for input argument.
+        NotEnoughInputData: Not enough data for calculating the indicator.
+        TypeError: Type error occurred when validating the ``input_data``.
+        ValueError: Value error occurred when validating the ``input_data``.
     """
 
     def __init__(self, input_data, fill_missing_values=True):
@@ -41,16 +55,13 @@ class DirectionalMovementIndex(TechnicalIndicator):
         Calculates the technical indicator for the given input data. The input
         data are taken from an attribute of the parent class.
 
-        Parameters:
-            -
+        Returns:
+            pandas.DataFrame: The calculated indicator. Index is of type
+            ``pandas.DatetimeIndex``. It contains three columns, the ``+di``,
+            ``-di``, ``dx``, ``adx`` and the ``adxr``.
 
         Raises:
-            NotEnoughInputData
-
-        Returns:
-            pandas.DataFrame: The calculated indicator. Index is of type date.
-                It contains three columns, the '+di', '-di', 'dx', 'adx' and
-                the 'adxr'.
+            NotEnoughInputData: Not enough data for calculating the indicator.
         """
 
         # Not enough data for the requested period
@@ -145,20 +156,12 @@ class DirectionalMovementIndex(TechnicalIndicator):
 
     def getTiSignal(self):
         """
-        Calculates and returns the signal of the technical indicator. The
-        Technical Indicator data are taken from an attribute of the parent
-        class.
-
-        Parameters:
-            -
-
-        Raises:
-            -
+        Calculates and returns the trading signal for the calculated technical
+        indicator.
 
         Returns:
-            tuple (string, integer): The Trading signal. Possible values are
-                ('hold', 0), ('buy', -1), ('sell', 1). See TRADE_SIGNALS
-                constant in the tti.utils package, constants.py module.
+            {('hold', 0), ('buy', -1), ('sell', 1)}: The calculated trading
+            signal.
         """
 
         # Not enough data for calculating trading signal

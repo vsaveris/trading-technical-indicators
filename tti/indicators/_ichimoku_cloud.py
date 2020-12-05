@@ -15,17 +15,31 @@ class IchimokuCloud(TechnicalIndicator):
     """
     Ichimoku Cloud Technical Indicator class implementation.
 
-    Parameters:
-        input_data (pandas.DataFrame): The input data.
+    Args:
+        input_data (pandas.DataFrame): The input data. Required input columns
+            are ``high``, ``low``, ``close``. The index is of type
+            ``pandas.DatetimeIndex``.
 
-        fill_missing_values (boolean, default is True): If set to True,
-            missing values in the input data are being filled.
+        fill_missing_values (bool, default=True): If set to True, missing
+            values in the input data are being filled.
 
     Attributes:
-        -
+        _input_data (pandas.DataFrame): The ``input_data`` after preprocessing.
+
+        _ti_data (pandas.DataFrame): The calculated indicator. Index is of type
+            ``pandas.DatetimeIndex``. It contains four columns the
+            ``tenkan_sen``, ``kijun_sen``, ``senkou_a``, ``senkou_b``.
+
+        _properties (dict): Indicator properties.
+
+        _calling_instance (str): The name of the class.
 
     Raises:
-        -
+        WrongTypeForInputParameter: Input argument has wrong type.
+        WrongValueForInputParameter: Unsupported value for input argument.
+        NotEnoughInputData: Not enough data for calculating the indicator.
+        TypeError: Type error occurred when validating the ``input_data``.
+        ValueError: Value error occurred when validating the ``input_data``.
     """
     def __init__(self, input_data, fill_missing_values=True):
 
@@ -39,16 +53,10 @@ class IchimokuCloud(TechnicalIndicator):
         Calculates the technical indicator for the given input data. The input
         data are taken from an attribute of the parent class.
 
-        Parameters:
-            -
-
-        Raises:
-            -
-
         Returns:
-            pandas.DataFrame: The calculated indicator. Index is of type date.
-                It contains four columns the 'tenkan_sen', 'kijun_sen',
-                'senkou_a', 'senkou_b'.
+            pandas.DataFrame: The calculated indicator. Index is of type
+            ``pandas.DatetimeIndex``. It contains four columns the
+            ``tenkan_sen``, ``kijun_sen``, ``senkou_a``, ``senkou_b``.
         """
 
         # Build the indicator's dataframe
@@ -82,15 +90,12 @@ class IchimokuCloud(TechnicalIndicator):
         """
         Checks the relative position of the value to the cloud.
 
-        Parameters:
+        Args:
             value (float): The value for which the relative position to the
                 cloud should be calculated.
 
             cloud (list of two floats): Bounds of the cloud in a not guaranteed
                 order.
-
-        Raises:
-            -
 
         Returns:
             int: 0 means that value is within the cloud, 1 means that value
@@ -104,20 +109,12 @@ class IchimokuCloud(TechnicalIndicator):
 
     def getTiSignal(self):
         """
-        Calculates and returns the signal of the technical indicator. The
-        Technical Indicator data are taken from an attribute of the parent
-        class.
-
-        Parameters:
-            -
-
-        Raises:
-            -
+        Calculates and returns the trading signal for the calculated technical
+        indicator.
 
         Returns:
-            tuple (string, integer): The Trading signal. Possible values are
-                ('hold', 0), ('buy', -1), ('sell', 1). See TRADE_SIGNALS
-                constant in the tti.utils package, constants.py module.
+            {('hold', 0), ('buy', -1), ('sell', 1)}: The calculated trading
+            signal.
         """
 
         # Not enough data for calculating a trading signal

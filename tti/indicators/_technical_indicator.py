@@ -21,25 +21,27 @@ class TechnicalIndicator(ABC):
     each implemented technical indicator. It implements the public API for
     accessing the calculated values, graph and signal of each indicator.
 
-    Parameters:
+    Args:
         calling_instance (str): The name of the calling class.
 
-        input_data (pandas.DataFrame): The input data.
+        input_data (pandas.DataFrame): The input data. The index is of type
+            ``pandas.DatetimeIndex``.
 
-        fill_missing_values (boolean, default is True): If set to True,
+        fill_missing_values (bool, default=True): If set to True,
             missing values in the input data are being filled.
 
     Attributes:
         _calling_instance (str): The name of the calling class.
 
-        _properties (dictionary): Indicator properties.
+        _properties (dict): Indicator properties.
 
         _input_data (pandas.DataFrame): The input data after preprocessing.
 
         _ti_data (pandas.DataFrame): Technical Indicator calculated data.
 
     Raises:
-        -
+        WrongTypeForInputParameter: The type of an input parameter is invalid.
+        NotEnoughInputData: Not enough data for calculating the indicator.
     """
 
     def __init__(self, calling_instance, input_data, fill_missing_values=True):
@@ -69,15 +71,12 @@ class TechnicalIndicator(ABC):
         """
         Applies a function to a pandas rolling pipe.
 
-        Parameters:
+        Args:
             df (pandas.DataFrame): The input pandas.DataFrame.
 
             window (int): The size of the rolling window.
 
-            function (function object): The function to be applied.
-
-        Raises:
-            -
+            function (function): The function to be applied.
 
         Returns:
            pandas.Series: The result of the applied function.
@@ -93,15 +92,12 @@ class TechnicalIndicator(ABC):
         """
         Calculates the technical indicator for the given input data.
 
-        Parameters:
-            -
-
-        Raises:
-             -
-
         Returns:
             pandas.DataFrame: The calculated indicator. Index is of type date.
-                It can contain several columns depending the indicator.
+            It can contain several columns depending the indicator.
+
+        Raises:
+            NotImplementedError: Abstract method not implemented.
         """
 
         raise NotImplementedError
@@ -109,31 +105,22 @@ class TechnicalIndicator(ABC):
     @abstractmethod
     def getTiSignal(self):
         """
-         Calculates and returns the signal of the technical indicator.
+        Calculates and returns the trading signal for the calculated technical
+        indicator.
 
-         Parameters:
-            -
+        Returns:
+            {('hold', 0), ('buy', -1), ('sell', 1)}: The calculated trading
+            signal.
 
-         Raises:
-             -
-
-         Returns:
-            tuple (string, integer): The Trading signal. Possible values are
-                ('hold', 0), ('buy', -1), ('sell', 1). See TRADE_SIGNALS
-                constant in the tti.utils package, constants.py module.
-         """
+        Raises:
+            NotImplementedError: Abstract method not implemented.
+        """
 
         raise NotImplementedError
 
     def getTiData(self):
         """
         Returns the Technical Indicator values for the whole period.
-
-        Parameters:
-            -
-
-        Raises:
-            -
 
         Returns:
             pandas.DataFrame: The Technical Indicator values.
@@ -146,14 +133,13 @@ class TechnicalIndicator(ABC):
         Returns the Technical Indicator value for a given date. If the date
         is None, it returns the most recent entry.
 
-        Parameters:
-            date (string, default is None): A date string.
-
-        Raises:
-            -
+        Args:
+            date (str, default=None): A date string, in the same format as the
+                format of the ``input_data`` index.
 
         Returns:
-            float: The value of the Technical Indicator for the given date.
+            [float] or None: The value of the Technical Indicator for the given
+            date. If none value found for the given date, returns None.
         """
 
         try:
@@ -169,14 +155,8 @@ class TechnicalIndicator(ABC):
         """
         Generates a plot customized for each Technical Indicator.
 
-        Parameters:
-            -
-
-        Raises:
-            -
-
         Returns:
-            matplotlib object: The generated plot.
+            matplotlib.pyplot: The generated plot.
         """
 
         # Check if split to subplots is required for this Indicator
@@ -204,53 +184,65 @@ class TechnicalIndicator(ABC):
         possession but a `sell` signal is produced, this signal is being
         ignored.
 
-        Parameters:
+        Args:
             close_values (pandas.DataFrame): The close value of the stock, for
                 the whole simulation period. Index is of type DateTimeIndex
                 with same values as the input to the indicator data. It
                 contains one column `close`.
 
-            max_pieces_per_buy (int, default is 1): The maximum number of
+            max_pieces_per_buy (int, default=1): The maximum number of
                 stocks to be bought at each `buy` signal.
 
-            commission (numeric, default is 0.0): Commission for each `buy` or
+            commission (numeric, default=0.0): Commission for each `buy` or
                 `sell` transaction.
 
-        Raises:
-            -
-
         Returns:
-            simulation (pandas.DataFrame): Data frame which holds details about
-                the simulation. Index is the whole trading period
-                (DateTimeIndex). Columns are:
-                `signal`: the signal produced at each day of the simulation
-                    period.
-                `stocks_in_transaction`: the number of stocks bought or sold in
-                    this transaction.
-                `stocks_in_possession`: the number of stocks in possession.
-                `balance`: the available balance (earnings from selling stocks
-                    - spending from buying stocks)
-                `total_value`: the balance plus the value of the stocks in
-                    possession.
+            (pandas.DataFrame, dict): Dataframe which holds details about and
+            dictionary  which holds statistics about the simulation.
 
-            statistics (dictionary): Statistics about the simulation. It
-                contains the below entries:
-                `number_of_trading_days`: The number of trading days in the
-                    simulation round.
-                `number_of_buy_signals`: The number of `buy` signals produced
-                    during the simulation period.
-                `number_of_sell_signals`: The number of `sell` signals produced
-                    during the simulation period.
-                `number_of_ignored_sell_signals`: The number of `sell` signals
-                    ignored because they were not any stocks in possession.
-                `balance`: The final balance (earnings from selling stocks
-                    - spending from buying stocks)
-                `stocks_in_possession`: The stocks in possession at the end of
-                    the simulation.
-                `stock_value`: The value of the stock at the end of the
-                    simulation.
-                `total_value`: The balance plus the value of the stocks in
-                    possession at the end of the simulation.
+            The index of the dataframe is the whole trading period
+            (DateTimeIndex).Columns are:
+
+            ``signal``: the signal produced at each day of the simulation
+            period.
+
+            ``stocks_in_transaction``: the number of stocks bought or sold in
+            this transaction.
+
+            ``stocks_in_possession``: the number of stocks in possession.
+
+            ``balance``: the available balance (earnings from selling stocks
+            - spending from buying stocks).
+
+            ``total_value``: the balance plus the value of the stocks in
+            possession.
+
+
+            The dictionary contains the below keys:
+
+            ``number_of_trading_days``: The number of trading days in the
+            simulation round.
+
+            ``number_of_buy_signals``: The number of ``buy`` signals produced
+            during the simulation period.
+
+            ``number_of_sell_signals``: The number of ``sell`` signals produced
+            during the simulation period.
+
+            ``number_of_ignored_sell_signals``: The number of ``sell`` signals
+            ignored because they were not any stocks in possession.
+
+            ``balance``: The final balance (earnings from selling stocks
+            - spending from buying stocks)
+
+            ``stocks_in_possession``: The stocks in possession at the end of
+            the simulation.
+
+            ``stock_value``: The value of the stock at the end of the
+            simulation.
+
+            ``total_value``: The balance plus the value of the stocks in
+            possession at the end of the simulation.
         """
 
         # Validate input arguments

@@ -25,34 +25,32 @@ def linesGraph(data, y_label, title, lines_color, alpha_values, areas,
             should be of type pandas.DatetimeIndex. Each column of the
             dataframe represents a line in the graph.
             
-        y_label (string): The label of the y-axis of the graph.
+        y_label (str): The label of the y-axis of the graph.
 
-        title (string): The title on the top of the graph.
+        title (str): The title on the top of the graph.
 
-        lines_color (list of str): The colors (matplotlib.colors) to be used
-            for each line of the graph, in the defined order. In case where the
+        lines_color ([str,]): The colors (matplotlib.colors) to be used for
+            each line of the graph, in the defined order. In case where the
             lines are more than the colors, then the list is scanned again from 
             the zero index.
         
-        alpha_values (list of floats): Alpha value of each line, to be used in 
+        alpha_values ([float,]): Alpha value of each line, to be used in
             the call of the matplotlib.pyplot.plot method. In case where the 
             lines are more than the members of the list, then the list is 
             scanned again from the zero index.
             
-        areas (list of dictionaries or None): Includes the areas to be plotted
-            by using the fill_between matplotlib method. Each member of the
-            list should be a dictionary with the below keys:
-            {'x':, 'y1':, 'y2':, 'color':}, see fill_between matplotlib method
-            for more details.
+        areas ([dict,] or None): Includes the areas to be plotted by using the
+            fill_between matplotlib method. Each member of the list should be a
+            dictionary with the below keys: ``x``, ``y1``, ``y2``, ``color``,
+            see ``fill_between`` matplotlib method for more details.
 
-        x_label (string): The label of the x-axis of the graph. Default value
-            is `Date`.
-        
-    Raises:
-        TypeError
+        x_label (str, default='Date'): The label of the x-axis of the graph.
 
     Returns:
         matplotlib.pyplot: The prepared graph object.
+
+    Raises:
+        TypeError: Type error occurred when validating the ``data``.
     """
 
     # For handling a list as input always

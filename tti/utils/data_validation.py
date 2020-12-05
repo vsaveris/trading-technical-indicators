@@ -16,34 +16,35 @@ def validateInputData(input_data, required_columns, indicator_name,
                       fill_missing_values=True):
     """
     Validates that the data parameter is a pandas.DataFrame, that its index
-    is of type date, that it is not empty and that it contains the 
-    required columns (required_columns parameters) with the proper data type.
-    It returns the DataFrame with only the required columns, sorted on the date
-    index and with missing values filled (if related parameter is set to True).
-    It raises an exception in case the validation fails.
+    is of type date, that it is not empty and that it contains the required
+    columns (required_columns parameters) with the proper data type. It returns
+    the DataFrame with only the required columns, sorted on the date index and
+    with missing values filled (if related parameter is set to True). It raises
+    an exception in case the validation fails.
 
-    Parameters:
-        input_data (pandas.DataFrame): Input object to be validated.
+    Args:
+        input_data (pandas.DataFrame): The input data. The index is of type
+            ``pandas.DatetimeIndex``.
         
-        required_columns (list of strings): The columns which should be
-            contained in the DataFrame for the specific indicator.
+        required_columns ([str,]): The columns which should be contained in the
+            dataframe for the specific indicator.
             
-        indicator_name (string): The name of the indicator. To be used in case
+        indicator_name (str): The name of the indicator. To be used in case
             an exception is raised.
 
-        fill_missing_values (boolean): If True, missing values are filled as
-            described in the data_preprocessing.py module.
-
-    Raises:
-        TypeError
-        ValueError
-        WrongTypeForInputParameter
+        fill_missing_values (bool, default=True): If True, missing values are
+            filled as described in the data_preprocessing.py module.
 
     Returns:
         pandas.DataFrame: The input data frame containing only the required
-            columns, sorted and with missing values filled (if requested). The
-            DataFrame is ready to be used for calculating the Technical
-            Indicator without any further processing.
+        columns, sorted and with missing values filled (if requested). The
+        dataframe is ready to be used for calculating the Technical Indicator
+        without any further processing.
+
+    Raises:
+        WrongTypeForInputParameter: Input argument has wrong type.
+        TypeError: Type error occurred when validating the ``input_data``.
+        ValueError: Value error occurred when validating the ``input_data``.
     """
 
     # Validate that the input_data parameter is a pandas.DataFrame object
