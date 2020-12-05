@@ -7,6 +7,7 @@
 - Machine Learning integration for prices prediction (not included in this release).
 
 **Change Log**
+- 0.1.b2: Bugs fixes ([#1](https://github.com/vsaveris/trading-technical-indicators/issues/1))
 - 0.1.b1: Cosmetic changes in package building file applied (setup.py)
 - 0.1.b0: First beta release
 
