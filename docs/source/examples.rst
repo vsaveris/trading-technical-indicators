@@ -76,6 +76,8 @@ Below is an example on how to use the ``tti.indicators`` package API. Time-serie
     Technical Indicator value at 2012-09-06: [143.718]
     
     Most recent Technical Indicator value: [139.225]
+
+    Technical Indicator signal: ('hold', 0)
     
     Graph saved.
     
