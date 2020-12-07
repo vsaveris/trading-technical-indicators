@@ -7,15 +7,22 @@ File name: run_all_simulation.py
 
 Use as:
     python run_all_simulation.py [indicator_class_name [**kwargs]]
+
+    examples:
+    python run_all_simulation.py MovingAverage "{'ma_type': 'exponential'}"
+    python run_all_simulation.py MovingAverage
+    python run_all_simulation.py AccumulationDistributionLine
 """
 
 import sys
 import json
+import ast
 import time
 import inspect
 import pandas as pd
 import tti.indicators as ti
 import matplotlib.pyplot as plt
+from tti.indicators import *
 
 
 def getSimulationGraph(simulation, close_values, title):
@@ -111,11 +118,6 @@ def execute_simulation(indicator_object, close_values, output_file=None,
     print('\n- Simulation executed in :', round(time.time() - start_time, 2),
           'seconds.', file=output_file)
 
-    # Save graph for the calculated indicator
-    graph_name_suffix = ('_' + add_info) if add_info is not None else ''
-    output_file_name = figures_output_path + 'simulation_' + \
-        type(indicator).__name__ + graph_name_suffix + '.png'
-
     graph_title_suffix = (' (' + add_info + ')') if add_info is not None else \
         ''
     fig = getSimulationGraph(simulation, close_values,
@@ -126,10 +128,14 @@ def execute_simulation(indicator_object, close_values, output_file=None,
     if figures_output_path is None:
         fig.show()
     else:
+        # Save graph for the calculated indicator
+        graph_name_suffix = ('_' + add_info) if add_info is not None else ''
+        output_file_name = figures_output_path + 'simulation_' + \
+            type(indicator).__name__ + graph_name_suffix + '.png'
         fig.savefig(output_file_name)
         fig.close()
 
-    print('\n- Graph', output_file_name, 'saved.', file=output_file)
+        print('\n- Graph', output_file_name, 'saved.', file=output_file)
 
     # Get simulation statistics
     print('\n- Simulation Statistics:\n', file=output_file)
@@ -156,19 +162,26 @@ if __name__ == '__main__':
 
         # Read the input kwargs (dictionary)
         if len(sys.argv) > 2:
-            kwargs_dict = json.loads(sys.argv[2])
+            kwargs_dict = ast.literal_eval(sys.argv[2])
         else:
             kwargs_dict = None
 
         print('Trading Simulation for the', sys.argv[1], 'with arguments',
               kwargs_dict)
 
-        execute_simulation(kwargs_dict,
-                           indicator_object=indicator,
-                           close_values=df[['close']],
-                           output_file=None, add_info=None,
-                           figures_output_path=None,
-                           input_data=df)
+        if kwargs_dict is None:
+            execute_simulation(indicator_object=indicator,
+                               close_values=df[['close']],
+                               output_file=None, add_info=None,
+                               figures_output_path=None,
+                               input_data=df)
+        else:
+            execute_simulation(indicator_object=indicator,
+                               close_values=df[['close']],
+                               output_file=None, add_info=None,
+                               figures_output_path=None,
+                               input_data=df,
+                               **kwargs_dict)
 
     # Run simulation for all the indicators implemented in the tti.indicators
     # package
