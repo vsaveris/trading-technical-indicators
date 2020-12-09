@@ -281,3 +281,72 @@ class TradingSimulation:
             'stock_value': self._simulation_data['stock_value'].iat[-1],
 
             'total_value': self._simulation_data['total_value'].iat[-1]}
+
+    def _closeOpenPositions(self, price, force_all=False, write=True):
+        """
+        Closes the opened positions existing in portfolio.
+
+        Args:
+            price (float): The price of the stock to be considered in the
+                closing transactions.
+
+            force_all (bool, default=False): If True, all the opened positions
+                are being closed. If False, only the positions which will bring
+                earnings are being closed.
+
+            write (bool, default=True): If True, update the status of the
+                positions in the portfolio. If False, then the positions remain
+                open.
+
+        Returns:
+            float: The value of the transactions executed (earnings -
+            spending).
+        """
+
+        # Close all the open positions
+        if force_all:
+            total_long_items = \
+                sum(self._portfolio[self._portfolio['status'] == 'open' and
+                    self._portfolio['position'] == 'long']['items'])
+
+            total_short_items = \
+                sum(self._portfolio[self._portfolio['status'] == 'open' and
+                    self._portfolio['position'] == 'short']['items'])
+
+            # Value when closing short and long positions
+            value = (total_long_items - total_short_items) * price
+
+            # Register close action
+            if write:
+                self._portfolio[
+                    self._portfolio['status'] == 'open']['status'] = 'close'
+
+        # Close only positions that bring earnings
+        else:
+
+            total_long_items = \
+                sum(self._portfolio[self._portfolio['status'] == 'open' and
+                    self._portfolio['position'] == 'long' and
+                    self._portfolio['unit_price'] < price]['items'])
+
+            total_short_items = \
+                sum(self._portfolio[self._portfolio['status'] == 'open' and
+                    self._portfolio['position'] == 'short' and
+                    self._portfolio['unit_price'] > price]['items'])
+
+            # Value when closing short and long positions
+            value = (total_long_items - total_short_items) * price
+
+            # Register close action
+            if write:
+                self._portfolio[
+                    self._portfolio['status'] == 'open' and
+                    self._portfolio['position'] == 'long' and
+                    self._portfolio['unit_price'] < price]['status'] = 'close'
+
+                self._portfolio[
+                    self._portfolio['status'] == 'open' and
+                    self._portfolio['position'] == 'short' and
+                    self._portfolio['unit_price'] > price]['status'] = 'close'
+
+        return value
