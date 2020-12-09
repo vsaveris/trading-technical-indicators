@@ -313,8 +313,12 @@ class TradingSimulation:
                 sum(self._portfolio[self._portfolio['status'] == 'open' and
                     self._portfolio['position'] == 'short']['items'])
 
+            open_positions = len(
+                self._portfolio[self._portfolio['status'] == 'open'].index)
+
             # Value when closing short and long positions
-            value = (total_long_items - total_short_items) * price
+            value = (total_long_items - total_short_items) * price - \
+                open_positions * self._commission
 
             # Register close action
             if write:
@@ -324,29 +328,49 @@ class TradingSimulation:
         # Close only positions that bring earnings
         else:
 
+            # Use 2*commission, for the expenses when position was opened and
+            # for the expenses from the position closing
             total_long_items = \
                 sum(self._portfolio[self._portfolio['status'] == 'open' and
                     self._portfolio['position'] == 'long' and
-                    self._portfolio['unit_price'] < price]['items'])
+                    self._portfolio['unit_price'] < price +
+                                    2 * self._commission]['items'])
 
             total_short_items = \
                 sum(self._portfolio[self._portfolio['status'] == 'open' and
                     self._portfolio['position'] == 'short' and
-                    self._portfolio['unit_price'] > price]['items'])
+                    self._portfolio['unit_price'] > price +
+                                    2 * self._commission]['items'])
+
+            open_positions = len(
+                self._portfolio[
+                    self._portfolio['status'] == 'open' and
+                    self._portfolio['position'] == 'long' and
+                    self._portfolio['unit_price'] < price +
+                    2 * self._commission].index) + \
+                len(
+                self._portfolio[
+                    self._portfolio['status'] == 'open' and
+                    self._portfolio['position'] == 'short' and
+                    self._portfolio['unit_price'] > price +
+                    2 * self._commission].index)
 
             # Value when closing short and long positions
-            value = (total_long_items - total_short_items) * price
+            value = (total_long_items - total_short_items) * price - \
+                open_positions * self._commission
 
             # Register close action
             if write:
                 self._portfolio[
                     self._portfolio['status'] == 'open' and
                     self._portfolio['position'] == 'long' and
-                    self._portfolio['unit_price'] < price]['status'] = 'close'
+                    self._portfolio['unit_price'] < price +
+                    2 * self._commission]['status'] = 'close'
 
                 self._portfolio[
                     self._portfolio['status'] == 'open' and
                     self._portfolio['position'] == 'short' and
-                    self._portfolio['unit_price'] > price]['status'] = 'close'
+                    self._portfolio['unit_price'] > price +
+                    2 * self._commission]['status'] = 'close'
 
         return value
