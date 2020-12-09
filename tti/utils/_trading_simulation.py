@@ -374,3 +374,26 @@ class TradingSimulation:
                     2 * self._commission]['status'] = 'close'
 
         return value
+
+    def _processHoldSignal(self, i_index):
+        """
+        Process a ``hold`` trading signal.
+
+        Args:
+            i_index (int): The integer index of the current simulation round.
+                Refers to the index of all the DataFrames used in the
+                simulation.
+        """
+
+        # Add portfolio row
+        self._portfolio.iat[i_index] = ['none', 0, 0.0, 'none']
+
+        # Total balance = balance + value if all positions are closed today
+        value = self._closeOpenPositions(price=self._close_values.iat[i_index],
+            force_all=True, write=False)
+
+        self._simulation_data.iat[i_index] = [
+            'hold', 'none', 0,
+            self._simulation_data['balance'].iat[i_index - 1],
+            self._close_values.iat[i_index],
+            self._simulation_data['balance'].iat[i_index - 1] + value]
