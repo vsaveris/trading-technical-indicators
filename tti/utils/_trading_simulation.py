@@ -7,6 +7,9 @@ File name: _trading_simulation.py
 """
 
 import pandas as pd
+from ..utils.data_validation import validateInputData
+from ..utils.exceptions import WrongTypeForInputParameter, \
+    NotValidInputDataForSimulation, WrongValueForInputParameter
 
 
 class TradingSimulation:
@@ -123,6 +126,12 @@ class TradingSimulation:
 
             ``total_value``: The balance plus after closing all the open
             positions.
+
+    Raises:
+        WrongTypeForInputParameter: Input argument has wrong type.
+        WrongValueForInputParameter: Unsupported value for input argument.
+        NotValidInputDataForSimulation: Invalid ``close_values`` `passed for
+            the simulation.
     """
 
     def __init__(self, input_data, ti_data, close_values,
@@ -135,6 +144,9 @@ class TradingSimulation:
         self._max_items_per_transaction = max_items_per_transaction
         self._commission = commission
         self._max_investment = max_investment
+
+        # Validate input arguments
+        self._validateSimulationArguments()
 
         # Simulation portfolio, keeps a track of the entered positions during
         # the simulation. Position: `long`, `short` or `none`. Items: Number of
@@ -163,3 +175,65 @@ class TradingSimulation:
             'total_stocks_in_short': 0,
             'stock_value': 0.0,
             'total_value': 0.0}
+
+    def _validateSimulationArguments(self):
+        """
+        Validates the input arguments passed in the constructor. input_data and
+        ti_data are already validated by the tti.indicators package.
+
+        Raises:
+            WrongTypeForInputParameter: Input argument has wrong type.
+            WrongValueForInputParameter: Unsupported value for input argument.
+            NotValidInputDataForSimulation: Invalid ``close_values`` `passed
+                for the simulation.
+        """
+
+        # Validate close_values pandas.DataFrame
+        try:
+            self._close_values = validateInputData(
+                input_data=self._close_values, required_columns=['close'],
+                indicator_name='TradingSimulation',
+                fill_missing_values=True)
+
+        except Exception as e:
+            raise NotValidInputDataForSimulation(
+                'close_values', str(e).replace('input_data', 'close_values'))
+
+        if not self._close_values.index.equals(self._input_data.index):
+            raise NotValidInputDataForSimulation(
+                'close_values', 'Index of the `close_values` DataFrame ' +
+                                'should be the same as the index of the ' +
+                                '`input_data` argument in the indicator\'s ' +
+                                'constructor.')
+
+        # Validate _max_items_per_transaction
+        if isinstance(self._max_items_per_transaction, int):
+            if self._max_items_per_transaction <= 0:
+                raise WrongValueForInputParameter(
+                    self._max_items_per_transaction,
+                    'max_items_per_transaction', '>0')
+        else:
+            raise WrongTypeForInputParameter(
+                type(self._max_items_per_transaction),
+                'max_items_per_transaction', 'int')
+
+        # Validate commission
+        if isinstance(self._commission, (int, float)):
+            if self._commission < 0:
+                raise WrongValueForInputParameter(
+                    self._commission, 'commission', '>=0')
+        else:
+            raise WrongTypeForInputParameter(
+                type(self._commission), 'commission', 'int or float')
+
+        # Validate max_investment
+        if isinstance(self._max_investment, (int, float)):
+            if self._max_investment <= 0:
+                raise WrongValueForInputParameter(
+                    self._max_investment, 'max_investment', '>0')
+        elif self._max_investment is None:
+            pass
+        else:
+            raise WrongTypeForInputParameter(
+                type(self._max_investment), 'max_investment',
+                'int or float or None')
