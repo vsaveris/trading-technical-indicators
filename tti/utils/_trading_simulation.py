@@ -237,3 +237,47 @@ class TradingSimulation:
             raise WrongTypeForInputParameter(
                 type(self._max_investment), 'max_investment',
                 'int or float or None')
+
+    def _calculateSimulationStatistics(self):
+        """
+        Calculate simulation statistics, at the end of the simulation.
+        """
+
+        self._statistics = {
+            'number_of_trading_days': len(self._simulation_data.index),
+
+            'number_of_buy_signals':
+                len(self._simulation_data[
+                        self._simulation_data['signal'] == 'buy'].index),
+
+            'number_of_ignored_buy_signals':
+                len(self._simulation_data[
+                        self._simulation_data['signal'] == 'buy' and
+                        self._simulation_data['trading_action'] == 'none'].
+                    index),
+
+            'number_of_sell_signals':
+                len(self._simulation_data[
+                        self._simulation_data['signal'] == 'sell'].index),
+
+            'number_of_ignored_sell_signals':
+                len(self._simulation_data[
+                        self._simulation_data['signal'] == 'sell' and
+                        self._simulation_data['trading_action'] == 'none'].
+                    index),
+
+            'balance': self._simulation_data['balance'].iat[-1],
+
+            'total_stocks_in_long':
+                self._portfolio[
+                    self._portfolio['position'] == 'long' and
+                    self._portfolio['close'] == 'open']['items'].sum(),
+
+            'total_stocks_in_short':
+                self._portfolio[
+                    self._portfolio['position'] == 'short' and
+                    self._portfolio['close'] == 'open']['items'].sum(),
+
+            'stock_value': self._simulation_data['stock_value'].iat[-1],
+
+            'total_value': self._simulation_data['total_value'].iat[-1]}
