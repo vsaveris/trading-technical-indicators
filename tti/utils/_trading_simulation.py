@@ -548,3 +548,68 @@ class TradingSimulation:
 
         else:
             self._processHoldSignal(i_index)
+
+    def closeSimulation(self):
+        """
+        Closes this simulation and returns simulation data and statistics.
+
+        Returns:
+            (pandas.DataFrame, dict): Dataframe which holds details and
+            dictionary which holds statistics about the simulation.
+
+            The index of the dataframe is the whole trading period
+            (DateTimeIndex).Columns are:
+
+            ``signal``: the signal produced at each day of the simulation
+            period.
+
+            ``trading_action``: the trading action applied. Possible values are
+            ``open_long``, ``close_long``, ``open_short``, ``close_short`` and
+            ``none``.
+
+            ``stocks_in_transaction``: the number of stocks involved in a
+            trading_action.
+
+            ``balance``: the available balance (earnings - spending).
+
+            ``stock_value``: The value of the stock during the simulation
+            period.
+
+            ``total_value``: the available balance considering the open
+            positions (if they should be closed in this transaction).
+
+            The dictionary contains the below keys:
+
+            ``number_of_trading_days``: the number of trading days in the
+            simulation round.
+
+            ``number_of_buy_signals``: the number of ``buy`` signals produced
+            during the simulation period.
+
+            ``number_of_ignored_buy_signals``: the number of ``buy`` signals
+            ignored because of the ``max_investment`` limitation.
+
+            ``number_of_sell_signals``: the number of ``sell`` signals produced
+            during the simulation period.
+
+            ``number_of_ignored_sell_signals``: the number of ``sell`` signals
+            ignored because of the ``max_investment`` limitation.
+
+            ``balance``: the final available balance (earnings - spending).
+
+            ``total_stocks_in_long``: the number of stocks in long position at
+            the end of the simulation.
+
+            ``total_stocks_in_short``: the number of stocks in short position
+            at the end of the simulation.
+
+            ``stock_value``: The value of the stock at the end of the
+            simulation.
+
+            ``total_value``: The balance plus after closing all the open
+            positions.
+        """
+
+        self._calculateSimulationStatistics()
+
+        return self._simulation_data, self._statistics
