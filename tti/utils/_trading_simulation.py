@@ -397,3 +397,64 @@ class TradingSimulation:
             self._simulation_data['balance'].iat[i_index - 1],
             self._close_values.iat[i_index],
             self._simulation_data['balance'].iat[i_index - 1] + value]
+
+    def _processBuySignal(self, i_index):
+        """
+        Process a ``buy`` trading signal.
+
+        Args:
+            i_index (int): The integer index of the current simulation round.
+                Refers to the index of all the DataFrames used in the
+                simulation.
+        """
+
+        # Not enough balance for proceeding with the `buy` signal
+        if ((self._max_investment is not None) and
+                (self._simulation_data['balance'].iat[i_index] -
+                 self._commission - self._close_values.iat[i_index] +
+                 self._max_investment < 0)):
+
+            # Add portfolio row
+            self._portfolio.iat[i_index] = ['none', 0, 0.0, 'none']
+
+            # Total balance = balance + value if all positions are closed
+            # today
+            value = self._closeOpenPositions(
+                price=self._close_values.iat[i_index],
+                force_all=True, write=False)
+
+            self._simulation_data.iat[i_index] = [
+                'buy', 'none', 0,
+                self._simulation_data['balance'].iat[i_index - 1],
+                self._close_values.iat[i_index],
+                self._simulation_data['balance'].iat[i_index - 1] + value]
+
+        # Enough balance, proceed with opening a `long` position
+        else:
+
+            # Calculate number of stocks to be used in position
+            if self._max_investment is not None:
+                quantity = min(
+                    self._max_items_per_transaction,
+                    int((self._simulation_data['balance'].iat[i_index - 1] -
+                         self._commission + self._max_investment) /
+                    self._close_values.iat[i_index]))
+            else:
+                quantity = self._max_items_per_transaction
+
+            self._portfolio.iat[i_index] = [
+                'long', quantity, self._close_values.iat[i_index], 'open']
+
+            self._simulation_data.iat[i_index] = [
+                'buy', 'open_long', quantity,
+                self._simulation_data['balance'].iat[i_index - 1] - (
+                        quantity * self._close_values.iat[i_index]) -
+                self._commission, self._close_values.iat[i_index], 'N/A']
+
+            # At the end to include this transaction also
+            value = self._closeOpenPositions(
+                price=self._close_values.iat[i_index],
+                force_all=True, write=False)
+
+            self._simulation_data['total_value'].iat[i_index] = \
+                self._simulation_data['balance'].iat[i_index] + value
