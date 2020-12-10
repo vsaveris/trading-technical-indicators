@@ -10,6 +10,7 @@ import pandas as pd
 from ..utils.data_validation import validateInputData
 from ..utils.exceptions import WrongTypeForInputParameter, \
     NotValidInputDataForSimulation, WrongValueForInputParameter
+from ..utils.constants import TRADE_SIGNALS
 
 
 class TradingSimulation:
@@ -519,3 +520,31 @@ class TradingSimulation:
 
             self._simulation_data['total_value'].iat[i_index] = \
                 self._simulation_data['balance'].iat[i_index] + value
+
+    def runSimulationRound(self, i_index, signal):
+        """
+        Executes a simulation round based on given signal.
+
+        Args:
+            i_index (int): The integer index of the current simulation round.
+                Refers to the index of all the DataFrames used in the
+                simulation.
+
+            signal ({('hold', 0), ('buy', -1), ('sell', 1)} or None): The
+                signal to be considered in this simulation round.
+        """
+
+        # Just initializations at the first day
+        if i_index == 0:
+            self._simulation_data.iat[0] = ['hold', 'none', 0, 0.0, 0.0, 0.0]
+            self._portfolio.iat[0] = ['none', 0, 0.0, 'none']
+            return None
+
+        if signal == TRADE_SIGNALS['buy']:
+            self._processBuySignal(i_index)
+
+        elif signal == TRADE_SIGNALS['sell']:
+            self._processSellSignal(i_index)
+
+        else:
+            self._processHoldSignal(i_index)
