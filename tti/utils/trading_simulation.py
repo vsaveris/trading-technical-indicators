@@ -1,7 +1,7 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: _trading_simulation.py
+File name: trading_simulation.py
     Trading simulation class implementation defined under the tti.utils
     package.
 """
