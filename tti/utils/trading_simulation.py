@@ -19,10 +19,9 @@ class TradingSimulation:
     the runSimulation method of the tti.indicators package.
 
     Args:
-        input_data (pandas.DataFrame): The indicator's input data after
-            preprocessing.
-
-        ti_data (pandas.DataFrame): The technical Indicator calculated data.
+        input_data_index (pandas.DateTimeIndex): The indicator's input data
+            index. Is used for validating that the close values DataFrame
+            includes data for the whole simulation period.
 
         close_values (pandas.DataFrame): The close prices of the stock, for
             the whole simulation period. Index is of type DateTimeIndex
@@ -33,8 +32,6 @@ class TradingSimulation:
             stocks to be traded on each ``open_long`` or ``open_short``
             transaction.
 
-        commission (float, default=0.0): Commission for each transaction.
-
         max_investment(float, default=None): Maximum investment for all the
             opened positions (``short`` and ``long``). If the sum of all
             the opened positions reached the maximum investment, then it is
@@ -44,10 +41,9 @@ class TradingSimulation:
             positions.
 
     Attributes:
-         _input_data (pandas.DataFrame): The indicator's input data after
-            preprocessing.
-
-        _ti_data (pandas.DataFrame): The technical Indicator calculated data.
+         _input_data_index (pandas.DateTimeIndex): The indicator's input data
+            index. Is used for validating that the close values DataFrame
+            includes data for the whole simulation period.
 
         _close_values (pandas.DataFrame): The close prices of the stock, for
             the whole simulation period. Index is of type DateTimeIndex
@@ -57,8 +53,6 @@ class TradingSimulation:
         _max_items_per_transaction (int, default=1): The maximum number of
             stocks to be traded on each ``open_long`` or ``open_short``
             transaction.
-
-        _commission (float, default=0.0): Commission for each transaction.
 
         _max_investment(float, default=None): Maximum investment for all the
             opened positions (``short`` and ``long``). If the sum of all
@@ -135,15 +129,12 @@ class TradingSimulation:
             the simulation.
     """
 
-    def __init__(self, input_data, ti_data, close_values,
-                 max_items_per_transaction=1, commission=0.0,
-                 max_investment=None):
+    def __init__(self, input_data_index, close_values,
+                 max_items_per_transaction=1, max_investment=None):
 
-        self._input_data = input_data
-        self._ti_data = ti_data
+        self._input_data_index = input_data_index
         self._close_values = close_values
         self._max_items_per_transaction = max_items_per_transaction
-        self._commission = commission
         self._max_investment = max_investment
 
         # Validate input arguments
@@ -154,12 +145,12 @@ class TradingSimulation:
         # stocks. Unit_Price: Price of each item when entered the position.
         # Status: `open`, `close` or none
         self._portfolio = pd.DataFrame(
-            index=self._input_data.index,
+            index=self._input_data_index,
             columns=['position', 'items', 'unit_price', 'status'], data=None)
 
         # Initialize simulation data structure (DataFrame)
         self._simulation_data = pd.DataFrame(
-            index=self._ti_data.index,
+            index=self._input_data_index,
             columns=['signal', 'trading_action', 'stocks_in_transaction',
                      'balance', 'stock_value', 'total_value'],
             data=None)
@@ -200,7 +191,7 @@ class TradingSimulation:
             raise NotValidInputDataForSimulation(
                 'close_values', str(e).replace('input_data', 'close_values'))
 
-        if not self._close_values.index.equals(self._input_data.index):
+        if not self._close_values.index.equals(self._input_data_index):
             raise NotValidInputDataForSimulation(
                 'close_values', 'Index of the `close_values` DataFrame ' +
                                 'should be the same as the index of the ' +
@@ -217,15 +208,6 @@ class TradingSimulation:
             raise WrongTypeForInputParameter(
                 type(self._max_items_per_transaction),
                 'max_items_per_transaction', 'int')
-
-        # Validate commission
-        if isinstance(self._commission, (int, float)):
-            if self._commission < 0:
-                raise WrongValueForInputParameter(
-                    self._commission, 'commission', '>=0')
-        else:
-            raise WrongTypeForInputParameter(
-                type(self._commission), 'commission', 'int or float')
 
         # Validate max_investment
         if isinstance(self._max_investment, (int, float)):
@@ -314,12 +296,8 @@ class TradingSimulation:
                 sum(self._portfolio[self._portfolio['status'] == 'open' and
                     self._portfolio['position'] == 'short']['items'])
 
-            open_positions = len(
-                self._portfolio[self._portfolio['status'] == 'open'].index)
-
             # Value when closing short and long positions
-            value = (total_long_items - total_short_items) * price - \
-                open_positions * self._commission
+            value = (total_long_items - total_short_items) * price
 
             # Register close action
             if write:
@@ -334,45 +312,27 @@ class TradingSimulation:
             total_long_items = \
                 sum(self._portfolio[self._portfolio['status'] == 'open' and
                     self._portfolio['position'] == 'long' and
-                    self._portfolio['unit_price'] < price +
-                                    2 * self._commission]['items'])
+                    self._portfolio['unit_price'] < price]['items'])
 
             total_short_items = \
                 sum(self._portfolio[self._portfolio['status'] == 'open' and
                     self._portfolio['position'] == 'short' and
-                    self._portfolio['unit_price'] > price +
-                                    2 * self._commission]['items'])
-
-            open_positions = len(
-                self._portfolio[
-                    self._portfolio['status'] == 'open' and
-                    self._portfolio['position'] == 'long' and
-                    self._portfolio['unit_price'] < price +
-                    2 * self._commission].index) + \
-                len(
-                self._portfolio[
-                    self._portfolio['status'] == 'open' and
-                    self._portfolio['position'] == 'short' and
-                    self._portfolio['unit_price'] > price +
-                    2 * self._commission].index)
+                    self._portfolio['unit_price'] > price]['items'])
 
             # Value when closing short and long positions
-            value = (total_long_items - total_short_items) * price - \
-                open_positions * self._commission
+            value = (total_long_items - total_short_items) * price
 
             # Register close action
             if write:
                 self._portfolio[
                     self._portfolio['status'] == 'open' and
                     self._portfolio['position'] == 'long' and
-                    self._portfolio['unit_price'] < price +
-                    2 * self._commission]['status'] = 'close'
+                    self._portfolio['unit_price'] < price]['status'] = 'close'
 
                 self._portfolio[
                     self._portfolio['status'] == 'open' and
                     self._portfolio['position'] == 'short' and
-                    self._portfolio['unit_price'] > price +
-                    2 * self._commission]['status'] = 'close'
+                    self._portfolio['unit_price'] > price]['status'] = 'close'
 
         return value
 
@@ -412,7 +372,7 @@ class TradingSimulation:
         # Not enough balance for proceeding with the `buy` signal
         if ((self._max_investment is not None) and
                 (self._simulation_data['balance'].iat[i_index] -
-                 self._commission - self._close_values.iat[i_index] +
+                 self._close_values.iat[i_index] +
                  self._max_investment < 0)):
 
             # Add portfolio row
@@ -438,7 +398,7 @@ class TradingSimulation:
                 quantity = min(
                     self._max_items_per_transaction,
                     int((self._simulation_data['balance'].iat[i_index - 1] -
-                         self._commission + self._max_investment) /
+                         self._max_investment) /
                     self._close_values.iat[i_index]))
             else:
                 quantity = self._max_items_per_transaction
@@ -449,8 +409,8 @@ class TradingSimulation:
             self._simulation_data.iat[i_index] = [
                 'buy', 'open_long', quantity,
                 self._simulation_data['balance'].iat[i_index - 1] - (
-                        quantity * self._close_values.iat[i_index]) -
-                self._commission, self._close_values.iat[i_index], 'N/A']
+                        quantity * self._close_values.iat[i_index]),
+                self._close_values.iat[i_index], 'N/A']
 
             # At the end to include this transaction also
             value = self._closeOpenPositions(
@@ -473,7 +433,7 @@ class TradingSimulation:
         # Not enough balance for proceeding with the `sell` signal
         if ((self._max_investment is not None) and
                 (self._simulation_data['balance'].iat[i_index] -
-                 self._commission - self._close_values.iat[i_index] +
+                 self._close_values.iat[i_index] +
                  self._max_investment < 0)):
 
             # Add portfolio row
@@ -499,7 +459,7 @@ class TradingSimulation:
                 quantity = min(
                     self._max_items_per_transaction,
                     int((self._simulation_data['balance'].iat[i_index - 1] -
-                         self._commission + self._max_investment) /
+                         self._max_investment) /
                     self._close_values.iat[i_index]))
             else:
                 quantity = self._max_items_per_transaction
@@ -510,8 +470,8 @@ class TradingSimulation:
             self._simulation_data.iat[i_index] = [
                 'sell', 'open_short', quantity,
                 self._simulation_data['balance'].iat[i_index - 1] + (
-                        quantity * self._close_values.iat[i_index]) -
-                self._commission, self._close_values.iat[i_index], 'N/A']
+                        quantity * self._close_values.iat[i_index]),
+                self._close_values.iat[i_index], 'N/A']
 
             # At the end to include this transaction also
             value = self._closeOpenPositions(
