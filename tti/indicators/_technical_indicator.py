@@ -216,12 +216,23 @@ class TechnicalIndicator(ABC):
             ``signal``: the signal produced at each day of the simulation
             period.
 
-            ``trading_action``: the trading action applied. Possible values are
-            ``open_long``, ``close_long``, ``open_short``, ``close_short`` and
-            ``none``.
+            ``open_trading_action``: the open trading action applied. Possible
+            values are ``open_long``, ``open_short`` and ``none``.
 
-            ``stocks_in_transaction``: the number of stocks involved in a
-            trading_action.
+            ``stocks_in_open_transaction``: the number of stocks involved in
+            the open transaction.
+
+            ``close_long_trading_actions``: indicates if long positions where
+            closed in this simulation round. Is of type bool.
+
+            ``stocks_in_close_long_transactions``: the number of stocks
+            involved in the close long positions transaction.
+
+            ``close_short_trading_actions``: indicates if short positions where
+            closed in this simulation round. Is of type bool.
+
+            ``stocks_in_close_short_transactions``: the number of stocks
+            involved in the close short positions transaction.
 
             ``balance``: the available balance (earnings - spending).
 
@@ -229,7 +240,8 @@ class TechnicalIndicator(ABC):
             period.
 
             ``total_value``: the available balance considering the open
-            positions (if they should be closed in this transaction).
+            positions (if they would be closed in this transaction).
+
 
             The dictionary contains the below keys:
 

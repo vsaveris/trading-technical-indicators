@@ -75,12 +75,23 @@ class TradingSimulation:
             ``signal``: the signal produced at each day of the simulation
             period.
 
-            ``trading_action``: the trading action applied. Possible values are
-            ``open_long``, ``close_long``, ``open_short``, ``close_short`` and
-            ``none``.
+            ``open_trading_action``: the open trading action applied. Possible
+            values are ``open_long``, ``open_short`` and ``none``.
 
-            ``stocks_in_transaction``: the number of stocks involved in a
-            trading_action.
+            ``stocks_in_open_transaction``: the number of stocks involved in
+            the open transaction.
+
+            ``close_long_trading_actions``: indicates if long positions where
+            closed in this simulation round. Is of type bool.
+
+            ``stocks_in_close_long_transactions``: the number of stocks
+            involved in the close long positions transaction.
+
+            ``close_short_trading_actions``: indicates if short positions where
+            closed in this simulation round. Is of type bool.
+
+            ``stocks_in_close_short_transactions``: the number of stocks
+            involved in the close short positions transaction.
 
             ``balance``: the available balance (earnings - spending).
 
@@ -132,7 +143,7 @@ class TradingSimulation:
     def __init__(self, input_data_index, close_values,
                  max_items_per_transaction=1, max_investment=None):
 
-        self._input_data_index = input_data_index
+        self._input_data_index = input_data_index.sort_values(ascending=True)
         self._close_values = close_values
         self._max_items_per_transaction = max_items_per_transaction
         self._max_investment = max_investment
@@ -151,7 +162,12 @@ class TradingSimulation:
         # Initialize simulation data structure (DataFrame)
         self._simulation_data = pd.DataFrame(
             index=self._input_data_index,
-            columns=['signal', 'trading_action', 'stocks_in_transaction',
+            columns=['signal', 'open_trading_action',
+                     'stocks_in_open_transaction',
+                     'close_long_trading_actions',
+                     'stocks_in_close_long_transactions',
+                     'close_short_trading_actions',
+                     'stocks_in_close_short_transactions',
                      'balance', 'stock_value', 'total_value'],
             data=None)
 
@@ -179,6 +195,14 @@ class TradingSimulation:
             NotValidInputDataForSimulation: Invalid ``close_values`` `passed
                 for the simulation.
         """
+
+        # Validate input_data_index that is an index
+        if not isinstance(self._input_data_index, pd.DatetimeIndex):
+            raise NotValidInputDataForSimulation(
+                'input_data_index', 'input_data_index should be of type ' +
+                                    'pandas.DatetimeIndex but type ' +
+                                    str(type(self._input_data_index)) +
+                                    ' found.')
 
         # Validate close_values pandas.DataFrame
         try:
@@ -236,8 +260,8 @@ class TradingSimulation:
             'number_of_ignored_buy_signals':
                 len(self._simulation_data[
                         self._simulation_data['signal'] == 'buy' and
-                        self._simulation_data['trading_action'] == 'none'].
-                    index),
+                        self._simulation_data['open_trading_action'] ==
+                        'none'].index),
 
             'number_of_sell_signals':
                 len(self._simulation_data[
@@ -246,8 +270,8 @@ class TradingSimulation:
             'number_of_ignored_sell_signals':
                 len(self._simulation_data[
                         self._simulation_data['signal'] == 'sell' and
-                        self._simulation_data['trading_action'] == 'none'].
-                    index),
+                        self._simulation_data['open_trading_action'] ==
+                        'none'].index),
 
             'balance': self._simulation_data['balance'].iat[-1],
 
@@ -265,13 +289,15 @@ class TradingSimulation:
 
             'total_value': self._simulation_data['total_value'].iat[-1]}
 
-    def _closeOpenPositions(self, price, force_all=False, write=True):
+    def _closeOpenPositions(self, price=None, force_all=False, write=True):
         """
         Closes the opened positions existing in portfolio.
 
         Args:
-            price (float): The price of the stock to be considered in the
-                closing transactions.
+            price (float or None): The price of the stock to be considered in
+                the closing transactions. Can be ``None`` only in the case
+                where ``force_all=True``. In case where ``force_all=True`` the
+                value of the argument is ignored in any case.
 
             force_all (bool, default=False): If True, all the opened positions
                 are being closed. If False, only the positions which will bring
@@ -284,7 +310,17 @@ class TradingSimulation:
         Returns:
             float: The value of the transactions executed (earnings -
             spending).
+
+            int: Number of long stocks closed.
+
+            int: Number of short stocks closed.
+
+        Raises:
+            WrongValueForInputParameter
         """
+
+        number_of_closed_long_items = 0
+        number_of_closed_short_items = 0
 
         # Close all the open positions
         if force_all:
@@ -301,11 +337,24 @@ class TradingSimulation:
 
             # Register close action
             if write:
+                number_of_closed_long_items = len(
+                    self._portfolio[self._portfolio['status'] == 'open' and
+                                    self._portfolio['position'] == 'long'].
+                    index)
+
+                number_of_closed_short_items = len(
+                    self._portfolio[self._portfolio['status'] == 'open' and
+                                    self._portfolio['position'] == 'short'].
+                    index)
+
                 self._portfolio[
                     self._portfolio['status'] == 'open']['status'] = 'close'
 
         # Close only positions that bring earnings
         else:
+
+            if price is None or price <= 0.0:
+                raise WrongValueForInputParameter(price, 'price', '>=0.0')
 
             # Use 2*commission, for the expenses when position was opened and
             # for the expenses from the position closing
@@ -324,6 +373,16 @@ class TradingSimulation:
 
             # Register close action
             if write:
+                number_of_closed_long_items = len(self._portfolio[
+                    self._portfolio['status'] == 'open' and
+                    self._portfolio['position'] == 'long' and
+                    self._portfolio['unit_price'] < price].index)
+
+                number_of_closed_short_items = len(self._portfolio[
+                    self._portfolio['status'] == 'open' and
+                    self._portfolio['position'] == 'short' and
+                    self._portfolio['unit_price'] < price].index)
+
                 self._portfolio[
                     self._portfolio['status'] == 'open' and
                     self._portfolio['position'] == 'long' and
@@ -334,7 +393,7 @@ class TradingSimulation:
                     self._portfolio['position'] == 'short' and
                     self._portfolio['unit_price'] > price]['status'] = 'close'
 
-        return value
+        return value, number_of_closed_long_items, number_of_closed_short_items
 
     def _processHoldSignal(self, i_index):
         """
@@ -350,11 +409,13 @@ class TradingSimulation:
         self._portfolio.iat[i_index] = ['none', 0, 0.0, 'none']
 
         # Total balance = balance + value if all positions are closed today
-        value = self._closeOpenPositions(price=self._close_values.iat[i_index],
-            force_all=True, write=False)
+        value, cli, csi = self._closeOpenPositions(
+            price=self._close_values.iat[i_index], force_all=True, write=False)
 
         self._simulation_data.iat[i_index] = [
             'hold', 'none', 0,
+            True if cli > 0 else False, cli,
+            True if csi > 0 else False, csi,
             self._simulation_data['balance'].iat[i_index - 1],
             self._close_values.iat[i_index],
             self._simulation_data['balance'].iat[i_index - 1] + value]
@@ -380,12 +441,14 @@ class TradingSimulation:
 
             # Total balance = balance + value if all positions are closed
             # today
-            value = self._closeOpenPositions(
+            value, cli, csi = self._closeOpenPositions(
                 price=self._close_values.iat[i_index],
                 force_all=True, write=False)
 
             self._simulation_data.iat[i_index] = [
                 'buy', 'none', 0,
+                True if cli > 0 else False, cli,
+                True if csi > 0 else False, csi,
                 self._simulation_data['balance'].iat[i_index - 1],
                 self._close_values.iat[i_index],
                 self._simulation_data['balance'].iat[i_index - 1] + value]
@@ -408,17 +471,30 @@ class TradingSimulation:
 
             self._simulation_data.iat[i_index] = [
                 'buy', 'open_long', quantity,
+                'N/A', 'N/A', 'N/A', 'N/A',
                 self._simulation_data['balance'].iat[i_index - 1] - (
                         quantity * self._close_values.iat[i_index]),
                 self._close_values.iat[i_index], 'N/A']
 
             # At the end to include this transaction also
-            value = self._closeOpenPositions(
+            value, cli, csi = self._closeOpenPositions(
                 price=self._close_values.iat[i_index],
                 force_all=True, write=False)
 
             self._simulation_data['total_value'].iat[i_index] = \
                 self._simulation_data['balance'].iat[i_index] + value
+
+            self._simulation_data['close_long_trading_actions'].\
+                iat[i_index] = True if cli > 0 else False, cli,
+
+            self._simulation_data['stocks_in_close_long_transactions'].\
+                iat[i_index] = cli
+
+            self._simulation_data['close_short_trading_actions'].\
+                iat[i_index] = True if csi > 0 else False
+
+            self._simulation_data['stocks_in_close_short_transactions'].\
+                iat[i_index] = csi
 
     def _processSellSignal(self, i_index):
         """
@@ -441,12 +517,14 @@ class TradingSimulation:
 
             # Total balance = balance + value if all positions are closed
             # today
-            value = self._closeOpenPositions(
+            value, cli, csi = self._closeOpenPositions(
                 price=self._close_values.iat[i_index],
                 force_all=True, write=False)
 
             self._simulation_data.iat[i_index] = [
                 'sell', 'none', 0,
+                True if cli > 0 else False, cli,
+                True if csi > 0 else False, csi,
                 self._simulation_data['balance'].iat[i_index - 1],
                 self._close_values.iat[i_index],
                 self._simulation_data['balance'].iat[i_index - 1] + value]
@@ -469,17 +547,30 @@ class TradingSimulation:
 
             self._simulation_data.iat[i_index] = [
                 'sell', 'open_short', quantity,
+                'N/A', 'N/A', 'N/A', 'N/A',
                 self._simulation_data['balance'].iat[i_index - 1] + (
                         quantity * self._close_values.iat[i_index]),
                 self._close_values.iat[i_index], 'N/A']
 
             # At the end to include this transaction also
-            value = self._closeOpenPositions(
+            value, cli, csi = self._closeOpenPositions(
                 price=self._close_values.iat[i_index],
                 force_all=True, write=False)
 
             self._simulation_data['total_value'].iat[i_index] = \
                 self._simulation_data['balance'].iat[i_index] + value
+
+            self._simulation_data['close_long_trading_actions']. \
+                iat[i_index] = True if cli > 0 else False, cli,
+
+            self._simulation_data['stocks_in_close_long_transactions']. \
+                iat[i_index] = cli
+
+            self._simulation_data['close_short_trading_actions']. \
+                iat[i_index] = True if csi > 0 else False
+
+            self._simulation_data['stocks_in_close_short_transactions']. \
+                iat[i_index] = csi
 
     def runSimulationRound(self, i_index, signal):
         """
@@ -523,12 +614,23 @@ class TradingSimulation:
             ``signal``: the signal produced at each day of the simulation
             period.
 
-            ``trading_action``: the trading action applied. Possible values are
-            ``open_long``, ``close_long``, ``open_short``, ``close_short`` and
-            ``none``.
+            ``open_trading_action``: the open trading action applied. Possible
+            values are ``open_long``, ``open_short`` and ``none``.
 
-            ``stocks_in_transaction``: the number of stocks involved in a
-            trading_action.
+            ``stocks_in_open_transaction``: the number of stocks involved in
+            the open transaction.
+
+            ``close_long_trading_actions``: indicates if long positions where
+            closed in this simulation round. Is of type bool.
+
+            ``stocks_in_close_long_transactions``: the number of stocks
+            involved in the close long positions transaction.
+
+            ``close_short_trading_actions``: indicates if short positions where
+            closed in this simulation round. Is of type bool.
+
+            ``stocks_in_close_short_transactions``: the number of stocks
+            involved in the close short positions transaction.
 
             ``balance``: the available balance (earnings - spending).
 
@@ -536,7 +638,7 @@ class TradingSimulation:
             period.
 
             ``total_value``: the available balance considering the open
-            positions (if they should be closed in this transaction).
+            positions (if they would be closed in this transaction).
 
             The dictionary contains the below keys:
 
