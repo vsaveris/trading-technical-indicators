@@ -421,18 +421,19 @@ class TradingSimulation:
         """
 
         # Add portfolio row
-        self._portfolio.iat[i_index] = ['none', 0, 0.0, 'none']
+        self._portfolio.iloc[i_index, :] = ['none', 0, 0.0, 'none']
 
         # Total balance = balance + value if all positions are closed today
         value, cli, csi = self._closeOpenPositions(
-            price=self._close_values.iat[i_index], force_all=True, write=False)
+            price=self._close_values['close'].iat[i_index], force_all=True,
+            write=False)
 
-        self._simulation_data.iat[i_index] = [
+        self._simulation_data.iloc[i_index, :] = [
             'hold', 'none', 0,
             True if cli > 0 else False, cli,
             True if csi > 0 else False, csi,
             self._simulation_data['balance'].iat[i_index - 1],
-            self._close_values.iat[i_index],
+            self._close_values['close'].iat[i_index],
             self._simulation_data['balance'].iat[i_index - 1] + value]
 
     def _processBuySignal(self, i_index):
@@ -452,20 +453,20 @@ class TradingSimulation:
                  self._max_investment < 0)):
 
             # Add portfolio row
-            self._portfolio.iat[i_index] = ['none', 0, 0.0, 'none']
+            self._portfolio.iloc[i_index, :] = ['none', 0, 0.0, 'none']
 
             # Total balance = balance + value if all positions are closed
             # today
             value, cli, csi = self._closeOpenPositions(
-                price=self._close_values.iat[i_index],
+                price=self._close_values['close'].iat[i_index],
                 force_all=True, write=False)
 
-            self._simulation_data.iat[i_index] = [
+            self._simulation_data.iloc[i_index, :] = [
                 'buy', 'none', 0,
                 True if cli > 0 else False, cli,
                 True if csi > 0 else False, csi,
                 self._simulation_data['balance'].iat[i_index - 1],
-                self._close_values.iat[i_index],
+                self._close_values['close'].iat[i_index],
                 self._simulation_data['balance'].iat[i_index - 1] + value]
 
         # Enough balance, proceed with opening a `long` position
@@ -481,19 +482,19 @@ class TradingSimulation:
             else:
                 quantity = self._max_items_per_transaction
 
-            self._portfolio.iat[i_index] = [
+            self._portfolio.iloc[i_index, :] = [
                 'long', quantity, self._close_values.iat[i_index], 'open']
 
-            self._simulation_data.iat[i_index] = [
+            self._simulation_data.iloc[i_index, :] = [
                 'buy', 'open_long', quantity,
                 'N/A', 'N/A', 'N/A', 'N/A',
                 self._simulation_data['balance'].iat[i_index - 1] - (
-                        quantity * self._close_values.iat[i_index]),
+                        quantity * self._close_values['close'].iat[i_index]),
                 self._close_values.iat[i_index], 'N/A']
 
             # At the end to include this transaction also
             value, cli, csi = self._closeOpenPositions(
-                price=self._close_values.iat[i_index],
+                price=self._close_values['close'].iat[i_index],
                 force_all=True, write=False)
 
             self._simulation_data['total_value'].iat[i_index] = \
@@ -528,20 +529,20 @@ class TradingSimulation:
                  self._max_investment < 0)):
 
             # Add portfolio row
-            self._portfolio.iat[i_index] = ['none', 0, 0.0, 'none']
+            self._portfolio.iloc[i_index, :] = ['none', 0, 0.0, 'none']
 
             # Total balance = balance + value if all positions are closed
             # today
             value, cli, csi = self._closeOpenPositions(
-                price=self._close_values.iat[i_index],
+                price=self._close_values['close'].iat[i_index],
                 force_all=True, write=False)
 
-            self._simulation_data.iat[i_index] = [
+            self._simulation_data.iloc[i_index, :] = [
                 'sell', 'none', 0,
                 True if cli > 0 else False, cli,
                 True if csi > 0 else False, csi,
                 self._simulation_data['balance'].iat[i_index - 1],
-                self._close_values.iat[i_index],
+                self._close_values['close'].iat[i_index],
                 self._simulation_data['balance'].iat[i_index - 1] + value]
 
         # Enough balance, proceed with opening a `short` position
@@ -557,19 +558,20 @@ class TradingSimulation:
             else:
                 quantity = self._max_items_per_transaction
 
-            self._portfolio.iat[i_index] = [
-                'short', quantity, self._close_values.iat[i_index], 'open']
+            self._portfolio.iloc[i_index, :] = [
+                'short', quantity, self._close_values['close'].iat[i_index],
+                'open']
 
-            self._simulation_data.iat[i_index] = [
+            self._simulation_data.iloc[i_index, :] = [
                 'sell', 'open_short', quantity,
                 'N/A', 'N/A', 'N/A', 'N/A',
                 self._simulation_data['balance'].iat[i_index - 1] + (
-                        quantity * self._close_values.iat[i_index]),
+                        quantity * self._close_values['close'].iat[i_index]),
                 self._close_values.iat[i_index], 'N/A']
 
             # At the end to include this transaction also
             value, cli, csi = self._closeOpenPositions(
-                price=self._close_values.iat[i_index],
+                price=self._close_values['close'].iat[i_index],
                 force_all=True, write=False)
 
             self._simulation_data['total_value'].iat[i_index] = \
@@ -602,8 +604,9 @@ class TradingSimulation:
 
         # Just initializations at the first day
         if i_index == 0:
-            self._simulation_data.iat[0] = ['hold', 'none', 0, 0.0, 0.0, 0.0]
-            self._portfolio.iat[0] = ['none', 0, 0.0, 'none']
+            self._simulation_data.iloc[0, :] = ['hold', 'none', 0, 0.0, 0.0,
+                                                0.0]
+            self._portfolio.iloc[0, :] = ['none', 0, 0.0, 'none']
             return None
 
         if signal == TRADE_SIGNALS['buy']:
