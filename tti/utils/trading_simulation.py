@@ -265,13 +265,15 @@ class TradingSimulation:
 
             'total_value': self._simulation_data['total_value'].iat[-1]}
 
-    def _closeOpenPositions(self, price, force_all=False, write=True):
+    def _closeOpenPositions(self, price=None, force_all=False, write=True):
         """
         Closes the opened positions existing in portfolio.
 
         Args:
-            price (float): The price of the stock to be considered in the
-                closing transactions.
+            price (float or None): The price of the stock to be considered in
+                the closing transactions. Can be ``None`` only in the case
+                where ``force_all=True``. In case where ``force_all=True`` the
+                value of the argument is ignored in any case.
 
             force_all (bool, default=False): If True, all the opened positions
                 are being closed. If False, only the positions which will bring
@@ -284,6 +286,9 @@ class TradingSimulation:
         Returns:
             float: The value of the transactions executed (earnings -
             spending).
+
+        Raises:
+            WrongValueForInputParameter
         """
 
         # Close all the open positions
@@ -306,6 +311,9 @@ class TradingSimulation:
 
         # Close only positions that bring earnings
         else:
+
+            if price is None or price <= 0.0:
+                raise WrongValueForInputParameter(price, 'price', '>=0.0')
 
             # Use 2*commission, for the expenses when position was opened and
             # for the expenses from the position closing
