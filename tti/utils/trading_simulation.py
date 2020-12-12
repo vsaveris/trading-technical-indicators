@@ -483,7 +483,8 @@ class TradingSimulation:
                 quantity = self._max_items_per_transaction
 
             self._portfolio.iloc[i_index, :] = [
-                'long', quantity, self._close_values['close'].iat[i_index],
+                'long', quantity,
+                self._close_values['close'].iat[i_index],
                 'open']
 
             self._simulation_data.iloc[i_index, :] = [
@@ -502,7 +503,7 @@ class TradingSimulation:
                 self._simulation_data['balance'].iat[i_index] + value
 
             self._simulation_data['close_long_trading_actions'].\
-                iat[i_index] = True if cli > 0 else False, cli,
+                iat[i_index] = True if cli > 0 else False
 
             self._simulation_data['stocks_in_close_long_transactions'].\
                 iat[i_index] = cli
@@ -579,7 +580,7 @@ class TradingSimulation:
                 self._simulation_data['balance'].iat[i_index] + value
 
             self._simulation_data['close_long_trading_actions']. \
-                iat[i_index] = True if cli > 0 else False, cli,
+                iat[i_index] = True if cli > 0 else False
 
             self._simulation_data['stocks_in_close_long_transactions']. \
                 iat[i_index] = cli
