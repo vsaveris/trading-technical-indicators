@@ -449,7 +449,7 @@ class TradingSimulation:
         # Not enough balance for proceeding with the `buy` signal
         if ((self._max_investment is not None) and
                 (self._simulation_data['balance'].iat[i_index] -
-                 self._close_values.iat[i_index] +
+                 self._close_values['close'].iat[i_index] +
                  self._max_investment < 0)):
 
             # Add portfolio row
@@ -478,19 +478,20 @@ class TradingSimulation:
                     self._max_items_per_transaction,
                     int((self._simulation_data['balance'].iat[i_index - 1] -
                          self._max_investment) /
-                    self._close_values.iat[i_index]))
+                    self._close_values['close'].iat[i_index]))
             else:
                 quantity = self._max_items_per_transaction
 
             self._portfolio.iloc[i_index, :] = [
-                'long', quantity, self._close_values.iat[i_index], 'open']
+                'long', quantity, self._close_values['close'].iat[i_index],
+                'open']
 
             self._simulation_data.iloc[i_index, :] = [
                 'buy', 'open_long', quantity,
                 'N/A', 'N/A', 'N/A', 'N/A',
                 self._simulation_data['balance'].iat[i_index - 1] - (
                         quantity * self._close_values['close'].iat[i_index]),
-                self._close_values.iat[i_index], 'N/A']
+                self._close_values['close'].iat[i_index], 'N/A']
 
             # At the end to include this transaction also
             value, cli, csi = self._closeOpenPositions(
@@ -525,7 +526,7 @@ class TradingSimulation:
         # Not enough balance for proceeding with the `sell` signal
         if ((self._max_investment is not None) and
                 (self._simulation_data['balance'].iat[i_index] -
-                 self._close_values.iat[i_index] +
+                 self._close_values['close'].iat[i_index] +
                  self._max_investment < 0)):
 
             # Add portfolio row
@@ -554,7 +555,7 @@ class TradingSimulation:
                     self._max_items_per_transaction,
                     int((self._simulation_data['balance'].iat[i_index - 1] -
                          self._max_investment) /
-                    self._close_values.iat[i_index]))
+                    self._close_values['close'].iat[i_index]))
             else:
                 quantity = self._max_items_per_transaction
 
@@ -567,7 +568,7 @@ class TradingSimulation:
                 'N/A', 'N/A', 'N/A', 'N/A',
                 self._simulation_data['balance'].iat[i_index - 1] + (
                         quantity * self._close_values['close'].iat[i_index]),
-                self._close_values.iat[i_index], 'N/A']
+                self._close_values['close'].iat[i_index], 'N/A']
 
             # At the end to include this transaction also
             value, cli, csi = self._closeOpenPositions(
