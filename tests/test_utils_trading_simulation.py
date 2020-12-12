@@ -332,12 +332,12 @@ class TestTradingSimulation(unittest.TestCase):
                      'total_value'],
             data=None)
 
-        simulation_data, statistics = ts._calculateSimulationStatistics()
+        ts._calculateSimulationStatistics()
 
-        pd.testing.assert_frame_equal(simulation_data,
+        pd.testing.assert_frame_equal(ts._simulation_data,
                                       simulation_data_expected_result)
 
-        self.assertDictEqual(statistics, statistics_expected_result)
+        self.assertDictEqual(ts._statistics, statistics_expected_result)
 
     def test_calculate_simulation_statistics_no_trading_actions(self):
         # close values DataFrame
