@@ -282,14 +282,15 @@ class TradingSimulation:
                 else self._simulation_data['balance'].iat[
                     executed_simulation_rounds-1],
 
-            'total_stocks_in_long': self._portfolio[
+            'total_stocks_in_long': int(self._portfolio[
                 (self._portfolio['position'] == 'long') &
-                (self._portfolio['status'] == 'open')]['items'].sum(),
+                (self._portfolio['status'] == 'open')]['items'].sum()),
 
             'total_stocks_in_short':
-                self._portfolio[
+                int(self._portfolio[
                     (self._portfolio['position'] == 'short') &
-                    (self._portfolio['status'] == 'open')]['items'].sum(),
+                    (self._portfolio['status'] == 'open')]
+                ['items'].sum()),
 
             'stock_value': 0.0 if executed_simulation_rounds == 0
                 else self._simulation_data['stock_value'].iat[
