@@ -300,15 +300,13 @@ class TradingSimulation:
                 else self._simulation_data['total_value'].iat[
                     executed_simulation_rounds-1]}
 
-    def _closeOpenPositions(self, price=None, force_all=False, write=True):
+    def _closeOpenPositions(self, price, force_all=False, write=True):
         """
         Closes the opened positions existing in portfolio.
 
         Args:
-            price (float or None): The price of the stock to be considered in
-                the closing transactions. Can be ``None`` only in the case
-                where ``force_all=True``. In case where ``force_all=True`` the
-                value of the argument is ignored in any case.
+            price (float): The price of the stock to be considered in
+                the closing transactions.
 
             force_all (bool, default=False): If True, all the opened positions
                 are being closed. If False, only the positions which will bring
