@@ -330,7 +330,7 @@ class TestTradingSimulation(unittest.TestCase):
                      'balance',
                      'stock_value',
                      'total_value'],
-            data=None)
+            data=None).sort_index(ascending=True)
 
         ts._calculateSimulationStatistics()
 
@@ -375,12 +375,12 @@ class TestTradingSimulation(unittest.TestCase):
             parse_dates=True,
             index_col=0)
 
-        simulation_data, statistics = ts._calculateSimulationStatistics()
+        ts._calculateSimulationStatistics()
 
-        pd.testing.assert_frame_equal(simulation_data,
+        pd.testing.assert_frame_equal(ts._simulation_data,
                                       simulation_data_expected_result)
 
-        self.assertDictEqual(statistics, statistics_expected_result)
+        self.assertDictEqual(ts._statistics, statistics_expected_result)
 
     def test_calculate_simulation_statistics_with_trading_actions(self):
         # close values DataFrame
@@ -423,12 +423,12 @@ class TestTradingSimulation(unittest.TestCase):
             parse_dates=True,
             index_col=0)
 
-        simulation_data, statistics = ts._calculateSimulationStatistics()
+        ts._calculateSimulationStatistics()
 
-        pd.testing.assert_frame_equal(simulation_data,
+        pd.testing.assert_frame_equal(ts._simulation_data,
                                       simulation_data_expected_result)
 
-        self.assertDictEqual(statistics, statistics_expected_result)
+        self.assertDictEqual(ts._statistics, statistics_expected_result)
 
     # Test _closeOpenPositions
 
@@ -1349,7 +1349,7 @@ class TestTradingSimulation(unittest.TestCase):
                      'balance',
                      'stock_value',
                      'total_value'],
-            data=None)
+            data=None).sort_index(ascending=True)
 
         simulation_data, statistics = ts.closeSimulation()
 
@@ -1442,9 +1442,9 @@ class TestTradingSimulation(unittest.TestCase):
             parse_dates=True,
             index_col=0)
 
-        simulation_data, statistics = ts._calculateSimulationStatistics()
+        ts._calculateSimulationStatistics()
 
-        pd.testing.assert_frame_equal(simulation_data,
+        pd.testing.assert_frame_equal(ts._simulation_data,
                                       simulation_data_expected_result)
 
-        self.assertDictEqual(statistics, statistics_expected_result)
+        self.assertDictEqual(ts._statistics, statistics_expected_result)
