@@ -21,7 +21,7 @@ class TestTradingSimulation(unittest.TestCase):
 
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)[['close']]
+                         index_col=0)[['close']]
 
         with self.assertRaises(TypeError):
             TradingSimulation(close_values=cv_df,
@@ -32,7 +32,7 @@ class TestTradingSimulation(unittest.TestCase):
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         with self.assertRaises(TypeError):
             TradingSimulation(input_data_index=id_df.index,
@@ -43,11 +43,11 @@ class TestTradingSimulation(unittest.TestCase):
 
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -59,11 +59,11 @@ class TestTradingSimulation(unittest.TestCase):
 
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -77,11 +77,27 @@ class TestTradingSimulation(unittest.TestCase):
 
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)[['close']]
+                         index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=1)
+
+        with self.assertRaises(NotValidInputDataForSimulation):
+            TradingSimulation(input_data_index=id_df,
+                              close_values=cv_df,
+                              max_items_per_transaction=1,
+                              max_investment=None)
+
+    def test_close_values_index_wrong_type(self):
+
+        # close values DataFrame
+        cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=1)[['close']]
+
+        # input_data DataFrame
+        id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
 
         with self.assertRaises(NotValidInputDataForSimulation):
             TradingSimulation(input_data_index=id_df,
@@ -95,7 +111,7 @@ class TestTradingSimulation(unittest.TestCase):
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         with self.assertRaises(NotValidInputDataForSimulation):
             TradingSimulation(input_data_index=id_df.index,
@@ -106,11 +122,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_max_items_per_transaction_wrong_type(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         with self.assertRaises(WrongTypeForInputParameter):
             TradingSimulation(input_data_index=id_df.index,
@@ -121,11 +137,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_max_investment_wrong_type(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         with self.assertRaises(WrongTypeForInputParameter):
             TradingSimulation(input_data_index=id_df.index,
@@ -138,11 +154,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_values_missing_column(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1).drop(['close'])
+                            index_col=0).drop(['close'])
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         with self.assertRaises(NotValidInputDataForSimulation):
             TradingSimulation(input_data_index=id_df.index,
@@ -153,11 +169,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_values_wrong_index(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=False,
-                            index_col=1).drop(['close'])
+                            index_col=0).drop(['close'])
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         with self.assertRaises(NotValidInputDataForSimulation):
             TradingSimulation(input_data_index=id_df.index,
@@ -168,11 +184,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_values_missing_index_values(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1).drop(['close'])
+                            index_col=0).drop(['close'])
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         with self.assertRaises(NotValidInputDataForSimulation):
             TradingSimulation(input_data_index=id_df.index,
@@ -183,11 +199,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_max_items_per_transaction_zero(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         with self.assertRaises(WrongValueForInputParameter):
             TradingSimulation(input_data_index=id_df.index,
@@ -198,11 +214,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_max_items_per_transaction_negative(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         with self.assertRaises(WrongValueForInputParameter):
             TradingSimulation(input_data_index=id_df.index,
@@ -213,11 +229,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_max_investment_zero(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         with self.assertRaises(WrongValueForInputParameter):
             TradingSimulation(input_data_index=id_df.index,
@@ -228,11 +244,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_max_investment_negative(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                         index_col=1)
+                         index_col=0)
 
         with self.assertRaises(WrongValueForInputParameter):
             TradingSimulation(input_data_index=id_df.index,
@@ -245,11 +261,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_max_items_per_transaction_no_default(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -261,11 +277,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_max_investment_no_default(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -279,11 +295,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_calculate_simulation_statistics_no_simulation_data(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -326,11 +342,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_calculate_simulation_statistics_no_trading_actions(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -352,12 +368,12 @@ class TestTradingSimulation(unittest.TestCase):
         simulation_data_expected_result = pd.read_csv(
             './data/simulation_data_full_without_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_without_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         simulation_data, statistics = ts._calculateSimulationStatistics()
 
@@ -369,11 +385,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_calculate_simulation_statistics_with_trading_actions(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -395,17 +411,17 @@ class TestTradingSimulation(unittest.TestCase):
         simulation_data_expected_result = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         simulation_data, statistics = ts._calculateSimulationStatistics()
 
@@ -419,11 +435,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_open_positions_none(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -433,19 +449,19 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_none.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         value = ts._closeOpenPositions(price=20.0, force_all=False, write=True)
 
         portfolio_expected_results = pd.read_csv(
             './data/portfolio_simulation_data_full_close_none.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         pd.testing.assert_frame_equal(ts._portfolio,
                                       portfolio_expected_results)
@@ -455,11 +471,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_open_positions_only_long(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -469,19 +485,19 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_long.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         value = ts._closeOpenPositions(price=40.0, force_all=False, write=True)
 
         portfolio_expected_results = pd.read_csv(
             './data/portfolio_simulation_data_full_close_long.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         portfolio_expected_results['status'].iat[0] = 'close'
 
@@ -493,11 +509,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_open_positions_only_short(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -507,19 +523,19 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_short.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         value = ts._closeOpenPositions(price=25.0, force_all=False, write=True)
 
         portfolio_expected_results = pd.read_csv(
             './data/portfolio_simulation_data_full_close_short.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         portfolio_expected_results['status'].iat[3] = 'close'
 
@@ -531,11 +547,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_open_positions_both_long_and_short(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -545,19 +561,19 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         value = ts._closeOpenPositions(price=22.0, force_all=False, write=True)
 
         portfolio_expected_results = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         portfolio_expected_results['status'].iat[0] = 'close'
         portfolio_expected_results['status'].iat[3] = 'close'
@@ -570,11 +586,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_open_positions_force_all_no_write(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -584,19 +600,19 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         value = ts._closeOpenPositions(force_all=True, write=False)
 
         portfolio_expected_results = pd.read_csv(
             './data/portfolio_simulation_data_full.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         pd.testing.assert_frame_equal(ts._portfolio,
                                       portfolio_expected_results)
@@ -606,11 +622,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_open_positions_force_False_no_write(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -620,12 +636,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         value = ts._closeOpenPositions(price=22.0, force_all=False,
                                        write=False)
@@ -633,7 +649,7 @@ class TestTradingSimulation(unittest.TestCase):
         portfolio_expected_results = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         pd.testing.assert_frame_equal(ts._portfolio,
                                       portfolio_expected_results)
@@ -643,11 +659,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_open_positions_force_all_write(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -657,19 +673,19 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         value = ts._closeOpenPositions(force_all=True, write=True)
 
         portfolio_expected_results = pd.read_csv(
             './data/portfolio_simulation_data_full.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         portfolio_expected_results['status'].iat[0] = 'close'
         portfolio_expected_results['status'].iat[1] = 'close'
@@ -684,11 +700,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_open_positions_none_price_force_false(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -698,12 +714,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         with self.assertRaises(WrongValueForInputParameter):
             ts._closeOpenPositions(force_all=False, write=True)
@@ -711,11 +727,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_open_positions_price_force_true(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -725,19 +741,19 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         value = ts._closeOpenPositions(price=10000, force_all=True, write=True)
 
         portfolio_expected_results = pd.read_csv(
             './data/portfolio_simulation_data_full.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         portfolio_expected_results['status'].iat[0] = 'close'
         portfolio_expected_results['status'].iat[1] = 'close'
@@ -754,11 +770,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_process_hold_signal_positions_closed(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -768,12 +784,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 22.0
 
@@ -790,11 +806,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_process_hold_signal_no_positions_closed(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -804,12 +820,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_none.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 20.0
 
@@ -828,11 +844,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_process_buy_signal_position_open_positions_closed(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -842,12 +858,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 22.0
 
@@ -864,11 +880,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_process_buy_signal_no_position_open_positions_closed(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -878,12 +894,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 22.0
 
@@ -900,11 +916,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_process_buy_signal_position_open_no_positions_closed(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -914,12 +930,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_none.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 20.0
 
@@ -936,11 +952,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_process_buy_signal_no_position_open_no_positions_closed(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -950,12 +966,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_none.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 20.0
 
@@ -973,11 +989,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_process_sell_signal_position_open_positions_closed(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -987,12 +1003,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 22.0
 
@@ -1009,11 +1025,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_process_sell_signal_no_position_open_positions_closed(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -1023,12 +1039,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 22.0
 
@@ -1045,11 +1061,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_process_sell_signal_position_open_no_positions_closed(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -1059,12 +1075,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_none.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 20.0
 
@@ -1081,11 +1097,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_process_sell_signal_no_position_open_no_positions_closed(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -1095,12 +1111,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_none.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 20.0
 
@@ -1119,11 +1135,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_run_simulation_round_first_round_sell(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -1142,11 +1158,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_run_simulation_round_first_round_buy(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -1165,11 +1181,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_run_simulation_round_first_round_hold(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -1188,11 +1204,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_run_simulation_round_no_first_round_sell(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -1202,12 +1218,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 22.0
 
@@ -1224,11 +1240,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_run_simulation_round_no_first_round_buy(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -1238,12 +1254,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 22.0
 
@@ -1260,11 +1276,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_run_simulation_round_no_first_round_hold(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -1274,12 +1290,12 @@ class TestTradingSimulation(unittest.TestCase):
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_close_both.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         cv_df['close'].iat[23] = 22.0
 
@@ -1298,11 +1314,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_simulation_round_not_started(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -1345,11 +1361,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_simulation_round_no_trading_actions(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -1371,12 +1387,12 @@ class TestTradingSimulation(unittest.TestCase):
         simulation_data_expected_result = pd.read_csv(
             './data/simulation_data_full_without_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_without_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         simulation_data, statistics = ts.closeSimulation()
 
@@ -1388,11 +1404,11 @@ class TestTradingSimulation(unittest.TestCase):
     def test_close_simulation_round_withTrading_actions(self):
         # close values DataFrame
         cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)[['close']]
+                            index_col=0)[['close']]
 
         # input_data DataFrame
         id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=1)
+                            index_col=0)
 
         ts = TradingSimulation(input_data_index=id_df.index,
                                close_values=cv_df,
@@ -1414,17 +1430,17 @@ class TestTradingSimulation(unittest.TestCase):
         simulation_data_expected_result = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._simulation_data = pd.read_csv(
             './data/simulation_data_full_with_actions.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full.csv',
             parse_dates=True,
-            index_col=1)
+            index_col=0)
 
         simulation_data, statistics = ts._calculateSimulationStatistics()
 
