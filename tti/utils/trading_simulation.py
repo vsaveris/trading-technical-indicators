@@ -143,7 +143,7 @@ class TradingSimulation:
     def __init__(self, input_data_index, close_values,
                  max_items_per_transaction=1, max_investment=None):
 
-        self._input_data_index = input_data_index.sort_values(ascending=True)
+        self._input_data_index = input_data_index
         self._close_values = close_values
         self._max_items_per_transaction = max_items_per_transaction
         self._max_investment = max_investment
@@ -203,6 +203,10 @@ class TradingSimulation:
                                     'pandas.DatetimeIndex but type ' +
                                     str(type(self._input_data_index)) +
                                     ' found.')
+
+        # Sort data
+        self._input_data_index = self._input_data_index.sort_values(
+            ascending=True)
 
         # Validate close_values pandas.DataFrame
         try:
