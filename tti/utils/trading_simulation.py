@@ -279,7 +279,8 @@ class TradingSimulation:
                     .index),
 
             'balance': 0.0 if executed_simulation_rounds == 0
-                else self._simulation_data['balance'].iat[-1],
+                else self._simulation_data['balance'].iat[
+                    executed_simulation_rounds-1],
 
             'total_stocks_in_long': self._portfolio[
                 (self._portfolio['position'] == 'long') &
@@ -291,10 +292,12 @@ class TradingSimulation:
                     (self._portfolio['status'] == 'open')]['items'].sum(),
 
             'stock_value': 0.0 if executed_simulation_rounds == 0
-                else self._simulation_data['stock_value'].iat[-1],
+                else self._simulation_data['stock_value'].iat[
+                    executed_simulation_rounds-1],
 
             'total_value': 0.0 if executed_simulation_rounds == 0
-                else self._simulation_data['total_value'].iat[-1]}
+                else self._simulation_data['total_value'].iat[
+                    executed_simulation_rounds-1]}
 
     def _closeOpenPositions(self, price=None, force_all=False, write=True):
         """

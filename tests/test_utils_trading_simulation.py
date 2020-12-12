@@ -362,7 +362,7 @@ class TestTradingSimulation(unittest.TestCase):
             'balance': 0.0,
             'total_stocks_in_long': 0,
             'total_stocks_in_short': 0,
-            'stock_value': 18.92,
+            'stock_value': 19.09,
             'total_value': 0.0}
 
         simulation_data_expected_result = pd.read_csv(
