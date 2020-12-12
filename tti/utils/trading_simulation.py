@@ -336,32 +336,30 @@ class TradingSimulation:
         # Close all the open positions
         if force_all:
             total_long_items = \
-                sum(self._portfolio[
+                int(self._portfolio[
                     (self._portfolio['status'] == 'open') &
-                    (self._portfolio['position'] == 'long')]['items'])
+                    (self._portfolio['position'] == 'long')]['items'].sum())
 
             total_short_items = \
-                sum(self._portfolio[
+                int(self._portfolio[
                     (self._portfolio['status'] == 'open') &
-                    (self._portfolio['position'] == 'short')]['items'])
+                    (self._portfolio['position'] == 'short')]['items'].sum())
 
             # Value when closing short and long positions
             value = (total_long_items - total_short_items) * price
 
             # Register close action
             if write:
-                number_of_closed_long_items = len(
-                    self._portfolio[
-                        (self._portfolio['status'] == 'open') &
-                        (self._portfolio['position'] == 'long')].index)
+                number_of_closed_long_items = int(self._portfolio[
+                    (self._portfolio['status'] == 'open') &
+                    (self._portfolio['position'] == 'long')]['items'].sum())
 
-                number_of_closed_short_items = len(
-                    self._portfolio[
-                        (self._portfolio['status'] == 'open') &
-                        (self._portfolio['position'] == 'short')].index)
+                number_of_closed_short_items = int(self._portfolio[
+                    (self._portfolio['status'] == 'open') &
+                    (self._portfolio['position'] == 'short')]['items'].sum())
 
-                self._portfolio[
-                    self._portfolio['status'] == 'open']['status'] = 'close'
+                self._portfolio.loc[
+                    self._portfolio['status'] == 'open', 'status'] = 'close'
 
         # Close only positions that bring earnings
         else:
@@ -369,45 +367,43 @@ class TradingSimulation:
             if price is None or price <= 0.0:
                 raise WrongValueForInputParameter(price, 'price', '>=0.0')
 
-            # Use 2*commission, for the expenses when position was opened and
-            # for the expenses from the position closing
             total_long_items = \
-                sum(self._portfolio[
+                int(self._portfolio[
                     (self._portfolio['status'] == 'open') &
                     (self._portfolio['position'] == 'long') &
-                    (self._portfolio['unit_price'] < price)]['items'])
+                    (self._portfolio['unit_price'] < price)]['items'].sum())
 
             total_short_items = \
-                sum(self._portfolio[
+                int(self._portfolio[
                     (self._portfolio['status'] == 'open') &
                     (self._portfolio['position'] == 'short') &
-                    (self._portfolio['unit_price'] > price)]['items'])
+                    (self._portfolio['unit_price'] > price)]['items'].sum())
 
             # Value when closing short and long positions
             value = (total_long_items - total_short_items) * price
 
             # Register close action
             if write:
-                number_of_closed_long_items = len(self._portfolio[
+                number_of_closed_long_items = int(self._portfolio[
                     (self._portfolio['status'] == 'open') &
                     (self._portfolio['position'] == 'long') &
-                    (self._portfolio['unit_price'] < price)].index)
+                    (self._portfolio['unit_price'] < price)]['items'].sum())
 
-                number_of_closed_short_items = len(self._portfolio[
+                number_of_closed_short_items = int(self._portfolio[
                     (self._portfolio['status'] == 'open') &
                     (self._portfolio['position'] == 'short') &
-                    (self._portfolio['unit_price'] < price)].index)
+                    (self._portfolio['unit_price'] > price)]['items'].sum())
 
-                self._portfolio[
+                self._portfolio.loc[
                     (self._portfolio['status'] == 'open') &
                     (self._portfolio['position'] == 'long') &
-                    (self._portfolio['unit_price'] < price)]['status'] = \
+                    (self._portfolio['unit_price'] < price), 'status'] = \
                     'close'
 
-                self._portfolio[
+                self._portfolio.loc[
                     (self._portfolio['status'] == 'open') &
                     (self._portfolio['position'] == 'short') &
-                    (self._portfolio['unit_price'] > price)]['status'] = \
+                    (self._portfolio['unit_price'] > price), 'status'] = \
                     'close'
 
         return value, number_of_closed_long_items, number_of_closed_short_items
