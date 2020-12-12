@@ -250,8 +250,13 @@ class TradingSimulation:
         Calculate simulation statistics, at the end of the simulation.
         """
 
+        # Simulation rounds which have been executed till now
+        executed_simulation_rounds = len(
+            self._simulation_data.dropna(subset=['signal'],
+                                         inplace=False).index)
+
         self._statistics = {
-            'number_of_trading_days': len(self._simulation_data.index),
+            'number_of_trading_days': executed_simulation_rounds,
 
             'number_of_buy_signals':
                 len(self._simulation_data[
@@ -273,7 +278,8 @@ class TradingSimulation:
                     (self._simulation_data['open_trading_action'] == 'none')]
                     .index),
 
-            'balance': self._simulation_data['balance'].iat[-1],
+            'balance': 0.0 if executed_simulation_rounds == 0
+                else self._simulation_data['balance'].iat[-1],
 
             'total_stocks_in_long': self._portfolio[
                 (self._portfolio['position'] == 'long') &
@@ -284,9 +290,11 @@ class TradingSimulation:
                     (self._portfolio['position'] == 'short') &
                     (self._portfolio['status'] == 'open')]['items'].sum(),
 
-            'stock_value': self._simulation_data['stock_value'].iat[-1],
+            'stock_value': 0.0 if executed_simulation_rounds == 0
+                else self._simulation_data['stock_value'].iat[-1],
 
-            'total_value': self._simulation_data['total_value'].iat[-1]}
+            'total_value': 0.0 if executed_simulation_rounds == 0
+                else self._simulation_data['total_value'].iat[-1]}
 
     def _closeOpenPositions(self, price=None, force_all=False, write=True):
         """
