@@ -29,7 +29,7 @@ class TradingSimulation:
             contains one column ``close``.
 
         max_items_per_transaction (int, default=1): The maximum number of
-            stocks to be traded on each ``open_long`` or ``open_short``
+            stocks to be traded on each ``long`` or ``short``
             transaction.
 
         max_investment(float, default=None): Maximum investment for all the
@@ -51,7 +51,7 @@ class TradingSimulation:
             contains one column ``close``.
 
         _max_items_per_transaction (int, default=1): The maximum number of
-            stocks to be traded on each ``open_long`` or ``open_short``
+            stocks to be traded on each ``long`` or ``short``
             transaction.
 
         _max_investment(float, default=None): Maximum investment for all the
@@ -76,7 +76,7 @@ class TradingSimulation:
             period.
 
             ``open_trading_action``: the open trading action applied. Possible
-            values are ``open_long``, ``open_short`` and ``none``.
+            values are ``long``, ``short`` and ``none``.
 
             ``stocks_in_open_transaction``: the number of stocks involved in
             the open transaction.
@@ -489,7 +489,7 @@ class TradingSimulation:
                 'open']
 
             self._simulation_data.iloc[i_index, :] = [
-                'buy', 'open_long', quantity,
+                'buy', 'long', quantity,
                 'N/A', 'N/A', 'N/A', 'N/A',
                 self._simulation_data['balance'].iat[i_index - 1] - (
                         quantity * self._close_values['close'].iat[i_index]),
@@ -567,7 +567,7 @@ class TradingSimulation:
                 'open']
 
             self._simulation_data.iloc[i_index, :] = [
-                'sell', 'open_short', quantity,
+                'sell', 'short', quantity,
                 'N/A', 'N/A', 'N/A', 'N/A',
                 self._simulation_data['balance'].iat[i_index - 1] + (
                         quantity * self._close_values['close'].iat[i_index]),
@@ -609,7 +609,9 @@ class TradingSimulation:
         # Just initializations at the first day
         if i_index == 0:
             self._simulation_data.iloc[0, :] = [
-                signal[0], 'none', 0, False, 0, False, 0, 0.0, 0.0, 0.0]
+                signal[0], 'none', 0, False, 0, False, 0, 0.0,
+                self._close_values['close'].iat[0], 0.0]
+
             self._portfolio.iloc[0, :] = ['none', 0, 0.0, 'none']
             return None
 
@@ -637,7 +639,7 @@ class TradingSimulation:
             period.
 
             ``open_trading_action``: the open trading action applied. Possible
-            values are ``open_long``, ``open_short`` and ``none``.
+            values are ``long``, ``short`` and ``none``.
 
             ``stocks_in_open_transaction``: the number of stocks involved in
             the open transaction.
