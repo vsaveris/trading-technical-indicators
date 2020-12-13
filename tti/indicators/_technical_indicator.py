@@ -193,6 +193,16 @@ class TechnicalIndicator(ABC):
     def getTiSimulation(self, close_values, max_exposure=None,
                         short_exposure_factor=1.5):
         """
+        Executes trading simulation based on the trading signals produced by
+        the technical indicator, by applying an Active trading strategy. With
+        a ``buy`` trading signal a new ``long`` position is opened. With a
+        ``sell`` trading signal a new ``short`` position is opened. Opened
+        positions are scanned on each simulation round, and if conditions are
+        met (current stock price > bought price for opened ``long`` positions
+        and current stock price < bought price for opened ``short`` positions)
+        the positions are being closed. Only one stock piece is used in each
+        open transaction.
+
         Args:
             close_values (pandas.DataFrame): The close prices of the stock, for
                 the whole simulation period. Index is of type DateTimeIndex
