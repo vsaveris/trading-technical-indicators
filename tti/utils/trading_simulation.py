@@ -10,7 +10,6 @@ import pandas as pd
 from ..utils.data_validation import validateInputData
 from ..utils.exceptions import WrongTypeForInputParameter, \
     NotValidInputDataForSimulation, WrongValueForInputParameter
-from ..utils.constants import TRADE_SIGNALS
 
 
 class TradingSimulation:
@@ -28,17 +27,21 @@ class TradingSimulation:
             with same values as the input to the indicator data. It
             contains one column ``close``.
 
-        max_items_per_transaction (int, default=1): The maximum number of
-            stocks to be traded on each ``long`` or ``short``
-            transaction.
+        max_exposure(float, default=None): Maximum allowed exposure for all the
+            opened positions (``short`` and ``long``). If the exposure reaches
+            this threshold, no further positions are being opened. A new
+            position can be opened again only when exposure reduces through a
+            position close. If set to None, then there is no upper limit for
+            the opened positions (exposure). When a new ``long`` position is
+            opened, exposure is increased by the ``stock_price``. When a
+            ``short`` position is opened, exposure is increased by the
+            ``short_exposure_factor * stock_price``. Values >0.0 or None are
+            supported.
 
-        max_investment(float, default=None): Maximum investment for all the
-            opened positions (``short`` and ``long``). If the sum of all
-            the opened positions reached the maximum investment, then it is
-            not allowed to open a new position. A new position can be
-            opened when some balance becomes available from a position
-            close. If set to  None, then there is no upper limit for the opened
-            positions.
+        short_exposure_factor (float, default=1.5): The exposure factor when
+            a new ``short`` position is opened. Usually is above 1.0 and it
+            is used as security when a short position is opened. Values >=1.0
+            are supported.
 
     Attributes:
          _input_data_index (pandas.DateTimeIndex): The indicator's input data
@@ -50,23 +53,27 @@ class TradingSimulation:
             with same values as the input to the indicator data. It
             contains one column ``close``.
 
-        _max_items_per_transaction (int, default=1): The maximum number of
-            stocks to be traded on each ``long`` or ``short``
-            transaction.
+        _max_exposure(float, default=None): Maximum allowed exposure for all
+            the opened positions (``short`` and ``long``). If the exposure
+            reaches this threshold, no further positions are being opened. A
+            new position can be opened again only when exposure reduces through
+            a position close. If set to None, then there is no upper limit for
+            the opened positions (exposure). When a new ``long`` position is
+            opened, exposure is increased by the ``stock_price``. When a
+            ``short`` position is opened, exposure is increased by the
+            ``short_exposure_factor * stock_price``. Values >0.0 or None are
+            supported.
 
-        _max_investment(float, default=None): Maximum investment for all the
-            opened positions (``short`` and ``long``). If the sum of all
-            the opened positions reached the maximum investment, then it is
-            not allowed to open a new position. A new position can be
-            opened when some balance becomes available from a position
-            close. If set to  None, then there is no upper limit for the opened
-            positions.
+        _short_exposure_factor (float, default=1.5): The exposure factor when
+            a new ``short`` position is opened. Usually is above 1.0 and it
+            is used as security when a short position is opened. Values >=1.0
+            are supported.
 
         _portfolio (pandas.DataFrame): Simulation portfolio, keeps a track of
             the entered positions during the simulation. Position: ``long``,
-            ``short`` or ``none``. Items: Number of stocks. Unit_Price: Price
-            of each item when entered the position. Status: ``open``, ``close``
-            or none
+            ``short`` or ``none``. Status: ``open``, ``close`` or none.
+            Exposure: ``stock_price`` when position is ``long``, and
+            ``short_exposure_factor * stock_price`` when position is ``short``.
 
         _simulation_data (pandas.DataFrame): Dataframe which holds details and
             about the simulation. The index of the dataframe is the whole
@@ -78,28 +85,26 @@ class TradingSimulation:
             ``open_trading_action``: the open trading action applied. Possible
             values are ``long``, ``short`` and ``none``.
 
-            ``stocks_in_open_transaction``: the number of stocks involved in
-            the open transaction.
-
-            ``close_long_trading_actions``: indicates if long positions where
-            closed in this simulation round. Is of type bool.
-
-            ``stocks_in_close_long_transactions``: the number of stocks
-            involved in the close long positions transaction.
-
-            ``close_short_trading_actions``: indicates if short positions where
-            closed in this simulation round. Is of type bool.
-
-            ``stocks_in_close_short_transactions``: the number of stocks
-            involved in the close short positions transaction.
-
-            ``balance``: the available balance (earnings - spending).
-
             ``stock_value``: The value of the stock during the simulation
             period.
 
-            ``total_value``: the available balance considering the open
-            positions (if they would be closed in this transaction).
+            ``exposure``: The accumulated exposure during the simulation
+            period. Increased by ``stock_price`` when a ``long`` position is
+            opened, and by ``short_exposure_factor * stock_price`` when a
+            ``short`` position is opened. Reduced by the same amounts when
+            relevant positions are being closed.
+
+            ``portfolio_value``: The portfolio value during the simulation
+            period, ``current_stock_price * (opened_long - opened_short)``.
+
+            ``earnings``: The accumulated earnings during the simulation
+            period. Increased by the ``current_price - opened_position_price``
+            when a ``long`` position is closed. Increased by the
+            ``opened_position_price - current_price`` when a ``short`` position
+            is closed.
+
+            ``balance``: The balance during the simulation period. It is the
+            ``earnings + portfolio_value``.
 
         _statistics (dict): Statistics about the simulation. contains the below
             keys:
@@ -111,27 +116,34 @@ class TradingSimulation:
             during the simulation period.
 
             ``number_of_ignored_buy_signals``: the number of ``buy`` signals
-            ignored because of the ``max_investment`` limitation.
+            ignored because of the ``max_exposure`` limitation.
 
             ``number_of_sell_signals``: the number of ``sell`` signals produced
             during the simulation period.
 
             ``number_of_ignored_sell_signals``: the number of ``sell`` signals
-            ignored because of the ``max_investment`` limitation.
+            ignored because of the ``max_exposure`` limitation.
 
-            ``balance``: the final available balance (earnings - spending).
-
-            ``total_stocks_in_long``: the number of stocks in long position at
-            the end of the simulation.
-
-            ``total_stocks_in_short``: the number of stocks in short position
-            at the end of the simulation.
-
-            ``stock_value``: The value of the stock at the end of the
+            ``last_stock_value``: The value of the stock at the end of the
             simulation.
 
-            ``total_value``: The balance plus after closing all the open
-            positions.
+            ``last_exposure``: The ``exposure`` value at the end of the
+            simulation period.
+
+            ``last_open_long_positions``: The number of the still opened
+            ``long`` positions at the end of the simulation period.
+
+            ``last_open_short_positions``: The number of the still opened
+            ``short`` positions at the end of the simulation period.
+
+            ``last_portfolio_value``: The ``portfolio_value`` at the end of the
+            simulation period.
+
+            ``last_earnings``: The ``earnings`` at the end of the simulation
+            period.
+
+            ``final_balance``: The ``balance`` at the end of the simulation
+            period.
 
     Raises:
         WrongTypeForInputParameter: Input argument has wrong type.
@@ -140,35 +152,31 @@ class TradingSimulation:
             the simulation.
     """
 
-    def __init__(self, input_data_index, close_values,
-                 max_items_per_transaction=1, max_investment=None):
+    def __init__(self, input_data_index, close_values, max_exposure=None,
+                 short_exposure_factor=1.5):
 
         self._input_data_index = input_data_index
         self._close_values = close_values
-        self._max_items_per_transaction = max_items_per_transaction
-        self._max_investment = max_investment
+        self._max_exposure = max_exposure
+        self._short_exposure_factor = short_exposure_factor
 
         # Validate input arguments
         self._validateSimulationArguments()
 
         # Simulation portfolio, keeps a track of the entered positions during
-        # the simulation. Position: `long`, `short` or `none`. Items: Number of
-        # stocks. Unit_Price: Price of each item when entered the position.
-        # Status: `open`, `close` or none
+        # the simulation. Position: `long`, `short` or `none`. Status: `open`,
+        # `close` or none. Exposure: stock_price when position is long, and
+        # short_exposure_factor * stock_price when position is short.
         self._portfolio = pd.DataFrame(
             index=self._input_data_index,
-            columns=['position', 'items', 'unit_price', 'status'], data=None)
+            columns=['position', 'status', 'exposure'], data=None)
 
         # Initialize simulation data structure (DataFrame)
         self._simulation_data = pd.DataFrame(
             index=self._input_data_index,
-            columns=['signal', 'open_trading_action',
-                     'stocks_in_open_transaction',
-                     'close_long_trading_actions',
-                     'stocks_in_close_long_transactions',
-                     'close_short_trading_actions',
-                     'stocks_in_close_short_transactions',
-                     'balance', 'stock_value', 'total_value'],
+            columns=['signal', 'open_trading_action', 'stock_value',
+                     'exposure', 'portfolio_value', 'earnings', 'balance'
+                     ],
             data=None)
 
         # Initialize statistics data structure (dict)
@@ -178,11 +186,13 @@ class TradingSimulation:
             'number_of_ignored_buy_signals': 0,
             'number_of_sell_signals': 0,
             'number_of_ignored_sell_signals': 0,
-            'balance': 0.0,
-            'total_stocks_in_long': 0,
-            'total_stocks_in_short': 0,
-            'stock_value': 0.0,
-            'total_value': 0.0}
+            'last_stock_value': 0.0,
+            'last_exposure': 0.0,
+            'last_open_long_positions': 0,
+            'last_open_short_positions': 0,
+            'last_portfolio_value': 0.0,
+            'last_earnings': 0.0,
+            'final_balance': 0.0}
 
     def _validateSimulationArguments(self):
         """
@@ -226,28 +236,28 @@ class TradingSimulation:
                                 '`input_data` argument in the indicator\'s ' +
                                 'constructor.')
 
-        # Validate _max_items_per_transaction
-        if isinstance(self._max_items_per_transaction, int):
-            if self._max_items_per_transaction <= 0:
+        # Validate max_exposure
+        if isinstance(self._max_exposure, (int, float)):
+            if self._max_exposure <= 0:
                 raise WrongValueForInputParameter(
-                    self._max_items_per_transaction,
-                    'max_items_per_transaction', '>0')
-        else:
-            raise WrongTypeForInputParameter(
-                type(self._max_items_per_transaction),
-                'max_items_per_transaction', 'int')
-
-        # Validate max_investment
-        if isinstance(self._max_investment, (int, float)):
-            if self._max_investment <= 0:
-                raise WrongValueForInputParameter(
-                    self._max_investment, 'max_investment', '>0')
-        elif self._max_investment is None:
+                    self._max_exposure, 'max_exposure', '>0 or None')
+        elif self._max_exposure is None:
             pass
         else:
             raise WrongTypeForInputParameter(
-                type(self._max_investment), 'max_investment',
+                type(self._max_exposure), 'max_exposure',
                 'int or float or None')
+
+        # Validate short_exposure_factor
+        if isinstance(self._short_exposure_factor, (int, float)):
+            if self._short_exposure_factor < 1.0:
+                raise WrongValueForInputParameter(
+                    self._short_exposure_factor, 'short_exposure_factor',
+                    '>=1.0')
+        else:
+            raise WrongTypeForInputParameter(
+                type(self._short_exposure_factor), 'short_exposure_factor',
+                'int or float')
 
     def _calculateSimulationStatistics(self):
         """
@@ -282,35 +292,73 @@ class TradingSimulation:
                     (self._simulation_data['open_trading_action'] == 'none')]
                     .index),
 
-            'balance': 0.0 if executed_simulation_rounds == 0
-                else self._simulation_data['balance'].iat[
-                    executed_simulation_rounds-1],
-
-            'total_stocks_in_long': int(self._portfolio[
-                (self._portfolio['position'] == 'long') &
-                (self._portfolio['status'] == 'open')]['items'].sum()),
-
-            'total_stocks_in_short':
-                int(self._portfolio[
-                    (self._portfolio['position'] == 'short') &
-                    (self._portfolio['status'] == 'open')]
-                ['items'].sum()),
-
-            'stock_value': 0.0 if executed_simulation_rounds == 0
+            'last_stock_value':  0.0 if executed_simulation_rounds == 0
                 else self._simulation_data['stock_value'].iat[
-                    executed_simulation_rounds-1],
+                    executed_simulation_rounds - 1],
 
-            'total_value': 0.0 if executed_simulation_rounds == 0
-                else self._simulation_data['total_value'].iat[
-                    executed_simulation_rounds-1]}
+            'last_exposure': 0.0 if executed_simulation_rounds == 0
+                else self._simulation_data['exposure'].iat[
+                    executed_simulation_rounds - 1],
 
-    def _closeOpenPositions(self, price, force_all=False, write=True):
+            'last_open_long_positions': len(
+                self._portfolio[
+                    (self._portfolio['position'] == 'long') &
+                    (self._portfolio['status'] == 'open')
+                    ].index),
+
+            'last_open_short_positions': len(
+                self._portfolio[
+                    (self._portfolio['position'] == 'short') &
+                    (self._portfolio['status'] == 'open')
+                    ].index),
+
+            'last_portfolio_value': 0.0 if executed_simulation_rounds == 0
+                else self._simulation_data['portfolio_value'].iat[
+                    executed_simulation_rounds - 1],
+
+            'last_earnings': 0.0 if executed_simulation_rounds == 0
+                else self._simulation_data['earnings'].iat[
+                    executed_simulation_rounds - 1],
+
+            'final_balance': 0.0 if executed_simulation_rounds == 0
+                else self._simulation_data['balance'].iat[
+                    executed_simulation_rounds - 1]
+        }
+
+    def _calculatePortfolioValue(self, i_index):
+        """
+        Calculate the portfolio value (for the opened positions).
+
+        Args:
+            i_index (int): The integer index of the current simulation round.
+                Refers to the index of all the DataFrames used in the
+                simulation.
+
+        Returns:
+            float: The portfolio value.
+        """
+
+        open_long_positions = len(
+            self._portfolio[
+                (self._portfolio['position'] == 'long') &
+                (self._portfolio['status'] == 'open')].index)
+
+        open_short_positions = len(
+            self._portfolio[
+                (self._portfolio['position'] == 'short') &
+                (self._portfolio['status'] == 'open')].index)
+
+        return self._close_values['close'].iat[i_index] * (
+                open_long_positions - open_short_positions)
+
+    def _closeOpenPositions(self, i_index, force_all=False, write=True):
         """
         Closes the opened positions existing in portfolio.
 
         Args:
-            price (float): The price of the stock to be considered in
-                the closing transactions.
+            i_index (int): The integer index of the current simulation round.
+                Refers to the index of all the DataFrames used in the
+                simulation.
 
             force_all (bool, default=False): If True, all the opened positions
                 are being closed. If False, only the positions which will bring
@@ -321,277 +369,234 @@ class TradingSimulation:
                 open.
 
         Returns:
-            float: The value of the transactions executed (earnings -
-            spending).
+            float: The earnings of the transactions executed.
 
-            int: Number of long stocks closed.
-
-            int: Number of short stocks closed.
-
-        Raises:
-            WrongValueForInputParameter
+            float: The closed exposure.
         """
-
-        number_of_closed_long_items = 0
-        number_of_closed_short_items = 0
 
         # Close all the open positions
         if force_all:
-            total_long_items = \
-                int(self._portfolio[
-                    (self._portfolio['status'] == 'open') &
-                    (self._portfolio['position'] == 'long')]['items'].sum())
 
-            total_short_items = \
-                int(self._portfolio[
-                    (self._portfolio['status'] == 'open') &
-                    (self._portfolio['position'] == 'short')]['items'].sum())
+            long_to_be_closed = self._portfolio[
+                (self._portfolio['status'] == 'open') &
+                (self._portfolio['position'] == 'long')]['exposure']
 
-            # Value when closing short and long positions
-            value = (total_long_items - total_short_items) * price
-
-            # Register close action
-            if write:
-                number_of_closed_long_items = int(self._portfolio[
-                    (self._portfolio['status'] == 'open') &
-                    (self._portfolio['position'] == 'long')]['items'].sum())
-
-                number_of_closed_short_items = int(self._portfolio[
-                    (self._portfolio['status'] == 'open') &
-                    (self._portfolio['position'] == 'short')]['items'].sum())
-
-                self._portfolio.loc[
-                    self._portfolio['status'] == 'open', 'status'] = 'close'
+            short_to_be_closed = self._portfolio[
+                (self._portfolio['status'] == 'open') &
+                (self._portfolio['position'] == 'short')]['exposure']
 
         # Close only positions that bring earnings
         else:
 
-            if price <= 0.0:
-                raise WrongValueForInputParameter(price, 'price', '>=0.0')
+            long_to_be_closed = self._portfolio[
+                (self._portfolio['status'] == 'open') &
+                (self._portfolio['position'] == 'long') &
+                (self._portfolio['exposure'] < self._close_values['close'].
+                 iat[i_index])]['exposure']
 
-            total_long_items = \
-                int(self._portfolio[
-                    (self._portfolio['status'] == 'open') &
-                    (self._portfolio['position'] == 'long') &
-                    (self._portfolio['unit_price'] < price)]['items'].sum())
+            short_to_be_closed = self._portfolio[
+                (self._portfolio['status'] == 'open') &
+                (self._portfolio['position'] == 'short') &
+                (self._portfolio['exposure'] > (
+                        self._short_exposure_factor *
+                        self._close_values['close'].iat[i_index]))
+                ]['exposure']
 
-            total_short_items = \
-                int(self._portfolio[
-                    (self._portfolio['status'] == 'open') &
-                    (self._portfolio['position'] == 'short') &
-                    (self._portfolio['unit_price'] > price)]['items'].sum())
+        # Calculate earnings and closed_exposure
+        long_closed_exposure = long_to_be_closed.sum()
 
-            # Value when closing short and long positions
-            value = (total_long_items - total_short_items) * price
+        short_closed_exposure = short_to_be_closed.sum()
 
-            # Register close action
-            if write:
-                number_of_closed_long_items = int(self._portfolio[
-                    (self._portfolio['status'] == 'open') &
-                    (self._portfolio['position'] == 'long') &
-                    (self._portfolio['unit_price'] < price)]['items'].sum())
+        earnings = (len(long_to_be_closed.index) *
+                    self._close_values['close'].iat[i_index] -
+                    long_closed_exposure) + (
+                (short_closed_exposure / self._short_exposure_factor) -
+                len(short_to_be_closed.index) *
+                self._close_values['close'].iat[i_index])
 
-                number_of_closed_short_items = int(self._portfolio[
-                    (self._portfolio['status'] == 'open') &
-                    (self._portfolio['position'] == 'short') &
-                    (self._portfolio['unit_price'] > price)]['items'].sum())
+        closed_exposure = long_closed_exposure + short_closed_exposure
 
-                self._portfolio.loc[
-                    (self._portfolio['status'] == 'open') &
-                    (self._portfolio['position'] == 'long') &
-                    (self._portfolio['unit_price'] < price), 'status'] = \
-                    'close'
+        # Register close actions
+        if write and force_all:
 
-                self._portfolio.loc[
-                    (self._portfolio['status'] == 'open') &
-                    (self._portfolio['position'] == 'short') &
-                    (self._portfolio['unit_price'] > price), 'status'] = \
-                    'close'
+            self._portfolio.loc[self._portfolio['status'] == 'open',
+                                'status'] = 'close'
 
-        return value, number_of_closed_long_items, number_of_closed_short_items
+        elif write and not force_all:
 
-    def _processHoldSignal(self, i_index):
+            self._portfolio.loc[
+                (self._portfolio['status'] == 'open') &
+                (self._portfolio['position'] == 'long') &
+                (self._portfolio['exposure'] <
+                self._close_values['close'].iat[i_index]), 'status'] = 'close'
+
+            self._portfolio.loc[
+                (self._portfolio['status'] == 'open') &
+                (self._portfolio['position'] == 'short') &
+                (self._portfolio['exposure'] >
+                 (self._short_exposure_factor *
+                  self._close_values['close'].iat[i_index])), 'status'] = \
+                'close'
+
+        if write:
+            # create simulation data row, set only the 'exposure' and
+            # earnings, rest of the row will be created in the
+            # processSignal method
+            self._simulation_data.iat[i_index, 'exposure'] = \
+                self._simulation_data.iat[i_index - 1, 'exposure'] - \
+                closed_exposure
+
+            self._simulation_data.iat[i_index, 'earnings'] = \
+                self._simulation_data.iat[i_index - 1, 'earnings'] + earnings
+
+        return earnings, closed_exposure
+
+    def _processSignal(self, i_index, signal):
         """
-        Process a ``hold`` trading signal.
+        Process a trading signal.
 
         Args:
             i_index (int): The integer index of the current simulation round.
                 Refers to the index of all the DataFrames used in the
                 simulation.
+
+            signal ({('hold', 0), ('buy', -1), ('sell', 1)} or None): The
+                signal to be considered in this simulation round.
         """
 
-        # Add portfolio row
-        self._portfolio.iloc[i_index, :] = ['none', 0, 0.0, 'none']
+        if signal[0] == 'hold':
 
-        # Total balance = balance + value if all positions are closed today
-        value, cli, csi = self._closeOpenPositions(
-            price=self._close_values['close'].iat[i_index], force_all=True,
-            write=False)
+            # Add portfolio row, columns: 'position', 'status', 'exposure'
+            self._portfolio.iloc[i_index, :] = ['none', 'none', 0.0]
 
-        self._simulation_data.iloc[i_index, :] = [
-            'hold', 'none', 0,
-            True if cli > 0 else False, cli,
-            True if csi > 0 else False, csi,
-            self._simulation_data['balance'].iat[i_index - 1],
-            self._close_values['close'].iat[i_index],
-            self._simulation_data['balance'].iat[i_index - 1] + value]
+            portfolio_value = self._calculatePortfolioValue(i_index)
 
-    def _processBuySignal(self, i_index):
-        """
-        Process a ``buy`` trading signal.
-
-        Args:
-            i_index (int): The integer index of the current simulation round.
-                Refers to the index of all the DataFrames used in the
-                simulation.
-        """
-
-        # Not enough balance for proceeding with the `buy` signal
-        if ((self._max_investment is not None) and
-                (self._simulation_data['balance'].iat[i_index - 1] -
-                 self._close_values['close'].iat[i_index] +
-                 self._max_investment < 0)):
-
-            # Add portfolio row
-            self._portfolio.iloc[i_index, :] = ['none', 0, 0.0, 'none']
-
-            # Total balance = balance + value if all positions are closed
-            # today
-            value, cli, csi = self._closeOpenPositions(
-                price=self._close_values['close'].iat[i_index],
-                force_all=True, write=False)
-
+            # Add simulation data row, columns: 'signal',
+            # 'open_trading_action', 'stock_value', 'exposure',
+            # 'portfolio_value', 'earnings', 'balance'. Note that 'earnings'
+            # and 'exposure' had been already updated in runSimulationRound
             self._simulation_data.iloc[i_index, :] = [
-                'buy', 'none', 0,
-                True if cli > 0 else False, cli,
-                True if csi > 0 else False, csi,
-                self._simulation_data['balance'].iat[i_index - 1],
+                'hold',
+                'none',
                 self._close_values['close'].iat[i_index],
-                self._simulation_data['balance'].iat[i_index - 1] + value]
+                self._simulation_data['exposure'].iat[i_index],
+                portfolio_value,
+                self._simulation_data['earnings'].iat[i_index],
+                portfolio_value +
+                self._simulation_data['earnings'].iat[i_index]
+            ]
 
-        # Enough balance, proceed with opening a `long` position
-        else:
+        elif signal[0] == 'buy':
 
-            # Calculate number of stocks to be used in position
-            if self._max_investment is not None:
-                quantity = min(
-                    self._max_items_per_transaction,
-                    int((self._simulation_data['balance'].iat[i_index - 1] +
-                         self._max_investment) /
-                    self._close_values['close'].iat[i_index]))
+            # Maximum exposure reached
+            if self._max_exposure < (
+                    self._simulation_data['exposure'].iat[i_index] +
+                    self._close_values['close'].iat[i_index]):
 
+                # Add portfolio row, columns: 'position', 'status', 'exposure'
+                self._portfolio.iloc[i_index, :] = ['none', 'none', 0.0]
+
+                portfolio_value = self._calculatePortfolioValue(i_index)
+
+                # Add simulation data row, columns: 'signal',
+                # 'open_trading_action', 'stock_value', 'exposure',
+                # 'portfolio_value', 'earnings', 'balance'. Note that
+                # 'earnings' and 'exposure' had been already updated in
+                # runSimulationRound
+                self._simulation_data.iloc[i_index, :] = [
+                    'buy',
+                    'none',
+                    self._close_values['close'].iat[i_index],
+                    self._simulation_data['exposure'].iat[i_index],
+                    portfolio_value,
+                    self._simulation_data['earnings'].iat[i_index],
+                    portfolio_value +
+                    self._simulation_data['earnings'].iat[i_index]
+                ]
+
+            # Open long position
             else:
-                quantity = self._max_items_per_transaction
 
-            self._portfolio.iloc[i_index, :] = [
-                'long', quantity,
-                self._close_values['close'].iat[i_index],
-                'open']
+                # Add portfolio row, columns: 'position', 'status', 'exposure'
+                self._portfolio.iloc[i_index, :] = [
+                    'long', 'open', self._close_values['close'].iat[i_index]]
 
-            self._simulation_data.iloc[i_index, :] = [
-                'buy', 'long', quantity,
-                'N/A', 'N/A', 'N/A', 'N/A',
-                self._simulation_data['balance'].iat[i_index - 1] - (
-                        quantity * self._close_values['close'].iat[i_index]),
-                self._close_values['close'].iat[i_index], 'N/A']
+                portfolio_value = self._calculatePortfolioValue(i_index)
 
-            # At the end to include this transaction also
-            value, cli, csi = self._closeOpenPositions(
-                price=self._close_values['close'].iat[i_index],
-                force_all=True, write=False)
+                # Add simulation data row, columns: 'signal',
+                # 'open_trading_action', 'stock_value', 'exposure',
+                # 'portfolio_value', 'earnings', 'balance'. Note that
+                # 'earnings' and 'exposure' had been already updated in
+                # runSimulationRound
+                self._simulation_data.iloc[i_index, :] = [
+                    'buy',
+                    'long',
+                    self._close_values['close'].iat[i_index],
+                    self._simulation_data['exposure'].iat[i_index] +
+                    self._close_values['close'].iat[i_index],
+                    portfolio_value,
+                    self._simulation_data['earnings'].iat[i_index],
+                    portfolio_value +
+                    self._simulation_data['earnings'].iat[i_index]
+                ]
 
-            self._simulation_data['total_value'].iat[i_index] = \
-                self._simulation_data['balance'].iat[i_index] + value
+        elif signal[0] == 'sell':
 
-            self._simulation_data['close_long_trading_actions'].\
-                iat[i_index] = True if cli > 0 else False
+            # Maximum exposure reached
+            if self._max_exposure < (
+                    self._simulation_data['exposure'].iat[i_index] +
+                    self._short_exposure_factor *
+                    self._close_values['close'].iat[i_index]):
 
-            self._simulation_data['stocks_in_close_long_transactions'].\
-                iat[i_index] = cli
+                # Add portfolio row, columns: 'position', 'status', 'exposure'
+                self._portfolio.iloc[i_index, :] = ['none', 'none', 0.0]
 
-            self._simulation_data['close_short_trading_actions'].\
-                iat[i_index] = True if csi > 0 else False
+                portfolio_value = self._calculatePortfolioValue(i_index)
 
-            self._simulation_data['stocks_in_close_short_transactions'].\
-                iat[i_index] = csi
+                # Add simulation data row, columns: 'signal',
+                # 'open_trading_action', 'stock_value', 'exposure',
+                # 'portfolio_value', 'earnings', 'balance'. Note that
+                # 'earnings' and 'exposure' had been already updated in
+                # runSimulationRound
+                self._simulation_data.iloc[i_index, :] = [
+                    'sell',
+                    'none',
+                    self._close_values['close'].iat[i_index],
+                    self._simulation_data['exposure'].iat[i_index],
+                    portfolio_value,
+                    self._simulation_data['earnings'].iat[i_index],
+                    portfolio_value +
+                    self._simulation_data['earnings'].iat[i_index]
+                ]
 
-    def _processSellSignal(self, i_index):
-        """
-        Process a ``sell`` trading signal.
-
-        Args:
-            i_index (int): The integer index of the current simulation round.
-                Refers to the index of all the DataFrames used in the
-                simulation.
-        """
-
-        # Not enough balance for proceeding with the `sell` signal
-        if ((self._max_investment is not None) and
-                (self._simulation_data['balance'].iat[i_index - 1] -
-                 self._close_values['close'].iat[i_index] +
-                 self._max_investment < 0)):
-
-            # Add portfolio row
-            self._portfolio.iloc[i_index, :] = ['none', 0, 0.0, 'none']
-
-            # Total balance = balance + value if all positions are closed
-            # today
-            value, cli, csi = self._closeOpenPositions(
-                price=self._close_values['close'].iat[i_index],
-                force_all=True, write=False)
-
-            self._simulation_data.iloc[i_index, :] = [
-                'sell', 'none', 0,
-                True if cli > 0 else False, cli,
-                True if csi > 0 else False, csi,
-                self._simulation_data['balance'].iat[i_index - 1],
-                self._close_values['close'].iat[i_index],
-                self._simulation_data['balance'].iat[i_index - 1] + value]
-
-        # Enough balance, proceed with opening a `short` position
-        else:
-
-            # Calculate number of stocks to be used in position
-            if self._max_investment is not None:
-                quantity = min(
-                    self._max_items_per_transaction,
-                    int((self._simulation_data['balance'].iat[i_index - 1] +
-                         self._max_investment) /
-                    self._close_values['close'].iat[i_index]))
-
+            # Open short position
             else:
-                quantity = self._max_items_per_transaction
 
-            self._portfolio.iloc[i_index, :] = [
-                'short', quantity, self._close_values['close'].iat[i_index],
-                'open']
+                # Add portfolio row, columns: 'position', 'status', 'exposure'
+                self._portfolio.iloc[i_index, :] = [
+                    'short', 'open',
+                    self._short_exposure_factor *
+                    self._close_values['close'].iat[i_index]]
 
-            self._simulation_data.iloc[i_index, :] = [
-                'sell', 'short', quantity,
-                'N/A', 'N/A', 'N/A', 'N/A',
-                self._simulation_data['balance'].iat[i_index - 1] + (
-                        quantity * self._close_values['close'].iat[i_index]),
-                self._close_values['close'].iat[i_index], 'N/A']
+                portfolio_value = self._calculatePortfolioValue(i_index)
 
-            # At the end to include this transaction also
-            value, cli, csi = self._closeOpenPositions(
-                price=self._close_values['close'].iat[i_index],
-                force_all=True, write=False)
-
-            self._simulation_data['total_value'].iat[i_index] = \
-                self._simulation_data['balance'].iat[i_index] + value
-
-            self._simulation_data['close_long_trading_actions']. \
-                iat[i_index] = True if cli > 0 else False
-
-            self._simulation_data['stocks_in_close_long_transactions']. \
-                iat[i_index] = cli
-
-            self._simulation_data['close_short_trading_actions']. \
-                iat[i_index] = True if csi > 0 else False
-
-            self._simulation_data['stocks_in_close_short_transactions']. \
-                iat[i_index] = csi
+                # Add simulation data row, columns: 'signal',
+                # 'open_trading_action', 'stock_value', 'exposure',
+                # 'portfolio_value', 'earnings', 'balance'. Note that
+                # 'earnings' and 'exposure' had been already updated in
+                # runSimulationRound
+                self._simulation_data.iloc[i_index, :] = [
+                    'sell',
+                    'short',
+                    self._close_values['close'].iat[i_index],
+                    self._simulation_data['exposure'].iat[i_index] +
+                    self._short_exposure_factor *
+                    self._close_values['close'].iat[i_index],
+                    portfolio_value,
+                    self._simulation_data['earnings'].iat[i_index],
+                    portfolio_value +
+                    self._simulation_data['earnings'].iat[i_index]
+                ]
 
     def runSimulationRound(self, i_index, signal):
         """
@@ -607,22 +612,22 @@ class TradingSimulation:
         """
 
         # Just initializations at the first day
+        # Columns for the simulation data: 'signal', 'open_trading_action',
+        # 'stock_value', 'exposure', 'portfolio_value', 'earnings', 'balance'
         if i_index == 0:
             self._simulation_data.iloc[0, :] = [
-                signal[0], 'none', 0, False, 0, False, 0, 0.0,
-                self._close_values['close'].iat[0], 0.0]
+                signal[0], 'none', self._close_values['close'].iat[0], 0.0,
+                0.0, 0.0, 0.0]
 
-            self._portfolio.iloc[0, :] = ['none', 0, 0.0, 'none']
-            return None
-
-        if signal == TRADE_SIGNALS['buy']:
-            self._processBuySignal(i_index)
-
-        elif signal == TRADE_SIGNALS['sell']:
-            self._processSellSignal(i_index)
+            # Columns for the portfolio: 'position', 'status', 'exposure'
+            self._portfolio.iloc[0, :] = ['none', 'none', 0.0]
 
         else:
-            self._processHoldSignal(i_index)
+            # First check if any open position can be closed
+            self._closeOpenPositions(i_index=i_index, force_all=False,
+                                     write=True)
+
+            self._processSignal(i_index, signal)
 
     def closeSimulation(self):
         """
@@ -641,28 +646,26 @@ class TradingSimulation:
             ``open_trading_action``: the open trading action applied. Possible
             values are ``long``, ``short`` and ``none``.
 
-            ``stocks_in_open_transaction``: the number of stocks involved in
-            the open transaction.
-
-            ``close_long_trading_actions``: indicates if long positions where
-            closed in this simulation round. Is of type bool.
-
-            ``stocks_in_close_long_transactions``: the number of stocks
-            involved in the close long positions transaction.
-
-            ``close_short_trading_actions``: indicates if short positions where
-            closed in this simulation round. Is of type bool.
-
-            ``stocks_in_close_short_transactions``: the number of stocks
-            involved in the close short positions transaction.
-
-            ``balance``: the available balance (earnings - spending).
-
             ``stock_value``: The value of the stock during the simulation
             period.
 
-            ``total_value``: the available balance considering the open
-            positions (if they would be closed in this transaction).
+            ``exposure``: The accumulated exposure during the simulation
+            period. Increased by ``stock_price`` when a ``long`` position is
+            opened, and by ``short_exposure_factor * stock_price`` when a
+            ``short`` position is opened. Reduced by the same amounts when
+            relevant positions are being closed.
+
+            ``portfolio_value``: The portfolio value during the simulation
+            period, ``current_stock_price * (opened_long - opened_short)``.
+
+            ``earnings``: The accumulated earnings during the simulation
+            period. Increased by the ``current_price - opened_position_price``
+            when a ``long`` position is closed. Increased by the
+            ``opened_position_price - current_price`` when a ``short`` position
+            is closed.
+
+            ``balance``: The balance during the simulation period. It is the
+            ``earnings + portfolio_value``.
 
             The dictionary contains the below keys:
 
@@ -673,27 +676,34 @@ class TradingSimulation:
             during the simulation period.
 
             ``number_of_ignored_buy_signals``: the number of ``buy`` signals
-            ignored because of the ``max_investment`` limitation.
+            ignored because of the ``max_exposure`` limitation.
 
             ``number_of_sell_signals``: the number of ``sell`` signals produced
             during the simulation period.
 
             ``number_of_ignored_sell_signals``: the number of ``sell`` signals
-            ignored because of the ``max_investment`` limitation.
+            ignored because of the ``max_exposure`` limitation.
 
-            ``balance``: the final available balance (earnings - spending).
-
-            ``total_stocks_in_long``: the number of stocks in long position at
-            the end of the simulation.
-
-            ``total_stocks_in_short``: the number of stocks in short position
-            at the end of the simulation.
-
-            ``stock_value``: The value of the stock at the end of the
+            ``last_stock_value``: The value of the stock at the end of the
             simulation.
 
-            ``total_value``: The balance plus after closing all the open
-            positions.
+            ``last_exposure``: The ``exposure`` value at the end of the
+            simulation period.
+
+            ``last_open_long_positions``: The number of the still opened
+            ``long`` positions at the end of the simulation period.
+
+            ``last_open_short_positions``: The number of the still opened
+            ``short`` positions at the end of the simulation period.
+
+            ``last_portfolio_value``: The ``portfolio_value`` at the end of the
+            simulation period.
+
+            ``last_earnings``: The ``earnings`` at the end of the simulation
+            period.
+
+            ``final_balance``: The ``balance`` at the end of the simulation
+            period.
         """
 
         self._calculateSimulationStatistics()
