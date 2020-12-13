@@ -607,7 +607,7 @@ class TradingSimulation:
         # Just initializations at the first day
         if i_index == 0:
             self._simulation_data.iloc[0, :] = [
-                'hold', 'none', 0, False, 0, False, 0, 0.0, 0.0, 0.0]
+                signal[0], 'none', 0, False, 0, False, 0, 0.0, 0.0, 0.0]
             self._portfolio.iloc[0, :] = ['none', 0, 0.0, 'none']
             return None
 
