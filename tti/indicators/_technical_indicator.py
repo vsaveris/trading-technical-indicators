@@ -11,9 +11,8 @@ from abc import ABC, abstractmethod
 from .properties.indicators_properties import INDICATORS_PROPERTIES
 from ..utils.plot import linesGraph
 from ..utils.data_validation import validateInputData
-from ..utils.trading_simulation import TradingSimulation
 from ..utils.exceptions import WrongTypeForInputParameter, \
-    NotValidInputDataForSimulation, WrongValueForInputParameter
+    TtiPackageDeprecatedMethod
 
 
 class TechnicalIndicator(ABC):
@@ -178,128 +177,14 @@ class TechnicalIndicator(ABC):
     def runSimulation(self, close_values, max_items_per_transaction=1,
                       max_investment=0.0):
         """
-        Executes trading simulation based on the trading signals produced by
-        the technical indicator, by applying an Active trading strategy. With
-        a ``buy`` trading signal a new ``long`` position is opened. With a
-        ``sell`` trading signal a new ``short`` position is opened. Opened
-        positions are scanned on each simulation round, and if conditions are
-        met (current stock price > bought price for opened ``long`` positions
-        and current stock price < bought price for opened ``short`` positions)
-        the positions are being closed. When a position is opened, the number
-        of stocks is decided by considering the input arguments.
+        Deprecated method since release ``0.1.b3``. Replaced by the
+        ``getTiSimulation`` method. This code will be removed from the package
+        in stable-release ``1.0``.
 
-        Args:
-             close_values (pandas.DataFrame): The close prices of the stock,
-                for the whole simulation period. Index is of type DateTimeIndex
-                with same values as the input to the indicator data. It
-                contains one column ``close``.
-
-            max_items_per_transaction (int, default=1): The maximum number of
-                stocks to be traded on each ``open_long`` or ``open_short``
-                transaction.
-
-            max_investment(float, default=None): Maximum investment for all the
-                opened positions (``short`` and ``long``). If the sum of all
-                the opened positions reached the maximum investment, then it is
-                not allowed to open a new position. A new position can be
-                opened when some balance becomes available from a position
-                close. If set to  None, then there is no upper limit for the
-                opened positions.
-
-        Returns:
-            (pandas.DataFrame, dict): Dataframe which holds details and
-            dictionary which holds statistics about the simulation.
-
-            The index of the dataframe is the whole trading period
-            (DateTimeIndex).Columns are:
-
-            ``signal``: the signal produced at each day of the simulation
-            period.
-
-            ``open_trading_action``: the open trading action applied. Possible
-            values are ``open_long``, ``open_short`` and ``none``.
-
-            ``stocks_in_open_transaction``: the number of stocks involved in
-            the open transaction.
-
-            ``close_long_trading_actions``: indicates if long positions where
-            closed in this simulation round. Is of type bool.
-
-            ``stocks_in_close_long_transactions``: the number of stocks
-            involved in the close long positions transaction.
-
-            ``close_short_trading_actions``: indicates if short positions where
-            closed in this simulation round. Is of type bool.
-
-            ``stocks_in_close_short_transactions``: the number of stocks
-            involved in the close short positions transaction.
-
-            ``balance``: the available balance (earnings - spending).
-
-            ``stock_value``: The value of the stock during the simulation
-            period.
-
-            ``total_value``: the available balance considering the open
-            positions (if they would be closed in this transaction).
-
-
-            The dictionary contains the below keys:
-
-            ``number_of_trading_days``: the number of trading days in the
-            simulation round.
-
-            ``number_of_buy_signals``: the number of ``buy`` signals produced
-            during the simulation period.
-
-            ``number_of_ignored_buy_signals``: the number of ``buy`` signals
-            ignored because of the ``max_investment`` limitation.
-
-            ``number_of_sell_signals``: the number of ``sell`` signals produced
-            during the simulation period.
-
-            ``number_of_ignored_sell_signals``: the number of ``sell`` signals
-            ignored because of the ``max_investment`` limitation.
-
-            ``balance``: the final available balance (earnings - spending).
-
-            ``total_stocks_in_long``: the number of stocks in long position at
-            the end of the simulation.
-
-            ``total_stocks_in_short``: the number of stocks in short position
-            at the end of the simulation.
-
-            ``stock_value``: The value of the stock at the end of the
-            simulation.
-
-            ``total_value``: The balance plus after closing all the open
-            positions.
+        Raises:
+            TtiPackageDeprecatedMethod: Method is deprecated.
         """
 
-        # Create Trading Simulation instance
-        simulator = TradingSimulation(
-            input_data_index=self._input_data.index,
-            close_values=close_values,
-            max_items_per_transaction=max_items_per_transaction,
-            max_investment=max_investment)
-
-        # keep safe the full input and indicator data
-        full_ti_data = self._ti_data
-        full_input_data = self._input_data
-
-        # Run simulation rounds for the whole period
-        for i in range(len(self._input_data.index)):
-
-            # Limit the input and indicator data to this simulation round
-            self._input_data = full_input_data[
-                full_input_data.index <= full_input_data.index[i]]
-
-            self._ti_data = full_ti_data[
-                full_ti_data.index <= full_ti_data.index[i]]
-
-            simulator.runSimulationRound(i_index=i, signal=self.getTiSignal())
-
-        # Restore input and indicator data to full range
-        self._ti_data = full_ti_data
-        self._input_data = full_input_data
-
-        return simulator.closeSimulation()
+        raise TtiPackageDeprecatedMethod(
+            'runSimulation', '0.1.b3',
+            ' It has been replaced by the getTiSimulation method.')
