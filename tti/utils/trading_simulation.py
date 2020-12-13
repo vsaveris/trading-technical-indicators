@@ -474,11 +474,11 @@ class TradingSimulation:
 
             # Calculate number of stocks to be used in position
             if self._max_investment is not None:
-                quantity = min(
+                quantity = max(0, min(
                     self._max_items_per_transaction,
                     int((self._simulation_data['balance'].iat[i_index - 1] -
                          self._max_investment) /
-                    self._close_values['close'].iat[i_index]))
+                    self._close_values['close'].iat[i_index])))
             else:
                 quantity = self._max_items_per_transaction
 
@@ -552,11 +552,11 @@ class TradingSimulation:
 
             # Calculate number of stocks to be used in position
             if self._max_investment is not None:
-                quantity = min(
+                quantity = max(0, min(
                     self._max_items_per_transaction,
                     int((self._simulation_data['balance'].iat[i_index - 1] -
                          self._max_investment) /
-                    self._close_values['close'].iat[i_index]))
+                    self._close_values['close'].iat[i_index])))
             else:
                 quantity = self._max_items_per_transaction
 
