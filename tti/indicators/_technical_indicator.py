@@ -13,6 +13,7 @@ from ..utils.plot import linesGraph
 from ..utils.data_validation import validateInputData
 from ..utils.exceptions import WrongTypeForInputParameter, \
     TtiPackageDeprecatedMethod
+from ..utils.trading_simulation import TradingSimulation
 
 
 class TechnicalIndicator(ABC):
@@ -188,3 +189,136 @@ class TechnicalIndicator(ABC):
         raise TtiPackageDeprecatedMethod(
             'runSimulation', '0.1.b3',
             ' It has been replaced by the getTiSimulation method.')
+
+    def getTiSimulation(self, close_values, max_exposure=None,
+                        short_exposure_factor=1.5):
+        """
+        Args:
+            close_values (pandas.DataFrame): The close prices of the stock, for
+                the whole simulation period. Index is of type DateTimeIndex
+                with same values as the input to the indicator data. It
+                contains one column ``close``.
+
+            max_exposure(float, default=None): Maximum allowed exposure for all
+                the opened positions (``short`` and ``long``). If the exposure
+                reaches this threshold, no further positions are being opened.
+                A new position can be opened again only when exposure reduces
+                through a position close. If set to None, then there is no
+                upper limit for the opened positions (exposure). When a new
+                ``long`` position is opened, exposure is increased by the
+                ``stock_price``. When a ``short`` position is opened, exposure
+                is increased by the ``short_exposure_factor * stock_price``.
+                Values >0.0 or None are supported.
+
+            short_exposure_factor (float, default=1.5): The exposure factor
+                when a new ``short`` position is opened. Usually is above 1.0
+                and it is used as security when a short position is opened.
+                Values >=1.0 are supported.
+
+        Returns:
+            (pandas.DataFrame, dict): Dataframe which holds details and
+            dictionary which holds statistics about the simulation.
+
+            The index of the dataframe is the whole trading period
+            (DateTimeIndex).Columns are:
+
+            ``signal``: the signal produced at each day of the simulation
+            period.
+
+            ``open_trading_action``: the open trading action applied. Possible
+            values are ``long``, ``short`` and ``none``.
+
+            ``stock_value``: The value of the stock during the simulation
+            period.
+
+            ``exposure``: The accumulated exposure during the simulation
+            period. Increased by ``stock_price`` when a ``long`` position is
+            opened, and by ``short_exposure_factor * stock_price`` when a
+            ``short`` position is opened. Reduced by the same amounts when
+            relevant positions are being closed.
+
+            ``portfolio_value``: The portfolio value during the simulation
+            period, ``current_stock_price * (opened_long - opened_short)``.
+
+            ``earnings``: The accumulated earnings during the simulation
+            period. Increased by the ``current_price - opened_position_price``
+            when a ``long`` position is closed. Increased by the
+            ``opened_position_price - current_price`` when a ``short`` position
+            is closed.
+
+            ``balance``: The balance during the simulation period. It is the
+            ``earnings + portfolio_value``.
+
+            The dictionary contains the below keys:
+
+            ``number_of_trading_days``: the number of trading days in the
+            simulation round.
+
+            ``number_of_buy_signals``: the number of ``buy`` signals produced
+            during the simulation period.
+
+            ``number_of_ignored_buy_signals``: the number of ``buy`` signals
+            ignored because of the ``max_exposure`` limitation.
+
+            ``number_of_sell_signals``: the number of ``sell`` signals produced
+            during the simulation period.
+
+            ``number_of_ignored_sell_signals``: the number of ``sell`` signals
+            ignored because of the ``max_exposure`` limitation.
+
+            ``last_stock_value``: The value of the stock at the end of the
+            simulation.
+
+            ``last_exposure``: The ``exposure`` value at the end of the
+            simulation period.
+
+            ``last_open_long_positions``: The number of the still opened
+            ``long`` positions at the end of the simulation period.
+
+            ``last_open_short_positions``: The number of the still opened
+            ``short`` positions at the end of the simulation period.
+
+            ``last_portfolio_value``: The ``portfolio_value`` at the end of the
+            simulation period.
+
+            ``last_earnings``: The ``earnings`` at the end of the simulation
+            period.
+
+            ``final_balance``: The ``balance`` at the end of the simulation
+            period.
+
+        Raises:
+            WrongTypeForInputParameter: Input argument has wrong type.
+            WrongValueForInputParameter: Unsupported value for input argument.
+            NotValidInputDataForSimulation: Invalid ``close_values`` `passed
+                for the simulation.
+        """
+
+        # Create Trading Simulation instance
+        simulator = TradingSimulation(
+            input_data_index=self._input_data.index,
+            close_values=close_values,
+            max_exposure=max_exposure,
+            short_exposure_factor=short_exposure_factor)
+
+        # keep safe the full input and indicator data
+        full_ti_data = self._ti_data
+        full_input_data = self._input_data
+
+        # Run simulation rounds for the whole period
+        for i in range(len(self._input_data.index)):
+
+            # Limit the input and indicator data to this simulation round
+            self._input_data = full_input_data[
+                full_input_data.index <= full_input_data.index[i]]
+
+            self._ti_data = full_ti_data[
+                full_ti_data.index <= full_ti_data.index[i]]
+
+            simulator.runSimulationRound(i_index=i, signal=self.getTiSignal())
+
+        # Restore input and indicator data to full range
+        self._ti_data = full_ti_data
+        self._input_data = full_input_data
+
+        return simulator.closeSimulation()
