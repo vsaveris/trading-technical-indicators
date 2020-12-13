@@ -366,7 +366,7 @@ class TradingSimulation:
         # Close only positions that bring earnings
         else:
 
-            if price is None or price <= 0.0:
+            if price <= 0.0:
                 raise WrongValueForInputParameter(price, 'price', '>=0.0')
 
             total_long_items = \
@@ -448,7 +448,7 @@ class TradingSimulation:
 
         # Not enough balance for proceeding with the `buy` signal
         if ((self._max_investment is not None) and
-                (self._simulation_data['balance'].iat[i_index] -
+                (self._simulation_data['balance'].iat[i_index - 1] -
                  self._close_values['close'].iat[i_index] +
                  self._max_investment < 0)):
 
@@ -526,7 +526,7 @@ class TradingSimulation:
 
         # Not enough balance for proceeding with the `sell` signal
         if ((self._max_investment is not None) and
-                (self._simulation_data['balance'].iat[i_index] -
+                (self._simulation_data['balance'].iat[i_index - 1] -
                  self._close_values['close'].iat[i_index] +
                  self._max_investment < 0)):
 
