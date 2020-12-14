@@ -489,7 +489,7 @@ class TradingSimulation:
         elif signal[0] == 'buy':
 
             # Maximum exposure reached
-            if self._max_exposure < (
+            if self._max_exposure is not None and self._max_exposure < (
                     self._simulation_data['exposure'].iat[i_index] +
                     self._close_values['close'].iat[i_index]):
 
@@ -543,7 +543,7 @@ class TradingSimulation:
         elif signal[0] == 'sell':
 
             # Maximum exposure reached
-            if self._max_exposure < (
+            if self._max_exposure is not None and self._max_exposure < (
                     self._simulation_data['exposure'].iat[i_index] +
                     self._short_exposure_factor *
                     self._close_values['close'].iat[i_index]):
