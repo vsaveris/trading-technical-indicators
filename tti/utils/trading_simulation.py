@@ -442,12 +442,12 @@ class TradingSimulation:
             # create simulation data row, set only the 'exposure' and
             # earnings, rest of the row will be created in the
             # processSignal method
-            self._simulation_data.iat[i_index, 'exposure'] = \
-                self._simulation_data.iat[i_index - 1, 'exposure'] - \
+            self._simulation_data['exposure'].iat[i_index] = \
+                self._simulation_data['exposure'].iat[i_index - 1] - \
                 closed_exposure
 
-            self._simulation_data.iat[i_index, 'earnings'] = \
-                self._simulation_data.iat[i_index - 1, 'earnings'] + earnings
+            self._simulation_data['earnings'].iat[i_index] = \
+                self._simulation_data['earnings'].iat[i_index - 1] + earnings
 
         return earnings, closed_exposure
 
