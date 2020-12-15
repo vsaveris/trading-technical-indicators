@@ -324,19 +324,25 @@ class TestIndicatorsCommon(ABC):
                 close_values=df[df.index >= '2011-09-12'])
 
     def test_getTiSimulation(self):
-        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+
+        # Execute for only one indicator, is enough (takes time)
+        if str(self.indicator) == \
+                "<class 'tti.indicators._accumulation_distribution_line." + \
+                "AccumulationDistributionLine'>":
+
+            df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
-        ti = self.indicator(df, **self.indicator_input_arguments)
+            ti = self.indicator(df, **self.indicator_input_arguments)
 
-        orig_input_data = copy.deepcopy(ti._input_data)
-        orig_ti_data = copy.deepcopy(ti._ti_data)
-        simulation_data, statistics = ti.getTiSimulation(df[['close']])
+            orig_input_data = copy.deepcopy(ti._input_data)
+            orig_ti_data = copy.deepcopy(ti._ti_data)
+            simulation_data, statistics = ti.getTiSimulation(df[['close']])
 
-        self.assertEqual(simulation_data.isnull().values.any(), False)
-        self.assertEqual(statistics['number_of_trading_days'], 3169)
-        self.assertEqual(any(np.isnan(val) for val in statistics.values()),
+            self.assertEqual(simulation_data.isnull().values.any(), False)
+            self.assertEqual(statistics['number_of_trading_days'], 3169)
+            self.assertEqual(any(np.isnan(val) for val in statistics.values()),
                          False)
 
-        pd.testing.assert_frame_equal(ti._input_data, orig_input_data)
-        pd.testing.assert_frame_equal(ti._ti_data, orig_ti_data)
+            pd.testing.assert_frame_equal(ti._input_data, orig_input_data)
+            pd.testing.assert_frame_equal(ti._ti_data, orig_ti_data)
