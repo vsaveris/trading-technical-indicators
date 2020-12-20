@@ -2,7 +2,7 @@ Trading Simulation for the tti.indicators package (all indicators).
 
 Trading Simulation for technical indicator: AccumulationDistributionLine
 
-- Simulation executed in : 5.09 seconds.
+- Simulation executed in : 4.79 seconds.
 
 - Graph ./figures/simulation_AccumulationDistributionLine.png saved.
 
@@ -22,7 +22,7 @@ Trading Simulation for technical indicator: AccumulationDistributionLine
 
 Trading Simulation for technical indicator: AverageTrueRange
 
-- Simulation executed in : 13.79 seconds.
+- Simulation executed in : 12.72 seconds.
 
 - Graph ./figures/simulation_AverageTrueRange.png saved.
 
@@ -42,7 +42,7 @@ Trading Simulation for technical indicator: AverageTrueRange
 
 Trading Simulation for technical indicator: BollingerBands
 
-- Simulation executed in : 4.93 seconds.
+- Simulation executed in : 4.54 seconds.
 
 - Graph ./figures/simulation_BollingerBands.png saved.
 
@@ -62,7 +62,7 @@ Trading Simulation for technical indicator: BollingerBands
 
 Trading Simulation for technical indicator: ChaikinMoneyFlow
 
-- Simulation executed in : 5.6 seconds.
+- Simulation executed in : 5.42 seconds.
 
 - Graph ./figures/simulation_ChaikinMoneyFlow.png saved.
 
@@ -82,7 +82,7 @@ Trading Simulation for technical indicator: ChaikinMoneyFlow
 
 Trading Simulation for technical indicator: ChaikinOscillator
 
-- Simulation executed in : 5.82 seconds.
+- Simulation executed in : 5.56 seconds.
 
 - Graph ./figures/simulation_ChaikinOscillator.png saved.
 
@@ -102,7 +102,7 @@ Trading Simulation for technical indicator: ChaikinOscillator
 
 Trading Simulation for technical indicator: ChandeMomentumOscillator
 
-- Simulation executed in : 4.6 seconds.
+- Simulation executed in : 4.4 seconds.
 
 - Graph ./figures/simulation_ChandeMomentumOscillator.png saved.
 
@@ -122,7 +122,7 @@ Trading Simulation for technical indicator: ChandeMomentumOscillator
 
 Trading Simulation for technical indicator: CommodityChannelIndex
 
-- Simulation executed in : 4.65 seconds.
+- Simulation executed in : 4.28 seconds.
 
 - Graph ./figures/simulation_CommodityChannelIndex.png saved.
 
@@ -142,7 +142,7 @@ Trading Simulation for technical indicator: CommodityChannelIndex
 
 Trading Simulation for technical indicator: DetrendedPriceOscillator
 
-- Simulation executed in : 4.66 seconds.
+- Simulation executed in : 4.36 seconds.
 
 - Graph ./figures/simulation_DetrendedPriceOscillator.png saved.
 
@@ -162,7 +162,7 @@ Trading Simulation for technical indicator: DetrendedPriceOscillator
 
 Trading Simulation for technical indicator: DirectionalMovementIndex
 
-- Simulation executed in : 4.78 seconds.
+- Simulation executed in : 4.43 seconds.
 
 - Graph ./figures/simulation_DirectionalMovementIndex.png saved.
 
@@ -182,7 +182,7 @@ Trading Simulation for technical indicator: DirectionalMovementIndex
 
 Trading Simulation for technical indicator: DoubleExponentialMovingAverage
 
-- Simulation executed in : 5.02 seconds.
+- Simulation executed in : 4.65 seconds.
 
 - Graph ./figures/simulation_DoubleExponentialMovingAverage.png saved.
 
@@ -202,7 +202,7 @@ Trading Simulation for technical indicator: DoubleExponentialMovingAverage
 
 Trading Simulation for technical indicator: EaseOfMovement
 
-- Simulation executed in : 4.76 seconds.
+- Simulation executed in : 4.46 seconds.
 
 - Graph ./figures/simulation_EaseOfMovement.png saved.
 
@@ -222,7 +222,7 @@ Trading Simulation for technical indicator: EaseOfMovement
 
 Trading Simulation for technical indicator: Envelopes
 
-- Simulation executed in : 4.85 seconds.
+- Simulation executed in : 4.67 seconds.
 
 - Graph ./figures/simulation_Envelopes.png saved.
 
@@ -242,7 +242,7 @@ Trading Simulation for technical indicator: Envelopes
 
 Trading Simulation for technical indicator: FibonacciRetracement
 
-- Simulation executed in : 5.84 seconds.
+- Simulation executed in : 6.03 seconds.
 
 - Graph ./figures/simulation_FibonacciRetracement.png saved.
 
@@ -262,7 +262,7 @@ Trading Simulation for technical indicator: FibonacciRetracement
 
 Trading Simulation for technical indicator: ForecastOscillator
 
-- Simulation executed in : 4.69 seconds.
+- Simulation executed in : 4.72 seconds.
 
 - Graph ./figures/simulation_ForecastOscillator.png saved.
 
@@ -282,7 +282,7 @@ Trading Simulation for technical indicator: ForecastOscillator
 
 Trading Simulation for technical indicator: IchimokuCloud
 
-- Simulation executed in : 5.47 seconds.
+- Simulation executed in : 5.61 seconds.
 
 - Graph ./figures/simulation_IchimokuCloud.png saved.
 
@@ -302,7 +302,7 @@ Trading Simulation for technical indicator: IchimokuCloud
 
 Trading Simulation for technical indicator: IntradayMovementIndex
 
-- Simulation executed in : 4.71 seconds.
+- Simulation executed in : 4.72 seconds.
 
 - Graph ./figures/simulation_IntradayMovementIndex.png saved.
 
@@ -322,7 +322,7 @@ Trading Simulation for technical indicator: IntradayMovementIndex
 
 Trading Simulation for technical indicator: KlingerOscillator
 
-- Simulation executed in : 4.93 seconds.
+- Simulation executed in : 4.89 seconds.
 
 - Graph ./figures/simulation_KlingerOscillator.png saved.
 
@@ -342,7 +342,7 @@ Trading Simulation for technical indicator: KlingerOscillator
 
 Trading Simulation for technical indicator: LinearRegressionIndicator
 
-- Simulation executed in : 4.9 seconds.
+- Simulation executed in : 5.02 seconds.
 
 - Graph ./figures/simulation_LinearRegressionIndicator.png saved.
 
@@ -362,7 +362,7 @@ Trading Simulation for technical indicator: LinearRegressionIndicator
 
 Trading Simulation for technical indicator: LinearRegressionSlope
 
-- Simulation executed in : 4.55 seconds.
+- Simulation executed in : 4.6 seconds.
 
 - Graph ./figures/simulation_LinearRegressionSlope.png saved.
 
@@ -382,7 +382,7 @@ Trading Simulation for technical indicator: LinearRegressionSlope
 
 Trading Simulation for technical indicator: MarketFacilitationIndex
 
-- Simulation executed in : 4.94 seconds.
+- Simulation executed in : 5.02 seconds.
 
 - Graph ./figures/simulation_MarketFacilitationIndex.png saved.
 
@@ -402,7 +402,7 @@ Trading Simulation for technical indicator: MarketFacilitationIndex
 
 Trading Simulation for technical indicator: MassIndex
 
-- Simulation executed in : 4.52 seconds.
+- Simulation executed in : 4.54 seconds.
 
 - Graph ./figures/simulation_MassIndex.png saved.
 
@@ -422,7 +422,7 @@ Trading Simulation for technical indicator: MassIndex
 
 Trading Simulation for technical indicator: MedianPrice
 
-- Simulation executed in : 5.02 seconds.
+- Simulation executed in : 5.0 seconds.
 
 - Graph ./figures/simulation_MedianPrice.png saved.
 
@@ -442,7 +442,7 @@ Trading Simulation for technical indicator: MedianPrice
 
 Trading Simulation for technical indicator: Momentum
 
-- Simulation executed in : 6.05 seconds.
+- Simulation executed in : 6.07 seconds.
 
 - Graph ./figures/simulation_Momentum.png saved.
 
@@ -462,7 +462,7 @@ Trading Simulation for technical indicator: Momentum
 
 Trading Simulation for technical indicator: MovingAverage (simple)
 
-- Simulation executed in : 4.92 seconds.
+- Simulation executed in : 4.95 seconds.
 
 - Graph ./figures/simulation_MovingAverage_simple.png saved.
 
@@ -482,7 +482,7 @@ Trading Simulation for technical indicator: MovingAverage (simple)
 
 Trading Simulation for technical indicator: MovingAverage (exponential)
 
-- Simulation executed in : 4.93 seconds.
+- Simulation executed in : 4.98 seconds.
 
 - Graph ./figures/simulation_MovingAverage_exponential.png saved.
 
@@ -502,7 +502,7 @@ Trading Simulation for technical indicator: MovingAverage (exponential)
 
 Trading Simulation for technical indicator: MovingAverage (time_series)
 
-- Simulation executed in : 5.14 seconds.
+- Simulation executed in : 4.97 seconds.
 
 - Graph ./figures/simulation_MovingAverage_time_series.png saved.
 
@@ -522,7 +522,7 @@ Trading Simulation for technical indicator: MovingAverage (time_series)
 
 Trading Simulation for technical indicator: MovingAverage (triangular)
 
-- Simulation executed in : 5.0 seconds.
+- Simulation executed in : 4.97 seconds.
 
 - Graph ./figures/simulation_MovingAverage_triangular.png saved.
 
@@ -542,7 +542,7 @@ Trading Simulation for technical indicator: MovingAverage (triangular)
 
 Trading Simulation for technical indicator: MovingAverage (variable)
 
-- Simulation executed in : 4.98 seconds.
+- Simulation executed in : 5.04 seconds.
 
 - Graph ./figures/simulation_MovingAverage_variable.png saved.
 
@@ -562,7 +562,7 @@ Trading Simulation for technical indicator: MovingAverage (variable)
 
 Trading Simulation for technical indicator: MovingAverageConvergenceDivergence
 
-- Simulation executed in : 4.92 seconds.
+- Simulation executed in : 4.94 seconds.
 
 - Graph ./figures/simulation_MovingAverageConvergenceDivergence.png saved.
 
@@ -582,7 +582,7 @@ Trading Simulation for technical indicator: MovingAverageConvergenceDivergence
 
 Trading Simulation for technical indicator: NegativeVolumeIndex
 
-- Simulation executed in : 6.13 seconds.
+- Simulation executed in : 6.12 seconds.
 
 - Graph ./figures/simulation_NegativeVolumeIndex.png saved.
 
@@ -622,7 +622,7 @@ Trading Simulation for technical indicator: OnBalanceVolume
 
 Trading Simulation for technical indicator: ParabolicSAR
 
-- Simulation executed in : 5.0 seconds.
+- Simulation executed in : 4.94 seconds.
 
 - Graph ./figures/simulation_ParabolicSAR.png saved.
 
@@ -642,7 +642,7 @@ Trading Simulation for technical indicator: ParabolicSAR
 
 Trading Simulation for technical indicator: Performance
 
-- Simulation executed in : 4.56 seconds.
+- Simulation executed in : 4.47 seconds.
 
 - Graph ./figures/simulation_Performance.png saved.
 
@@ -662,7 +662,7 @@ Trading Simulation for technical indicator: Performance
 
 Trading Simulation for technical indicator: PositiveVolumeIndex
 
-- Simulation executed in : 6.35 seconds.
+- Simulation executed in : 6.11 seconds.
 
 - Graph ./figures/simulation_PositiveVolumeIndex.png saved.
 
@@ -682,7 +682,7 @@ Trading Simulation for technical indicator: PositiveVolumeIndex
 
 Trading Simulation for technical indicator: PriceAndVolumeTrend
 
-- Simulation executed in : 5.16 seconds.
+- Simulation executed in : 5.15 seconds.
 
 - Graph ./figures/simulation_PriceAndVolumeTrend.png saved.
 
@@ -702,7 +702,7 @@ Trading Simulation for technical indicator: PriceAndVolumeTrend
 
 Trading Simulation for technical indicator: PriceChannel
 
-- Simulation executed in : 5.03 seconds.
+- Simulation executed in : 5.04 seconds.
 
 - Graph ./figures/simulation_PriceChannel.png saved.
 
@@ -722,7 +722,7 @@ Trading Simulation for technical indicator: PriceChannel
 
 Trading Simulation for technical indicator: PriceOscillator
 
-- Simulation executed in : 4.64 seconds.
+- Simulation executed in : 4.63 seconds.
 
 - Graph ./figures/simulation_PriceOscillator.png saved.
 
@@ -742,7 +742,7 @@ Trading Simulation for technical indicator: PriceOscillator
 
 Trading Simulation for technical indicator: PriceRateOfChange
 
-- Simulation executed in : 4.86 seconds.
+- Simulation executed in : 4.8 seconds.
 
 - Graph ./figures/simulation_PriceRateOfChange.png saved.
 
@@ -762,7 +762,7 @@ Trading Simulation for technical indicator: PriceRateOfChange
 
 Trading Simulation for technical indicator: ProjectionBands
 
-- Simulation executed in : 5.16 seconds.
+- Simulation executed in : 5.15 seconds.
 
 - Graph ./figures/simulation_ProjectionBands.png saved.
 
@@ -782,7 +782,7 @@ Trading Simulation for technical indicator: ProjectionBands
 
 Trading Simulation for technical indicator: ProjectionOscillator
 
-- Simulation executed in : 4.91 seconds.
+- Simulation executed in : 4.97 seconds.
 
 - Graph ./figures/simulation_ProjectionOscillator.png saved.
 
@@ -802,7 +802,7 @@ Trading Simulation for technical indicator: ProjectionOscillator
 
 Trading Simulation for technical indicator: Qstick
 
-- Simulation executed in : 4.73 seconds.
+- Simulation executed in : 4.74 seconds.
 
 - Graph ./figures/simulation_Qstick.png saved.
 
@@ -822,7 +822,7 @@ Trading Simulation for technical indicator: Qstick
 
 Trading Simulation for technical indicator: RangeIndicator
 
-- Simulation executed in : 5.08 seconds.
+- Simulation executed in : 5.14 seconds.
 
 - Graph ./figures/simulation_RangeIndicator.png saved.
 
@@ -842,7 +842,7 @@ Trading Simulation for technical indicator: RangeIndicator
 
 Trading Simulation for technical indicator: RelativeMomentumIndex
 
-- Simulation executed in : 4.64 seconds.
+- Simulation executed in : 4.65 seconds.
 
 - Graph ./figures/simulation_RelativeMomentumIndex.png saved.
 
@@ -862,7 +862,7 @@ Trading Simulation for technical indicator: RelativeMomentumIndex
 
 Trading Simulation for technical indicator: RelativeStrengthIndex
 
-- Simulation executed in : 4.64 seconds.
+- Simulation executed in : 4.69 seconds.
 
 - Graph ./figures/simulation_RelativeStrengthIndex.png saved.
 
@@ -882,7 +882,7 @@ Trading Simulation for technical indicator: RelativeStrengthIndex
 
 Trading Simulation for technical indicator: RelativeVolatilityIndex
 
-- Simulation executed in : 4.77 seconds.
+- Simulation executed in : 4.71 seconds.
 
 - Graph ./figures/simulation_RelativeVolatilityIndex.png saved.
 
@@ -902,7 +902,7 @@ Trading Simulation for technical indicator: RelativeVolatilityIndex
 
 Trading Simulation for technical indicator: StandardDeviation
 
-- Simulation executed in : 11.33 seconds.
+- Simulation executed in : 11.38 seconds.
 
 - Graph ./figures/simulation_StandardDeviation.png saved.
 
@@ -922,7 +922,7 @@ Trading Simulation for technical indicator: StandardDeviation
 
 Trading Simulation for technical indicator: StochasticMomentumIndex
 
-- Simulation executed in : 4.71 seconds.
+- Simulation executed in : 4.72 seconds.
 
 - Graph ./figures/simulation_StochasticMomentumIndex.png saved.
 
@@ -942,7 +942,7 @@ Trading Simulation for technical indicator: StochasticMomentumIndex
 
 Trading Simulation for technical indicator: StochasticOscillator (fast)
 
-- Simulation executed in : 5.02 seconds.
+- Simulation executed in : 5.04 seconds.
 
 - Graph ./figures/simulation_StochasticOscillator_fast.png saved.
 
@@ -962,7 +962,7 @@ Trading Simulation for technical indicator: StochasticOscillator (fast)
 
 Trading Simulation for technical indicator: StochasticOscillator (slow)
 
-- Simulation executed in : 5.04 seconds.
+- Simulation executed in : 5.07 seconds.
 
 - Graph ./figures/simulation_StochasticOscillator_slow.png saved.
 
@@ -982,7 +982,7 @@ Trading Simulation for technical indicator: StochasticOscillator (slow)
 
 Trading Simulation for technical indicator: SwingIndex
 
-- Simulation executed in : 4.79 seconds.
+- Simulation executed in : 4.88 seconds.
 
 - Graph ./figures/simulation_SwingIndex.png saved.
 
@@ -1022,7 +1022,7 @@ Trading Simulation for technical indicator: TimeSeriesForecast
 
 Trading Simulation for technical indicator: TripleExponentialMovingAverage
 
-- Simulation executed in : 5.04 seconds.
+- Simulation executed in : 5.05 seconds.
 
 - Graph ./figures/simulation_TripleExponentialMovingAverage.png saved.
 
@@ -1042,7 +1042,7 @@ Trading Simulation for technical indicator: TripleExponentialMovingAverage
 
 Trading Simulation for technical indicator: TypicalPrice
 
-- Simulation executed in : 8.01 seconds.
+- Simulation executed in : 7.92 seconds.
 
 - Graph ./figures/simulation_TypicalPrice.png saved.
 
@@ -1062,7 +1062,7 @@ Trading Simulation for technical indicator: TypicalPrice
 
 Trading Simulation for technical indicator: UltimateOscillator
 
-- Simulation executed in : 13.81 seconds.
+- Simulation executed in : 13.59 seconds.
 
 - Graph ./figures/simulation_UltimateOscillator.png saved.
 
@@ -1082,7 +1082,7 @@ Trading Simulation for technical indicator: UltimateOscillator
 
 Trading Simulation for technical indicator: VerticalHorizontalFilter
 
-- Simulation executed in : 11.2 seconds.
+- Simulation executed in : 11.41 seconds.
 
 - Graph ./figures/simulation_VerticalHorizontalFilter.png saved.
 
@@ -1102,7 +1102,7 @@ Trading Simulation for technical indicator: VerticalHorizontalFilter
 
 Trading Simulation for technical indicator: VolatilityChaikins
 
-- Simulation executed in : 4.74 seconds.
+- Simulation executed in : 4.94 seconds.
 
 - Graph ./figures/simulation_VolatilityChaikins.png saved.
 
@@ -1122,7 +1122,7 @@ Trading Simulation for technical indicator: VolatilityChaikins
 
 Trading Simulation for technical indicator: VolumeOscillator
 
-- Simulation executed in : 4.67 seconds.
+- Simulation executed in : 4.71 seconds.
 
 - Graph ./figures/simulation_VolumeOscillator.png saved.
 
@@ -1142,7 +1142,7 @@ Trading Simulation for technical indicator: VolumeOscillator
 
 Trading Simulation for technical indicator: VolumeRateOfChange
 
-- Simulation executed in : 4.99 seconds.
+- Simulation executed in : 4.82 seconds.
 
 - Graph ./figures/simulation_VolumeRateOfChange.png saved.
 
@@ -1162,7 +1162,7 @@ Trading Simulation for technical indicator: VolumeRateOfChange
 
 Trading Simulation for technical indicator: WeightedClose
 
-- Simulation executed in : 5.1 seconds.
+- Simulation executed in : 5.15 seconds.
 
 - Graph ./figures/simulation_WeightedClose.png saved.
 
@@ -1182,7 +1182,7 @@ Trading Simulation for technical indicator: WeightedClose
 
 Trading Simulation for technical indicator: WildersSmoothing
 
-- Simulation executed in : 4.9 seconds.
+- Simulation executed in : 5.01 seconds.
 
 - Graph ./figures/simulation_WildersSmoothing.png saved.
 
@@ -1202,7 +1202,7 @@ Trading Simulation for technical indicator: WildersSmoothing
 
 Trading Simulation for technical indicator: WilliamsAccumulationDistribution
 
-- Simulation executed in : 6.18 seconds.
+- Simulation executed in : 6.33 seconds.
 
 - Graph ./figures/simulation_WilliamsAccumulationDistribution.png saved.
 
@@ -1222,7 +1222,7 @@ Trading Simulation for technical indicator: WilliamsAccumulationDistribution
 
 Trading Simulation for technical indicator: WilliamsR
 
-- Simulation executed in : 6.54 seconds.
+- Simulation executed in : 6.69 seconds.
 
 - Graph ./figures/simulation_WilliamsR.png saved.
 
