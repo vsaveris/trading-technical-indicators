@@ -48,21 +48,21 @@ def getSimulationGraph(simulation, close_values, title):
     plt.gca().axes.get_xaxis().set_visible(False)
 
     plt.subplot(3, 1, 2)
-    plt.plot(list(range(1, len(simulation['stocks_in_possession']) + 1)),
-        simulation['stocks_in_possession'], label='stocks_in_possession',
+    plt.plot(list(range(1, len(simulation['exposure']) + 1)),
+        simulation['exposure'], label='exposure',
         color='tomato')
     plt.legend(loc=0)
     plt.grid(which='major', axis='y', alpha=0.5)
     plt.gca().axes.get_xaxis().set_visible(False)
 
     plt.subplot(3, 1, 3)
-    plt.plot(list(range(1, len(simulation['total_value']) + 1)),
-        simulation['total_value'], label='total_value', color='cornflowerblue')
+    plt.plot(list(range(1, len(simulation['balance']) + 1)),
+        simulation['balance'], label='balance', color='cornflowerblue')
     plt.legend(loc=0)
     plt.grid(which='major', axis='y', alpha=0.5)
 
     plt.xlabel('Transactions', fontsize=11, fontweight='bold')
-    plt.gcf().text(0.04, 0.5, 'Total Value | Stocks | Price', fontsize=11,
+    plt.gcf().text(0.04, 0.5, 'Balance | Exposure | Price', fontsize=11,
         fontweight='bold', va='center', rotation='vertical')
 
     return plt
@@ -112,7 +112,8 @@ def execute_simulation(indicator_object, close_values, output_file=None,
     start_time = time.time()
 
     # Execute simulation
-    simulation, statistics = indicator.runSimulation(close_values=close_values)
+    simulation, statistics = indicator.getTiSimulation(
+        close_values=close_values)
 
     print('\n- Simulation executed in :', round(time.time() - start_time, 2),
           'seconds.', file=output_file)
@@ -133,9 +134,9 @@ def execute_simulation(indicator_object, close_values, output_file=None,
     print('\n- Graph', output_file_name, 'saved.', file=output_file)
 
     # Get simulation statistics
-    print('\n- Simulation Statistics:\n', file=output_file)
+    print('\n- Simulation Statistics:', file=output_file)
     for key, value in statistics.items():
-        print('-- ', key, ': ', value, sep='', file=output_file)
+        print('\t', key, ': ', value, sep='', file=output_file)
 
 
 if __name__ == '__main__':
