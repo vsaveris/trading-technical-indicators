@@ -312,7 +312,7 @@ class TestTradingSimulation(unittest.TestCase):
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_empty.csv', parse_dates=True,
-            index_col=0)
+            index_col=0).to_numpy(dtype=np.float64, copy=True)
 
         ts._calculateSimulationStatistics()
 
@@ -352,7 +352,8 @@ class TestTradingSimulation(unittest.TestCase):
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_ten_rounds.csv',
-            parse_dates=True, index_col=0)
+            parse_dates=True, index_col=0).to_numpy(dtype=np.float64,
+                                                    copy=True)
 
         ts._calculateSimulationStatistics()
 
@@ -394,7 +395,8 @@ class TestTradingSimulation(unittest.TestCase):
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full.csv',
-            parse_dates=True, index_col=0)
+            parse_dates=True, index_col=0).to_numpy(dtype=np.float64,
+                                                    copy=True)
 
         ts._calculateSimulationStatistics()
 
@@ -436,7 +438,8 @@ class TestTradingSimulation(unittest.TestCase):
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full_no_positions.csv',
-            parse_dates=True, index_col=0)
+            parse_dates=True, index_col=0).to_numpy(dtype=np.float64,
+                                                    copy=True)
 
         ts._calculateSimulationStatistics()
 
@@ -460,127 +463,14 @@ class TestTradingSimulation(unittest.TestCase):
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_ten_rounds.csv',
-            parse_dates=True, index_col=0)
+            parse_dates=True, index_col=0).to_numpy(dtype=np.float64,
+                                                    copy=True)
 
         value = ts._calculatePortfolioValue(i_index=9)
 
         self.assertEqual(value, 34.37 * (2 - 3))
 
     # Test _closeOpenPositions earnings, closed_exposure
-
-    def test_close_open_positions_none_open_force_all_no_write(self):
-        # close values DataFrame
-        cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=0)[['close']]
-
-        # input_data DataFrame
-        id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=0)
-
-        ts = TradingSimulation(input_data_index=id_df.index,
-                               close_values=cv_df,
-                               max_exposure=None,
-                               short_exposure_factor=1.5)
-
-        ts._portfolio = pd.read_csv(
-            './data/portfolio_simulation_data_none_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
-
-        portfolio_expected_result = pd.read_csv(
-            './data/portfolio_simulation_data_none_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
-
-        ts._simulation_data['exposure'].iat[8] = 100.0
-        ts._simulation_data['earnings'].iat[8] = 200.0
-
-        earnings, closed_exposure = ts._closeOpenPositions(
-            i_index=9, force_all=True, write=False)
-
-        self.assertEqual(earnings, 0.0)
-
-        self.assertEqual(closed_exposure, 0.0)
-
-        np.testing.assert_equal(ts._simulation_data['exposure'].iat[9], np.nan)
-
-        np.testing.assert_equal(ts._simulation_data['earnings'].iat[9], np.nan)
-
-        pd.testing.assert_frame_equal(ts._portfolio, portfolio_expected_result)
-
-    def test_close_open_positions_none_open_force_all_write(self):
-        # close values DataFrame
-        cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=0)[['close']]
-
-        # input_data DataFrame
-        id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=0)
-
-        ts = TradingSimulation(input_data_index=id_df.index,
-                               close_values=cv_df,
-                               max_exposure=None,
-                               short_exposure_factor=1.5)
-
-        ts._portfolio = pd.read_csv(
-            './data/portfolio_simulation_data_none_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
-
-        portfolio_expected_result = pd.read_csv(
-            './data/portfolio_simulation_data_none_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
-
-        ts._simulation_data['exposure'].iat[8] = 100.0
-        ts._simulation_data['earnings'].iat[8] = 200.0
-
-        earnings, closed_exposure = ts._closeOpenPositions(
-            i_index=9, force_all=True, write=True)
-
-        self.assertEqual(earnings, 0.0)
-
-        self.assertEqual(closed_exposure, 0.0)
-
-        np.testing.assert_equal(ts._simulation_data['exposure'].iat[9], 100.0)
-
-        np.testing.assert_equal(ts._simulation_data['earnings'].iat[9], 200.0)
-
-        pd.testing.assert_frame_equal(ts._portfolio, portfolio_expected_result)
-
-    def test_close_open_positions_none_open_no_force_all_no_write(self):
-        # close values DataFrame
-        cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=0)[['close']]
-
-        # input_data DataFrame
-        id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=0)
-
-        ts = TradingSimulation(input_data_index=id_df.index,
-                               close_values=cv_df,
-                               max_exposure=None,
-                               short_exposure_factor=1.5)
-
-        ts._portfolio = pd.read_csv(
-            './data/portfolio_simulation_data_none_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
-
-        portfolio_expected_result = pd.read_csv(
-            './data/portfolio_simulation_data_none_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
-
-        ts._simulation_data['exposure'].iat[8] = 100.0
-        ts._simulation_data['earnings'].iat[8] = 200.0
-
-        earnings, closed_exposure = ts._closeOpenPositions(
-            i_index=9, force_all=False, write=False)
-
-        self.assertEqual(earnings, 0.0)
-
-        self.assertEqual(closed_exposure, 0.0)
-
-        np.testing.assert_equal(ts._simulation_data['exposure'].iat[9], np.nan)
-
-        np.testing.assert_equal(ts._simulation_data['earnings'].iat[9], np.nan)
-
-        pd.testing.assert_frame_equal(ts._portfolio, portfolio_expected_result)
 
     def test_close_open_positions_none_open_no_force_all_write(self):
         # close values DataFrame
@@ -598,17 +488,18 @@ class TestTradingSimulation(unittest.TestCase):
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_none_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
+            parse_dates=True, index_col=0).to_numpy(dtype=np.float64,
+                                                    copy=True)
 
         portfolio_expected_result = pd.read_csv(
             './data/portfolio_simulation_data_none_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
+            parse_dates=True, index_col=0).to_numpy(dtype=np.float64,
+                                                    copy=True)
 
         ts._simulation_data['exposure'].iat[8] = 100.0
         ts._simulation_data['earnings'].iat[8] = 200.0
 
-        earnings, closed_exposure = ts._closeOpenPositions(
-            i_index=9, force_all=False, write=True)
+        earnings, closed_exposure = ts._closeOpenPositions(i_index=9)
 
         self.assertEqual(earnings, 0.0)
 
@@ -618,150 +509,7 @@ class TestTradingSimulation(unittest.TestCase):
 
         np.testing.assert_equal(ts._simulation_data['earnings'].iat[9], 200.0)
 
-        pd.testing.assert_frame_equal(ts._portfolio, portfolio_expected_result)
-
-    def test_close_open_positions_with_open_force_all_no_write(self):
-        # close values DataFrame
-        cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=0)[['close']]
-
-        # input_data DataFrame
-        id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=0)
-
-        ts = TradingSimulation(input_data_index=id_df.index,
-                               close_values=cv_df,
-                               max_exposure=None,
-                               short_exposure_factor=1.5)
-
-        ts._portfolio = pd.read_csv(
-            './data/portfolio_simulation_data_all_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
-
-        portfolio_expected_result = pd.read_csv(
-            './data/portfolio_simulation_data_all_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
-
-        ts._simulation_data['exposure'].iat[8] = 100.0
-        ts._simulation_data['earnings'].iat[8] = 200.0
-
-        earnings, closed_exposure = ts._closeOpenPositions(
-            i_index=9, force_all=True, write=False)
-
-        exposure_expected = 20.50 + 22.50 + 24.50 + 26.50 + \
-            21.50 + 23.50 + 25.50
-
-        earnings_expected = (4 * 34.37 - 20.5 - 22.5 - 24.5 - 26.5) + \
-                            (((21.5 + 23.5 + 25.5) / 1.5) - 3 * 34.37)
-
-        self.assertEqual(earnings, earnings_expected)
-
-        self.assertEqual(closed_exposure, exposure_expected)
-
-        np.testing.assert_equal(ts._simulation_data['exposure'].iat[9], np.nan)
-
-        np.testing.assert_equal(ts._simulation_data['earnings'].iat[9], np.nan)
-
-        pd.testing.assert_frame_equal(ts._portfolio, portfolio_expected_result)
-
-    def test_close_open_positions_with_open_force_all_write(self):
-        # close values DataFrame
-        cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=0)[['close']]
-
-        # input_data DataFrame
-        id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=0)
-
-        ts = TradingSimulation(input_data_index=id_df.index,
-                               close_values=cv_df,
-                               max_exposure=None,
-                               short_exposure_factor=1.5)
-
-        ts._portfolio = pd.read_csv(
-            './data/portfolio_simulation_data_all_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
-
-        portfolio_expected_result = pd.read_csv(
-            './data/portfolio_simulation_data_all_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
-
-        portfolio_expected_result.loc[
-            portfolio_expected_result['status'] == 'open', 'status'] = 'close'
-
-        ts._simulation_data['exposure'].iat[8] = 100.0
-        ts._simulation_data['earnings'].iat[8] = 200.0
-
-        earnings, closed_exposure = ts._closeOpenPositions(
-            i_index=9, force_all=True, write=True)
-
-        exposure_expected = 20.50 + 22.50 + 24.50 + 26.50 + \
-            21.50 + 23.50 + 25.50
-
-        earnings_expected = (4 * 34.37 - 20.5 - 22.5 - 24.5 - 26.5) + \
-                            (((21.5 + 23.5 + 25.5) / 1.5) - 3 * 34.37)
-
-        self.assertEqual(earnings, earnings_expected)
-
-        self.assertEqual(closed_exposure, exposure_expected)
-
-        np.testing.assert_equal(ts._simulation_data['exposure'].iat[9],
-                                ts._simulation_data['exposure'].iat[8] -
-                                exposure_expected)
-
-        np.testing.assert_equal(ts._simulation_data['earnings'].iat[9],
-                                ts._simulation_data['earnings'].iat[8] +
-                                earnings_expected)
-
-        pd.testing.assert_frame_equal(ts._portfolio, portfolio_expected_result)
-
-    def test_close_open_positions_with_open_no_force_all_no_write(self):
-        # close values DataFrame
-        cv_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=0)[['close']]
-
-        # input_data DataFrame
-        id_df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
-                            index_col=0)
-
-        ts = TradingSimulation(input_data_index=id_df.index,
-                               close_values=cv_df,
-                               max_exposure=None,
-                               short_exposure_factor=1.5)
-
-        ts._portfolio = pd.read_csv(
-            './data/portfolio_simulation_data_all_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
-
-        portfolio_expected_result = pd.read_csv(
-            './data/portfolio_simulation_data_all_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
-
-        portfolio_expected_result['exposure'].iat[5] = 40.00
-
-        ts._simulation_data['exposure'].iat[8] = 100.0
-        ts._simulation_data['earnings'].iat[8] = 200.0
-        ts._portfolio['exposure'].iat[5] = 40.00
-
-        ts._close_values['close'].iat[9] = 24.0
-
-        earnings, closed_exposure = ts._closeOpenPositions(
-            i_index=9, force_all=False, write=False)
-
-        exposure_expected = 20.50 + 22.50 + 40.00
-
-        earnings_expected = (2 * 24.0 - 20.5 - 22.5) + \
-                            ((40.00 / 1.5) - 1 * 24.0)
-
-        self.assertEqual(earnings, earnings_expected)
-
-        self.assertEqual(closed_exposure, exposure_expected)
-
-        np.testing.assert_equal(ts._simulation_data['exposure'].iat[9], np.nan)
-
-        np.testing.assert_equal(ts._simulation_data['earnings'].iat[9], np.nan)
-
-        pd.testing.assert_frame_equal(ts._portfolio, portfolio_expected_result)
+        np.testing.assert_equal(ts._portfolio, portfolio_expected_result)
 
     def test_close_open_positions_with_open_no_force_all_write(self):
         # close values DataFrame
@@ -779,26 +527,27 @@ class TestTradingSimulation(unittest.TestCase):
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_all_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
+            parse_dates=True, index_col=0).to_numpy(dtype=np.float64,
+                                                    copy=True)
 
         portfolio_expected_result = pd.read_csv(
             './data/portfolio_simulation_data_all_open_ten_rounds.csv',
-            parse_dates=True, index_col=0)
+            parse_dates=True, index_col=0).to_numpy(dtype=np.float64,
+                                                    copy=True)
 
-        portfolio_expected_result['status'].iat[0] = 'close'
-        portfolio_expected_result['status'].iat[2] = 'close'
-        portfolio_expected_result['status'].iat[5] = 'close'
+        portfolio_expected_result[0, 1] = 2.0
+        portfolio_expected_result[2, 1] = 2.0
+        portfolio_expected_result[5, 1] = 2.0
 
-        portfolio_expected_result['exposure'].iat[5] = 40.00
+        portfolio_expected_result[5, 2] = 40.00
 
         ts._simulation_data['exposure'].iat[8] = 100.0
         ts._simulation_data['earnings'].iat[8] = 200.0
-        ts._portfolio['exposure'].iat[5] = 40.00
+        ts._portfolio[5, 2] = 40.00
 
-        ts._close_values['close'].iat[9] = 24.0
+        ts._close_values[9, 0] = 24.0
 
-        earnings, closed_exposure = ts._closeOpenPositions(
-            i_index=9, force_all=False, write=True)
+        earnings, closed_exposure = ts._closeOpenPositions(i_index=9)
 
         exposure_expected = 20.50 + 22.50 + 40.00
 
@@ -817,7 +566,7 @@ class TestTradingSimulation(unittest.TestCase):
                                 ts._simulation_data['earnings'].iat[8] +
                                 earnings_expected)
 
-        pd.testing.assert_frame_equal(ts._portfolio, portfolio_expected_result)
+        np.testing.assert_equal(ts._portfolio, portfolio_expected_result)
 
     # Tests for runSimulationRound (indirectly tests also _processSignal)
 
@@ -838,16 +587,16 @@ class TestTradingSimulation(unittest.TestCase):
         ts.runSimulationRound(i_index=0, signal=TRADE_SIGNALS['hold'])
 
         self.assertListEqual(
-            ts._portfolio.iloc[0, :].to_list(),
-            ['none',
-             'none',
+            list(ts._portfolio[0, :]),
+            [0.0,
+             0.0,
              0.0])
 
         self.assertListEqual(
             ts._simulation_data.iloc[0, :].to_list(),
             ['hold',
              'none',
-             ts._close_values['close'].iat[0],
+             ts._close_values[0, 0],
              0.0,
              0.0,
              0.0,
@@ -870,16 +619,16 @@ class TestTradingSimulation(unittest.TestCase):
         ts.runSimulationRound(i_index=0, signal=TRADE_SIGNALS['buy'])
 
         self.assertListEqual(
-            ts._portfolio.iloc[0, :].to_list(),
-            ['none',
-             'none',
+            list(ts._portfolio[0, :]),
+            [0.0,
+             0.0,
              0.0])
 
         self.assertListEqual(
             ts._simulation_data.iloc[0, :].to_list(),
             ['buy',
              'none',
-             ts._close_values['close'].iat[0],
+             ts._close_values[0, 0],
              0.0,
              0.0,
              0.0,
@@ -902,16 +651,16 @@ class TestTradingSimulation(unittest.TestCase):
         ts.runSimulationRound(i_index=0, signal=TRADE_SIGNALS['sell'])
 
         self.assertListEqual(
-            ts._portfolio.iloc[0, :].to_list(),
-            ['none',
-             'none',
+            list(ts._portfolio[0, :]),
+            [0.0,
+             0.0,
              0.0])
 
         self.assertListEqual(
             ts._simulation_data.iloc[0, :].to_list(),
             ['sell',
              'none',
-             ts._close_values['close'].iat[0],
+             ts._close_values[0, 0],
              0.0,
              0.0,
              0.0,
@@ -934,14 +683,14 @@ class TestTradingSimulation(unittest.TestCase):
         ts.runSimulationRound(i_index=0, signal=TRADE_SIGNALS['hold'])
         ts.runSimulationRound(i_index=1, signal=TRADE_SIGNALS['hold'])
 
-        self.assertListEqual(ts._portfolio.iloc[1, :].to_list(),
-                             ['none', 'none', 0.0])
+        self.assertListEqual(list(ts._portfolio[1, :]),
+                             [0.0, 0.0, 0.0])
 
         self.assertListEqual(
             ts._simulation_data.iloc[1, :].to_list(),
             ['hold',
              'none',
-             ts._close_values['close'].iat[1],
+             ts._close_values[1, 0],
              ts._simulation_data['exposure'].iat[0],
              ts._simulation_data['portfolio_value'].iat[0],
              ts._simulation_data['earnings'].iat[0],
@@ -965,21 +714,20 @@ class TestTradingSimulation(unittest.TestCase):
         ts.runSimulationRound(i_index=1, signal=TRADE_SIGNALS['buy'])
         ts.runSimulationRound(i_index=2, signal=TRADE_SIGNALS['buy'])
 
-        self.assertListEqual(ts._portfolio.iloc[2, :].to_list(),
-                             ['long', 'open',
-                              ts._close_values['close'].iat[2]])
+        self.assertListEqual(list(ts._portfolio[2, :]), [2.0, 1.0,
+                                                   ts._close_values[2, 0]])
 
         self.assertListEqual(
             ts._simulation_data.iloc[2, :].to_list(),
             ['buy',
              'long',
-             ts._close_values['close'].iat[2],
+             ts._close_values[2, 0],
              ts._simulation_data['exposure'].iat[0] +
              ts._simulation_data['exposure'].iat[1] +
-             ts._close_values['close'].iat[2],
-             2 * ts._close_values['close'].iat[2],
+             ts._close_values[2, 0],
+             2 * ts._close_values[2, 0],
              0.0,
-             2 * ts._close_values['close'].iat[2]])
+             2 * ts._close_values[2, 0]])
 
     def test_run_simulation_round_sell(self):
         # close values DataFrame
@@ -998,20 +746,19 @@ class TestTradingSimulation(unittest.TestCase):
         ts.runSimulationRound(i_index=0, signal=TRADE_SIGNALS['sell'])
         ts.runSimulationRound(i_index=1, signal=TRADE_SIGNALS['sell'])
 
-        self.assertListEqual(ts._portfolio.iloc[1, :].to_list(),
-                             ['short', 'open',
-                              1.5 * ts._close_values['close'].iat[1]])
+        self.assertListEqual(list(ts._portfolio[1, :]),
+                             [1.0, 1.0, 1.5 * ts._close_values[1, 0]])
 
         self.assertListEqual(
             ts._simulation_data.iloc[1, :].to_list(),
             ['sell',
              'short',
-             ts._close_values['close'].iat[1],
+             ts._close_values[1, 0],
              ts._simulation_data['exposure'].iat[0] +
-             1.5 * ts._close_values['close'].iat[1],
-             -ts._close_values['close'].iat[1],
+             1.5 * ts._close_values[1, 0],
+             - ts._close_values[1, 0],
              0.0,
-             -ts._close_values['close'].iat[1]])
+             - ts._close_values[1, 0]])
 
     def test_run_simulation_round_buy_max_exposure(self):
         # close values DataFrame
@@ -1031,14 +778,14 @@ class TestTradingSimulation(unittest.TestCase):
         ts.runSimulationRound(i_index=1, signal=TRADE_SIGNALS['buy'])
         ts.runSimulationRound(i_index=2, signal=TRADE_SIGNALS['buy'])
 
-        self.assertListEqual(ts._portfolio.iloc[2, :].to_list(),
-                             ['none', 'none', 0.0])
+        self.assertListEqual(list(ts._portfolio[2, :]),
+                             [0.0, 0.0, 0.0])
 
         self.assertListEqual(
             ts._simulation_data.iloc[2, :].to_list(),
             ['buy',
              'none',
-             ts._close_values['close'].iat[2],
+             ts._close_values[2, 0],
              0.0,
              0.0,
              0.0,
@@ -1061,14 +808,14 @@ class TestTradingSimulation(unittest.TestCase):
         ts.runSimulationRound(i_index=0, signal=TRADE_SIGNALS['sell'])
         ts.runSimulationRound(i_index=1, signal=TRADE_SIGNALS['sell'])
 
-        self.assertListEqual(ts._portfolio.iloc[1, :].to_list(),
-                             ['none', 'none', 0.0])
+        self.assertListEqual(list(ts._portfolio[1, :]),
+                             [0.0, 0.0, 0.0])
 
         self.assertListEqual(
             ts._simulation_data.iloc[1, :].to_list(),
             ['sell',
              'none',
-             ts._close_values['close'].iat[1],
+             ts._close_values[1, 0],
              0.0,
              0.0,
              0.0,
@@ -1112,7 +859,8 @@ class TestTradingSimulation(unittest.TestCase):
 
         ts._portfolio = pd.read_csv(
             './data/portfolio_simulation_data_full.csv',
-            parse_dates=True, index_col=0)
+            parse_dates=True, index_col=0).to_numpy(dtype=np.float64,
+                                                    copy=True)
 
         sd_result, st_result = ts.closeSimulation()
 
