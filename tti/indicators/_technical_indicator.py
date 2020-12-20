@@ -316,7 +316,7 @@ class TechnicalIndicator(ABC):
         full_input_data = self._input_data
 
         # Run simulation rounds for the whole period
-        for i in range(len(self._input_data.index)):
+        for i in range(len(self._ti_data.index)):
 
             # Limit the input and indicator data to this simulation round
             self._input_data = full_input_data[
