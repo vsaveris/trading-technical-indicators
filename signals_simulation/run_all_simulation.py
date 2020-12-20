@@ -2,27 +2,17 @@
 Trading-Technical-Indicators (tti) python library
 
 File name: run_all_simulation.py
-    Run trading simulation for all the trading technical indicators or for
-    a single indicator given.
+    Run trading simulation for all the trading technical indicators.
 
 Use as:
-    python run_all_simulation.py [indicator_class_name [**kwargs]]
-
-    examples:
-    python run_all_simulation.py MovingAverage "{'ma_type': 'exponential'}"
-    python run_all_simulation.py MovingAverage
-    python run_all_simulation.py AccumulationDistributionLine
+    python run_all_simulation.py
 """
 
-import sys
-import json
-import ast
 import time
 import inspect
 import pandas as pd
 import tti.indicators as ti
 import matplotlib.pyplot as plt
-from tti.indicators import *
 
 
 def getSimulationGraph(simulation, close_values, title):
@@ -39,6 +29,9 @@ def getSimulationGraph(simulation, close_values, title):
             `close`.
 
         title (str): Title of the graph.
+
+    Raises:
+        -
 
     Returns:
         (matplotlib.pyplot): The produced graph.
@@ -90,17 +83,23 @@ def execute_simulation(indicator_object, close_values, output_file=None,
             values as the input to the indicator data. It contains one column
             `close`.
 
-        output_file (file, default=None): File object where the execution
-            output is redirected. If None, output goes to console.
+        output_file (file object, default is None): File object where the
+            execution output is redirected. If None, output goes to console.
 
-        add_info (str, default=None): Additional information for the running
+        add_info (str, default is None): Additional information for the running
             example, is used for information purposes in the printing functions
             and in the name of the produced graph.
 
-        figures_output_path (str, default=None): Path for saving the
-            indicator graph. If None, the graph is just shown.
+        figures_output_path (str, default is None): Path for saving the
+            indicator graph.
 
         **kwargs: Arguments to be passed in the indicator constructor.
+
+    Raises:
+        -
+
+    Returns:
+        -
     """
 
     indicator = indicator_object(**kwargs)
@@ -119,24 +118,20 @@ def execute_simulation(indicator_object, close_values, output_file=None,
     print('\n- Simulation executed in :', round(time.time() - start_time, 2),
           'seconds.', file=output_file)
 
+    # Save graph for the calculated indicator
+    graph_name_suffix = ('_' + add_info) if add_info is not None else ''
+    output_file_name = figures_output_path + 'simulation_' + \
+        type(indicator).__name__ + graph_name_suffix + '.png'
+
     graph_title_suffix = (' (' + add_info + ')') if add_info is not None else \
         ''
     fig = getSimulationGraph(simulation, close_values,
         'Trading Simulation for ' + type(indicator).__name__ +
         graph_title_suffix)
+    fig.savefig(output_file_name)
+    fig.close()
 
-    # Show or save the graph
-    if figures_output_path is None:
-        fig.show()
-    else:
-        # Save graph for the calculated indicator
-        graph_name_suffix = ('_' + add_info) if add_info is not None else ''
-        output_file_name = figures_output_path + 'simulation_' + \
-            type(indicator).__name__ + graph_name_suffix + '.png'
-        fig.savefig(output_file_name)
-        fig.close()
-
-        print('\n- Graph', output_file_name, 'saved.', file=output_file)
+    print('\n- Graph', output_file_name, 'saved.', file=output_file)
 
     # Get simulation statistics
     print('\n- Simulation Statistics:', file=output_file)
@@ -150,109 +145,74 @@ if __name__ == '__main__':
     # (dates column)
     df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
-    # Run simulation for the given indicator, if any
-    if len(sys.argv) > 1:
-
-        indicator = None
-
-        try:
-            indicator = eval(sys.argv[1])
-        except:
-            print('Error: Not valid indicator class name', sys.argv[1])
-            exit()
-
-        # Read the input kwargs (dictionary)
-        if len(sys.argv) > 2:
-            kwargs_dict = ast.literal_eval(sys.argv[2])
-        else:
-            kwargs_dict = None
-
-        print('Trading Simulation for the', sys.argv[1], 'with arguments',
-              kwargs_dict)
-
-        if kwargs_dict is None:
-            execute_simulation(indicator_object=indicator,
-                               close_values=df[['close']],
-                               output_file=None, add_info=None,
-                               figures_output_path=None,
-                               input_data=df)
-        else:
-            execute_simulation(indicator_object=indicator,
-                               close_values=df[['close']],
-                               output_file=None, add_info=None,
-                               figures_output_path=None,
-                               input_data=df,
-                               **kwargs_dict)
+    # File object to redirect the output of the execution
+    out_file = open('README.txt', 'w')
+    print('Trading Simulation for the tti.indicators package ' +
+          '(all indicators).', file=out_file)
 
     # Run simulation for all the indicators implemented in the tti.indicators
     # package
-    else:
-        # File object to redirect the output of the execution
-        out_file = open('README.txt', 'w')
-        print('Trading Simulation for the tti.indicators package ' +
-              '(all indicators).', file=out_file)
+    for x in inspect.getmembers(ti):
 
-        for x in inspect.getmembers(ti):
+        if inspect.isclass(x[1]):
 
-            if inspect.isclass(x[1]):
+            # Moving Average includes five indicators
+            if x[1] == ti.MovingAverage:
+                execute_simulation(indicator_object=x[1],
+                    close_values=df[['close']],
+                    output_file=out_file, add_info='simple',
+                    figures_output_path='./figures/',
+                    input_data=df,
+                    ma_type='simple')
 
-                # Moving Average includes five indicators
-                if x[1] == ti.MovingAverage:
-                    execute_simulation(indicator_object=x[1],
-                        close_values=df[['close']],
-                        output_file=out_file, add_info='simple',
-                        figures_output_path='./figures/',
-                        input_data=df,
-                        ma_type='simple')
+                execute_simulation(indicator_object=x[1],
+                    close_values=df[['close']],
+                    output_file=out_file, add_info='exponential',
+                    figures_output_path='./figures/',
+                    input_data=df,
+                     ma_type='exponential')
 
-                    execute_simulation(indicator_object=x[1],
-                        close_values=df[['close']],
-                        output_file=out_file, add_info='exponential',
-                        figures_output_path='./figures/',
-                        input_data=df,
-                        ma_type='exponential')
+                execute_simulation(indicator_object=x[1],
+                    close_values=df[['close']],
+                    output_file=out_file, add_info='time_series',
+                    figures_output_path='./figures/',
+                    input_data=df,
+                    ma_type='time_series')
 
-                    execute_simulation(indicator_object=x[1],
-                        close_values=df[['close']],
-                        output_file=out_file, add_info='time_series',
-                        figures_output_path='./figures/',
-                        input_data=df,
-                        ma_type='time_serie         s')
+                execute_simulation(indicator_object=x[1],
+                    close_values=df[['close']],
+                    output_file=out_file, add_info='triangular',
+                    figures_output_path='./figures/',
+                    input_data=df,
+                    ma_type='triangular')
 
-                    execute_simulation(indicator_object=x[1],
-                        close_values=df[['close']],
-                        output_file=out_file, add_info='triangular',
-                        figures_output_path='./figures/',
-                        input_data=df,
-                        ma_type='triangular')
+                execute_simulation(indicator_object=x[1],
+                    close_values=df[['close']],
+                    output_file=out_file, add_info='variable',
+                    figures_output_path='./figures/',
+                    input_data=df,
+                    ma_type='variable')
 
-                    execute_simulation(indicator_object=x[1],
-                        close_values=df[['close']],
-                        output_file=out_file, add_info='variable',
-                        figures_output_path='./figures/',
-                        input_data=df,
-                        ma_type='variable')
+            # Stochastic Oscillator includes two indicators
+            elif x[1] == ti.StochasticOscillator:
+                execute_simulation(indicator_object=x[1],
+                    close_values=df[['close']],
+                    output_file=out_file,
+                    add_info='fast',
+                    figures_output_path='./figures/',
+                    input_data=df,
+                    k_slowing_periods=1)
 
-                # Stochastic Oscillator includes two indicators
-                elif x[1] == ti.StochasticOscillator:
-                    execute_simulation(indicator_object=x[1],
-                        close_values=df[['close']],
-                        output_file=out_file,
-                        add_info='fast',
-                        figures_output_path='./figures/',
-                        input_data=df,
-                        k_slowing_periods=1)
+                execute_simulation(indicator_object=x[1],
+                    close_values=df[['close']],
+                    output_file=out_file, add_info='slow',
+                    figures_output_path='./figures/',
+                    input_data=df,
+                    k_slowing_periods=3)
 
-                    execute_simulation(indicator_object=x[1],
-                        close_values=df[['close']],
-                        output_file=out_file, add_info='slow',
-                        figures_output_path='./figures/',
-                        input_data=df,
-                        k_slowing_periods=3)
-
-                else:
-                    execute_simulation(indicator_object=x[1],
-                        close_values=df[['close']],
-                        output_file=out_file, add_info=None,
-                        figures_output_path='./figures/',
-                        input_data=df)
+            else:
+                execute_simulation(indicator_object=x[1],
+                    close_values=df[['close']],
+                    output_file=out_file, add_info=None,
+                    figures_output_path='./figures/',
+                    input_data=df)
