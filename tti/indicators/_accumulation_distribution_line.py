@@ -64,10 +64,7 @@ class AccumulationDistributionLine(TechnicalIndicator):
                 (self._input_data['high'] - self._input_data['close'])
         ) / (self._input_data['high'] - self._input_data['low'])
 
-        for i in range(1, len(adl.index)):
-            adl['adl'].iat[i] += adl['adl'].iat[i - 1]
-
-        #adl = adl.cumsum(axis=0)
+        adl = adl.cumsum(axis=0)
 
         return adl.astype(dtype='int64', errors='ignore')
 
