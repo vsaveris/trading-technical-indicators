@@ -7,6 +7,7 @@ File name: trading_simulation.py
 """
 
 import pandas as pd
+import numpy as np
 from ..utils.data_validation import validateInputData
 from ..utils.exceptions import WrongTypeForInputParameter, \
     NotValidInputDataForSimulation, WrongValueForInputParameter
@@ -166,10 +167,14 @@ class TradingSimulation:
         # Simulation portfolio, keeps a track of the entered positions during
         # the simulation. Position: `long`, `short` or `none`. Status: `open`,
         # `close` or none. Exposure: stock_price when position is long, and
-        # short_exposure_factor * stock_price when position is short.
-        self._portfolio = pd.DataFrame(
-            index=self._input_data_index,
-            columns=['position', 'status', 'exposure'], data=None)
+        # short_exposure_factor * stock_price when position is short. Use
+        # numpy array improved performance.
+        # Columns are:
+        #   position: 0.0 is None, 1.0 is short, 2.0 is long
+        #   status: 0.0 is None, 1.0 is open, 2.0 is closed
+        #   exposure: float indicating the exposure value
+        self._portfolio = np.zeros(shape=(len(self._input_data_index), 3),
+                                   dtype=np.float64)
 
         # Initialize simulation data structure (DataFrame)
         self._simulation_data = pd.DataFrame(
@@ -300,17 +305,15 @@ class TradingSimulation:
                 else self._simulation_data['exposure'].iat[
                     executed_simulation_rounds - 1].round(2),
 
-            'last_open_long_positions': len(
+            'last_open_long_positions': np.count_nonzero(
                 self._portfolio[
-                    (self._portfolio['position'] == 'long') &
-                    (self._portfolio['status'] == 'open')
-                    ].index),
+                    (self._portfolio[:, 0] == 2.0) &
+                    (self._portfolio[:, 1] == 1.0), 0]),
 
-            'last_open_short_positions': len(
+            'last_open_short_positions': np.count_nonzero(
                 self._portfolio[
-                    (self._portfolio['position'] == 'short') &
-                    (self._portfolio['status'] == 'open')
-                    ].index),
+                    (self._portfolio[:, 0] == 1.0) &
+                    (self._portfolio[:, 1] == 1.0), 0]),
 
             'last_portfolio_value': 0.0 if executed_simulation_rounds == 0
                 else self._simulation_data['portfolio_value'].iat[
@@ -338,20 +341,20 @@ class TradingSimulation:
             float: The portfolio value.
         """
 
-        open_long_positions = len(
+        open_long_positions = np.count_nonzero(
             self._portfolio[
-                (self._portfolio['position'] == 'long') &
-                (self._portfolio['status'] == 'open')].index)
+                (self._portfolio[:, 0] == 2.0) &
+                (self._portfolio[:, 1] == 1.0), 0])
 
-        open_short_positions = len(
+        open_short_positions = np.count_nonzero(
             self._portfolio[
-                (self._portfolio['position'] == 'short') &
-                (self._portfolio['status'] == 'open')].index)
+                (self._portfolio[:, 0] == 1.0) &
+                (self._portfolio[:, 1] == 1.0), 0])
 
         return self._close_values['close'].iat[i_index] * (
                 open_long_positions - open_short_positions)
 
-    def _closeOpenPositions(self, i_index, force_all=False, write=True):
+    def _closeOpenPositions(self, i_index):
         """
         Closes the opened positions existing in portfolio.
 
@@ -360,94 +363,73 @@ class TradingSimulation:
                 Refers to the index of all the DataFrames used in the
                 simulation.
 
-            force_all (bool, default=False): If True, all the opened positions
-                are being closed. If False, only the positions which will bring
-                earnings are being closed.
-
-            write (bool, default=True): If True, update the status of the
-                positions in the portfolio. If False, then the positions remain
-                open.
-
         Returns:
             float: The earnings of the transactions executed.
 
             float: The closed exposure.
         """
 
-        # Close all the open positions
-        if force_all:
-
-            long_to_be_closed = self._portfolio[
-                (self._portfolio['status'] == 'open') &
-                (self._portfolio['position'] == 'long')]['exposure']
-
-            short_to_be_closed = self._portfolio[
-                (self._portfolio['status'] == 'open') &
-                (self._portfolio['position'] == 'short')]['exposure']
-
         # Close only positions that bring earnings
-        else:
 
-            long_to_be_closed = self._portfolio[
-                (self._portfolio['status'] == 'open') &
-                (self._portfolio['position'] == 'long') &
-                (self._portfolio['exposure'] < self._close_values['close'].
-                 iat[i_index])]['exposure']
+        long_to_be_closed = np.count_nonzero(self._portfolio[
+            (self._portfolio[:, 1] == 1.0) &
+            (self._portfolio[:, 0] == 2.0) &
+            (self._portfolio[:, 2] < self._close_values['close'].iat[i_index]),
+            0])
 
-            short_to_be_closed = self._portfolio[
-                (self._portfolio['status'] == 'open') &
-                (self._portfolio['position'] == 'short') &
-                (self._portfolio['exposure'] > (
-                        self._short_exposure_factor *
-                        self._close_values['close'].iat[i_index]))
-                ]['exposure']
+        short_to_be_closed = np.count_nonzero(self._portfolio[
+            (self._portfolio[:, 1] == 1.0) &
+            (self._portfolio[:, 0] == 1.0) &
+            (self._portfolio[:, 2] > (
+                    self._short_exposure_factor *
+                    self._close_values['close'].iat[i_index])), 0])
+
+        long_closed_exposure = np.sum(self._portfolio[
+            (self._portfolio[:, 1] == 1.0) &
+            (self._portfolio[:, 0] == 2.0) &
+            (self._portfolio[:, 2] < self._close_values['close'].iat[i_index]),
+            2])
+
+        short_closed_exposure = np.sum(self._portfolio[
+            (self._portfolio[:, 1] == 1.0) &
+            (self._portfolio[:, 0] == 1.0) &
+            (self._portfolio[:, 2] > (
+                    self._short_exposure_factor *
+                    self._close_values['close'].iat[i_index])), 2])
 
         # Calculate earnings and closed_exposure
-        long_closed_exposure = long_to_be_closed.sum()
 
-        short_closed_exposure = short_to_be_closed.sum()
-
-        earnings = (len(long_to_be_closed.index) *
-                    self._close_values['close'].iat[i_index] -
-                    long_closed_exposure) + (
+        earnings = (
+            long_to_be_closed * self._close_values['close'].iat[i_index] -
+            long_closed_exposure) + (
                 (short_closed_exposure / self._short_exposure_factor) -
-                len(short_to_be_closed.index) *
-                self._close_values['close'].iat[i_index])
+                short_to_be_closed * self._close_values['close'].iat[i_index])
 
         closed_exposure = long_closed_exposure + short_closed_exposure
 
         # Register close actions
-        if write and force_all:
+        self._portfolio[
+            (self._portfolio[:, 1] == 1.0) &
+            (self._portfolio[:, 0] == 2.0) &
+            (self._portfolio[:, 2] <
+            self._close_values['close'].iat[i_index]), 1] = 2.0
 
-            self._portfolio.loc[self._portfolio['status'] == 'open',
-                                'status'] = 'close'
+        self._portfolio[
+            (self._portfolio[:, 1] == 1.0) &
+            (self._portfolio[:, 0] == 1.0) &
+            (self._portfolio[:, 2] >
+                (self._short_exposure_factor *
+                self._close_values['close'].iat[i_index])), 1] = 2.0
 
-        elif write and not force_all:
+        # create simulation data row, set only the 'exposure' and
+        # earnings, rest of the row will be created in the
+        # processSignal method
+        self._simulation_data['exposure'].iat[i_index] = \
+            self._simulation_data['exposure'].iat[i_index - 1] - \
+            closed_exposure
 
-            self._portfolio.loc[
-                (self._portfolio['status'] == 'open') &
-                (self._portfolio['position'] == 'long') &
-                (self._portfolio['exposure'] <
-                self._close_values['close'].iat[i_index]), 'status'] = 'close'
-
-            self._portfolio.loc[
-                (self._portfolio['status'] == 'open') &
-                (self._portfolio['position'] == 'short') &
-                (self._portfolio['exposure'] >
-                 (self._short_exposure_factor *
-                  self._close_values['close'].iat[i_index])), 'status'] = \
-                'close'
-
-        if write:
-            # create simulation data row, set only the 'exposure' and
-            # earnings, rest of the row will be created in the
-            # processSignal method
-            self._simulation_data['exposure'].iat[i_index] = \
-                self._simulation_data['exposure'].iat[i_index - 1] - \
-                closed_exposure
-
-            self._simulation_data['earnings'].iat[i_index] = \
-                self._simulation_data['earnings'].iat[i_index - 1] + earnings
+        self._simulation_data['earnings'].iat[i_index] = \
+            self._simulation_data['earnings'].iat[i_index - 1] + earnings
 
         return earnings, closed_exposure
 
@@ -467,7 +449,7 @@ class TradingSimulation:
         if signal[0] == 'hold':
 
             # Add portfolio row, columns: 'position', 'status', 'exposure'
-            self._portfolio.iloc[i_index, :] = ['none', 'none', 0.0]
+            self._portfolio[i_index, :] = [0.0, 0.0, 0.0]
 
             portfolio_value = self._calculatePortfolioValue(i_index)
 
@@ -494,7 +476,7 @@ class TradingSimulation:
                     self._close_values['close'].iat[i_index]):
 
                 # Add portfolio row, columns: 'position', 'status', 'exposure'
-                self._portfolio.iloc[i_index, :] = ['none', 'none', 0.0]
+                self._portfolio[i_index, :] = [0.0, 0.0, 0.0]
 
                 portfolio_value = self._calculatePortfolioValue(i_index)
 
@@ -518,8 +500,8 @@ class TradingSimulation:
             else:
 
                 # Add portfolio row, columns: 'position', 'status', 'exposure'
-                self._portfolio.iloc[i_index, :] = [
-                    'long', 'open', self._close_values['close'].iat[i_index]]
+                self._portfolio[i_index, :] = [
+                    2.0, 1.0, self._close_values['close'].iat[i_index]]
 
                 portfolio_value = self._calculatePortfolioValue(i_index)
 
@@ -549,7 +531,7 @@ class TradingSimulation:
                     self._close_values['close'].iat[i_index]):
 
                 # Add portfolio row, columns: 'position', 'status', 'exposure'
-                self._portfolio.iloc[i_index, :] = ['none', 'none', 0.0]
+                self._portfolio[i_index, :] = [0.0, 0.0, 0.0]
 
                 portfolio_value = self._calculatePortfolioValue(i_index)
 
@@ -573,8 +555,8 @@ class TradingSimulation:
             else:
 
                 # Add portfolio row, columns: 'position', 'status', 'exposure'
-                self._portfolio.iloc[i_index, :] = [
-                    'short', 'open',
+                self._portfolio[i_index, :] = [
+                    1.0, 1.0,
                     self._short_exposure_factor *
                     self._close_values['close'].iat[i_index]]
 
@@ -620,12 +602,11 @@ class TradingSimulation:
                 0.0, 0.0, 0.0]
 
             # Columns for the portfolio: 'position', 'status', 'exposure'
-            self._portfolio.iloc[0, :] = ['none', 'none', 0.0]
+            self._portfolio[0, :] = [0.0, 0.0, 0.0]
 
         else:
             # First check if any open position can be closed
-            self._closeOpenPositions(i_index=i_index, force_all=False,
-                                     write=True)
+            self._closeOpenPositions(i_index=i_index)
 
             self._processSignal(i_index, signal)
 
