@@ -67,6 +67,8 @@ class AccumulationDistributionLine(TechnicalIndicator):
         for i in range(1, len(adl.index)):
             adl['adl'].iat[i] += adl['adl'].iat[i - 1]
 
+        #adl = adl.cumsum(axis=0)
+
         return adl.astype(dtype='int64', errors='ignore')
 
     def getTiSignal(self):
