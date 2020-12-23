@@ -121,7 +121,7 @@ if __name__ == '__main__':
 
     # Read data from csv file. Set the index to the correct column
     # (dates column)
-    df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
+    df = pd.read_csv('./data/SCMN.SW.csv', parse_dates=True, index_col=0)
 
     indicator_class_name = None
 

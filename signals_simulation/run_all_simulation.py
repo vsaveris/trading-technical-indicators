@@ -62,7 +62,7 @@ def getSimulationGraph(simulation, close_values, title):
     plt.grid(which='major', axis='y', alpha=0.5)
 
     plt.xlabel('Transactions', fontsize=11, fontweight='bold')
-    plt.gcf().text(0.04, 0.5, 'Balance | Exposure | Price', fontsize=11,
+    plt.gcf().text(0.01, 0.5, 'Balance | Exposure | Price', fontsize=11,
         fontweight='bold', va='center', rotation='vertical')
 
     return plt
@@ -143,7 +143,7 @@ if __name__ == '__main__':
 
     # Read data from csv file. Set the index to the correct column
     # (dates column)
-    df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
+    df = pd.read_csv('./data/SCMN.SW.csv', parse_dates=True, index_col=0)
 
     # File object to redirect the output of the execution
     out_file = open('README.txt', 'w')
