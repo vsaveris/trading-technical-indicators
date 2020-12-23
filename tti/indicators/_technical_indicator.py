@@ -300,7 +300,7 @@ class TechnicalIndicator(ABC):
         Raises:
             WrongTypeForInputParameter: Input argument has wrong type.
             WrongValueForInputParameter: Unsupported value for input argument.
-            NotValidInputDataForSimulation: Invalid ``close_values`` `passed
+            NotValidInputDataForSimulation: Invalid ``close_values`` passed
                 for the simulation.
         """
 
