@@ -1,4 +1,4 @@
-C:\Users\vsaveris\anaconda3\envs\trading-technical-indicators\python.exe G:/trading-technical-indicators/code/trading-technical-indicators/examples/for_docs/indicator_example.py
+### tti indicators examples
 
 Technical Indicator data:
                       adl
@@ -43,3 +43,10 @@ Date                                   ...
 
 Simulation Statistics:
  {'number_of_trading_days': 5651, 'number_of_buy_signals': 4767, 'number_of_ignored_buy_signals': 0, 'number_of_sell_signals': 601, 'number_of_ignored_sell_signals': 0, 'last_stock_value': 475.5, 'last_exposure': 22340.73, 'last_open_long_positions': 40, 'last_open_short_positions': 0, 'last_portfolio_value': 19020.0, 'last_earnings': 19817.21, 'final_balance': 38837.21}
+
+
+### tti utils examples
+
+- Graph ./figures/example_data_missing_1.png saved.
+- Graph ./figures/example_data_missing_2.png saved.
+- Graph ./figures/example_data_missing_3.png saved.

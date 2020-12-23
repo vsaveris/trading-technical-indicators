@@ -3,6 +3,11 @@ Trading-Technical-Indicators (tti) python library
 
 File name: utils_example.py
     Example code for the Fill Missing Values function.
+
+Data files used:
+- example_data_missing_1.csv: Missing data at the beginning of the file.
+- example_data_missing_1.csv: Missing data at the end of the file.
+- example_data_missing_1.csv: Missing data at several places in the file.
 """
 
 import pandas as pd
