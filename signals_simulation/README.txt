@@ -2,1054 +2,1240 @@ Trading Simulation for the tti.indicators package (all indicators).
 
 Trading Simulation for technical indicator: AccumulationDistributionLine
 
-- Simulation executed in : 3.43 seconds.
+- Simulation executed in : 9.78 seconds.
 
 - Graph ./figures/simulation_AccumulationDistributionLine.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 653
--- number_of_sell_signals: 942
--- number_of_ignored_sell_signals: 700
--- balance: 29.57
--- stocks_in_possession: 3
--- stock_value: 140.41
--- total_value: 450.8
+	number_of_trading_days: 5651
+	number_of_buy_signals: 4767
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 601
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 22340.73
+	last_open_long_positions: 40
+	last_open_short_positions: 0
+	last_portfolio_value: 19020.0
+	last_earnings: 19817.21
+	final_balance: 38837.21
 
 Trading Simulation for technical indicator: AverageTrueRange
 
-- Simulation executed in : 12.3 seconds.
+- Simulation executed in : 16.56 seconds.
 
 - Graph ./figures/simulation_AverageTrueRange.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 920
--- number_of_sell_signals: 529
--- number_of_ignored_sell_signals: 400
--- balance: 2174.89
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 2174.89
+	number_of_trading_days: 5651
+	number_of_buy_signals: 4690
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 929
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 26276.79
+	last_open_long_positions: 36
+	last_open_short_positions: 11
+	last_portfolio_value: 11887.5
+	last_earnings: 20898.22
+	final_balance: 32785.72
 
 Trading Simulation for technical indicator: BollingerBands
 
-- Simulation executed in : 3.5 seconds.
+- Simulation executed in : 9.85 seconds.
 
 - Graph ./figures/simulation_BollingerBands.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 141
--- number_of_sell_signals: 229
--- number_of_ignored_sell_signals: 196
--- balance: -270.61
--- stocks_in_possession: 2
--- stock_value: 140.41
--- total_value: 10.21
+	number_of_trading_days: 5651
+	number_of_buy_signals: 324
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 324
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 2062.2
+	last_open_long_positions: 0
+	last_open_short_positions: 4
+	last_portfolio_value: -1902.0
+	last_earnings: 2604.44
+	final_balance: 702.44
 
 Trading Simulation for technical indicator: ChaikinMoneyFlow
 
-- Simulation executed in : 4.11 seconds.
+- Simulation executed in : 10.67 seconds.
 
 - Graph ./figures/simulation_ChaikinMoneyFlow.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 299
--- number_of_sell_signals: 385
--- number_of_ignored_sell_signals: 239
--- balance: 285.05
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 425.46
+	number_of_trading_days: 5651
+	number_of_buy_signals: 575
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 640
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 5722.32
+	last_open_long_positions: 5
+	last_open_short_positions: 5
+	last_portfolio_value: 0.0
+	last_earnings: 4436.21
+	final_balance: 4436.21
 
 Trading Simulation for technical indicator: ChaikinOscillator
 
-- Simulation executed in : 4.44 seconds.
+- Simulation executed in : 11.71 seconds.
 
 - Graph ./figures/simulation_ChaikinOscillator.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 281
--- number_of_sell_signals: 240
--- number_of_ignored_sell_signals: 227
--- balance: 1989.12
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 1989.12
+	number_of_trading_days: 5651
+	number_of_buy_signals: 374
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 464
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 7723.62
+	last_open_long_positions: 8
+	last_open_short_positions: 5
+	last_portfolio_value: 1426.5
+	last_earnings: 2922.97
+	final_balance: 4349.47
 
 Trading Simulation for technical indicator: ChandeMomentumOscillator
 
-- Simulation executed in : 3.09 seconds.
+- Simulation executed in : 9.3 seconds.
 
 - Graph ./figures/simulation_ChandeMomentumOscillator.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 195
--- number_of_sell_signals: 246
--- number_of_ignored_sell_signals: 126
--- balance: 233.26
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 233.26
+	number_of_trading_days: 5651
+	number_of_buy_signals: 411
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 438
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 2669.98
+	last_open_long_positions: 2
+	last_open_short_positions: 3
+	last_portfolio_value: -475.5
+	last_earnings: 3415.43
+	final_balance: 2939.93
 
 Trading Simulation for technical indicator: CommodityChannelIndex
 
-- Simulation executed in : 2.99 seconds.
+- Simulation executed in : 9.24 seconds.
 
 - Graph ./figures/simulation_CommodityChannelIndex.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 543
--- number_of_sell_signals: 657
--- number_of_ignored_sell_signals: 462
--- balance: 550.78
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 691.19
+	number_of_trading_days: 5651
+	number_of_buy_signals: 1005
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 1056
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 9543.74
+	last_open_long_positions: 7
+	last_open_short_positions: 10
+	last_portfolio_value: -1426.5
+	last_earnings: 7800.28
+	final_balance: 6373.78
 
 Trading Simulation for technical indicator: DetrendedPriceOscillator
 
-- Simulation executed in : 3.09 seconds.
+- Simulation executed in : 9.42 seconds.
 
 - Graph ./figures/simulation_DetrendedPriceOscillator.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3165
--- number_of_buy_signals: 519
--- number_of_sell_signals: 518
--- number_of_ignored_sell_signals: 1
--- balance: -1357.99
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: -1214.51
+	number_of_trading_days: 5647
+	number_of_buy_signals: 918
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 921
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 480.0
+	last_exposure: 11858.47
+	last_open_long_positions: 10
+	last_open_short_positions: 10
+	last_portfolio_value: 0.0
+	last_earnings: 5447.36
+	final_balance: 5447.36
 
 Trading Simulation for technical indicator: DirectionalMovementIndex
 
-- Simulation executed in : 3.39 seconds.
+- Simulation executed in : 9.27 seconds.
 
 - Graph ./figures/simulation_DirectionalMovementIndex.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 49
--- number_of_sell_signals: 50
--- number_of_ignored_sell_signals: 6
--- balance: -39.51
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: -39.51
+	number_of_trading_days: 5651
+	number_of_buy_signals: 94
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 80
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 0.0
+	last_open_long_positions: 0
+	last_open_short_positions: 0
+	last_portfolio_value: 0.0
+	last_earnings: 875.22
+	final_balance: 875.22
 
 Trading Simulation for technical indicator: DoubleExponentialMovingAverage
 
-- Simulation executed in : 3.47 seconds.
+- Simulation executed in : 9.99 seconds.
 
 - Graph ./figures/simulation_DoubleExponentialMovingAverage.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 1603
--- number_of_sell_signals: 1558
--- number_of_ignored_sell_signals: 976
--- balance: 62.78
--- stocks_in_possession: 3
--- stock_value: 140.41
--- total_value: 484.01
+	number_of_trading_days: 5651
+	number_of_buy_signals: 2829
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 2814
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 33990.77
+	last_open_long_positions: 25
+	last_open_short_positions: 35
+	last_portfolio_value: -4755.0
+	last_earnings: 21727.36
+	final_balance: 16972.36
 
 Trading Simulation for technical indicator: EaseOfMovement
 
-- Simulation executed in : 3.31 seconds.
+- Simulation executed in : 8.75 seconds.
 
 - Graph ./figures/simulation_EaseOfMovement.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 86
--- number_of_sell_signals: 83
--- number_of_ignored_sell_signals: 4
--- balance: 46.69
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 46.69
+	number_of_trading_days: 5651
+	number_of_buy_signals: 154
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 157
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 1588.03
+	last_open_long_positions: 1
+	last_open_short_positions: 2
+	last_portfolio_value: -475.5
+	last_earnings: 1174.06
+	final_balance: 698.56
 
 Trading Simulation for technical indicator: Envelopes
 
-- Simulation executed in : 3.46 seconds.
+- Simulation executed in : 9.39 seconds.
 
 - Graph ./figures/simulation_Envelopes.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 54
--- number_of_sell_signals: 50
--- number_of_ignored_sell_signals: 45
--- balance: 396.87
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 396.87
+	number_of_trading_days: 5651
+	number_of_buy_signals: 29
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 31
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 0.0
+	last_open_long_positions: 0
+	last_open_short_positions: 0
+	last_portfolio_value: 0.0
+	last_earnings: 820.45
+	final_balance: 820.45
 
 Trading Simulation for technical indicator: FibonacciRetracement
 
-- Simulation executed in : 4.25 seconds.
+- Simulation executed in : 11.01 seconds.
 
 - Graph ./figures/simulation_FibonacciRetracement.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 67
--- number_of_sell_signals: 71
--- number_of_ignored_sell_signals: 10
--- balance: 102.06
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 102.06
+	number_of_trading_days: 5651
+	number_of_buy_signals: 111
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 113
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 0.0
+	last_open_long_positions: 0
+	last_open_short_positions: 0
+	last_portfolio_value: 0.0
+	last_earnings: 1612.49
+	final_balance: 1612.49
 
 Trading Simulation for technical indicator: ForecastOscillator
 
-- Simulation executed in : 3.08 seconds.
+- Simulation executed in : 8.97 seconds.
 
 - Graph ./figures/simulation_ForecastOscillator.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 369
--- number_of_sell_signals: 368
--- number_of_ignored_sell_signals: 0
--- balance: 11.44
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 151.85
+	number_of_trading_days: 5651
+	number_of_buy_signals: 639
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 639
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 5652.51
+	last_open_long_positions: 5
+	last_open_short_positions: 5
+	last_portfolio_value: 0.0
+	last_earnings: 5018.56
+	final_balance: 5018.56
 
 Trading Simulation for technical indicator: IchimokuCloud
 
-- Simulation executed in : 4.12 seconds.
+- Simulation executed in : 10.41 seconds.
 
 - Graph ./figures/simulation_IchimokuCloud.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 19
--- number_of_sell_signals: 6
--- number_of_ignored_sell_signals: 5
--- balance: -1426.94
--- stocks_in_possession: 15
--- stock_value: 140.41
--- total_value: 679.21
+	number_of_trading_days: 5651
+	number_of_buy_signals: 21
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 27
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 0.0
+	last_open_long_positions: 0
+	last_open_short_positions: 0
+	last_portfolio_value: 0.0
+	last_earnings: 157.52
+	final_balance: 157.52
 
 Trading Simulation for technical indicator: IntradayMovementIndex
 
-- Simulation executed in : 3.11 seconds.
+- Simulation executed in : 8.88 seconds.
 
 - Graph ./figures/simulation_IntradayMovementIndex.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 73
--- number_of_sell_signals: 126
--- number_of_ignored_sell_signals: 88
--- balance: 322.7
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 322.7
+	number_of_trading_days: 5651
+	number_of_buy_signals: 204
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 159
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 479.0
+	last_open_long_positions: 1
+	last_open_short_positions: 0
+	last_portfolio_value: 475.5
+	last_earnings: 1415.17
+	final_balance: 1890.67
 
 Trading Simulation for technical indicator: KlingerOscillator
 
-- Simulation executed in : 3.3 seconds.
+- Simulation executed in : 8.89 seconds.
 
 - Graph ./figures/simulation_KlingerOscillator.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 118
--- number_of_sell_signals: 117
--- number_of_ignored_sell_signals: 0
--- balance: -60.18
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 80.23
+	number_of_trading_days: 5651
+	number_of_buy_signals: 252
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 253
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 1474.75
+	last_open_long_positions: 1
+	last_open_short_positions: 2
+	last_portfolio_value: -475.5
+	last_earnings: 1815.39
+	final_balance: 1339.89
 
 Trading Simulation for technical indicator: LinearRegressionIndicator
 
-- Simulation executed in : 3.48 seconds.
+- Simulation executed in : 9.59 seconds.
 
 - Graph ./figures/simulation_LinearRegressionIndicator.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 371
--- number_of_sell_signals: 370
--- number_of_ignored_sell_signals: 0
--- balance: -31.85
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 108.56
+	number_of_trading_days: 5651
+	number_of_buy_signals: 667
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 667
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 5933.46
+	last_open_long_positions: 5
+	last_open_short_positions: 6
+	last_portfolio_value: -475.5
+	last_earnings: 5421.68
+	final_balance: 4946.18
 
 Trading Simulation for technical indicator: LinearRegressionSlope
 
-- Simulation executed in : 3.06 seconds.
+- Simulation executed in : 8.87 seconds.
 
 - Graph ./figures/simulation_LinearRegressionSlope.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 118
--- number_of_sell_signals: 118
--- number_of_ignored_sell_signals: 1
--- balance: -19.76
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 120.65
+	number_of_trading_days: 5651
+	number_of_buy_signals: 216
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 214
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 2266.77
+	last_open_long_positions: 1
+	last_open_short_positions: 3
+	last_portfolio_value: -951.0
+	last_earnings: 1560.14
+	final_balance: 609.14
 
 Trading Simulation for technical indicator: MarketFacilitationIndex
 
-- Simulation executed in : 3.23 seconds.
+- Simulation executed in : 9.41 seconds.
 
 - Graph ./figures/simulation_MarketFacilitationIndex.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 1599
--- number_of_sell_signals: 1569
--- number_of_ignored_sell_signals: 540
--- balance: 90.47
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 230.88
+	number_of_trading_days: 5651
+	number_of_buy_signals: 2776
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 2778
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 37798.29
+	last_open_long_positions: 22
+	last_open_short_positions: 43
+	last_portfolio_value: -9985.5
+	last_earnings: 21464.38
+	final_balance: 11478.88
 
 Trading Simulation for technical indicator: MassIndex
 
-- Simulation executed in : 3.03 seconds.
+- Simulation executed in : 8.67 seconds.
 
 - Graph ./figures/simulation_MassIndex.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 102
--- number_of_sell_signals: 90
--- number_of_ignored_sell_signals: 66
--- balance: 585.45
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 585.45
+	number_of_trading_days: 5651
+	number_of_buy_signals: 122
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 120
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 0.0
+	last_open_long_positions: 0
+	last_open_short_positions: 0
+	last_portfolio_value: 0.0
+	last_earnings: 1489.03
+	final_balance: 1489.03
 
 Trading Simulation for technical indicator: MedianPrice
 
-- Simulation executed in : 3.62 seconds.
+- Simulation executed in : 9.56 seconds.
 
 - Graph ./figures/simulation_MedianPrice.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 186
--- number_of_sell_signals: 186
--- number_of_ignored_sell_signals: 1
--- balance: 3.95
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 144.36
+	number_of_trading_days: 5651
+	number_of_buy_signals: 350
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 349
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 3849.86
+	last_open_long_positions: 5
+	last_open_short_positions: 2
+	last_portfolio_value: 1426.5
+	last_earnings: 2657.99
+	final_balance: 4084.49
 
 Trading Simulation for technical indicator: Momentum
 
-- Simulation executed in : 4.42 seconds.
+- Simulation executed in : 11.63 seconds.
 
 - Graph ./figures/simulation_Momentum.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 349
--- number_of_sell_signals: 348
--- number_of_ignored_sell_signals: 0
--- balance: 9.2
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 149.61
+	number_of_trading_days: 5651
+	number_of_buy_signals: 595
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 595
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 4026.2
+	last_open_long_positions: 4
+	last_open_short_positions: 3
+	last_portfolio_value: 475.5
+	last_earnings: 4598.87
+	final_balance: 5074.37
 
 Trading Simulation for technical indicator: MovingAverage (simple)
 
-- Simulation executed in : 3.46 seconds.
+- Simulation executed in : 9.52 seconds.
 
 - Graph ./figures/simulation_MovingAverage_simple.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 191
--- number_of_sell_signals: 192
--- number_of_ignored_sell_signals: 1
--- balance: -75.82
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: -75.82
+	number_of_trading_days: 5651
+	number_of_buy_signals: 348
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 349
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 2771.4
+	last_open_long_positions: 3
+	last_open_short_positions: 2
+	last_portfolio_value: 475.5
+	last_earnings: 2692.58
+	final_balance: 3168.08
 
 Trading Simulation for technical indicator: MovingAverage (exponential)
 
-- Simulation executed in : 3.44 seconds.
+- Simulation executed in : 9.55 seconds.
 
 - Graph ./figures/simulation_MovingAverage_exponential.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 228
--- number_of_sell_signals: 229
--- number_of_ignored_sell_signals: 1
--- balance: -88.87
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: -88.87
+	number_of_trading_days: 5651
+	number_of_buy_signals: 380
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 381
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 3864.83
+	last_open_long_positions: 3
+	last_open_short_positions: 4
+	last_portfolio_value: -475.5
+	last_earnings: 3126.35
+	final_balance: 2650.85
 
 Trading Simulation for technical indicator: MovingAverage (time_series)
 
-- Simulation executed in : 3.55 seconds.
+- Simulation executed in : 9.59 seconds.
 
 - Graph ./figures/simulation_MovingAverage_time_series.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 295
--- number_of_sell_signals: 296
--- number_of_ignored_sell_signals: 1
--- balance: -6.42
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: -6.42
+	number_of_trading_days: 5651
+	number_of_buy_signals: 505
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 505
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 2014.65
+	last_open_long_positions: 2
+	last_open_short_positions: 2
+	last_portfolio_value: 0.0
+	last_earnings: 4071.72
+	final_balance: 4071.72
 
 Trading Simulation for technical indicator: MovingAverage (triangular)
 
-- Simulation executed in : 3.42 seconds.
+- Simulation executed in : 9.5 seconds.
 
 - Graph ./figures/simulation_MovingAverage_triangular.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 135
--- number_of_sell_signals: 135
--- number_of_ignored_sell_signals: 1
--- balance: -35.02
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: -35.02
+	number_of_trading_days: 5651
+	number_of_buy_signals: 236
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 237
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 3362.85
+	last_open_long_positions: 2
+	last_open_short_positions: 4
+	last_portfolio_value: -951.0
+	last_earnings: 1940.71
+	final_balance: 989.71
 
 Trading Simulation for technical indicator: MovingAverage (variable)
 
-- Simulation executed in : 3.49 seconds.
+- Simulation executed in : 9.66 seconds.
 
 - Graph ./figures/simulation_MovingAverage_variable.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 132
--- number_of_sell_signals: 132
--- number_of_ignored_sell_signals: 0
--- balance: -21.13
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: -21.13
+	number_of_trading_days: 5651
+	number_of_buy_signals: 232
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 232
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 2884.07
+	last_open_long_positions: 4
+	last_open_short_positions: 1
+	last_portfolio_value: 1426.5
+	last_earnings: 1965.26
+	final_balance: 3391.76
 
 Trading Simulation for technical indicator: MovingAverageConvergenceDivergence
 
-- Simulation executed in : 3.25 seconds.
+- Simulation executed in : 9.39 seconds.
 
 - Graph ./figures/simulation_MovingAverageConvergenceDivergence.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 180
--- number_of_sell_signals: 187
--- number_of_ignored_sell_signals: 50
--- balance: -76.08
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: -76.08
+	number_of_trading_days: 5651
+	number_of_buy_signals: 336
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 333
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 5413.75
+	last_open_long_positions: 3
+	last_open_short_positions: 6
+	last_portfolio_value: -1426.5
+	last_earnings: 2741.69
+	final_balance: 1315.19
 
 Trading Simulation for technical indicator: NegativeVolumeIndex
 
-- Simulation executed in : 4.54 seconds.
+- Simulation executed in : 11.1 seconds.
 
 - Graph ./figures/simulation_NegativeVolumeIndex.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 30
--- number_of_sell_signals: 30
--- number_of_ignored_sell_signals: 1
--- balance: -64.0
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 76.41
+	number_of_trading_days: 5651
+	number_of_buy_signals: 54
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 55
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 1103.7
+	last_open_long_positions: 0
+	last_open_short_positions: 2
+	last_portfolio_value: -951.0
+	last_earnings: 324.71
+	final_balance: -626.29
 
 Trading Simulation for technical indicator: OnBalanceVolume
 
-- Simulation executed in : 3.53 seconds.
+- Simulation executed in : 9.27 seconds.
 
 - Graph ./figures/simulation_OnBalanceVolume.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 704
--- number_of_sell_signals: 833
--- number_of_ignored_sell_signals: 588
--- balance: 217.44
--- stocks_in_possession: 2
--- stock_value: 140.41
--- total_value: 498.26
+	number_of_trading_days: 5651
+	number_of_buy_signals: 1260
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 1280
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 11514.76
+	last_open_long_positions: 9
+	last_open_short_positions: 11
+	last_portfolio_value: -951.0
+	last_earnings: 9464.17
+	final_balance: 8513.17
 
 Trading Simulation for technical indicator: ParabolicSAR
 
-- Simulation executed in : 3.53 seconds.
+- Simulation executed in : 9.44 seconds.
 
 - Graph ./figures/simulation_ParabolicSAR.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 144
--- number_of_sell_signals: 144
--- number_of_ignored_sell_signals: 1
--- balance: -12.68
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 127.73
+	number_of_trading_days: 5651
+	number_of_buy_signals: 265
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 265
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 3429.37
+	last_open_long_positions: 4
+	last_open_short_positions: 2
+	last_portfolio_value: 951.0
+	last_earnings: 2282.17
+	final_balance: 3233.17
 
 Trading Simulation for technical indicator: Performance
 
-- Simulation executed in : 2.92 seconds.
+- Simulation executed in : 8.65 seconds.
 
 - Graph ./figures/simulation_Performance.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 0
--- number_of_sell_signals: 3115
--- number_of_ignored_sell_signals: 3115
--- balance: 0
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 0.0
+	number_of_trading_days: 5651
+	number_of_buy_signals: 0
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 4651
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 20937.0
+	last_open_long_positions: 0
+	last_open_short_positions: 32
+	last_portfolio_value: -15216.0
+	last_earnings: 19696.15
+	final_balance: 4480.15
 
 Trading Simulation for technical indicator: PositiveVolumeIndex
 
-- Simulation executed in : 4.6 seconds.
+- Simulation executed in : 11.39 seconds.
 
 - Graph ./figures/simulation_PositiveVolumeIndex.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 31
--- number_of_sell_signals: 31
--- number_of_ignored_sell_signals: 0
--- balance: 18.34
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 18.34
+	number_of_trading_days: 5651
+	number_of_buy_signals: 62
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 62
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: -0.0
+	last_open_long_positions: 0
+	last_open_short_positions: 0
+	last_portfolio_value: 0.0
+	last_earnings: 535.66
+	final_balance: 535.66
 
 Trading Simulation for technical indicator: PriceAndVolumeTrend
 
-- Simulation executed in : 3.29 seconds.
+- Simulation executed in : 9.28 seconds.
 
 - Graph ./figures/simulation_PriceAndVolumeTrend.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 704
--- number_of_sell_signals: 833
--- number_of_ignored_sell_signals: 588
--- balance: 217.44
--- stocks_in_possession: 2
--- stock_value: 140.41
--- total_value: 498.26
+	number_of_trading_days: 5651
+	number_of_buy_signals: 1260
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 1280
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 11514.76
+	last_open_long_positions: 9
+	last_open_short_positions: 11
+	last_portfolio_value: -951.0
+	last_earnings: 9464.17
+	final_balance: 8513.17
 
 Trading Simulation for technical indicator: PriceChannel
 
-- Simulation executed in : 3.51 seconds.
+- Simulation executed in : 9.75 seconds.
 
 - Graph ./figures/simulation_PriceChannel.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 371
--- number_of_sell_signals: 538
--- number_of_ignored_sell_signals: 407
--- balance: 634.97
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 775.38
+	number_of_trading_days: 5651
+	number_of_buy_signals: 629
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 690
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 5195.17
+	last_open_long_positions: 3
+	last_open_short_positions: 6
+	last_portfolio_value: -1426.5
+	last_earnings: 5428.72
+	final_balance: 4002.22
 
 Trading Simulation for technical indicator: PriceOscillator
 
-- Simulation executed in : 3.05 seconds.
+- Simulation executed in : 8.79 seconds.
 
 - Graph ./figures/simulation_PriceOscillator.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 60
--- number_of_sell_signals: 59
--- number_of_ignored_sell_signals: 0
--- balance: -127.9
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 12.51
+	number_of_trading_days: 5651
+	number_of_buy_signals: 113
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 113
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 1003.7
+	last_open_long_positions: 1
+	last_open_short_positions: 1
+	last_portfolio_value: 0.0
+	last_earnings: 936.4
+	final_balance: 936.4
 
 Trading Simulation for technical indicator: PriceRateOfChange
 
-- Simulation executed in : 3.15 seconds.
+- Simulation executed in : 9.29 seconds.
 
 - Graph ./figures/simulation_PriceRateOfChange.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 792
--- number_of_sell_signals: 784
--- number_of_ignored_sell_signals: 514
--- balance: 816.88
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 816.88
+	number_of_trading_days: 5651
+	number_of_buy_signals: 1410
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 1408
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 13370.93
+	last_open_long_positions: 8
+	last_open_short_positions: 15
+	last_portfolio_value: -3328.5
+	last_earnings: 10683.89
+	final_balance: 7355.39
 
 Trading Simulation for technical indicator: ProjectionBands
 
-- Simulation executed in : 3.54 seconds.
+- Simulation executed in : 9.82 seconds.
 
 - Graph ./figures/simulation_ProjectionBands.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 374
--- number_of_sell_signals: 495
--- number_of_ignored_sell_signals: 372
--- balance: 328.46
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 468.87
+	number_of_trading_days: 5651
+	number_of_buy_signals: 580
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 674
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 8117.88
+	last_open_long_positions: 3
+	last_open_short_positions: 11
+	last_portfolio_value: -3804.0
+	last_earnings: 5212.46
+	final_balance: 1408.46
 
 Trading Simulation for technical indicator: ProjectionOscillator
 
-- Simulation executed in : 3.43 seconds.
+- Simulation executed in : 9.5 seconds.
 
 - Graph ./figures/simulation_ProjectionOscillator.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 425
--- number_of_sell_signals: 442
--- number_of_ignored_sell_signals: 208
--- balance: 87.14
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 87.14
+	number_of_trading_days: 5651
+	number_of_buy_signals: 750
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 780
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 11312.33
+	last_open_long_positions: 7
+	last_open_short_positions: 13
+	last_portfolio_value: -2853.0
+	last_earnings: 6023.08
+	final_balance: 3170.08
 
 Trading Simulation for technical indicator: Qstick
 
-- Simulation executed in : 3.06 seconds.
+- Simulation executed in : 8.86 seconds.
 
 - Graph ./figures/simulation_Qstick.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 72
--- number_of_sell_signals: 70
--- number_of_ignored_sell_signals: 25
--- balance: -39.61
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 100.8
+	number_of_trading_days: 5651
+	number_of_buy_signals: 103
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 97
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 1798.2
+	last_open_long_positions: 2
+	last_open_short_positions: 1
+	last_portfolio_value: 475.5
+	last_earnings: 739.63
+	final_balance: 1215.13
 
 Trading Simulation for technical indicator: RangeIndicator
 
-- Simulation executed in : 3.49 seconds.
+- Simulation executed in : 9.37 seconds.
 
 - Graph ./figures/simulation_RangeIndicator.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 355
--- number_of_sell_signals: 264
--- number_of_ignored_sell_signals: 106
--- balance: 175.84
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 175.84
+	number_of_trading_days: 5651
+	number_of_buy_signals: 571
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 517
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 5868.22
+	last_open_long_positions: 2
+	last_open_short_positions: 8
+	last_portfolio_value: -2853.0
+	last_earnings: 4187.21
+	final_balance: 1334.21
 
 Trading Simulation for technical indicator: RelativeMomentumIndex
 
-- Simulation executed in : 3.13 seconds.
+- Simulation executed in : 8.92 seconds.
 
 - Graph ./figures/simulation_RelativeMomentumIndex.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 77
--- number_of_sell_signals: 111
--- number_of_ignored_sell_signals: 63
--- balance: 3.57
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 143.98
+	number_of_trading_days: 5651
+	number_of_buy_signals: 179
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 191
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 1493.03
+	last_open_long_positions: 0
+	last_open_short_positions: 3
+	last_portfolio_value: -1426.5
+	last_earnings: 1557.29
+	final_balance: 130.79
 
 Trading Simulation for technical indicator: RelativeStrengthIndex
 
-- Simulation executed in : 3.23 seconds.
+- Simulation executed in : 8.75 seconds.
 
 - Graph ./figures/simulation_RelativeStrengthIndex.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 24
--- number_of_sell_signals: 71
--- number_of_ignored_sell_signals: 63
--- balance: -51.47
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: -51.47
+	number_of_trading_days: 5651
+	number_of_buy_signals: 77
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 91
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: -0.0
+	last_open_long_positions: 0
+	last_open_short_positions: 0
+	last_portfolio_value: 0.0
+	last_earnings: 745.26
+	final_balance: 745.26
 
 Trading Simulation for technical indicator: RelativeVolatilityIndex
 
-- Simulation executed in : 3.12 seconds.
+- Simulation executed in : 8.95 seconds.
 
 - Graph ./figures/simulation_RelativeVolatilityIndex.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 214
--- number_of_sell_signals: 311
--- number_of_ignored_sell_signals: 187
--- balance: 31.57
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 171.98
+	number_of_trading_days: 5651
+	number_of_buy_signals: 449
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 515
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 4029.29
+	last_open_long_positions: 3
+	last_open_short_positions: 4
+	last_portfolio_value: -475.5
+	last_earnings: 3740.8
+	final_balance: 3265.3
 
 Trading Simulation for technical indicator: StandardDeviation
 
-- Simulation executed in : 9.95 seconds.
+- Simulation executed in : 21.31 seconds.
 
 - Graph ./figures/simulation_StandardDeviation.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 657
--- number_of_sell_signals: 782
--- number_of_ignored_sell_signals: 682
--- balance: 2485.52
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 2485.52
+	number_of_trading_days: 5651
+	number_of_buy_signals: 2628
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 2898
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 17313.78
+	last_open_long_positions: 11
+	last_open_short_positions: 21
+	last_portfolio_value: -4755.0
+	last_earnings: 22126.95
+	final_balance: 17371.95
 
 Trading Simulation for technical indicator: StochasticMomentumIndex
 
-- Simulation executed in : 3.13 seconds.
+- Simulation executed in : 8.87 seconds.
 
 - Graph ./figures/simulation_StochasticMomentumIndex.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 127
--- number_of_sell_signals: 172
--- number_of_ignored_sell_signals: 85
--- balance: 86.98
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 227.39
+	number_of_trading_days: 5651
+	number_of_buy_signals: 243
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 271
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 1107.9
+	last_open_long_positions: 0
+	last_open_short_positions: 2
+	last_portfolio_value: -951.0
+	last_earnings: 2110.69
+	final_balance: 1159.69
 
 Trading Simulation for technical indicator: StochasticOscillator (fast)
 
-- Simulation executed in : 3.45 seconds.
+- Simulation executed in : 9.63 seconds.
 
 - Graph ./figures/simulation_StochasticOscillator_fast.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 377
--- number_of_sell_signals: 621
--- number_of_ignored_sell_signals: 537
--- balance: 533.99
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 533.99
+	number_of_trading_days: 5651
+	number_of_buy_signals: 721
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 904
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 6045.98
+	last_open_long_positions: 4
+	last_open_short_positions: 7
+	last_portfolio_value: -1426.5
+	last_earnings: 6746.29
+	final_balance: 5319.79
 
 Trading Simulation for technical indicator: StochasticOscillator (slow)
 
-- Simulation executed in : 3.37 seconds.
+- Simulation executed in : 9.63 seconds.
 
 - Graph ./figures/simulation_StochasticOscillator_slow.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 332
--- number_of_sell_signals: 576
--- number_of_ignored_sell_signals: 512
--- balance: 235.11
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 235.11
+	number_of_trading_days: 5651
+	number_of_buy_signals: 600
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 819
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 3332.99
+	last_open_long_positions: 1
+	last_open_short_positions: 5
+	last_portfolio_value: -1902.0
+	last_earnings: 6154.23
+	final_balance: 4252.23
 
 Trading Simulation for technical indicator: SwingIndex
 
-- Simulation executed in : 3.14 seconds.
+- Simulation executed in : 9.2 seconds.
 
 - Graph ./figures/simulation_SwingIndex.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 711
--- number_of_sell_signals: 712
--- number_of_ignored_sell_signals: 2
--- balance: 38.46
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 178.87
+	number_of_trading_days: 5651
+	number_of_buy_signals: 1267
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 1265
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 12577.44
+	last_open_long_positions: 8
+	last_open_short_positions: 14
+	last_portfolio_value: -2853.0
+	last_earnings: 10135.38
+	final_balance: 7282.38
 
 Trading Simulation for technical indicator: TimeSeriesForecast
 
-- Simulation executed in : 3.47 seconds.
+- Simulation executed in : 9.59 seconds.
 
 - Graph ./figures/simulation_TimeSeriesForecast.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 341
--- number_of_sell_signals: 340
--- number_of_ignored_sell_signals: 0
--- balance: -39.26
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 101.15
+	number_of_trading_days: 5651
+	number_of_buy_signals: 637
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 638
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 4900.11
+	last_open_long_positions: 4
+	last_open_short_positions: 5
+	last_portfolio_value: -475.5
+	last_earnings: 5190.83
+	final_balance: 4715.33
 
 Trading Simulation for technical indicator: TripleExponentialMovingAverage
 
-- Simulation executed in : 3.52 seconds.
+- Simulation executed in : 9.9 seconds.
 
 - Graph ./figures/simulation_TripleExponentialMovingAverage.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 1606
--- number_of_sell_signals: 1551
--- number_of_ignored_sell_signals: 895
--- balance: -214.87
--- stocks_in_possession: 3
--- stock_value: 140.41
--- total_value: 206.36
+	number_of_trading_days: 5651
+	number_of_buy_signals: 2841
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 2797
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 28282.95
+	last_open_long_positions: 21
+	last_open_short_positions: 29
+	last_portfolio_value: -3804.0
+	last_earnings: 21734.68
+	final_balance: 17930.68
 
 Trading Simulation for technical indicator: TypicalPrice
 
-- Simulation executed in : 6.66 seconds.
+- Simulation executed in : 15.47 seconds.
 
 - Graph ./figures/simulation_TypicalPrice.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 29
--- number_of_sell_signals: 29
--- number_of_ignored_sell_signals: 1
--- balance: -55.21
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 85.2
+	number_of_trading_days: 5651
+	number_of_buy_signals: 91
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 92
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 3514.1
+	last_open_long_positions: 2
+	last_open_short_positions: 4
+	last_portfolio_value: -951.0
+	last_earnings: 901.87
+	final_balance: -49.13
 
 Trading Simulation for technical indicator: UltimateOscillator
 
-- Simulation executed in : 11.98 seconds.
+- Simulation executed in : 26.11 seconds.
 
 - Graph ./figures/simulation_UltimateOscillator.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 46
--- number_of_sell_signals: 760
--- number_of_ignored_sell_signals: 750
--- balance: 25.65
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 25.65
+	number_of_trading_days: 5651
+	number_of_buy_signals: 91
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 1671
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 17050.02
+	last_open_long_positions: 2
+	last_open_short_positions: 27
+	last_portfolio_value: -11887.5
+	last_earnings: 7607.09
+	final_balance: -4280.41
 
 Trading Simulation for technical indicator: VerticalHorizontalFilter
 
-- Simulation executed in : 9.48 seconds.
+- Simulation executed in : 20.92 seconds.
 
 - Graph ./figures/simulation_VerticalHorizontalFilter.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 466
--- number_of_sell_signals: 490
--- number_of_ignored_sell_signals: 271
--- balance: 158.76
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 299.17
+	number_of_trading_days: 5651
+	number_of_buy_signals: 795
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 824
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 8399.45
+	last_open_long_positions: 5
+	last_open_short_positions: 10
+	last_portfolio_value: -2377.5
+	last_earnings: 6121.25
+	final_balance: 3743.75
 
 Trading Simulation for technical indicator: VolatilityChaikins
 
-- Simulation executed in : 3.16 seconds.
+- Simulation executed in : 9.08 seconds.
 
 - Graph ./figures/simulation_VolatilityChaikins.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 868
--- number_of_sell_signals: 863
--- number_of_ignored_sell_signals: 592
--- balance: 102.54
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 242.95
+	number_of_trading_days: 5651
+	number_of_buy_signals: 1504
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 1446
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 14545.74
+	last_open_long_positions: 9
+	last_open_short_positions: 17
+	last_portfolio_value: -3804.0
+	last_earnings: 11206.69
+	final_balance: 7402.69
 
 Trading Simulation for technical indicator: VolumeOscillator
 
-- Simulation executed in : 3.12 seconds.
+- Simulation executed in : 8.61 seconds.
 
 - Graph ./figures/simulation_VolumeOscillator.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 146
--- number_of_sell_signals: 81
--- number_of_ignored_sell_signals: 32
--- balance: -420.8
--- stocks_in_possession: 5
--- stock_value: 140.41
--- total_value: 281.25
+	number_of_trading_days: 5651
+	number_of_buy_signals: 260
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 113
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 2081.7
+	last_open_long_positions: 1
+	last_open_short_positions: 3
+	last_portfolio_value: -951.0
+	last_earnings: 1504.98
+	final_balance: 553.98
 
 Trading Simulation for technical indicator: VolumeRateOfChange
 
-- Simulation executed in : 3.14 seconds.
+- Simulation executed in : 9.21 seconds.
 
 - Graph ./figures/simulation_VolumeRateOfChange.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 618
--- number_of_sell_signals: 598
--- number_of_ignored_sell_signals: 320
--- balance: -29.05
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 111.36
+	number_of_trading_days: 5651
+	number_of_buy_signals: 1077
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 1059
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 13739.69
+	last_open_long_positions: 12
+	last_open_short_positions: 13
+	last_portfolio_value: -475.5
+	last_earnings: 8444.57
+	final_balance: 7969.07
 
 Trading Simulation for technical indicator: WeightedClose
 
-- Simulation executed in : 3.46 seconds.
+- Simulation executed in : 9.0 seconds.
 
 - Graph ./figures/simulation_WeightedClose.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 763
--- number_of_sell_signals: 757
--- number_of_ignored_sell_signals: 1
--- balance: 88.54
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 228.95
+	number_of_trading_days: 5651
+	number_of_buy_signals: 1278
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 1273
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 13152.23
+	last_open_long_positions: 8
+	last_open_short_positions: 15
+	last_portfolio_value: -3328.5
+	last_earnings: 10031.37
+	final_balance: 6702.87
 
 Trading Simulation for technical indicator: WildersSmoothing
 
-- Simulation executed in : 3.41 seconds.
+- Simulation executed in : 8.73 seconds.
 
 - Graph ./figures/simulation_WildersSmoothing.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 309
--- number_of_sell_signals: 308
--- number_of_ignored_sell_signals: 0
--- balance: 8.62
--- stocks_in_possession: 1
--- stock_value: 140.41
--- total_value: 149.03
+	number_of_trading_days: 5651
+	number_of_buy_signals: 583
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 582
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 5644.0
+	last_open_long_positions: 4
+	last_open_short_positions: 6
+	last_portfolio_value: -951.0
+	last_earnings: 4633.67
+	final_balance: 3682.67
 
 Trading Simulation for technical indicator: WilliamsAccumulationDistribution
 
-- Simulation executed in : 4.7 seconds.
+- Simulation executed in : 11.85 seconds.
 
 - Graph ./figures/simulation_WilliamsAccumulationDistribution.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 175
--- number_of_sell_signals: 439
--- number_of_ignored_sell_signals: 408
--- balance: 340.28
--- stocks_in_possession: 2
--- stock_value: 140.41
--- total_value: 621.1
+	number_of_trading_days: 5651
+	number_of_buy_signals: 433
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 605
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 1468.8
+	last_open_long_positions: 1
+	last_open_short_positions: 2
+	last_portfolio_value: -475.5
+	last_earnings: 3673.72
+	final_balance: 3198.22
 
 Trading Simulation for technical indicator: WilliamsR
 
-- Simulation executed in : 4.75 seconds.
+- Simulation executed in : 12.3 seconds.
 
 - Graph ./figures/simulation_WilliamsR.png saved.
 
 - Simulation Statistics:
-
--- number_of_trading_days: 3169
--- number_of_buy_signals: 270
--- number_of_sell_signals: 282
--- number_of_ignored_sell_signals: 96
--- balance: 126.46
--- stocks_in_possession: 0
--- stock_value: 140.41
--- total_value: 126.46
+	number_of_trading_days: 5651
+	number_of_buy_signals: 470
+	number_of_ignored_buy_signals: 0
+	number_of_sell_signals: 483
+	number_of_ignored_sell_signals: 0
+	last_stock_value: 475.5
+	last_exposure: 2843.48
+	last_open_long_positions: 4
+	last_open_short_positions: 1
+	last_portfolio_value: 1426.5
+	last_earnings: 3826.93
+	final_balance: 5253.43
