@@ -64,8 +64,7 @@ class AccumulationDistributionLine(TechnicalIndicator):
                 (self._input_data['high'] - self._input_data['close'])
         ) / (self._input_data['high'] - self._input_data['low'])
 
-        for i in range(1, len(adl.index)):
-            adl['adl'].iat[i] += adl['adl'].iat[i - 1]
+        adl = adl.cumsum(axis=0)
 
         return adl.astype(dtype='int64', errors='ignore')
 
@@ -79,21 +78,21 @@ class AccumulationDistributionLine(TechnicalIndicator):
             signal.
         """
 
-        # Trading signals Divergences calculated in 2-days period
+        # Trading signals Convergences/Divergences calculated in 2-days period
 
         # Not enough data for calculating trading signal
-        if len(self._ti_data.index) < 3:
+        if len(self._ti_data.index) < 2:
             return TRADE_SIGNALS['hold']
 
-        # Warning for a upward breakout
-        if self._ti_data['adl'].iat[-3] > self._ti_data['adl'].iat[-2] > \
-                self._ti_data['adl'].iat[-1]:
+        price_slope = self._input_data['close'].iat[-1] - \
+            self._input_data['close'].iat[-2]
+
+        if ((price_slope < 0 < self._ti_data['adl'].iat[-1]) or
+                (price_slope > 0 and self._ti_data['adl'].iat[-1] > 0)):
             return TRADE_SIGNALS['buy']
 
-        # Warning for a downward breakout
-        elif self._ti_data['adl'].iat[-3] < self._ti_data['adl'].iat[-2] < \
-                self._ti_data['adl'].iat[-1]:
+        if ((price_slope > 0 > self._ti_data['adl'].iat[-1]) or
+                (price_slope < 0 and self._ti_data['adl'].iat[-1] < 0)):
             return TRADE_SIGNALS['sell']
 
-        else:
-            return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS['hold']

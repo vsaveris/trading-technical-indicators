@@ -14,6 +14,6 @@ For complete documentation see https://www.trading-technical-indicators.org/
 from tti import indicators
 from tti import utils
 
-__version__ = '0.1.b2'
+__version__ = '0.1.b3'
 
 __all__ = ['indicators', 'utils']

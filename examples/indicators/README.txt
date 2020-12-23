@@ -23,7 +23,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-04-19 00:00:00 : [6954522]
+- Technical Indicator value at 2012-05-03 00:00:00 : [9309362]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [13249524]
 
@@ -31,7 +31,7 @@ date
 
 Example code execution for technical indicator: AverageTrueRange
 
-- Indicator calculated in: 0.02 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_AverageTrueRange.png saved.
 
@@ -52,7 +52,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-03-01 00:00:00 : [2.4027]
+- Technical Indicator value at 2012-02-08 00:00:00 : [2.6856]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [1.8978]
 
@@ -60,7 +60,7 @@ date
 
 Example code execution for technical indicator: BollingerBands
 
-- Indicator calculated in: 0.0 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_BollingerBands.png saved.
 
@@ -81,7 +81,7 @@ date
 
 [176 rows x 3 columns]
 
-- Technical Indicator value at 2012-03-26 00:00:00 : [135.964, 142.1673, 129.7607]
+- Technical Indicator value at 2012-08-20 00:00:00 : [142.7355, 148.0625, 137.4085]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [142.2895, 144.8861, 139.6929]
 
@@ -89,7 +89,7 @@ date
 
 Example code execution for technical indicator: ChaikinMoneyFlow
 
-- Indicator calculated in: 0.02 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_ChaikinMoneyFlow.png saved.
 
@@ -110,7 +110,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-03-27 00:00:00 : [0.0259]
+- Technical Indicator value at 2012-04-02 00:00:00 : [0.4821]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-0.5126]
 
@@ -118,7 +118,7 @@ date
 
 Example code execution for technical indicator: ChaikinOscillator
 
-- Indicator calculated in: 0.02 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_ChaikinOscillator.png saved.
 
@@ -139,7 +139,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-08-02 00:00:00 : [-34628.947]
+- Technical Indicator value at 2012-02-28 00:00:00 : [-86536.7015]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-392809.136]
 
@@ -168,7 +168,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-07-05 00:00:00 : [86.7516]
+- Technical Indicator value at 2012-04-27 00:00:00 : [25.7862]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-37.8709]
 
@@ -197,7 +197,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-05-11 00:00:00 : [-96.976]
+- Technical Indicator value at 2012-02-01 00:00:00 : [144.4532]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-98.3001]
 
@@ -226,7 +226,7 @@ date
 
 [172 rows x 1 columns]
 
-- Technical Indicator value at 2012-03-23 00:00:00 : [-0.8067]
+- Technical Indicator value at 2012-04-02 00:00:00 : [0.9317]
 
 - Technical Indicator value at 2012-09-06 00:00:00 : [1.3083]
 
@@ -255,7 +255,7 @@ date
 
 [176 rows x 5 columns]
 
-- Technical Indicator value at 2012-04-09 00:00:00 : [26.2959, 26.4544, 0.3004, 16.0619, 18.2166]
+- Technical Indicator value at 2012-04-16 00:00:00 : [30.0156, 19.9823, 20.0675, 14.3879, 16.3507]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [17.4086, 26.1369, 20.0441, 13.0101, 14.0447]
 
@@ -284,7 +284,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-07-19 00:00:00 : [150.4982]
+- Technical Indicator value at 2012-03-23 00:00:00 : [136.8196]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [140.8298]
 
@@ -313,7 +313,7 @@ date
 
 [176 rows x 2 columns]
 
-- Technical Indicator value at 2012-08-30 00:00:00 : [-0.045, -0.0022]
+- Technical Indicator value at 2012-07-05 00:00:00 : [0.0017, 0.0062]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-0.0196, -0.0096]
 
@@ -321,7 +321,7 @@ date
 
 Example code execution for technical indicator: Envelopes
 
-- Indicator calculated in: 0.0 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_Envelopes.png saved.
 
@@ -342,7 +342,7 @@ date
 
 [176 rows x 2 columns]
 
-- Technical Indicator value at 2012-03-27 00:00:00 : [150.0136, 122.7384]
+- Technical Indicator value at 2012-08-23 00:00:00 : [156.6175, 128.1416]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [156.5185, 128.0606]
 
@@ -350,7 +350,7 @@ date
 
 Example code execution for technical indicator: FibonacciRetracement
 
-- Indicator calculated in: 0.02 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_FibonacciRetracement.png saved.
 
@@ -371,7 +371,7 @@ date
 
 [176 rows x 6 columns]
 
-- Technical Indicator value at 2012-07-18 00:00:00 : [151.0, 144.6894, 140.7853, 137.63, 134.4747, 124.26]
+- Technical Indicator value at 2012-02-23 00:00:00 : [151.0, 144.6894, 140.7853, 137.63, 134.4747, 124.26]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [151.0, 144.6894, 140.7853, 137.63, 134.4747, 124.26]
 
@@ -400,7 +400,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-07-24 00:00:00 : [-3.2576]
+- Technical Indicator value at 2012-08-31 00:00:00 : [-2.0854]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-0.9803]
 
@@ -429,7 +429,7 @@ date
 
 [176 rows x 4 columns]
 
-- Technical Indicator value at 2012-07-25 00:00:00 : [148.035, 143.115, 142.53, 141.945]
+- Technical Indicator value at 2012-08-08 00:00:00 : [144.0, 145.145, 140.6, 141.945]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [142.53, 141.4, 145.6525, 142.865]
 
@@ -458,7 +458,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-01-12 00:00:00 : [nan]
+- Technical Indicator value at 2012-05-31 00:00:00 : [41.4371]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [36.8213]
 
@@ -487,7 +487,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-02-17 00:00:00 : [nan]
+- Technical Indicator value at 2012-03-02 00:00:00 : [nan]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-964986.8729]
 
@@ -495,7 +495,7 @@ date
 
 Example code execution for technical indicator: LinearRegressionIndicator
 
-- Indicator calculated in: 0.11 seconds.
+- Indicator calculated in: 0.13 seconds.
 
 - Graph ./figures/example_LinearRegressionIndicator.png saved.
 
@@ -516,7 +516,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-05-07 00:00:00 : [147.4306]
+- Technical Indicator value at 2012-01-04 00:00:00 : [nan]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [141.3646]
 
@@ -524,7 +524,7 @@ date
 
 Example code execution for technical indicator: LinearRegressionSlope
 
-- Indicator calculated in: 0.0 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_LinearRegressionSlope.png saved.
 
@@ -545,7 +545,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-06-19 00:00:00 : [0.2642]
+- Technical Indicator value at 2012-05-29 00:00:00 : [-0.4978]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-0.1971]
 
@@ -574,7 +574,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-02-13 00:00:00 : [3.1912e-06]
+- Technical Indicator value at 2012-02-07 00:00:00 : [2.1953e-06]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [2.3322e-06]
 
@@ -582,7 +582,7 @@ date
 
 Example code execution for technical indicator: MassIndex
 
-- Indicator calculated in: 0.0 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_MassIndex.png saved.
 
@@ -603,7 +603,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-02-07 00:00:00 : [nan]
+- Technical Indicator value at 2012-07-05 00:00:00 : [24.4803]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [23.5333]
 
@@ -632,7 +632,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-08-13 00:00:00 : [139.685]
+- Technical Indicator value at 2012-06-20 00:00:00 : [141.24]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [140.71]
 
@@ -661,7 +661,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-07-03 00:00:00 : [102.381]
+- Technical Indicator value at 2012-05-18 00:00:00 : [93.0985]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [97.3852]
 
@@ -690,7 +690,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-05-25 00:00:00 : [143.708]
+- Technical Indicator value at 2012-03-22 00:00:00 : [135.4465]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [142.2895]
 
@@ -719,7 +719,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-09-11 00:00:00 : [142.4985]
+- Technical Indicator value at 2012-06-12 00:00:00 : [140.2847]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [142.2996]
 
@@ -727,7 +727,7 @@ date
 
 Example code execution for technical indicator: MovingAverage (time_series)
 
-- Indicator calculated in: 0.11 seconds.
+- Indicator calculated in: 0.13 seconds.
 
 - Graph ./figures/example_MovingAverage_time_series.png saved.
 
@@ -748,7 +748,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-09-04 00:00:00 : [143.6445]
+- Technical Indicator value at 2012-07-13 00:00:00 : [145.7484]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [142.5218]
 
@@ -756,7 +756,7 @@ date
 
 Example code execution for technical indicator: MovingAverage (triangular)
 
-- Indicator calculated in: 0.02 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_MovingAverage_triangular.png saved.
 
@@ -777,7 +777,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-03-13 00:00:00 : [133.8813]
+- Technical Indicator value at 2012-08-01 00:00:00 : [143.2584]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [142.2846]
 
@@ -806,7 +806,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-07-18 00:00:00 : [143.2701]
+- Technical Indicator value at 2012-06-15 00:00:00 : [140.6057]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [142.7216]
 
@@ -814,7 +814,7 @@ date
 
 Example code execution for technical indicator: MovingAverageConvergenceDivergence
 
-- Indicator calculated in: 0.0 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_MovingAverageConvergenceDivergence.png saved.
 
@@ -835,7 +835,7 @@ date
 
 [176 rows x 2 columns]
 
-- Technical Indicator value at 2012-03-19 00:00:00 : [1.6812, 1.1331]
+- Technical Indicator value at 2012-04-04 00:00:00 : [1.6286, 1.4778]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-0.3472, -0.2062]
 
@@ -864,7 +864,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-04-09 00:00:00 : [1075.0688]
+- Technical Indicator value at 2012-09-06 00:00:00 : [1099.0863]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [1103.4787]
 
@@ -893,7 +893,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-05-07 00:00:00 : [14281700]
+- Technical Indicator value at 2012-04-26 00:00:00 : [13659700]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [11986600]
 
@@ -901,7 +901,7 @@ date
 
 Example code execution for technical indicator: ParabolicSAR
 
-- Indicator calculated in: 0.17 seconds.
+- Indicator calculated in: 0.16 seconds.
 
 - Graph ./figures/example_ParabolicSAR.png saved.
 
@@ -922,7 +922,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-03-02 00:00:00 : [132.55]
+- Technical Indicator value at 2012-07-12 00:00:00 : [135.8703]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [144.8322]
 
@@ -930,7 +930,7 @@ date
 
 Example code execution for technical indicator: Performance
 
-- Indicator calculated in: 0.02 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_Performance.png saved.
 
@@ -951,7 +951,7 @@ date
 
 [176 rows x 2 columns]
 
-- Technical Indicator value at 2012-03-23 00:00:00 : [0.0542, 0.05]
+- Technical Indicator value at 2012-01-30 00:00:00 : [0.0372, 0.05]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [0.0797, 0.05]
 
@@ -980,7 +980,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-02-02 00:00:00 : [986.1841]
+- Technical Indicator value at 2012-01-27 00:00:00 : [972.5303]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [978.4917]
 
@@ -1009,7 +1009,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-02-24 00:00:00 : [53964.9193]
+- Technical Indicator value at 2012-06-15 00:00:00 : [116710.3995]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [116693.2303]
 
@@ -1017,7 +1017,7 @@ date
 
 Example code execution for technical indicator: PriceChannel
 
-- Indicator calculated in: 0.02 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_PriceChannel.png saved.
 
@@ -1038,7 +1038,7 @@ date
 
 [176 rows x 2 columns]
 
-- Technical Indicator value at 2012-09-04 00:00:00 : [144.53, 140.62]
+- Technical Indicator value at 2012-02-09 00:00:00 : [139.98, 133.73]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [144.92, 140.53]
 
@@ -1067,7 +1067,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-01-27 00:00:00 : [nan]
+- Technical Indicator value at 2012-01-10 00:00:00 : [nan]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [0.0765]
 
@@ -1096,7 +1096,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-03-29 00:00:00 : [6.6123]
+- Technical Indicator value at 2012-04-09 00:00:00 : [5.0824]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-0.9034]
 
@@ -1125,7 +1125,7 @@ date
 
 [176 rows x 2 columns]
 
-- Technical Indicator value at 2012-06-01 00:00:00 : [141.606, 133.2075]
+- Technical Indicator value at 2012-02-07 00:00:00 : [143.2499, 136.463]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [144.486, 139.6237]
 
@@ -1154,7 +1154,7 @@ date
 
 [176 rows x 2 columns]
 
-- Technical Indicator value at 2012-01-31 00:00:00 : [64.5747, 70.0018]
+- Technical Indicator value at 2012-08-09 00:00:00 : [11.4516, 16.5627]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [16.1714, 22.6936]
 
@@ -1183,7 +1183,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-08-09 00:00:00 : [-0.9388]
+- Technical Indicator value at 2012-08-15 00:00:00 : [-0.6175]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-0.3912]
 
@@ -1212,7 +1212,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-04-25 00:00:00 : [21.8887]
+- Technical Indicator value at 2012-04-18 00:00:00 : [35.1336]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [3.8561]
 
@@ -1241,7 +1241,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-07-27 00:00:00 : [42.8898]
+- Technical Indicator value at 2012-04-25 00:00:00 : [84.9104]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [38.4376]
 
@@ -1249,7 +1249,7 @@ date
 
 Example code execution for technical indicator: RelativeStrengthIndex
 
-- Indicator calculated in: 0.06 seconds.
+- Indicator calculated in: 0.07 seconds.
 
 - Graph ./figures/example_RelativeStrengthIndex.png saved.
 
@@ -1270,7 +1270,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-04-25 00:00:00 : [66.029]
+- Technical Indicator value at 2012-05-02 00:00:00 : [66.6514]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [41.1217]
 
@@ -1299,7 +1299,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-05-01 00:00:00 : [65.5605]
+- Technical Indicator value at 2012-02-14 00:00:00 : [35.3834]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [33.9946]
 
@@ -1328,7 +1328,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-06-14 00:00:00 : [1.7232]
+- Technical Indicator value at 2012-02-08 00:00:00 : [4.6223]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [1.2983]
 
@@ -1357,7 +1357,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-03-20 00:00:00 : [22.9073]
+- Technical Indicator value at 2012-05-24 00:00:00 : [8.4034]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-40.821]
 
@@ -1386,7 +1386,7 @@ date
 
 [176 rows x 2 columns]
 
-- Technical Indicator value at 2012-03-29 00:00:00 : [69.4357, 69.6658]
+- Technical Indicator value at 2012-05-21 00:00:00 : [31.5034, 11.9717]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [5.6485, 13.1872]
 
@@ -1415,7 +1415,7 @@ date
 
 [176 rows x 2 columns]
 
-- Technical Indicator value at 2012-04-18 00:00:00 : [86.39, 80.8257]
+- Technical Indicator value at 2012-02-10 00:00:00 : [60.1717, 68.9891]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [13.0901, 37.8802]
 
@@ -1444,7 +1444,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-05-21 00:00:00 : [65.553]
+- Technical Indicator value at 2012-08-23 00:00:00 : [9.4488]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-10.4854]
 
@@ -1473,7 +1473,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-04-13 00:00:00 : [139.0613]
+- Technical Indicator value at 2012-08-22 00:00:00 : [140.7726]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [141.1675]
 
@@ -1502,7 +1502,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-03-08 00:00:00 : [134.4785]
+- Technical Indicator value at 2012-07-11 00:00:00 : [143.3429]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [140.4494]
 
@@ -1531,7 +1531,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-03-09 00:00:00 : [136.8267]
+- Technical Indicator value at 2012-05-02 00:00:00 : [146.8733]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [140.61]
 
@@ -1560,7 +1560,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-04-18 00:00:00 : [59.3262]
+- Technical Indicator value at 2012-07-25 00:00:00 : [54.8343]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [45.7378]
 
@@ -1568,7 +1568,7 @@ date
 
 Example code execution for technical indicator: VerticalHorizontalFilter
 
-- Indicator calculated in: 0.02 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_VerticalHorizontalFilter.png saved.
 
@@ -1589,7 +1589,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-03-08 00:00:00 : [0.3982]
+- Technical Indicator value at 2012-03-15 00:00:00 : [0.318]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [0.6894]
 
@@ -1597,7 +1597,7 @@ date
 
 Example code execution for technical indicator: VolatilityChaikins
 
-- Indicator calculated in: 0.0 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_VolatilityChaikins.png saved.
 
@@ -1618,7 +1618,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-08-06 00:00:00 : [-5.3879]
+- Technical Indicator value at 2012-06-18 00:00:00 : [14.1825]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-11.3849]
 
@@ -1626,7 +1626,7 @@ date
 
 Example code execution for technical indicator: VolumeOscillator
 
-- Indicator calculated in: 0.0 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_VolumeOscillator.png saved.
 
@@ -1647,7 +1647,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-08-09 00:00:00 : [-9360.0]
+- Technical Indicator value at 2012-04-16 00:00:00 : [41190.0]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-82690.0]
 
@@ -1655,7 +1655,7 @@ date
 
 Example code execution for technical indicator: VolumeRateOfChange
 
-- Indicator calculated in: 0.0 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_VolumeRateOfChange.png saved.
 
@@ -1676,7 +1676,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-08-24 00:00:00 : [-53.6383]
+- Technical Indicator value at 2012-06-08 00:00:00 : [-46.0092]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [37.4578]
 
@@ -1684,7 +1684,7 @@ date
 
 Example code execution for technical indicator: WeightedClose
 
-- Indicator calculated in: 0.02 seconds.
+- Indicator calculated in: 0.0 seconds.
 
 - Graph ./figures/example_WeightedClose.png saved.
 
@@ -1705,7 +1705,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-05-10 00:00:00 : [146.7875]
+- Technical Indicator value at 2012-01-24 00:00:00 : [130.4525]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [140.56]
 
@@ -1713,7 +1713,7 @@ date
 
 Example code execution for technical indicator: WildersSmoothing
 
-- Indicator calculated in: 0.02 seconds.
+- Indicator calculated in: 0.01 seconds.
 
 - Graph ./figures/example_WildersSmoothing.png saved.
 
@@ -1734,7 +1734,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-03-28 00:00:00 : [137.9021]
+- Technical Indicator value at 2012-08-17 00:00:00 : [140.9665]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [141.9397]
 
@@ -1763,7 +1763,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-02-01 00:00:00 : [1.68]
+- Technical Indicator value at 2012-04-30 00:00:00 : [-0.66]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-0.87]
 
@@ -1792,7 +1792,7 @@ date
 
 [176 rows x 1 columns]
 
-- Technical Indicator value at 2012-08-31 00:00:00 : [-76.9821]
+- Technical Indicator value at 2012-04-30 00:00:00 : [-23.2422]
 
 - Technical Indicator value at 2012-09-12 00:00:00 : [-94.3515]
 

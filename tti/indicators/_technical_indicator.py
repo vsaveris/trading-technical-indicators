@@ -12,7 +12,8 @@ from .properties.indicators_properties import INDICATORS_PROPERTIES
 from ..utils.plot import linesGraph
 from ..utils.data_validation import validateInputData
 from ..utils.exceptions import WrongTypeForInputParameter, \
-    NotValidInputDataForSimulation, WrongValueForInputParameter
+    TtiPackageDeprecatedMethod
+from ..utils.trading_simulation import TradingSimulation
 
 
 class TechnicalIndicator(ABC):
@@ -174,31 +175,59 @@ class TechnicalIndicator(ABC):
                           alpha_values=self._properties['graph_alpha_values'],
                           areas=self._properties['graph_areas'])
 
-    def runSimulation(self, close_values, max_pieces_per_buy=1,
-                      commission=0.0):
+    def runSimulation(self, close_values, max_items_per_transaction=1,
+                      max_investment=0.0):
+        """
+        Deprecated method since release ``0.1.b3``. Replaced by the
+        ``getTiSimulation`` method. This code will be removed from the package
+        in stable-release ``1.0``.
+
+        Raises:
+            TtiPackageDeprecatedMethod: Method is deprecated.
+        """
+
+        raise TtiPackageDeprecatedMethod(
+            'runSimulation', '0.1.b3',
+            ' It has been replaced by the getTiSimulation method.')
+
+    def getTiSimulation(self, close_values, max_exposure=None,
+                        short_exposure_factor=1.5):
         """
         Executes trading simulation based on the trading signals produced by
-        the technical indicator. With a `buy` trading signal a transaction is
-        executed considering the input arguments. All the stocks in possession
-        are being sold with a `sell` trading signal. When there is no stock in
-        possession but a `sell` signal is produced, this signal is being
-        ignored.
+        the technical indicator, by applying an Active trading strategy. With
+        a ``buy`` trading signal a new ``long`` position is opened. With a
+        ``sell`` trading signal a new ``short`` position is opened. Opened
+        positions are scanned on each simulation round, and if conditions are
+        met (current stock price > bought price for opened ``long`` positions
+        and current stock price < bought price for opened ``short`` positions)
+        the positions are being closed. Only one stock piece is used in each
+        open transaction.
 
         Args:
-            close_values (pandas.DataFrame): The close value of the stock, for
+            close_values (pandas.DataFrame): The close prices of the stock, for
                 the whole simulation period. Index is of type DateTimeIndex
                 with same values as the input to the indicator data. It
-                contains one column `close`.
+                contains one column ``close``.
 
-            max_pieces_per_buy (int, default=1): The maximum number of
-                stocks to be bought at each `buy` signal.
+            max_exposure(float, default=None): Maximum allowed exposure for all
+                the opened positions (``short`` and ``long``). If the exposure
+                reaches this threshold, no further positions are being opened.
+                A new position can be opened again only when exposure reduces
+                through a position close. If set to None, then there is no
+                upper limit for the opened positions (exposure). When a new
+                ``long`` position is opened, exposure is increased by the
+                ``stock_price``. When a ``short`` position is opened, exposure
+                is increased by the ``short_exposure_factor * stock_price``.
+                Values >0.0 or None are supported.
 
-            commission (numeric, default=0.0): Commission for each `buy` or
-                `sell` transaction.
+            short_exposure_factor (float, default=1.5): The exposure factor
+                when a new ``short`` position is opened. Usually is above 1.0
+                and it is used as security when a short position is opened.
+                Values >=1.0 are supported.
 
         Returns:
-            (pandas.DataFrame, dict): Dataframe which holds details about and
-            dictionary  which holds statistics about the simulation.
+            (pandas.DataFrame, dict): Dataframe which holds details and
+            dictionary which holds statistics about the simulation.
 
             The index of the dataframe is the whole trading period
             (DateTimeIndex).Columns are:
@@ -206,90 +235,81 @@ class TechnicalIndicator(ABC):
             ``signal``: the signal produced at each day of the simulation
             period.
 
-            ``stocks_in_transaction``: the number of stocks bought or sold in
-            this transaction.
+            ``open_trading_action``: the open trading action applied. Possible
+            values are ``long``, ``short`` and ``none``.
 
-            ``stocks_in_possession``: the number of stocks in possession.
+            ``stock_value``: The value of the stock during the simulation
+            period.
 
-            ``balance``: the available balance (earnings from selling stocks
-            - spending from buying stocks).
+            ``exposure``: The accumulated exposure during the simulation
+            period. Increased by ``stock_price`` when a ``long`` position is
+            opened, and by ``short_exposure_factor * stock_price`` when a
+            ``short`` position is opened. Reduced by the same amounts when
+            relevant positions are being closed.
 
-            ``total_value``: the balance plus the value of the stocks in
-            possession.
+            ``portfolio_value``: The portfolio value during the simulation
+            period, ``current_stock_price * (opened_long - opened_short)``.
 
+            ``earnings``: The accumulated earnings during the simulation
+            period. Increased by the ``current_price - opened_position_price``
+            when a ``long`` position is closed. Increased by the
+            ``opened_position_price - current_price`` when a ``short`` position
+            is closed.
+
+            ``balance``: The balance during the simulation period. It is the
+            ``earnings + portfolio_value``.
 
             The dictionary contains the below keys:
 
-            ``number_of_trading_days``: The number of trading days in the
+            ``number_of_trading_days``: the number of trading days in the
             simulation round.
 
-            ``number_of_buy_signals``: The number of ``buy`` signals produced
+            ``number_of_buy_signals``: the number of ``buy`` signals produced
             during the simulation period.
 
-            ``number_of_sell_signals``: The number of ``sell`` signals produced
+            ``number_of_ignored_buy_signals``: the number of ``buy`` signals
+            ignored because of the ``max_exposure`` limitation.
+
+            ``number_of_sell_signals``: the number of ``sell`` signals produced
             during the simulation period.
 
-            ``number_of_ignored_sell_signals``: The number of ``sell`` signals
-            ignored because they were not any stocks in possession.
+            ``number_of_ignored_sell_signals``: the number of ``sell`` signals
+            ignored because of the ``max_exposure`` limitation.
 
-            ``balance``: The final balance (earnings from selling stocks
-            - spending from buying stocks)
-
-            ``stocks_in_possession``: The stocks in possession at the end of
-            the simulation.
-
-            ``stock_value``: The value of the stock at the end of the
+            ``last_stock_value``: The value of the stock at the end of the
             simulation.
 
-            ``total_value``: The balance plus the value of the stocks in
-            possession at the end of the simulation.
+            ``last_exposure``: The ``exposure`` value at the end of the
+            simulation period.
+
+            ``last_open_long_positions``: The number of the still opened
+            ``long`` positions at the end of the simulation period.
+
+            ``last_open_short_positions``: The number of the still opened
+            ``short`` positions at the end of the simulation period.
+
+            ``last_portfolio_value``: The ``portfolio_value`` at the end of the
+            simulation period.
+
+            ``last_earnings``: The ``earnings`` at the end of the simulation
+            period.
+
+            ``final_balance``: The ``balance`` at the end of the simulation
+            period.
+
+        Raises:
+            WrongTypeForInputParameter: Input argument has wrong type.
+            WrongValueForInputParameter: Unsupported value for input argument.
+            NotValidInputDataForSimulation: Invalid ``close_values`` passed
+                for the simulation.
         """
 
-        # Validate input arguments
-        # Validate close_values pandas.DataFrame
-        try:
-            close_values = validateInputData(input_data=close_values,
-                required_columns=['close'], indicator_name='Simulation - ' +
-                self._calling_instance, fill_missing_values=True)
-
-        except Exception as e:
-            raise NotValidInputDataForSimulation('close_values',
-                str(e).replace('input_data', 'close_values'))
-
-        if not close_values.index.equals(self._input_data.index):
-            raise NotValidInputDataForSimulation('close_values', 'Index of ' +
-                'the `close_values` DataFrame should be the same as the ' +
-                'index of the `input_data` argument in the indicator\'s '
-                'constructor.')
-
-        # Validate max_pieces_per_buy
-        if isinstance(max_pieces_per_buy, int):
-            if max_pieces_per_buy <= 0:
-                raise WrongValueForInputParameter(max_pieces_per_buy,
-                    'max_pieces_per_buy', '>0')
-        else:
-            raise WrongTypeForInputParameter(type(max_pieces_per_buy),
-                'max_pieces_per_buy', 'int')
-
-        # Validate commission
-        if isinstance(commission, (int, float)):
-            if commission < 0:
-                raise WrongValueForInputParameter(commission,
-                    'commission', '>=0')
-        else:
-            raise WrongTypeForInputParameter(type(commission),
-                'commission', 'int or float')
-
-        # Initialize statistics
-        statistics = {'number_of_trading_days': 0, 'number_of_buy_signals': 0,
-            'number_of_sell_signals': 0, 'number_of_ignored_sell_signals': 0,
-            'balance': 0.0, 'stocks_in_possession': 0, 'stock_value': 0.0,
-            'total_value': 0.0}
-
-        # Initialize simulation results data frame
-        simulation = pd.DataFrame(index=self._ti_data.index, columns=['signal',
-            'stocks_in_transaction', 'stocks_in_possession', 'balance',
-            'total_value'], data=None)
+        # Create Trading Simulation instance
+        simulator = TradingSimulation(
+            input_data_index=self._input_data.index,
+            close_values=close_values,
+            max_exposure=max_exposure,
+            short_exposure_factor=short_exposure_factor)
 
         # keep safe the full input and indicator data
         full_ti_data = self._ti_data
@@ -305,105 +325,10 @@ class TechnicalIndicator(ABC):
             self._ti_data = full_ti_data[
                 full_ti_data.index <= full_ti_data.index[i]]
 
-            simulation['signal'].iat[i] = self.getTiSignal()
-
-            # If `buy` signal, then buy stocks at `close` price
-            if simulation['signal'].iat[i][0] == 'buy':
-                statistics['number_of_buy_signals'] += 1
-
-                simulation['stocks_in_transaction'].iat[i] = max_pieces_per_buy
-
-                if i != 0:
-                    simulation['stocks_in_possession'].iat[i] = \
-                        simulation['stocks_in_possession'].iat[i-1] + \
-                        simulation['stocks_in_transaction'].iat[i]
-
-                    simulation['balance'].iat[i] = \
-                        simulation['balance'].iat[i-1] - \
-                        simulation['stocks_in_transaction'].iat[i] * \
-                        close_values['close'].iat[i] - commission
-
-                else:
-                    simulation['stocks_in_possession'].iat[i] = \
-                        simulation['stocks_in_transaction'].iat[i]
-
-                    simulation['balance'].iat[i] = \
-                        - simulation['stocks_in_transaction'].iat[i] * \
-                        close_values['close'].iat[i] - commission
-
-                simulation['total_value'].iat[i] = \
-                    simulation['balance'].iat[i] + \
-                    simulation['stocks_in_possession'].iat[i] * \
-                    close_values['close'].iat[i]
-
-            # If `sell` signal, then sell all stocks at `close` price
-            elif simulation['signal'].iat[i][0] == 'sell':
-                statistics['number_of_sell_signals'] += 1
-
-                # Sell signal ignored, first day of simulation
-                if i == 0:
-                    statistics['number_of_ignored_sell_signals'] += 1
-
-                    simulation['stocks_in_transaction'].iat[i] = 0
-                    simulation['stocks_in_possession'].iat[i] = 0
-                    simulation['balance'].iat[i] = 0
-                    simulation['total_value'].iat[i] = 0
-
-                # Sell signal ignored, since no stocks in possession
-                elif simulation['stocks_in_possession'].iat[i-1] == 0:
-                    statistics['number_of_ignored_sell_signals'] += 1
-
-                    simulation['stocks_in_transaction'].iat[i] = 0
-                    simulation['stocks_in_possession'].iat[i] = 0
-                    simulation['balance'].iat[i] = \
-                        simulation['balance'].iat[i-1]
-                    simulation['total_value'].iat[i] = \
-                        simulation['total_value'].iat[i-1]
-
-                else:
-                    simulation['stocks_in_transaction'].iat[i] = \
-                        simulation['stocks_in_possession'].iat[i-1]
-
-                    simulation['stocks_in_possession'].iat[i] = 0
-
-                    simulation['balance'].iat[i] = \
-                        simulation['balance'].iat[i - 1] + \
-                        simulation['stocks_in_transaction'].iat[i] * \
-                        close_values['close'].iat[i] - commission
-
-                    simulation['total_value'].iat[i] = \
-                        simulation['balance'].iat[i]
-
-            # If `hold` signal, then do nothing
-            else:
-                if i == 0:
-                    simulation['stocks_in_transaction'].iat[i] = 0
-                    simulation['stocks_in_possession'].iat[i] = 0
-                    simulation['balance'].iat[i] = 0
-                    simulation['total_value'].iat[i] = 0
-                else:
-                    simulation['stocks_in_transaction'].iat[i] = 0
-                    simulation['stocks_in_possession'].iat[i] = \
-                        simulation['stocks_in_possession'].iat[i - 1]
-                    simulation['balance'].iat[i] = \
-                        simulation['balance'].iat[i - 1]
-                    simulation['total_value'].iat[i] = \
-                        simulation['balance'].iat[i] + \
-                        simulation['stocks_in_possession'].iat[i] * \
-                        close_values['close'].iat[i]
-
-        # Update statistics
-        statistics['number_of_trading_days'] = len(self._ti_data.index)
-        statistics['balance'] = round(simulation['balance'].iat[-1], 2)
-
-        statistics['stocks_in_possession'] = \
-            simulation['stocks_in_possession'].iat[-1]
-
-        statistics['stock_value'] = close_values['close'].iat[-1]
-        statistics['total_value'] = round(simulation['total_value'].iat[-1], 2)
+            simulator.runSimulationRound(i_index=i, signal=self.getTiSignal())
 
         # Restore input and indicator data to full range
         self._ti_data = full_ti_data
         self._input_data = full_input_data
 
-        return simulation, statistics
+        return simulator.closeSimulation()
