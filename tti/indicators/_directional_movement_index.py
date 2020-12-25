@@ -6,6 +6,7 @@ File name: _directional_movement_index.py
 """
 
 import pandas as pd
+import numpy as np
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
@@ -75,32 +76,37 @@ class DirectionalMovementIndex(TechnicalIndicator):
                      '+di14', '-di14', 'di_diff', 'di_sum', 'dx', 'adx',
                      'adxr'], dtype='float64', data=None)
 
-        # Calculate thr True Range
-        dmi['true_range'].iloc[1:] = self._input_data[
-            ['high', 'low', 'close']].pipe(
-            self._rolling_pipe, 2,
-            lambda x: max(x['high'][1] - x['low'][1],
-                          x['high'][1] - x['close'][0],
-                          x['close'][0] - x['low'][1],
-                          )
-        )
+        # Calculate the True Range
+        candidates = [self._input_data['high'].values[1:] -
+                      self._input_data['low'].values[1:],
+                      self._input_data['high'].values[1:] -
+                      self._input_data['close'].values[:-1],
+                      self._input_data['close'].values[:-1] -
+                      self._input_data['low'].values[1:]]
 
-        # Calculate Directional Movement for 1 period
-        dmi['+dm1'].iloc[1:] = self._input_data[['high', 'low', 'close']].pipe(
-            self._rolling_pipe, 2,
-            lambda x: x['high'][1] - x['high'][0]
-            if x['high'][1] - x['high'][0] > x['low'][0] - x['low'][1] and
-            x['high'][1] - x['high'][0] > 0
-            else 0,
-        )
+        dmi['true_range'].values[1:] = np.max(np.column_stack(candidates),
+                                              axis=1)
 
-        dmi['-dm1'].iloc[1:] = self._input_data[['high', 'low', 'close']].pipe(
-            self._rolling_pipe, 2,
-            lambda x: x['low'][0] - x['low'][1]
-            if x['high'][1] - x['high'][0] < x['low'][0] - x['low'][1] and
-            x['low'][0] - x['low'][1] > 0
-            else 0,
-        )
+        # Calculate Directional Movement for one period
+        for i in range(1, len(self._input_data.index)):
+
+            dmi['+dm1'].values[i] = self._input_data['high'].values[i] - \
+                self._input_data['high'].values[i-1] if \
+                ((self._input_data['high'].values[i] -
+                  self._input_data['high'].values[i-1] >
+                  self._input_data['low'].values[i-1] -
+                  self._input_data['low'].values[i])
+                 and (self._input_data['high'].values[i] -
+                      self._input_data['high'].values[i-1] > 0)) else 0
+
+            dmi['-dm1'].values[i] = self._input_data['low'].values[i-1] - \
+                self._input_data['low'].values[i] if \
+                ((self._input_data['high'].values[i] -
+                  self._input_data['high'].values[i-1] <
+                  self._input_data['low'].values[i-1] -
+                  self._input_data['low'].values[i])
+                 and (self._input_data['low'].values[i-1] -
+                      self._input_data['low'].values[i] > 0)) else 0
 
         # Calculate True Range and Directional Movement for 14 periods
         # (smoothed)
@@ -109,28 +115,21 @@ class DirectionalMovementIndex(TechnicalIndicator):
         dmi['-dm14'].iat[13] = dmi['-dm1'].iloc[:14].sum()
 
         for i in range(14, len(dmi.index)):
-            dmi['tr14'].iat[i] = \
-                dmi['tr14'].iat[i - 1] - (dmi['tr14'].iat[i - 1] / 14) +   \
-                dmi['true_range'].iat[i]
+            dmi['tr14'].values[i] = dmi['tr14'].values[i - 1] - \
+                (dmi['tr14'].values[i - 1] / 14) + dmi['true_range'].values[i]
 
-            dmi['+dm14'].iat[i] = \
-                dmi['+dm14'].iat[i - 1] - (dmi['+dm14'].iat[i - 1] / 14) + \
-                dmi['+dm1'].iat[i]
+            dmi['+dm14'].values[i] = dmi['+dm14'].values[i - 1] - \
+                (dmi['+dm14'].values[i - 1] / 14) + dmi['+dm1'].values[i]
 
-            dmi['-dm14'].iat[i] = \
-                dmi['-dm14'].iat[i - 1] - (dmi['-dm14'].iat[i - 1] / 14) + \
-                dmi['-dm1'].iat[i]
+            dmi['-dm14'].values[i] = dmi['-dm14'].values[i - 1] - \
+                (dmi['-dm14'].values[i - 1] / 14) + dmi['-dm1'].values[i]
 
         # Calculate the +DI and -DI
-        dmi['+di14'].iloc[14:] = dmi[['+dm14', 'tr14']].iloc[14:].pipe(
-            self._rolling_pipe, 1,
-            lambda x: 100 * x['+dm14'][0] / x['tr14'][0],
-        )
+        dmi['+di14'].iloc[14:] = 100 * dmi['+dm14'].iloc[14:] / \
+            dmi['tr14'].iloc[14:]
 
-        dmi['-di14'].iloc[14:] = dmi[['-dm14', 'tr14']].iloc[14:].pipe(
-            self._rolling_pipe, 1,
-            lambda x: 100 * x['-dm14'][0] / x['tr14'][0],
-        )
+        dmi['-di14'].iloc[14:] = 100 * dmi['-dm14'].iloc[14:] / \
+            dmi['tr14'].iloc[14:]
 
         # Calculate DX, ADX and ADXR
         dmi['di_diff'] = abs(dmi['+di14'] - dmi['-di14'])
@@ -141,12 +140,12 @@ class DirectionalMovementIndex(TechnicalIndicator):
         dmi['adx'].iat[27] = dmi['dx'].iloc[:28].sum() / 14
 
         for i in range(28, len(dmi.index)):
-            dmi['adx'].iat[i] = \
-                ((13 * dmi['adx'].iat[i - 1]) + dmi['dx'][i]) / 14
+            dmi['adx'].values[i] = \
+                ((13 * dmi['adx'].values[i - 1]) + dmi['dx'].values[i]) / 14
 
         for i in range(40, len(dmi.index)):
-            dmi['adxr'].iat[i] = \
-                (dmi['adx'].iat[i] + dmi['adx'].iat[i - 13]) / 2.0
+            dmi['adxr'].values[i] = \
+                (dmi['adx'].values[i] + dmi['adx'].values[i - 13]) / 2.0
 
         # Keep the required columns
         dmi = dmi[['+di14', '-di14', 'dx', 'adx', 'adxr']]
