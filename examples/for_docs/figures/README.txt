@@ -1,0 +1,1 @@
+Graphs output from the execution of the usage examples for docs.

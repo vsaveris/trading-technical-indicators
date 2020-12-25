@@ -1,5 +1,5 @@
 # trading-technical-indicators
-**Trading Technical Indicators python library, where Traditional Technical Analysis and AI are met. Version 0.1.b2**
+**Trading Technical Indicators python library, where Traditional Technical Analysis and AI are met. Version 0.1.b3**
 - Calculate technical indicators (over 60 indicators supported).
 - Produce graphs for any technical indicator.
 - Get trading signals for each indicator (beta release).
@@ -7,6 +7,7 @@
 - Machine Learning integration for prices prediction (not included in this release).
 
 **Change Log**
+- 0.1.b3: Updates described in the following github issues ([#11](https://github.com/vsaveris/trading-technical-indicators/issues/11), [#7](https://github.com/vsaveris/trading-technical-indicators/issues/7), [#8](https://github.com/vsaveris/trading-technical-indicators/issues/8))
 - 0.1.b2: Bugs fixes ([#1](https://github.com/vsaveris/trading-technical-indicators/issues/1))
 - 0.1.b1: Cosmetic changes in package building file applied (setup.py)
 - 0.1.b0: First beta release
