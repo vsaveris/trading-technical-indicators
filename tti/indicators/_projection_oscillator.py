@@ -51,11 +51,11 @@ class ProjectionOscillator(TechnicalIndicator):
 
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
-            if period > 0:
+            if period > 1:
                 self._period = period
             else:
                 raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                    period, 'period', '>1')
         else:
             raise WrongTypeForInputParameter(
                 type(period), 'period', 'int')

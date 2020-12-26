@@ -98,7 +98,7 @@ class ParabolicSAR(TechnicalIndicator):
             position_start_index (int): The dataframe index (starting from 0)
                 in which the current position was started.
 
-            previous_sar (pd.DataFrame, default is None): The SAR row for the
+            previous_sar (numpy.ndarray, default is None): The SAR row for the
                 previous period. Is not required when this is the first period
                 of the input data (current_index = 0).
 

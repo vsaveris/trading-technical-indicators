@@ -37,7 +37,8 @@ class TestProjectionBands(unittest.TestCase, TestIndicatorsCommon):
 
     arguments_wrong_value = [
         {'input_data': df, 'period': -1},
-        {'input_data': df, 'period': 0}
+        {'input_data': df, 'period': 0},
+        {'input_data': df, 'period': 1}
     ]
 
     graph_file_name = '_'.join(
