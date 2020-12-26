@@ -60,6 +60,10 @@ class MovingAverage(TechnicalIndicator):
 
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
+            if ma_type == 'time_series' and period < 2:
+                raise WrongValueForInputParameter(
+                    period, 'period', '>1')
+
             if period > 0:
                 self._period = period
             else:

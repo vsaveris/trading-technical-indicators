@@ -6,14 +6,14 @@ File name: _linear_regression_indicator.py
 """
 
 import pandas as pd
-import numpy as np
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
 from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
     WrongValueForInputParameter
 
-from sklearn.linear_model import LinearRegression
+import statsmodels.api as sm
+from statsmodels.regression.rolling import RollingOLS
 
 
 class LinearRegressionIndicator(TechnicalIndicator):
@@ -51,11 +51,11 @@ class LinearRegressionIndicator(TechnicalIndicator):
 
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
-            if period > 0:
+            if period > 1:
                 self._period = period
             else:
                 raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                    period, 'period', '>1')
         else:
             raise WrongTypeForInputParameter(
                 type(period), 'period', 'int')
@@ -88,21 +88,18 @@ class LinearRegressionIndicator(TechnicalIndicator):
                            columns=['lri'], data=None,
                            dtype='float64')
 
-        lr = LinearRegression(fit_intercept=True, normalize=False,
-                              copy_X=True, n_jobs=None)
+        # n-period Rolling OLS
+        rolling_ols = RollingOLS(
+            endog=self._input_data['close'].fillna(
+                value=0, inplace=False).to_list(),
+            exog=sm.add_constant(list(range(len(self._input_data.index)))),
+            window=self._period).fit(params_only=True)
 
-        # n-period forecast
-        # use fillna, in case NaN values exist in the input data, the fit
-        # method fails. Not required when fill_missing_values is True
-        for i in range(self._period, len(self._input_data.index) + 1):
+        for i in range(len(self._input_data.index)):
+            lri['lri'].values[i] = round(
+                rolling_ols.params[i][0] + i * rolling_ols.params[i][1], 4)
 
-            lr.fit(np.reshape(range(i - self._period, i), (-1, 1)),
-                   self._input_data['close'].fillna(
-                       value=0, inplace=False).iloc[i - self._period:i])
-
-            lri['lri'].iat[i - 1] = lr.predict(np.reshape(i - 1, (1, -1)))
-
-        return lri.round(4)
+        return lri
 
     def getTiSignal(self):
         """

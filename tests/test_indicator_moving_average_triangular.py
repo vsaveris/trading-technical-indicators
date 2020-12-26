@@ -22,8 +22,8 @@ class TestSimpleMovingAverage(unittest.TestCase, TestIndicatorsCommon):
     indicator_input_arguments = {'period': 20, 'ma_type': 'triangular'}
 
     indicator_other_input_arguments = [
-        {'period': 1, 'ma_type': 'time_series'},
-        {'period': 3169, 'ma_type': 'time_series'}
+        {'period': 1, 'ma_type': 'triangular'},
+        {'period': 3169, 'ma_type': 'triangular'}
     ]
 
     indicator_minimum_required_data = indicator_input_arguments['period']
