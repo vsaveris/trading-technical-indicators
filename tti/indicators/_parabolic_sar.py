@@ -80,9 +80,9 @@ class ParabolicSAR(TechnicalIndicator):
 
         for i in range(len(self._input_data.index)):
 
-            sar.iloc[i, :], position_start_index = self._calculateSarRow(
+            sar.values[i, :], position_start_index = self._calculateSarRow(
                 current_index=i, position_start_index=position_start_index,
-                previous_sar=sar.iloc[i-1, :], position_changed=False)
+                previous_sar=sar.values[i-1, :], position_changed=False)
 
         return sar[['sar']].astype(dtype='float64').round(4)
 
@@ -125,15 +125,15 @@ class ParabolicSAR(TechnicalIndicator):
 
             af = self._af_increase
 
-            if self._input_data['high'].iat[1] > \
-                    self._input_data['high'].iat[0]:
+            if self._input_data['high'].values[1] > \
+                    self._input_data['high'].values[0]:
                 position = 'LONG'
-                ep = self._input_data['high'].iat[0]
-                sar = self._input_data['low'].iat[0]
+                ep = self._input_data['high'].values[0]
+                sar = self._input_data['low'].values[0]
             else:
                 position = 'SHORT'
-                ep = self._input_data['low'].iat[0]
-                sar = self._input_data['high'].iat[0]
+                ep = self._input_data['low'].values[0]
+                sar = self._input_data['high'].values[0]
 
             return [af, ep, sar, position], current_index
 
@@ -141,16 +141,16 @@ class ParabolicSAR(TechnicalIndicator):
         if position_changed:
             af = self._af_increase
 
-            if previous_sar['position'] == 'LONG':
+            if previous_sar[3] == 'LONG':
                 position = 'SHORT'
-                ep = self._input_data['low'].iat[current_index]
-                sar = self._input_data['high'].iloc[
+                ep = self._input_data['low'].values[current_index]
+                sar = self._input_data['high'].values[
                       position_start_index:current_index].max()
 
             else:
                 position = 'LONG'
-                ep = self._input_data['high'].iat[current_index]
-                sar = self._input_data['low'].iloc[
+                ep = self._input_data['high'].values[current_index]
+                sar = self._input_data['low'].values[
                       position_start_index:current_index].min()
 
             return [af, ep, sar, position], current_index
@@ -158,49 +158,49 @@ class ParabolicSAR(TechnicalIndicator):
         # Calculate Extreme Price, Highest price reached when in current
         # `LONG` position, or Lowest price reached when in current `SHORT`
         # position
-        if previous_sar['position'] == 'LONG':
+        if previous_sar[3] == 'LONG':
 
-            ep = self._input_data['high'].iloc[
+            ep = self._input_data['high'].values[
                  position_start_index:current_index+1].max()
 
         else:
 
-            ep = self._input_data['low'].iloc[
+            ep = self._input_data['low'].values[
                  position_start_index:current_index+1].min()
 
         # Calculate Acceleration Factor, new high is reached when in `LONG` or
         # new low is reached when in `SHORT`
-        if previous_sar['position'] == 'LONG' and ep > previous_sar['ep']:
+        if previous_sar[3] == 'LONG' and ep > previous_sar[1]:
 
             af = min(self._af_max,
-                     previous_sar['af'] + self._af_increase)
+                     previous_sar[0] + self._af_increase)
 
-        elif previous_sar['position'] == 'SHORT' and ep < previous_sar['ep']:
+        elif previous_sar[3] == 'SHORT' and ep < previous_sar[1]:
 
             af = min(self._af_max,
-                     previous_sar['af'] + self._af_increase)
+                     previous_sar[0] + self._af_increase)
 
         else:
-            af = previous_sar['af']
+            af = previous_sar[0]
 
         # Calculate SAR, when `LONG` not above the two prior lows, when `SHORT`
         # not below the two prior highs
-        sar = previous_sar['sar'] + previous_sar['af'] * (
-                previous_sar['ep'] - previous_sar['sar'])
+        sar = previous_sar[2] + previous_sar[0] * (
+                previous_sar[1] - previous_sar[2])
 
-        if previous_sar['position'] == 'LONG':
-            sar = min(sar, self._input_data['low'].iloc[
+        if previous_sar[3] == 'LONG':
+            sar = min(sar, self._input_data['low'].values[
                            max(0, current_index-2):current_index].min())
 
         else:
-            sar = max(sar, self._input_data['high'].iloc[
+            sar = max(sar, self._input_data['high'].values[
                            max(0, current_index - 2):current_index].max())
 
         # Check if position changes
-        if (previous_sar['position'] == 'SHORT' and
-            self._input_data['high'].iat[current_index] > sar) or \
-                (previous_sar['position'] == 'LONG' and
-                 self._input_data['low'].iat[current_index] < sar):
+        if (previous_sar[3] == 'SHORT' and
+            self._input_data['high'].values[current_index] > sar) or \
+                (previous_sar[3] == 'LONG' and
+                 self._input_data['low'].values[current_index] < sar):
 
             return self._calculateSarRow(
                 current_index=current_index,
@@ -208,7 +208,7 @@ class ParabolicSAR(TechnicalIndicator):
                 previous_sar=previous_sar, position_changed=True)
 
         else:
-            position = previous_sar['position']
+            position = previous_sar[3]
 
         return [af, ep, sar, position], position_start_index
 
