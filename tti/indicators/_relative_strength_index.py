@@ -88,36 +88,39 @@ class RelativeStrengthIndex(TechnicalIndicator):
         upc = pd.DataFrame(data=None, index=self._input_data.index,
                            columns=['upc', 'smoothed_upc'])
 
-        upc['upc'] = self._input_data.rolling(
-            window=2, min_periods=2, center=False, win_type=None, on=None,
-            axis=0, closed=None).apply(
-            lambda x: x[-1] - x[-2] if x[-1] > x[-2] else 0.0).round(4)
+        for i in range(1, len(self._input_data.index)):
+            upc['upc'].values[i] = round(self._input_data['close'].values[i] -
+                self._input_data['close'].values[i - 1] if
+                    self._input_data['close'].values[i] >
+                    self._input_data['close'].values[i - 1] else 0.0, 4)
 
         upc['smoothed_upc'].iat[self._period] = \
             upc['upc'].iloc[:self._period + 1].mean()
 
         for i in range(self._period + 1, len(self._input_data.index)):
-            upc['smoothed_upc'].iat[i] = round(
-                upc['smoothed_upc'].iat[i - 1] +
-                (upc['upc'].iat[i] - upc['smoothed_upc'].iat[i - 1]
+            upc['smoothed_upc'].values[i] = round(
+                upc['smoothed_upc'].values[i - 1] +
+                (upc['upc'].values[i] - upc['smoothed_upc'].values[i - 1]
                  ) / self._period, 4)
 
         # Calculate Downward Price Change
         dpc = pd.DataFrame(data=None, index=self._input_data.index,
                            columns=['dpc', 'smoothed_dpc'])
 
-        dpc['dpc'] = self._input_data.rolling(
-            window=2, min_periods=2, center=False, win_type=None, on=None,
-            axis=0, closed=None).apply(
-            lambda x: x[-2] - x[-1] if x[-1] < x[-2] else 0.0).round(4)
+        for i in range(1, len(self._input_data.index)):
+            dpc['dpc'].values[i] = round(
+                self._input_data['close'].values[i - 1] -
+                self._input_data['close'].values[i] if
+                self._input_data['close'].values[i] <
+                self._input_data['close'].values[i - 1] else 0.0, 4)
 
         dpc['smoothed_dpc'].iat[self._period] = \
             dpc['dpc'].iloc[:self._period + 1].mean()
 
         for i in range(self._period + 1, len(self._input_data.index)):
-            dpc['smoothed_dpc'].iat[i] = round(
-                dpc['smoothed_dpc'].iat[i - 1] +
-                (dpc['dpc'].iat[i] - dpc['smoothed_dpc'].iat[i - 1]
+            dpc['smoothed_dpc'].values[i] = round(
+                dpc['smoothed_dpc'].values[i - 1] +
+                (dpc['dpc'].values[i] - dpc['smoothed_dpc'].values[i - 1]
                  ) / self._period, 4)
 
         rsi['rsi'] = \
