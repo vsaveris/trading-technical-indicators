@@ -100,23 +100,34 @@ class AverageTrueRange(TechnicalIndicator):
             signal.
         """
 
-        # Calculate Simple Moving Average
-        sma = self._input_data.rolling(
-            window=2, min_periods=2, center=False,
-            win_type=None, on=None, axis=0, closed=None).mean()
-
         # Not enough data for calculating trading signal
-        if len(self._ti_data.index) < 2:
+        if len(self._ti_data.index) < 10:
             return TRADE_SIGNALS['hold']
 
-        # Price above average and ATR is high
-        if self._input_data['close'].iat[-1] > sma.iat[-1, 0] and \
-                self._ti_data['atr'].iat[-1] > 2.5:
-            return TRADE_SIGNALS['sell']
+        # Calculate Simple Moving Averages
+        sma_05 = self._input_data.rolling(
+            window=5, min_periods=5, center=False, win_type=None, on=None,
+            axis=0, closed=None).mean()
 
-        # Price below average and ATR is high
-        if self._input_data['close'].iat[-1] < sma.iat[-1, 0] and \
-                self._ti_data['atr'].iat[-1] > 2.5:
-            return TRADE_SIGNALS['buy']
+        sma_10 = self._input_data.rolling(
+            window=10, min_periods=5, center=False, win_type=None, on=None,
+            axis=0, closed=None).mean()
+
+        # Assumption on what high volatility means
+        if self._ti_data['atr'].values[-1] > \
+                0.01 * self._input_data['close'].values[-1]:
+
+            # Price falling is expected or secondary rally
+            if self._input_data['close'].iat[-1] > sma_05.iat[-1, 0]:
+
+                # Assuming long term upward rally
+                if self._input_data['close'].iat[-1] > sma_10.iat[-1, 0]:
+                    return TRADE_SIGNALS['buy']
+                else:
+                    return TRADE_SIGNALS['sell']
+
+            # Price raise is expected
+            if self._input_data['close'].iat[-1] < sma_05.iat[-1, 0]:
+                return TRADE_SIGNALS['buy']
 
         return TRADE_SIGNALS['hold']
