@@ -6,8 +6,7 @@
 - Trading simulation based on trading signals.
 - Machine Learning integration for prices prediction (not included in this release).
 
-*Implementation based on the book 'Technical Analysis from A to Z, Steven B. Achelis'*
-*Validation based on the 'A to Z Companion Spreadsheet, Steven B. Achelis and Jon C. DeBry'*
+*Implementation based on the book 'Technical Analysis from A to Z, Steven B. Achelis'. Validation based on the 'A to Z Companion Spreadsheet, Steven B. Achelis and Jon C. DeBry'*
 
 API documentation and installation instructions can be found in the project's web-site:
 [Trading Technical Indicators](https://www.trading-technical-indicators.org/)
