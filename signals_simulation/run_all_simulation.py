@@ -12,60 +12,6 @@ import time
 import inspect
 import pandas as pd
 import tti.indicators as ti
-import matplotlib.pyplot as plt
-
-
-def getSimulationGraph(simulation, close_values, title):
-    """
-    Returns a matplotlib.pyplot graph with simulation data.
-
-    Parameters:
-        simulation (pandas.DataFrame): Simulation data returned from the
-            runSimulation method of the tti.indicators package.
-
-        close_values (pandas.DataFrame): The close value of the stock, for the
-            whole simulation period. Index is of type DateTimeIndex with same
-            values as the input to the indicator data. It contains one column
-            `close`.
-
-        title (str): Title of the graph.
-
-    Raises:
-        -
-
-    Returns:
-        (matplotlib.pyplot): The produced graph.
-    """
-
-    plt.figure(figsize=(7, 5))
-
-    plt.subplot(3, 1, 1)
-    plt.plot(list(range(1, len(close_values['close']) + 1)),
-        close_values['close'], label='close_price', color='limegreen')
-    plt.legend(loc=0)
-    plt.grid(which='major', axis='y', alpha=0.5)
-    plt.title(title, fontsize=11, fontweight='bold')
-    plt.gca().axes.get_xaxis().set_visible(False)
-
-    plt.subplot(3, 1, 2)
-    plt.plot(list(range(1, len(simulation['exposure']) + 1)),
-        simulation['exposure'], label='exposure',
-        color='tomato')
-    plt.legend(loc=0)
-    plt.grid(which='major', axis='y', alpha=0.5)
-    plt.gca().axes.get_xaxis().set_visible(False)
-
-    plt.subplot(3, 1, 3)
-    plt.plot(list(range(1, len(simulation['balance']) + 1)),
-        simulation['balance'], label='balance', color='cornflowerblue')
-    plt.legend(loc=0)
-    plt.grid(which='major', axis='y', alpha=0.5)
-
-    plt.xlabel('Transactions', fontsize=11, fontweight='bold')
-    plt.gcf().text(0.01, 0.5, 'Balance | Exposure | Price', fontsize=11,
-        fontweight='bold', va='center', rotation='vertical')
-
-    return plt
 
 
 def execute_simulation(indicator_object, close_values, output_file=None,
@@ -112,7 +58,7 @@ def execute_simulation(indicator_object, close_values, output_file=None,
     start_time = time.time()
 
     # Execute simulation
-    simulation, statistics = indicator.getTiSimulation(
+    simulation, statistics, graph = indicator.getTiSimulation(
         close_values=close_values)
 
     print('\n- Simulation executed in :', round(time.time() - start_time, 2),
@@ -123,13 +69,8 @@ def execute_simulation(indicator_object, close_values, output_file=None,
     output_file_name = figures_output_path + 'simulation_' + \
         type(indicator).__name__ + graph_name_suffix + '.png'
 
-    graph_title_suffix = (' (' + add_info + ')') if add_info is not None else \
-        ''
-    fig = getSimulationGraph(simulation, close_values,
-        'Trading Simulation for ' + type(indicator).__name__ +
-        graph_title_suffix)
-    fig.savefig(output_file_name)
-    fig.close()
+    graph.savefig(output_file_name)
+    graph.close()
 
     print('\n- Graph', output_file_name, 'saved.', file=output_file)
 

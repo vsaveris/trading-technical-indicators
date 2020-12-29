@@ -235,7 +235,7 @@ class TechnicalIndicator(ABC):
         plt.grid(which='major', axis='y', alpha=0.5)
 
         plt.xlabel('Transactions', fontsize=11, fontweight='bold')
-        plt.gcf().text(0.04, 0.5, 'Balance | Exposure | Price', fontsize=11,
+        plt.gcf().text(0.01, 0.5, 'Balance | Exposure | Price', fontsize=11,
                        fontweight='bold', va='center', rotation='vertical')
 
         return plt
