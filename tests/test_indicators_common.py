@@ -337,7 +337,8 @@ class TestIndicatorsCommon(ABC):
 
             orig_input_data = copy.deepcopy(ti._input_data)
             orig_ti_data = copy.deepcopy(ti._ti_data)
-            simulation_data, statistics = ti.getTiSimulation(df[['close']])
+            simulation_data, statistics, graph = \
+                ti.getTiSimulation(df[['close']])
 
             self.assertEqual(simulation_data.isnull().values.any(), False)
             self.assertEqual(statistics['number_of_trading_days'], 3169)
@@ -346,3 +347,9 @@ class TestIndicatorsCommon(ABC):
 
             pd.testing.assert_frame_equal(ti._input_data, orig_input_data)
             pd.testing.assert_frame_equal(ti._ti_data, orig_ti_data)
+
+            # Needs manual check of the produced graph
+            self.assertEqual(graph, plt)
+
+            graph.savefig('./figures/trading_simulation_graph.png')
+            plt.close('all')
