@@ -17,6 +17,8 @@ class TestChaikinMoneyFlow(unittest.TestCase, TestIndicatorsCommon):
 
     indicator = tti.indicators.ChaikinMoneyFlow
 
+    ti_data_rows = [0, 2, 3]
+
     df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
     indicator_input_arguments = {'period': 5}

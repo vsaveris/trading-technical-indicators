@@ -170,7 +170,7 @@ class RelativeVolatilityIndex(TechnicalIndicator):
         """
 
         # Not enough data for trading signal
-        if len(self._input_data.index) < 2:
+        if len(self._ti_data.index) < 2:
             return TRADE_SIGNALS['hold']
 
         if self._ti_data['rvi'].iat[-2] > 40 > self._ti_data['rvi'].iat[-1]:

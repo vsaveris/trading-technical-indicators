@@ -19,6 +19,8 @@ class TestWilliamsAccumulationDistribution(unittest.TestCase,
 
     indicator = tti.indicators.WilliamsAccumulationDistribution
 
+    ti_data_rows = [0, 29, 30]
+
     df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
     indicator_input_arguments = {}

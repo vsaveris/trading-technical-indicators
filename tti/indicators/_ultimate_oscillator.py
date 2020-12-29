@@ -139,7 +139,7 @@ class UltimateOscillator(TechnicalIndicator):
         span_period = 30
 
         # Not enough data for trading signal
-        if len(self._input_data.index) < 28 + span_period:
+        if len(self._ti_data.index) < span_period:
             return TRADE_SIGNALS['hold']
 
         # Check if bullish divergence occurs

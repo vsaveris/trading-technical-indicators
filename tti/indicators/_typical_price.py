@@ -89,7 +89,8 @@ class TypicalPrice(TechnicalIndicator):
         """
 
         # Not enough data for trading signal
-        if len(self._input_data.index) < self._period:
+        if len(self._input_data.index) < self._period or \
+                len(self._ti_data.index) < 1:
             return TRADE_SIGNALS['hold']
 
         # Calculate moving average of the close prices

@@ -17,6 +17,8 @@ class TestVolumeOscillator(unittest.TestCase, TestIndicatorsCommon):
 
     indicator = tti.indicators.VolumeOscillator
 
+    ti_data_rows = [0, 2, 3]
+
     df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
     indicator_input_arguments = {'long_period': 5, 'short_period': 2}

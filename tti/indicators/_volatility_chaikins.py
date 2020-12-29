@@ -128,7 +128,7 @@ class VolatilityChaikins(TechnicalIndicator):
         """
 
         # Not enough data for trading signal
-        if len(self._input_data.index) < 3:
+        if len(self._ti_data.index) < 3:
             return TRADE_SIGNALS['hold']
 
         if (self._ti_data['vch'].iat[-3] < self._ti_data['vch'].iat[-2] <

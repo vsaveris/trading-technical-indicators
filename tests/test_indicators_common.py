@@ -330,34 +330,37 @@ class TestIndicatorsCommon(ABC):
 
     def test_getTiSimulation(self):
 
-        # Execute for only one indicator, is enough (takes time)
-        if str(self.indicator) == \
-                "<class 'tti.indicators._accumulation_distribution_line." + \
-                "AccumulationDistributionLine'>":
-
-            df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
                          index_col=0)
 
-            ti = self.indicator(df, **self.indicator_input_arguments)
+        ti = self.indicator(df, **self.indicator_input_arguments)
 
-            orig_input_data = copy.deepcopy(ti._input_data)
-            orig_ti_data = copy.deepcopy(ti._ti_data)
-            simulation_data, statistics, graph = \
-                ti.getTiSimulation(df[['close']])
+        orig_input_data = copy.deepcopy(ti._input_data)
+        orig_ti_data = copy.deepcopy(ti._ti_data)
+        simulation_data, statistics, graph = \
+            ti.getTiSimulation(df[['close']])
 
+        if str(self.indicator) == \
+                "<class 'tti.indicators._detrended_price_oscillator." + \
+                "DetrendedPriceOscillator'>":
+            self.assertEqual(simulation_data.isnull().values[:-4].any(), False)
+            self.assertEqual(statistics['number_of_trading_days'], 3165)
+        else:
             self.assertEqual(simulation_data.isnull().values.any(), False)
             self.assertEqual(statistics['number_of_trading_days'], 3169)
-            self.assertEqual(any(np.isnan(val) for val in statistics.values()),
+
+        self.assertEqual(any(np.isnan(val) for val in statistics.values()),
                          False)
 
-            pd.testing.assert_frame_equal(ti._input_data, orig_input_data)
-            pd.testing.assert_frame_equal(ti._ti_data, orig_ti_data)
+        pd.testing.assert_frame_equal(ti._input_data, orig_input_data)
+        pd.testing.assert_frame_equal(ti._ti_data, orig_ti_data)
 
-            # Needs manual check of the produced graph
-            self.assertEqual(graph, plt)
+        # Needs manual check of the produced graph
+        self.assertEqual(graph, plt)
 
-            graph.savefig('./figures/trading_simulation_graph.png')
-            plt.close('all')
+        graph.savefig('./figures/trading_simulation_graph_' +
+            str(self.indicator).split('.')[-1][:-2] + '.png')
+        plt.close('all')
 
     # Validate API for specific number of rows in calculated indicator
     def test_api_for_variable_ti_data_length(self):

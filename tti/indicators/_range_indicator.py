@@ -156,7 +156,7 @@ class RangeIndicator(TechnicalIndicator):
         """
 
         # Not enough data for trading signal
-        if len(self._input_data.index) < 2:
+        if len(self._ti_data.index) < 2:
             return TRADE_SIGNALS['hold']
 
         # Indication that a new trend starts

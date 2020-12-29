@@ -15,7 +15,10 @@ import re
 
 
 class TestSimpleMovingAverage(unittest.TestCase, TestIndicatorsCommon):
+
     indicator = tti.indicators.MovingAverage
+
+    ti_data_rows = [0, 1]
 
     df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
