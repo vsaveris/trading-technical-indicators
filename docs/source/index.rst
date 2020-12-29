@@ -11,16 +11,16 @@
     :target: https://www.trading-technical-indicators.org/
 
 
-Welcome to the Trading Technical Indicator (tti) python documentation!
-======================================================================
+Welcome to the Trading Technical Indicators (tti) python documentation!
+=======================================================================
 
 .. toctree::
    :maxdepth: 1
    :caption: Contents:
 
    installation
-   examples
    tti
+   examples
 
 
 Indices and tables
