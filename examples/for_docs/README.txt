@@ -22,6 +22,7 @@ Technical Indicator value at 2012-09-06: [8617026.854250321]
 Most recent Technical Indicator value: [17427706.42639293]
 
 Technical Indicator signal: ('buy', -1)
+
 Graph for the calculated ADL indicator data, saved.
 
 Simulation Data:
@@ -44,6 +45,7 @@ Date                                   ...
 Simulation Statistics:
  {'number_of_trading_days': 5651, 'number_of_buy_signals': 4767, 'number_of_ignored_buy_signals': 0, 'number_of_sell_signals': 601, 'number_of_ignored_sell_signals': 0, 'last_stock_value': 475.5, 'last_exposure': 22340.73, 'last_open_long_positions': 40, 'last_open_short_positions': 0, 'last_portfolio_value': 19020.0, 'last_earnings': 19817.21, 'final_balance': 38837.21}
 
+Graph for the executed trading signal simulation, saved.
 
 ### tti utils examples
 

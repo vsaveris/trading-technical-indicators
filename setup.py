@@ -10,12 +10,12 @@ with open('README.md') as f:
     LONG_DESCRIPTION = f.read()
 
 setuptools.setup(name='tti',
-    version='0.1.b3',
+    version='0.2.0',
     description='Trading Technical Indicators, python library. Where Traditional Technical Analysis and AI are met.',
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Science/Research',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
