@@ -71,4 +71,3 @@ class TtiPackageDeprecatedMethod(Exception):
         message += details
 
         super().__init__(message)
-

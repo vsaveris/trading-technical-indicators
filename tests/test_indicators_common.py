@@ -87,6 +87,11 @@ class TestIndicatorsCommon(ABC):
     def required_input_data_columns(self):
         raise NotImplementedError
 
+    @property
+    @abstractmethod
+    def ti_data_rows(self):
+        raise NotImplementedError
+
     precision = 4
 
     # Unit Tests
@@ -353,3 +358,20 @@ class TestIndicatorsCommon(ABC):
 
             graph.savefig('./figures/trading_simulation_graph.png')
             plt.close('all')
+
+    # Validate API for specific number of rows in calculated indicator
+    def test_api_for_variable_ti_data_length(self):
+        df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
+                         index_col=0)
+
+        for rows in self.ti_data_rows:
+            with self.subTest(rows=rows):
+
+                ti = self.indicator(pd.DataFrame(df))
+                ti._ti_data = ti._ti_data.iloc[:rows]
+
+                ti.getTiSignal()
+                ti.getTiValue()
+                ti.getTiData()
+                ti.getTiGraph()
+                ti.getTiSimulation(df[['close']])
