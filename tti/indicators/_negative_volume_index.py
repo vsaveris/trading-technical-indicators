@@ -104,12 +104,7 @@ class NegativeVolumeIndex(TechnicalIndicator):
         ema = self._ti_data['nvi'].ewm(span=255, min_periods=255, adjust=False,
                                        axis=0).mean()
 
-        if self._ti_data['nvi'][-2] < ema[-2] and  \
-                self._ti_data['nvi'][-1] > ema[-1]:
+        if self._ti_data['nvi'][-1] > ema[-1]:
             return TRADE_SIGNALS['buy']
-
-        if self._ti_data['nvi'][-2] > ema[-2] and  \
-                self._ti_data['nvi'][-1] < ema[-1]:
-            return TRADE_SIGNALS['sell']
 
         return TRADE_SIGNALS['hold']
