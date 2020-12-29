@@ -169,16 +169,16 @@ class DirectionalMovementIndex(TechnicalIndicator):
 
         # A buy signal is given when +DI crosses above -DI
         # A sell signal is given when -DI crosses above +DI
-        # ADX > 25 is a strong trend, ADX < 20 indicates no trend
+        # ADXR > 25 is a strong trend, ADXR < 20 indicates no trend
 
         if self._ti_data['+di'].iat[-2] > self._ti_data['-di'].iat[-2] and \
                 self._ti_data['+di'].iat[-1] < self._ti_data['-di'].iat[-1] \
-                and self._ti_data['adx'].iat[-1] >= 20:
+                and self._ti_data['adxr'].iat[-1] >= 20:
             return TRADE_SIGNALS['sell']
 
         elif self._ti_data['+di'].iat[-2] < self._ti_data['-di'].iat[-2] and \
                 self._ti_data['+di'].iat[-1] > self._ti_data['-di'].iat[-1] \
-                and self._ti_data['adx'].iat[-1] >= 20:
+                and self._ti_data['adxr'].iat[-1] >= 20:
             return TRADE_SIGNALS['buy']
 
         else:
