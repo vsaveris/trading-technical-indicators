@@ -155,7 +155,7 @@ class MovingAverage(TechnicalIndicator):
                 period=9).getTiData()
 
             # Calculate Volatility Ratio
-            vr = (cmo / 100).abs()
+            vr = (cmo.iloc[:] / 100).abs()
 
             # Calculate Scaling Multiplier
             sm = 2 / (self._period + 1)
@@ -184,21 +184,12 @@ class MovingAverage(TechnicalIndicator):
         """
 
         # Not enough data for calculating trading signal
-        if len(self._ti_data.index) < 2:
+        if len(self._ti_data.index) < 1:
             return TRADE_SIGNALS['hold']
 
-        # Close price goes below Moving Average
-        if ((self._input_data['close'].iat[-2] >
-             self._ti_data['ma-' + self._ma_type].iat[-2]) and
-                (self._input_data['close'].iat[-1]
-                 < self._ti_data['ma-' + self._ma_type].iat[-1])):
-            return TRADE_SIGNALS['sell']
-
         # Close price goes above Moving Average
-        if((self._input_data['close'].iat[-2] <
-            self._ti_data['ma-' + self._ma_type].iat[-2]) and
-                (self._input_data['close'].iat[-1] >
-                 self._ti_data['ma-' + self._ma_type].iat[-1])):
+        if self._input_data['close'].iat[-1] > \
+                self._ti_data['ma-' + self._ma_type].iat[-1]:
             return TRADE_SIGNALS['buy']
 
         return TRADE_SIGNALS['hold']
