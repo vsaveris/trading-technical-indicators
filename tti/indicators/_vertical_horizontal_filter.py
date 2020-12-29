@@ -119,7 +119,7 @@ class VerticalHorizontalFilter(TechnicalIndicator):
         """
 
         # Not enough data for trading signal
-        if len(self._input_data.index) < 3:
+        if len(self._ti_data.index) < 3:
             return TRADE_SIGNALS['hold']
 
         # Rising values indicate a trend

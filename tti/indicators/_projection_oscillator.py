@@ -51,11 +51,11 @@ class ProjectionOscillator(TechnicalIndicator):
 
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
-            if period > 0:
+            if period > 1:
                 self._period = period
             else:
                 raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                    period, 'period', '>1')
         else:
             raise WrongTypeForInputParameter(
                 type(period), 'period', 'int')
@@ -115,7 +115,7 @@ class ProjectionOscillator(TechnicalIndicator):
         """
 
         # Not enough data for trading signal
-        if len(self._input_data.index) < 4:
+        if len(self._ti_data.index) < 4:
             return TRADE_SIGNALS['hold']
 
         # Signals based on Overbought / Oversold Regions

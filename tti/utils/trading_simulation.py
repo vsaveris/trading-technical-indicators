@@ -304,8 +304,8 @@ class TradingSimulation:
                     executed_simulation_rounds - 1].round(2),
 
             'last_exposure': 0.0 if executed_simulation_rounds == 0
-                else self._simulation_data['exposure'].iat[
-                    executed_simulation_rounds - 1].round(2),
+                else round(self._simulation_data['exposure'].iat[
+                    executed_simulation_rounds - 1], 2),
 
             'last_open_long_positions': np.count_nonzero(
                 self._portfolio[
@@ -318,16 +318,16 @@ class TradingSimulation:
                     (self._portfolio[:, 1] == 1.0), 0]),
 
             'last_portfolio_value': 0.0 if executed_simulation_rounds == 0
-                else self._simulation_data['portfolio_value'].iat[
-                    executed_simulation_rounds - 1].round(2),
+                else round(self._simulation_data['portfolio_value'].iat[
+                    executed_simulation_rounds - 1], 2),
 
             'last_earnings': 0.0 if executed_simulation_rounds == 0
-                else self._simulation_data['earnings'].iat[
-                    executed_simulation_rounds - 1].round(2),
+                else round(self._simulation_data['earnings'].iat[
+                    executed_simulation_rounds - 1], 2),
 
             'final_balance': 0.0 if executed_simulation_rounds == 0
-                else self._simulation_data['balance'].iat[
-                    executed_simulation_rounds - 1].round(2)
+                else round(self._simulation_data['balance'].iat[
+                    executed_simulation_rounds - 1], 2)
         }
 
     def _calculatePortfolioValue(self, i_index):

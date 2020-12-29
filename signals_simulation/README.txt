@@ -2,7 +2,7 @@ Trading Simulation for the tti.indicators package (all indicators).
 
 Trading Simulation for technical indicator: AccumulationDistributionLine
 
-- Simulation executed in : 9.69 seconds.
+- Simulation executed in : 9.58 seconds.
 
 - Graph ./figures/simulation_AccumulationDistributionLine.png saved.
 
@@ -22,27 +22,27 @@ Trading Simulation for technical indicator: AccumulationDistributionLine
 
 Trading Simulation for technical indicator: AverageTrueRange
 
-- Simulation executed in : 16.21 seconds.
+- Simulation executed in : 21.6 seconds.
 
 - Graph ./figures/simulation_AverageTrueRange.png saved.
 
 - Simulation Statistics:
 	number_of_trading_days: 5651
-	number_of_buy_signals: 4690
+	number_of_buy_signals: 4863
 	number_of_ignored_buy_signals: 0
-	number_of_sell_signals: 929
+	number_of_sell_signals: 229
 	number_of_ignored_sell_signals: 0
 	last_stock_value: 475.5
-	last_exposure: 26276.79
-	last_open_long_positions: 36
-	last_open_short_positions: 11
-	last_portfolio_value: 11887.5
-	last_earnings: 20898.22
-	final_balance: 32785.72
+	last_exposure: 25729.37
+	last_open_long_positions: 42
+	last_open_short_positions: 4
+	last_portfolio_value: 18069.0
+	last_earnings: 19772.18
+	final_balance: 37841.18
 
 Trading Simulation for technical indicator: BollingerBands
 
-- Simulation executed in : 9.67 seconds.
+- Simulation executed in : 9.84 seconds.
 
 - Graph ./figures/simulation_BollingerBands.png saved.
 
@@ -62,7 +62,7 @@ Trading Simulation for technical indicator: BollingerBands
 
 Trading Simulation for technical indicator: ChaikinMoneyFlow
 
-- Simulation executed in : 10.38 seconds.
+- Simulation executed in : 10.47 seconds.
 
 - Graph ./figures/simulation_ChaikinMoneyFlow.png saved.
 
@@ -82,7 +82,7 @@ Trading Simulation for technical indicator: ChaikinMoneyFlow
 
 Trading Simulation for technical indicator: ChaikinOscillator
 
-- Simulation executed in : 10.94 seconds.
+- Simulation executed in : 11.11 seconds.
 
 - Graph ./figures/simulation_ChaikinOscillator.png saved.
 
@@ -102,7 +102,7 @@ Trading Simulation for technical indicator: ChaikinOscillator
 
 Trading Simulation for technical indicator: ChandeMomentumOscillator
 
-- Simulation executed in : 9.1 seconds.
+- Simulation executed in : 9.21 seconds.
 
 - Graph ./figures/simulation_ChandeMomentumOscillator.png saved.
 
@@ -122,7 +122,7 @@ Trading Simulation for technical indicator: ChandeMomentumOscillator
 
 Trading Simulation for technical indicator: CommodityChannelIndex
 
-- Simulation executed in : 9.17 seconds.
+- Simulation executed in : 9.5 seconds.
 
 - Graph ./figures/simulation_CommodityChannelIndex.png saved.
 
@@ -142,7 +142,7 @@ Trading Simulation for technical indicator: CommodityChannelIndex
 
 Trading Simulation for technical indicator: DetrendedPriceOscillator
 
-- Simulation executed in : 9.26 seconds.
+- Simulation executed in : 9.4 seconds.
 
 - Graph ./figures/simulation_DetrendedPriceOscillator.png saved.
 
@@ -162,27 +162,27 @@ Trading Simulation for technical indicator: DetrendedPriceOscillator
 
 Trading Simulation for technical indicator: DirectionalMovementIndex
 
-- Simulation executed in : 9.38 seconds.
+- Simulation executed in : 9.67 seconds.
 
 - Graph ./figures/simulation_DirectionalMovementIndex.png saved.
 
 - Simulation Statistics:
 	number_of_trading_days: 5651
-	number_of_buy_signals: 94
+	number_of_buy_signals: 124
 	number_of_ignored_buy_signals: 0
-	number_of_sell_signals: 80
+	number_of_sell_signals: 129
 	number_of_ignored_sell_signals: 0
 	last_stock_value: 475.5
-	last_exposure: 0.0
-	last_open_long_positions: 0
+	last_exposure: 578.5
+	last_open_long_positions: 1
 	last_open_short_positions: 0
-	last_portfolio_value: 0.0
-	last_earnings: 875.22
-	final_balance: 875.22
+	last_portfolio_value: 475.5
+	last_earnings: 1156.2
+	final_balance: 1631.7
 
 Trading Simulation for technical indicator: DoubleExponentialMovingAverage
 
-- Simulation executed in : 10.0 seconds.
+- Simulation executed in : 9.7 seconds.
 
 - Graph ./figures/simulation_DoubleExponentialMovingAverage.png saved.
 
@@ -190,15 +190,15 @@ Trading Simulation for technical indicator: DoubleExponentialMovingAverage
 	number_of_trading_days: 5651
 	number_of_buy_signals: 2829
 	number_of_ignored_buy_signals: 0
-	number_of_sell_signals: 2814
+	number_of_sell_signals: 0
 	number_of_ignored_sell_signals: 0
 	last_stock_value: 475.5
-	last_exposure: 33990.77
+	last_exposure: 13625.35
 	last_open_long_positions: 25
-	last_open_short_positions: 35
-	last_portfolio_value: -4755.0
-	last_earnings: 21727.36
-	final_balance: 16972.36
+	last_open_short_positions: 0
+	last_portfolio_value: 11887.5
+	last_earnings: 10711.11
+	final_balance: 22598.61
 
 Trading Simulation for technical indicator: EaseOfMovement
 
@@ -222,7 +222,7 @@ Trading Simulation for technical indicator: EaseOfMovement
 
 Trading Simulation for technical indicator: Envelopes
 
-- Simulation executed in : 9.47 seconds.
+- Simulation executed in : 9.36 seconds.
 
 - Graph ./figures/simulation_Envelopes.png saved.
 
@@ -242,7 +242,7 @@ Trading Simulation for technical indicator: Envelopes
 
 Trading Simulation for technical indicator: FibonacciRetracement
 
-- Simulation executed in : 11.19 seconds.
+- Simulation executed in : 11.07 seconds.
 
 - Graph ./figures/simulation_FibonacciRetracement.png saved.
 
@@ -262,7 +262,7 @@ Trading Simulation for technical indicator: FibonacciRetracement
 
 Trading Simulation for technical indicator: ForecastOscillator
 
-- Simulation executed in : 9.15 seconds.
+- Simulation executed in : 9.08 seconds.
 
 - Graph ./figures/simulation_ForecastOscillator.png saved.
 
@@ -302,7 +302,7 @@ Trading Simulation for technical indicator: IchimokuCloud
 
 Trading Simulation for technical indicator: IntradayMovementIndex
 
-- Simulation executed in : 9.17 seconds.
+- Simulation executed in : 8.92 seconds.
 
 - Graph ./figures/simulation_IntradayMovementIndex.png saved.
 
@@ -322,7 +322,7 @@ Trading Simulation for technical indicator: IntradayMovementIndex
 
 Trading Simulation for technical indicator: KlingerOscillator
 
-- Simulation executed in : 8.99 seconds.
+- Simulation executed in : 9.05 seconds.
 
 - Graph ./figures/simulation_KlingerOscillator.png saved.
 
@@ -362,7 +362,7 @@ Trading Simulation for technical indicator: LinearRegressionIndicator
 
 Trading Simulation for technical indicator: LinearRegressionSlope
 
-- Simulation executed in : 9.0 seconds.
+- Simulation executed in : 9.03 seconds.
 
 - Graph ./figures/simulation_LinearRegressionSlope.png saved.
 
@@ -382,7 +382,7 @@ Trading Simulation for technical indicator: LinearRegressionSlope
 
 Trading Simulation for technical indicator: MarketFacilitationIndex
 
-- Simulation executed in : 9.54 seconds.
+- Simulation executed in : 9.46 seconds.
 
 - Graph ./figures/simulation_MarketFacilitationIndex.png saved.
 
@@ -422,7 +422,7 @@ Trading Simulation for technical indicator: MassIndex
 
 Trading Simulation for technical indicator: MedianPrice
 
-- Simulation executed in : 9.71 seconds.
+- Simulation executed in : 9.61 seconds.
 
 - Graph ./figures/simulation_MedianPrice.png saved.
 
@@ -442,7 +442,7 @@ Trading Simulation for technical indicator: MedianPrice
 
 Trading Simulation for technical indicator: Momentum
 
-- Simulation executed in : 11.88 seconds.
+- Simulation executed in : 11.84 seconds.
 
 - Graph ./figures/simulation_Momentum.png saved.
 
@@ -462,107 +462,107 @@ Trading Simulation for technical indicator: Momentum
 
 Trading Simulation for technical indicator: MovingAverage (simple)
 
-- Simulation executed in : 9.63 seconds.
+- Simulation executed in : 9.34 seconds.
 
 - Graph ./figures/simulation_MovingAverage_simple.png saved.
 
 - Simulation Statistics:
 	number_of_trading_days: 5651
-	number_of_buy_signals: 348
+	number_of_buy_signals: 2967
 	number_of_ignored_buy_signals: 0
-	number_of_sell_signals: 349
+	number_of_sell_signals: 0
 	number_of_ignored_sell_signals: 0
 	last_stock_value: 475.5
-	last_exposure: 2771.4
-	last_open_long_positions: 3
-	last_open_short_positions: 2
-	last_portfolio_value: 475.5
-	last_earnings: 2692.58
-	final_balance: 3168.08
+	last_exposure: 18620.48
+	last_open_long_positions: 33
+	last_open_short_positions: 0
+	last_portfolio_value: 15691.5
+	last_earnings: 9926.62
+	final_balance: 25618.12
 
 Trading Simulation for technical indicator: MovingAverage (exponential)
 
-- Simulation executed in : 9.67 seconds.
+- Simulation executed in : 9.37 seconds.
 
 - Graph ./figures/simulation_MovingAverage_exponential.png saved.
 
 - Simulation Statistics:
 	number_of_trading_days: 5651
-	number_of_buy_signals: 380
+	number_of_buy_signals: 2970
 	number_of_ignored_buy_signals: 0
-	number_of_sell_signals: 381
+	number_of_sell_signals: 0
 	number_of_ignored_sell_signals: 0
 	last_stock_value: 475.5
-	last_exposure: 3864.83
-	last_open_long_positions: 3
-	last_open_short_positions: 4
-	last_portfolio_value: -475.5
-	last_earnings: 3126.35
-	final_balance: 2650.85
+	last_exposure: 19832.02
+	last_open_long_positions: 35
+	last_open_short_positions: 0
+	last_portfolio_value: 16642.5
+	last_earnings: 9890.0
+	final_balance: 26532.5
 
 Trading Simulation for technical indicator: MovingAverage (time_series)
 
-- Simulation executed in : 9.72 seconds.
+- Simulation executed in : 9.36 seconds.
 
 - Graph ./figures/simulation_MovingAverage_time_series.png saved.
 
 - Simulation Statistics:
 	number_of_trading_days: 5651
-	number_of_buy_signals: 505
+	number_of_buy_signals: 2768
 	number_of_ignored_buy_signals: 0
-	number_of_sell_signals: 505
+	number_of_sell_signals: 0
 	number_of_ignored_sell_signals: 0
 	last_stock_value: 475.5
-	last_exposure: 2014.65
-	last_open_long_positions: 2
-	last_open_short_positions: 2
-	last_portfolio_value: 0.0
-	last_earnings: 4071.72
-	final_balance: 4071.72
+	last_exposure: 7738.75
+	last_open_long_positions: 14
+	last_open_short_positions: 0
+	last_portfolio_value: 6657.0
+	last_earnings: 10051.48
+	final_balance: 16708.48
 
 Trading Simulation for technical indicator: MovingAverage (triangular)
 
-- Simulation executed in : 9.59 seconds.
+- Simulation executed in : 9.41 seconds.
 
 - Graph ./figures/simulation_MovingAverage_triangular.png saved.
 
 - Simulation Statistics:
 	number_of_trading_days: 5651
-	number_of_buy_signals: 236
+	number_of_buy_signals: 2954
 	number_of_ignored_buy_signals: 0
-	number_of_sell_signals: 237
+	number_of_sell_signals: 0
 	number_of_ignored_sell_signals: 0
 	last_stock_value: 475.5
-	last_exposure: 3362.85
-	last_open_long_positions: 2
-	last_open_short_positions: 4
-	last_portfolio_value: -951.0
-	last_earnings: 1940.71
-	final_balance: 989.71
+	last_exposure: 21072.49
+	last_open_long_positions: 37
+	last_open_short_positions: 0
+	last_portfolio_value: 17593.5
+	last_earnings: 9597.93
+	final_balance: 27191.43
 
 Trading Simulation for technical indicator: MovingAverage (variable)
 
-- Simulation executed in : 9.58 seconds.
+- Simulation executed in : 9.37 seconds.
 
 - Graph ./figures/simulation_MovingAverage_variable.png saved.
 
 - Simulation Statistics:
 	number_of_trading_days: 5651
-	number_of_buy_signals: 232
+	number_of_buy_signals: 2952
 	number_of_ignored_buy_signals: 0
-	number_of_sell_signals: 232
+	number_of_sell_signals: 0
 	number_of_ignored_sell_signals: 0
 	last_stock_value: 475.5
-	last_exposure: 2884.07
-	last_open_long_positions: 4
-	last_open_short_positions: 1
-	last_portfolio_value: 1426.5
-	last_earnings: 1965.26
-	final_balance: 3391.76
+	last_exposure: 18180.1
+	last_open_long_positions: 31
+	last_open_short_positions: 0
+	last_portfolio_value: 14740.5
+	last_earnings: 9476.76
+	final_balance: 24217.26
 
 Trading Simulation for technical indicator: MovingAverageConvergenceDivergence
 
-- Simulation executed in : 9.47 seconds.
+- Simulation executed in : 9.4 seconds.
 
 - Graph ./figures/simulation_MovingAverageConvergenceDivergence.png saved.
 
@@ -582,27 +582,27 @@ Trading Simulation for technical indicator: MovingAverageConvergenceDivergence
 
 Trading Simulation for technical indicator: NegativeVolumeIndex
 
-- Simulation executed in : 11.26 seconds.
+- Simulation executed in : 11.19 seconds.
 
 - Graph ./figures/simulation_NegativeVolumeIndex.png saved.
 
 - Simulation Statistics:
 	number_of_trading_days: 5651
-	number_of_buy_signals: 54
+	number_of_buy_signals: 3325
 	number_of_ignored_buy_signals: 0
-	number_of_sell_signals: 55
+	number_of_sell_signals: 0
 	number_of_ignored_sell_signals: 0
 	last_stock_value: 475.5
-	last_exposure: 1103.7
-	last_open_long_positions: 0
-	last_open_short_positions: 2
-	last_portfolio_value: -951.0
-	last_earnings: 324.71
-	final_balance: -626.29
+	last_exposure: 12507.6
+	last_open_long_positions: 23
+	last_open_short_positions: 0
+	last_portfolio_value: 10936.5
+	last_earnings: 9573.48
+	final_balance: 20509.98
 
 Trading Simulation for technical indicator: OnBalanceVolume
 
-- Simulation executed in : 9.41 seconds.
+- Simulation executed in : 9.38 seconds.
 
 - Graph ./figures/simulation_OnBalanceVolume.png saved.
 
@@ -622,7 +622,7 @@ Trading Simulation for technical indicator: OnBalanceVolume
 
 Trading Simulation for technical indicator: ParabolicSAR
 
-- Simulation executed in : 9.64 seconds.
+- Simulation executed in : 9.52 seconds.
 
 - Graph ./figures/simulation_ParabolicSAR.png saved.
 
@@ -642,7 +642,7 @@ Trading Simulation for technical indicator: ParabolicSAR
 
 Trading Simulation for technical indicator: Performance
 
-- Simulation executed in : 8.79 seconds.
+- Simulation executed in : 8.71 seconds.
 
 - Graph ./figures/simulation_Performance.png saved.
 
@@ -662,7 +662,7 @@ Trading Simulation for technical indicator: Performance
 
 Trading Simulation for technical indicator: PositiveVolumeIndex
 
-- Simulation executed in : 11.26 seconds.
+- Simulation executed in : 11.21 seconds.
 
 - Graph ./figures/simulation_PositiveVolumeIndex.png saved.
 
@@ -682,7 +682,7 @@ Trading Simulation for technical indicator: PositiveVolumeIndex
 
 Trading Simulation for technical indicator: PriceAndVolumeTrend
 
-- Simulation executed in : 9.36 seconds.
+- Simulation executed in : 9.34 seconds.
 
 - Graph ./figures/simulation_PriceAndVolumeTrend.png saved.
 
@@ -702,7 +702,7 @@ Trading Simulation for technical indicator: PriceAndVolumeTrend
 
 Trading Simulation for technical indicator: PriceChannel
 
-- Simulation executed in : 9.88 seconds.
+- Simulation executed in : 9.66 seconds.
 
 - Graph ./figures/simulation_PriceChannel.png saved.
 
@@ -722,7 +722,7 @@ Trading Simulation for technical indicator: PriceChannel
 
 Trading Simulation for technical indicator: PriceOscillator
 
-- Simulation executed in : 8.94 seconds.
+- Simulation executed in : 8.9 seconds.
 
 - Graph ./figures/simulation_PriceOscillator.png saved.
 
@@ -742,7 +742,7 @@ Trading Simulation for technical indicator: PriceOscillator
 
 Trading Simulation for technical indicator: PriceRateOfChange
 
-- Simulation executed in : 9.42 seconds.
+- Simulation executed in : 9.36 seconds.
 
 - Graph ./figures/simulation_PriceRateOfChange.png saved.
 
@@ -762,7 +762,7 @@ Trading Simulation for technical indicator: PriceRateOfChange
 
 Trading Simulation for technical indicator: ProjectionBands
 
-- Simulation executed in : 10.04 seconds.
+- Simulation executed in : 9.98 seconds.
 
 - Graph ./figures/simulation_ProjectionBands.png saved.
 
@@ -782,7 +782,7 @@ Trading Simulation for technical indicator: ProjectionBands
 
 Trading Simulation for technical indicator: ProjectionOscillator
 
-- Simulation executed in : 9.73 seconds.
+- Simulation executed in : 9.66 seconds.
 
 - Graph ./figures/simulation_ProjectionOscillator.png saved.
 
@@ -802,7 +802,7 @@ Trading Simulation for technical indicator: ProjectionOscillator
 
 Trading Simulation for technical indicator: Qstick
 
-- Simulation executed in : 8.98 seconds.
+- Simulation executed in : 8.99 seconds.
 
 - Graph ./figures/simulation_Qstick.png saved.
 
@@ -822,7 +822,7 @@ Trading Simulation for technical indicator: Qstick
 
 Trading Simulation for technical indicator: RangeIndicator
 
-- Simulation executed in : 9.47 seconds.
+- Simulation executed in : 9.4 seconds.
 
 - Graph ./figures/simulation_RangeIndicator.png saved.
 
@@ -842,7 +842,7 @@ Trading Simulation for technical indicator: RangeIndicator
 
 Trading Simulation for technical indicator: RelativeMomentumIndex
 
-- Simulation executed in : 9.01 seconds.
+- Simulation executed in : 8.96 seconds.
 
 - Graph ./figures/simulation_RelativeMomentumIndex.png saved.
 
@@ -862,7 +862,7 @@ Trading Simulation for technical indicator: RelativeMomentumIndex
 
 Trading Simulation for technical indicator: RelativeStrengthIndex
 
-- Simulation executed in : 9.03 seconds.
+- Simulation executed in : 8.8 seconds.
 
 - Graph ./figures/simulation_RelativeStrengthIndex.png saved.
 
@@ -882,7 +882,7 @@ Trading Simulation for technical indicator: RelativeStrengthIndex
 
 Trading Simulation for technical indicator: RelativeVolatilityIndex
 
-- Simulation executed in : 9.03 seconds.
+- Simulation executed in : 9.08 seconds.
 
 - Graph ./figures/simulation_RelativeVolatilityIndex.png saved.
 
@@ -902,7 +902,7 @@ Trading Simulation for technical indicator: RelativeVolatilityIndex
 
 Trading Simulation for technical indicator: StandardDeviation
 
-- Simulation executed in : 21.67 seconds.
+- Simulation executed in : 22.05 seconds.
 
 - Graph ./figures/simulation_StandardDeviation.png saved.
 
@@ -922,7 +922,7 @@ Trading Simulation for technical indicator: StandardDeviation
 
 Trading Simulation for technical indicator: StochasticMomentumIndex
 
-- Simulation executed in : 9.03 seconds.
+- Simulation executed in : 8.97 seconds.
 
 - Graph ./figures/simulation_StochasticMomentumIndex.png saved.
 
@@ -942,7 +942,7 @@ Trading Simulation for technical indicator: StochasticMomentumIndex
 
 Trading Simulation for technical indicator: StochasticOscillator (fast)
 
-- Simulation executed in : 9.71 seconds.
+- Simulation executed in : 9.64 seconds.
 
 - Graph ./figures/simulation_StochasticOscillator_fast.png saved.
 
@@ -962,7 +962,7 @@ Trading Simulation for technical indicator: StochasticOscillator (fast)
 
 Trading Simulation for technical indicator: StochasticOscillator (slow)
 
-- Simulation executed in : 9.74 seconds.
+- Simulation executed in : 9.94 seconds.
 
 - Graph ./figures/simulation_StochasticOscillator_slow.png saved.
 
@@ -982,7 +982,7 @@ Trading Simulation for technical indicator: StochasticOscillator (slow)
 
 Trading Simulation for technical indicator: SwingIndex
 
-- Simulation executed in : 9.34 seconds.
+- Simulation executed in : 8.9 seconds.
 
 - Graph ./figures/simulation_SwingIndex.png saved.
 
@@ -1002,7 +1002,7 @@ Trading Simulation for technical indicator: SwingIndex
 
 Trading Simulation for technical indicator: TimeSeriesForecast
 
-- Simulation executed in : 9.7 seconds.
+- Simulation executed in : 9.38 seconds.
 
 - Graph ./figures/simulation_TimeSeriesForecast.png saved.
 
@@ -1022,7 +1022,7 @@ Trading Simulation for technical indicator: TimeSeriesForecast
 
 Trading Simulation for technical indicator: TripleExponentialMovingAverage
 
-- Simulation executed in : 9.92 seconds.
+- Simulation executed in : 9.97 seconds.
 
 - Graph ./figures/simulation_TripleExponentialMovingAverage.png saved.
 
@@ -1042,47 +1042,47 @@ Trading Simulation for technical indicator: TripleExponentialMovingAverage
 
 Trading Simulation for technical indicator: TypicalPrice
 
-- Simulation executed in : 15.34 seconds.
+- Simulation executed in : 15.46 seconds.
 
 - Graph ./figures/simulation_TypicalPrice.png saved.
 
 - Simulation Statistics:
 	number_of_trading_days: 5651
-	number_of_buy_signals: 91
+	number_of_buy_signals: 2582
 	number_of_ignored_buy_signals: 0
-	number_of_sell_signals: 92
+	number_of_sell_signals: 0
 	number_of_ignored_sell_signals: 0
 	last_stock_value: 475.5
-	last_exposure: 3514.1
-	last_open_long_positions: 2
-	last_open_short_positions: 4
-	last_portfolio_value: -951.0
-	last_earnings: 901.87
-	final_balance: -49.13
+	last_exposure: 16268.77
+	last_open_long_positions: 27
+	last_open_short_positions: 0
+	last_portfolio_value: 12838.5
+	last_earnings: 8051.75
+	final_balance: 20890.25
 
 Trading Simulation for technical indicator: UltimateOscillator
 
-- Simulation executed in : 25.32 seconds.
+- Simulation executed in : 14.04 seconds.
 
 - Graph ./figures/simulation_UltimateOscillator.png saved.
 
 - Simulation Statistics:
 	number_of_trading_days: 5651
-	number_of_buy_signals: 91
+	number_of_buy_signals: 4254
 	number_of_ignored_buy_signals: 0
-	number_of_sell_signals: 1671
+	number_of_sell_signals: 0
 	number_of_ignored_sell_signals: 0
 	last_stock_value: 475.5
-	last_exposure: 17050.02
-	last_open_long_positions: 2
-	last_open_short_positions: 27
-	last_portfolio_value: -11887.5
-	last_earnings: 7607.09
-	final_balance: -4280.41
+	last_exposure: 18828.39
+	last_open_long_positions: 34
+	last_open_short_positions: 0
+	last_portfolio_value: 16167.0
+	last_earnings: 15440.15
+	final_balance: 31607.15
 
 Trading Simulation for technical indicator: VerticalHorizontalFilter
 
-- Simulation executed in : 20.52 seconds.
+- Simulation executed in : 21.23 seconds.
 
 - Graph ./figures/simulation_VerticalHorizontalFilter.png saved.
 
@@ -1090,19 +1090,19 @@ Trading Simulation for technical indicator: VerticalHorizontalFilter
 	number_of_trading_days: 5651
 	number_of_buy_signals: 795
 	number_of_ignored_buy_signals: 0
-	number_of_sell_signals: 824
+	number_of_sell_signals: 119
 	number_of_ignored_sell_signals: 0
 	last_stock_value: 475.5
-	last_exposure: 8399.45
+	last_exposure: 3235.7
 	last_open_long_positions: 5
-	last_open_short_positions: 10
-	last_portfolio_value: -2377.5
-	last_earnings: 6121.25
-	final_balance: 3743.75
+	last_open_short_positions: 1
+	last_portfolio_value: 1902.0
+	last_earnings: 3559.76
+	final_balance: 5461.76
 
 Trading Simulation for technical indicator: VolatilityChaikins
 
-- Simulation executed in : 9.36 seconds.
+- Simulation executed in : 9.67 seconds.
 
 - Graph ./figures/simulation_VolatilityChaikins.png saved.
 
@@ -1122,7 +1122,7 @@ Trading Simulation for technical indicator: VolatilityChaikins
 
 Trading Simulation for technical indicator: VolumeOscillator
 
-- Simulation executed in : 8.97 seconds.
+- Simulation executed in : 9.51 seconds.
 
 - Graph ./figures/simulation_VolumeOscillator.png saved.
 
@@ -1142,7 +1142,7 @@ Trading Simulation for technical indicator: VolumeOscillator
 
 Trading Simulation for technical indicator: VolumeRateOfChange
 
-- Simulation executed in : 9.33 seconds.
+- Simulation executed in : 9.95 seconds.
 
 - Graph ./figures/simulation_VolumeRateOfChange.png saved.
 
@@ -1162,7 +1162,7 @@ Trading Simulation for technical indicator: VolumeRateOfChange
 
 Trading Simulation for technical indicator: WeightedClose
 
-- Simulation executed in : 9.98 seconds.
+- Simulation executed in : 10.62 seconds.
 
 - Graph ./figures/simulation_WeightedClose.png saved.
 
@@ -1182,7 +1182,7 @@ Trading Simulation for technical indicator: WeightedClose
 
 Trading Simulation for technical indicator: WildersSmoothing
 
-- Simulation executed in : 9.77 seconds.
+- Simulation executed in : 9.94 seconds.
 
 - Graph ./figures/simulation_WildersSmoothing.png saved.
 
@@ -1202,7 +1202,7 @@ Trading Simulation for technical indicator: WildersSmoothing
 
 Trading Simulation for technical indicator: WilliamsAccumulationDistribution
 
-- Simulation executed in : 11.83 seconds.
+- Simulation executed in : 12.09 seconds.
 
 - Graph ./figures/simulation_WilliamsAccumulationDistribution.png saved.
 
@@ -1222,7 +1222,7 @@ Trading Simulation for technical indicator: WilliamsAccumulationDistribution
 
 Trading Simulation for technical indicator: WilliamsR
 
-- Simulation executed in : 12.66 seconds.
+- Simulation executed in : 12.65 seconds.
 
 - Graph ./figures/simulation_WilliamsR.png saved.
 

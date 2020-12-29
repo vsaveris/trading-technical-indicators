@@ -15,14 +15,17 @@ import re
 
 
 class TestSimpleMovingAverage(unittest.TestCase, TestIndicatorsCommon):
+
     indicator = tti.indicators.MovingAverage
+
+    ti_data_rows = [0, 1]
 
     df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
     indicator_input_arguments = {'period': 20, 'ma_type': 'time_series'}
 
     indicator_other_input_arguments = [
-        {'period': 1, 'ma_type': 'time_series'},
+        {'period': 2, 'ma_type': 'time_series'},
         {'period': 3169, 'ma_type': 'time_series'}
     ]
 

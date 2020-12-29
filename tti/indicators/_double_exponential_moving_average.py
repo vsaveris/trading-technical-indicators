@@ -115,8 +115,4 @@ class DoubleExponentialMovingAverage(TechnicalIndicator):
         if self._input_data['close'].iat[-1] < self._ti_data['dema'].iat[-1]:
             return TRADE_SIGNALS['buy']
 
-        # Close price is above Moving Average
-        if self._input_data['close'].iat[-1] > self._ti_data['dema'].iat[-1]:
-            return TRADE_SIGNALS['sell']
-
         return TRADE_SIGNALS['hold']

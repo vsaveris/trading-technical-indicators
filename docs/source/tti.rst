@@ -1,5 +1,5 @@
-tti package
-===========
+Trading Technical Indicators (tti) package API
+==============================================
 
 .. toctree::
    :maxdepth: 4

@@ -6,12 +6,14 @@ File name: _projection_bands.py
 """
 
 import pandas as pd
-import numpy as np
+
+import statsmodels.api as sm
+from statsmodels.regression.rolling import RollingOLS
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
 from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter, NotConverged
+    WrongValueForInputParameter
 
 
 class ProjectionBands(TechnicalIndicator):
@@ -51,11 +53,11 @@ class ProjectionBands(TechnicalIndicator):
 
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
-            if period > 0:
+            if period > 1:
                 self._period = period
             else:
                 raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                    period, 'period', '>1')
         else:
             raise WrongTypeForInputParameter(
                 type(period), 'period', 'int')
@@ -89,41 +91,31 @@ class ProjectionBands(TechnicalIndicator):
                            data=None, dtype='float64')
 
         # Calculate n-periods slope of high values
-        try:
-            high_slope = self._input_data['high'].rolling(
-                window=self._period, min_periods=self._period, center=False,
-                win_type=None, on=None, axis=0, closed=None).apply(
-                lambda x: np.polyfit(list(range(self._period)), x.values, 1)[0]
-            )
+        high_slope = RollingOLS(
+            endog=self._input_data['high'].fillna(
+                value=0, inplace=False).to_list(),
+            exog=sm.add_constant(list(range(len(self._input_data.index)))),
+            window=self._period).fit(params_only=True).params[:, 1]
 
-        except np.linalg.LinAlgError:
-            raise NotConverged(input_arguments='(period = ' + str(self._period)
-                + ')', input_data_length=len(self._input_data.index))
-
-        # Calculate n-periods slope of high values
-        try:
-            low_slope = self._input_data['low'].rolling(
-                window=self._period, min_periods=self._period, center=False,
-                win_type=None, on=None, axis=0, closed=None).apply(
-                lambda x: np.polyfit(list(range(self._period)), x.values, 1)[0]
-            )
-
-        except np.linalg.LinAlgError:
-            raise NotConverged(input_arguments='(period = ' + str(self._period)
-                + ')', input_data_length=len(self._input_data.index))
+        # Calculate n-periods slope of low values
+        low_slope = RollingOLS(
+            endog=self._input_data['low'].fillna(
+                value=0, inplace=False).to_list(),
+            exog=sm.add_constant(list(range(len(self._input_data.index)))),
+            window=self._period).fit(params_only=True).params[:, 1]
 
         # Calculate the projection bands
         for i in range(self._period - 1, len(self._input_data.index)):
 
-            pbs['upper_band'].iat[i] = max(
-                [self._input_data['high'].iat[i]] + [
-                    (j * high_slope.iat[i]) + self._input_data['high'].iat[
-                        i - j] for j in range(1, self._period)])
+            pbs['upper_band'].values[i] = max(
+                [self._input_data['high'].values[i]] +
+                [(j * high_slope[i]) + self._input_data['high'].values[i - j]
+                 for j in range(1, self._period)])
 
-            pbs['lower_band'].iat[i] = min(
-                [self._input_data['low'].iat[i]] + [
-                    (j * low_slope.iat[i]) + self._input_data['low'].iat[
-                        i - j] for j in range(1, self._period)])
+            pbs['lower_band'].values[i] = min(
+                [self._input_data['low'].values[i]] +
+                [(j * low_slope[i]) + self._input_data['low'].values[i - j]
+                 for j in range(1, self._period)])
 
         return pbs.round(4)
 

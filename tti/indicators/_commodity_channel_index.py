@@ -95,10 +95,10 @@ class CommodityChannelIndex(TechnicalIndicator):
         # Sum of absolute differences of the typical price sma from preceding
         # periods typical prices
         differences = pd.concat(
-            [tp_sma, typical_price], axis=1).iloc[:].pipe(
+            [tp_sma, typical_price], axis=1).pipe(
             self._rolling_pipe, self._period,
-            lambda x: sum([abs(x[0][self._period - 1] - x[1][i])
-                           for i in range(self._period)]))
+            lambda x: sum((abs(x[0].values[self._period - 1] - x[1].values[i])
+                           for i in range(self._period))))
 
         cci['cci'] = \
             (typical_price - tp_sma) / (0.015 * differences / self._period)

@@ -1,5 +1,5 @@
-Trading Technical Indicator (tti) usage examples
-================================================
+Trading Technical Indicators (tti) usage examples
+=================================================
 
 .. toctree::
    :maxdepth: 1

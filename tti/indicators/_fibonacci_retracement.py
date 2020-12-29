@@ -90,7 +90,7 @@ class FibonacciRetracement(TechnicalIndicator):
         """
 
         # Not enough data for calculating a trading signal
-        if len(self._input_data.index) < 2:
+        if len(self._ti_data.index) < 2:
             return TRADE_SIGNALS['hold']
 
         # Moves from one support level to another in downward direction

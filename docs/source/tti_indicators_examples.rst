@@ -29,7 +29,6 @@ Below is an example on how to use the ``tti.indicators`` package API. Accumulati
     """
 
     import pandas as pd
-    import matplotlib.pyplot as plt
     from tti.indicators import AccumulationDistributionLine
 
     # Read data from csv file. Set the index to the correct column
@@ -56,48 +55,19 @@ Below is an example on how to use the ``tti.indicators`` package API. Accumulati
 
     # Save the Graph for the calculated Technical Indicator
     adl_indicator.getTiGraph().savefig('./figures/example_AccumulationDistributionLine.png')
-    print('Graph for the calculated ADL indicator data, saved.')
+    print('\nGraph for the calculated ADL indicator data, saved.')
 
     # Execute simulation based on trading signals
-    simulation_data, simulation_statistics = adl_indicator.getTiSimulation(
-        close_values=df[['close']], max_exposure=None, short_exposure_factor=1.5)
+    simulation_data, simulation_statistics, simulation_graph = \
+        adl_indicator.getTiSimulation(
+            close_values=df[['close']], max_exposure=None,
+            short_exposure_factor=1.5)
     print('\nSimulation Data:\n', simulation_data)
     print('\nSimulation Statistics:\n', simulation_statistics)
 
-
-.. code-block:: python
-    :caption: Supplementary example on creating a graph from simulation data
-
-    # Example on how a graph can be created from the simulation data
-    plt.figure(figsize=(7, 5))
-
-    plt.subplot(3, 1, 1)
-    plt.plot(list(range(1, len(df['close']) + 1)), df['close'], label='close_price',
-         color='limegreen')
-    plt.legend(loc=0)
-    plt.grid(which='major', axis='y', alpha=0.5)
-    plt.title('Trading Simulation for AccumulationDistributionLine', fontsize=11,
-          fontweight='bold')
-    plt.gca().axes.get_xaxis().set_visible(False)
-
-    plt.subplot(3, 1, 2)
-    plt.plot(list(range(1, len(simulation_data['exposure']) + 1)),
-         simulation_data['exposure'], label='exposure', color='tomato')
-    plt.legend(loc=0)
-    plt.grid(which='major', axis='y', alpha=0.5)
-    plt.gca().axes.get_xaxis().set_visible(False)
-
-    plt.subplot(3, 1, 3)
-    plt.plot(list(range(1, len(simulation_data['balance']) + 1)),
-        simulation_data['balance'], label='balance', color='cornflowerblue')
-    plt.legend(loc=0)
-    plt.grid(which='major', axis='y', alpha=0.5)
-
-    plt.xlabel('Transactions', fontsize=11, fontweight='bold')
-    plt.gcf().text(0.01, 0.5, 'Balance | Exposure | Price', fontsize=11,
-        fontweight='bold', va='center', rotation='vertical')
-
-    plt.savefig('./figures/simulation_AccumulationDistributionLine.png')
+    # Save the Graph for the executed trading signal simulation
+    simulation_graph.savefig('./figures/simulation_AccumulationDistributionLine.png')
+    print('\nGraph for the executed trading signal simulation, saved.')
 
 
 .. code-block:: bash
@@ -125,6 +95,7 @@ Below is an example on how to use the ``tti.indicators`` package API. Accumulati
     Most recent Technical Indicator value: [17427706.42639293]
 
     Technical Indicator signal: ('buy', -1)
+
     Graph for the calculated ADL indicator data, saved.
 
     Simulation Data:
@@ -158,13 +129,16 @@ Below is an example on how to use the ``tti.indicators`` package API. Accumulati
      'last_earnings': 19817.21,
      'final_balance': 38837.21}
 
+    Graph for the executed trading signal simulation, saved.
+
+
 Graph output from the ``getTiGraph()`` function call.
 
 .. image:: ./images/example_AccumulationDistributionLine.png
     :align: center
     :width: 400px
 
-Graph output for the ``simulation_data`` returned by the ``getTiSimulation()`` function call.
+Graph output returned by the ``getTiSimulation()`` function call.
 
 .. image:: ./images/simulation_AccumulationDistributionLine.png
     :align: center

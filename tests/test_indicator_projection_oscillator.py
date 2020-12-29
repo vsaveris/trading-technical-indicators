@@ -17,6 +17,8 @@ class TestProjectionOscillator(unittest.TestCase, TestIndicatorsCommon):
 
     indicator = tti.indicators.ProjectionOscillator
 
+    ti_data_rows = [0, 3, 4]
+
     df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
 
     indicator_input_arguments = {'period': 14}
@@ -37,7 +39,8 @@ class TestProjectionOscillator(unittest.TestCase, TestIndicatorsCommon):
 
     arguments_wrong_value = [
         {'input_data': df, 'period': -1},
-        {'input_data': df, 'period': 0}
+        {'input_data': df, 'period': 0},
+        {'input_data': df, 'period': 1}
     ]
 
     graph_file_name = '_'.join(

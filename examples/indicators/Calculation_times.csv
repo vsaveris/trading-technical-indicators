@@ -1,0 +1,63 @@
+indicator,calculation_time_in_seconds
+AccumulationDistributionLine,0.01
+AverageTrueRange,0.02
+BollingerBands,0.01
+ChaikinMoneyFlow,0.01
+ChaikinOscillator,0.01
+ChandeMomentumOscillator,0.01
+CommodityChannelIndex,0.87
+DetrendedPriceOscillator,0.01
+DirectionalMovementIndex,0.57
+DoubleExponentialMovingAverage,0.01
+EaseOfMovement,0.01
+Envelopes,0.01
+FibonacciRetracement,0.02
+ForecastOscillator,0.27
+IchimokuCloud,0.01
+IntradayMovementIndex,0.01
+KlingerOscillator,0.06
+LinearRegressionIndicator,0.27
+LinearRegressionSlope,0.01
+MarketFacilitationIndex,0.0
+MassIndex,0.01
+MedianPrice,0.01
+Momentum,0.01
+MovingAverage (simple),0.01
+MovingAverage (exponential),0.01
+MovingAverage (time_series),0.26
+MovingAverage (triangular),0.01
+MovingAverage (variable),0.37
+MovingAverageConvergenceDivergence,0.02
+NegativeVolumeIndex,0.23
+OnBalanceVolume,0.01
+ParabolicSAR,0.19
+Performance,0.01
+PositiveVolumeIndex,0.21
+PriceAndVolumeTrend,0.24
+PriceChannel,0.01
+PriceOscillator,0.01
+PriceRateOfChange,0.01
+ProjectionBands,1.01
+ProjectionOscillator,1.02
+Qstick,0.01
+RangeIndicator,0.19
+RelativeMomentumIndex,0.3
+RelativeStrengthIndex,0.36
+RelativeVolatilityIndex,0.6
+StandardDeviation,0.01
+StochasticMomentumIndex,0.02
+StochasticOscillator (fast),0.01
+StochasticOscillator (slow),0.01
+SwingIndex,0.02
+TimeSeriesForecast,0.27
+TripleExponentialMovingAverage,0.01
+TypicalPrice,0.01
+UltimateOscillator,0.02
+VerticalHorizontalFilter,0.01
+VolatilityChaikins,0.01
+VolumeOscillator,0.01
+VolumeRateOfChange,0.01
+WeightedClose,0.01
+WildersSmoothing,0.15
+WilliamsAccumulationDistribution,0.02
+WilliamsR,0.01

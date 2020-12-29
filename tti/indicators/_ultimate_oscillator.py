@@ -139,7 +139,7 @@ class UltimateOscillator(TechnicalIndicator):
         span_period = 30
 
         # Not enough data for trading signal
-        if len(self._input_data.index) < 28 + span_period:
+        if len(self._ti_data.index) < span_period:
             return TRADE_SIGNALS['hold']
 
         # Check if bullish divergence occurs
@@ -151,41 +151,11 @@ class UltimateOscillator(TechnicalIndicator):
         if close_low_index != uosc_low_index:
 
             # Check if indicator falls below 30 during the bullish period
-            if len(self._ti_data['uosc'].iloc[-span_period:]
-                   [self._ti_data['uosc'].iloc[-span_period:] < 30].index) > 0:
+            if self._ti_data['uosc'].iloc[-span_period:].all() < 30:
 
                 # Buy when indicator makes a highest high during this period
-                if len(self._ti_data['uosc'].iloc[-span_period:-1]
-                       [self._ti_data['uosc'].iloc[-span_period:-1] >
-                        self._ti_data['uosc'].iat[-1]].index) == 0:
-
+                if self._ti_data['uosc'].iloc[-span_period:-1].all() < \
+                        self._ti_data['uosc'].iat[-1]:
                     return TRADE_SIGNALS['buy']
-
-        # Check if bearish divergence occurs
-        close_high_index = self._input_data['close'].iloc[
-                          -span_period:].argmax()
-
-        uosc_high_index = self._ti_data['uosc'].iloc[-span_period:].argmax()
-
-        if close_high_index != uosc_high_index:
-
-            # Check if indicator rises above 50 during the bearish period
-            if len(self._ti_data['uosc'].iloc[-span_period:]
-                   [self._ti_data['uosc'].iloc[-span_period:] > 50].index) > 0:
-
-                # Sell when indicator makes a lowest low during this period
-                if len(self._ti_data['uosc'].iloc[-span_period:-1]
-                       [self._ti_data['uosc'].iloc[-span_period:-1] <
-                        self._ti_data['uosc'].iat[-1]].index) == 0:
-
-                    return TRADE_SIGNALS['sell']
-
-        if ((len(self._ti_data['uosc'].iloc[-span_period:-1]
-                 [self._ti_data['uosc'].iloc[-span_period:-1] > 50]) > 0) and
-                (self._ti_data['uosc'].iat[-1] < 45)):
-            return TRADE_SIGNALS['sell']
-
-        if self._ti_data['uosc'].iat[-2] < 70 < self._ti_data['uosc'].iat[-1]:
-            return TRADE_SIGNALS['sell']
 
         return TRADE_SIGNALS['hold']

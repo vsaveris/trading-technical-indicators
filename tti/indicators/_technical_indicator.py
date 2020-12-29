@@ -6,6 +6,7 @@ File name: _technical_indicator.py
 """
 
 import pandas as pd
+import matplotlib.pyplot as plt
 from abc import ABC, abstractmethod
 
 from .properties.indicators_properties import INDICATORS_PROPERTIES
@@ -190,6 +191,55 @@ class TechnicalIndicator(ABC):
             'runSimulation', '0.1.b3',
             ' It has been replaced by the getTiSimulation method.')
 
+    @staticmethod
+    def _getSimulationGraph(simulation, title):
+        """
+        Returns a matplotlib.pyplot graph with simulation data.
+
+        Parameters:
+            simulation (pandas.DataFrame): Simulation data collected during the
+                execution of the trading simulation.
+
+            title (str): Title of the graph.
+
+        Raises:
+            -
+
+        Returns:
+            (matplotlib.pyplot): The produced graph.
+        """
+
+        plt.figure(figsize=(7, 5))
+
+        plt.subplot(3, 1, 1)
+        plt.plot(list(range(1, len(simulation['stock_value']) + 1)),
+            simulation['stock_value'], label='close_price', color='limegreen')
+        plt.legend(loc=0)
+        plt.grid(which='major', axis='y', alpha=0.5)
+        plt.title(title, fontsize=11, fontweight='bold')
+        plt.gca().axes.get_xaxis().set_visible(False)
+
+        plt.subplot(3, 1, 2)
+        plt.plot(list(range(1, len(simulation['exposure']) + 1)),
+                 simulation['exposure'], label='exposure',
+                 color='tomato')
+        plt.legend(loc=0)
+        plt.grid(which='major', axis='y', alpha=0.5)
+        plt.gca().axes.get_xaxis().set_visible(False)
+
+        plt.subplot(3, 1, 3)
+        plt.plot(list(range(1, len(simulation['balance']) + 1)),
+                 simulation['balance'], label='balance',
+                 color='cornflowerblue')
+        plt.legend(loc=0)
+        plt.grid(which='major', axis='y', alpha=0.5)
+
+        plt.xlabel('Transactions', fontsize=11, fontweight='bold')
+        plt.gcf().text(0.01, 0.5, 'Balance | Exposure | Price', fontsize=11,
+                       fontweight='bold', va='center', rotation='vertical')
+
+        return plt
+
     def getTiSimulation(self, close_values, max_exposure=None,
                         short_exposure_factor=1.5):
         """
@@ -226,8 +276,11 @@ class TechnicalIndicator(ABC):
                 Values >=1.0 are supported.
 
         Returns:
-            (pandas.DataFrame, dict): Dataframe which holds details and
-            dictionary which holds statistics about the simulation.
+            (pandas.DataFrame, dict, matplotlib.pyplot): Dataframe which holds
+            details about the trading simulation executed, dictionary which
+            holds statistics about the simulation and a graph which displays
+            the stock price, the exposure, and the balance during the
+            simulation.
 
             The index of the dataframe is the whole trading period
             (DateTimeIndex).Columns are:
@@ -331,4 +384,8 @@ class TechnicalIndicator(ABC):
         self._ti_data = full_ti_data
         self._input_data = full_input_data
 
-        return simulator.closeSimulation()
+        simulation_data, statistics = simulator.closeSimulation()
+
+        return simulation_data, statistics, \
+            self._getSimulationGraph(simulation_data,
+            'Trading Simulation for ' + self._calling_instance)
