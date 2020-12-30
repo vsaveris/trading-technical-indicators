@@ -299,8 +299,16 @@ class TestIndicatorsCommon(ABC):
         df_expected_result = pd.read_csv(self.indicator_test_data_file_name,
             parse_dates=True, index_col=0).round(self.precision)
 
-        self.assertEqual(list(df_expected_result.iloc[-1]), self.indicator(df,
-            **self.indicator_input_arguments).getTiValue())
+        # Adaptation for the pandas release 1.2.0, check github issue #20
+        expected_result = list(df_expected_result.iloc[-1])
+        actual_result = self.indicator(df, **self.indicator_input_arguments).\
+            getTiValue()
+
+        for x, y in zip(expected_result, actual_result):
+            try:
+                self.assertAlmostEqual(x, y, places=4)
+            except:
+                self.assertAlmostEqual(x, y, places=3)
 
     def test_getTiSignal(self):
         df = pd.read_csv('./data/sample_data.csv', parse_dates=True,
