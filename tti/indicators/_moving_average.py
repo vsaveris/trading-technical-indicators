@@ -137,7 +137,7 @@ class MovingAverage(TechnicalIndicator):
                                       period=self._period).getTiData(),
                 LinearRegressionIndicator(input_data=self._input_data,
                                           period=self._period).getTiData()],
-                axis=1).sum(axis=1)
+                axis=1).sum(axis=1).iloc[self._period-1:]
 
         elif self._ma_type == 'triangular':
 
