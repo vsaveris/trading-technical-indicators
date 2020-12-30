@@ -4,12 +4,8 @@ Trading Technical Indicators (tti) package is available for installation through
 
 .. code-block:: bash 
 
-    $ pip install tti
+    $ pip install -U tti
 
-.. warning::
-    Using upgrade option (-U, --upgrade) with pip install (i.e. pip install -U tti) can cause errors when using the tti package, in case where the new versions of the dependencies are not verified yet. It is recommended to avoid the use of the upgrade option, when installing the tti package.
-    
-    
 Any previous release can be installed through pip, by indicating the version number.
 
 .. code-block:: bash
