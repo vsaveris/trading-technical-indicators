@@ -230,13 +230,13 @@ class ParabolicSAR(TechnicalIndicator):
                 self._ti_data['sar'].iat[-2]) and
                 (self._input_data['close'].iat[-1] <
                  self._ti_data['sar'].iat[-1])):
-            return TRADE_SIGNALS['buy']
+            return TRADE_SIGNALS['sell']
 
         elif ((self._input_data['close'].iat[-2] <
                self._ti_data['sar'].iat[-2]) and
               (self._input_data['close'].iat[-1] >
                self._ti_data['sar'].iat[-1])):
-            return TRADE_SIGNALS['sell']
+            return TRADE_SIGNALS['buy']
 
         else:
             return TRADE_SIGNALS['hold']
