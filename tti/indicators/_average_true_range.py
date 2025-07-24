@@ -83,10 +83,9 @@ class AverageTrueRange(TechnicalIndicator):
         atr['atr'] = atr[['TH-TL', 'YC-TH', 'YC-TL']].max(axis=1)
 
         # Wilder's Moving Average
-        atr['atr'] = pd.Series(
-            data=[atr['atr'].iloc[:14].mean()], index=[atr.index[13]]
-        ).append(atr['atr'].iloc[14:]).ewm(alpha=1 / 14,
-                                           adjust=False,).mean().round(4)
+        atr['atr'] = pd.concat([pd.Series(data=[atr['atr'].iloc[:14].mean()],
+                                           index=[atr.index[13]]), atr['atr'].iloc[14:]]).ewm(alpha=1/14,
+                                                                                              adjust=False).mean().round(4)
 
         return atr[['atr']]
 
