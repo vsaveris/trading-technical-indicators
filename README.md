@@ -1,6 +1,8 @@
 # trading-technical-indicators (tti)
 ![Current Version](https://img.shields.io/badge/current_version-0.3.0_(not_released)-yellow?style=flat-square)
 ![Latest Release](https://img.shields.io/badge/latest_release-0.2.2-blue?style=flat-square)
+![Total Tests](https://img.shields.io/badge/total_tests-2122-purple?style=flat-square)
+![Coverage](https://img.shields.io/badge/test_coverage-99%25-green?style=flat-square)
 
 **Trading Technical Indicators python library, where Traditional Technical Analysis and AI are met. Version 0.2.2 (stable release)**
 - Calculate technical indicators (62 indicators supported).
@@ -34,6 +36,12 @@ API documentation and installation instructions can be found in:
 
 The project is currently undergoing a series of updates focused on modernizing its structure and packaging, upgrading Python and other dependency versions, and introducing new Machine Learning capabilities.
 There will be no intermediate releases for these updates. Once all planned changes are complete, version `1.0.0` of the package will be published.
+
+To use this unreleased version, clone the repository and install the package:
+```shell
+git clone git@github.com:vsaveris/trading-technical-indicators.git
+pip install .
+```
 - 0.3.0: Code refactoring
   - Refactor code due to deprecated methods in various packages (i.e. pandas)
   - Update minimum versions for dependencies

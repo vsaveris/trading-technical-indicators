@@ -7,15 +7,24 @@ File name: test_indicators_common.py
 """
 
 from abc import ABC, abstractmethod
-
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import copy
 import numpy as np
 
-from tti.utils.exceptions import NotEnoughInputData, \
-    WrongTypeForInputParameter, WrongValueForInputParameter, \
-    TtiPackageDeprecatedMethod
+from tti.utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+    TtiPackageDeprecatedMethod,
+)
+
+_tests_dir = os.path.dirname(os.path.abspath(__file__))
+
+if os.getcwd() != _tests_dir:
+    os.chdir(_tests_dir)
+os.makedirs(os.path.join(_tests_dir, 'figures'), exist_ok=True)
 
 
 class TestIndicatorsCommon(ABC):
