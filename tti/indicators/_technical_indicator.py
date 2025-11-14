@@ -206,58 +206,92 @@ class TechnicalIndicator(ABC):
 
             title (str): Title of the graph.
 
-        Raises:
-            -
-
         Returns:
-            (matplotlib.pyplot): The produced graph.
+            matplotlib.pyplot: The produced graph.
         """
+        fig, axes = plt.subplots(
+            nrows=3,
+            ncols=1,
+            sharex=True,
+            figsize=(8.5, 6.0),
+        )
 
-        plt.figure(figsize=(7, 5))
+        axes = list(axes)
 
-        plt.subplot(3, 1, 1)
-        plt.plot(
-            list(range(1, len(simulation["stock_value"]) + 1)),
+        fig.suptitle(title, fontsize=13, fontweight="bold", y=0.97)
+
+        x = list(range(1, len(simulation.index) + 1))
+
+        for ax in axes:
+            ax.set_facecolor("#ffffff")
+            ax.grid(True, which="major", axis="both", linestyle="--", alpha=0.25, linewidth=0.7)
+            ax.minorticks_on()
+            ax.grid(True, which="minor", axis="y", linestyle=":", alpha=0.12, linewidth=0.6)
+
+            for spine in ("top", "right"):
+                ax.spines[spine].set_visible(False)
+            for spine in ("left", "bottom"):
+                ax.spines[spine].set_alpha(0.4)
+
+            ax.margins(x=0.01, y=0.10)
+
+        axes[0].plot(
+            x,
             simulation["stock_value"],
             label="close_price",
             color="limegreen",
+            linewidth=1.8,
         )
-        plt.legend(loc=0)
-        plt.grid(which="major", axis="y", alpha=0.5)
-        plt.title(title, fontsize=11, fontweight="bold")
-        plt.gca().axes.get_xaxis().set_visible(False)
+        axes[0].legend(
+            loc="upper left",
+            frameon=False,
+            fontsize=9,
+            handlelength=1.6,
+            columnspacing=1.2,
+            handletextpad=0.8,
+            labelspacing=0.5,
+            borderpad=0.4,
+        )
 
-        plt.subplot(3, 1, 2)
-        plt.plot(
-            list(range(1, len(simulation["exposure"]) + 1)),
+        axes[1].plot(
+            x,
             simulation["exposure"],
             label="exposure",
             color="tomato",
+            linewidth=1.8,
         )
-        plt.legend(loc=0)
-        plt.grid(which="major", axis="y", alpha=0.5)
-        plt.gca().axes.get_xaxis().set_visible(False)
-
-        plt.subplot(3, 1, 3)
-        plt.plot(
-            list(range(1, len(simulation["balance"]) + 1)),
+        axes[1].legend(
+            loc="upper left",
+            frameon=False,
+            fontsize=9,
+            handlelength=1.6,
+            columnspacing=1.2,
+            handletextpad=0.8,
+            labelspacing=0.5,
+            borderpad=0.4,
+        )
+        axes[2].plot(
+            x,
             simulation["balance"],
             label="balance",
             color="cornflowerblue",
+            linewidth=1.8,
         )
-        plt.legend(loc=0)
-        plt.grid(which="major", axis="y", alpha=0.5)
+        axes[2].legend(
+            loc="upper left",
+            frameon=False,
+            fontsize=9,
+            handlelength=1.6,
+            columnspacing=1.2,
+            handletextpad=0.8,
+            labelspacing=0.5,
+            borderpad=0.4,
+        )
 
-        plt.xlabel("Transactions", fontsize=11, fontweight="bold")
-        plt.gcf().text(
-            0.01,
-            0.5,
-            "Balance | Exposure | Price",
-            fontsize=11,
-            fontweight="bold",
-            va="center",
-            rotation="vertical",
-        )
+        axes[-1].set_xlabel("Transactions", fontsize=11, fontweight="bold", labelpad=10)
+        fig.supylabel("Balance | Exposure | Price", fontsize=11, fontweight="bold")
+
+        fig.subplots_adjust(top=0.90, bottom=0.12, left=0.12, right=0.95, hspace=0.25)
 
         return plt
 

@@ -7,57 +7,19 @@ File name: plot.py
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import math
 
 
 def linesGraph(data, y_label, title, lines_color, alpha_values, areas, x_label="Date"):
     """
     Returns a lines graph of type matplotlib.pyplot. The graph can be either
     a figure with a single plot, or a figure containing two vertical subplots.
-
-    Parameters:
-        data (pandas.DataFrame or a list of pandas.DataFrame objects): The data
-            to include in the graph. If data is a single pandas.DataFrame then
-            a single plot is prepared. If data is a list of pandas.DataFrame,
-            then a plot with subplots vertically stacked is prepared. Each
-            pandas.DataFrame in the list is used for a separate subplot. The
-            index of the dataframe represents the data on the x-axis and it
-            should be of type pandas.DatetimeIndex. Each column of the
-            dataframe represents a line in the graph.
-
-        y_label (str): The label of the y-axis of the graph.
-
-        title (str): The title on the top of the graph.
-
-        lines_color ([str,]): The colors (matplotlib.colors) to be used for
-            each line of the graph, in the defined order. In case where the
-            lines are more than the colors, then the list is scanned again from
-            the zero index.
-
-        alpha_values ([float,]): Alpha value of each line, to be used in
-            the call of the matplotlib.pyplot.plot method. In case where the
-            lines are more than the members of the list, then the list is
-            scanned again from the zero index.
-
-        areas ([dict,] or None): Includes the areas to be plotted by using the
-            fill_between matplotlib method. Each member of the list should be a
-            dictionary with the below keys: ``x``, ``y1``, ``y2``, ``color``,
-            see ``fill_between`` matplotlib method for more details.
-
-        x_label (str, default='Date'): The label of the x-axis of the graph.
-
-    Returns:
-        matplotlib.pyplot: The prepared graph object.
-
-    Raises:
-        TypeError: Type error occurred when validating the ``data``.
     """
-
-    # For handling a list as input always
     if type(data) != list:
         data = [data]
 
     for df in data:
-        # Validate that the input_data parameter is a pandas.DataFrame object
         if not isinstance(df, pd.DataFrame):
             raise TypeError(
                 "Invalid input_data type. It was expected "
@@ -66,7 +28,6 @@ def linesGraph(data, y_label, title, lines_color, alpha_values, areas, x_label="
                 + "` was found."
             )
 
-        # Validate that the index of the pandas.DataFrame is of type date
         if not isinstance(df.index, pd.DatetimeIndex):
             raise TypeError(
                 "Invalid input_data index type. It was expected "
@@ -75,47 +36,99 @@ def linesGraph(data, y_label, title, lines_color, alpha_values, areas, x_label="
                 + "` was found."
             )
 
-    plt.figure(figsize=(7, 5))
+    nrows = len(data)
+    base_h = 3.2
+    fig_h = max(5.0, nrows * base_h)
+    fig, axes = plt.subplots(
+        nrows=nrows,
+        ncols=1,
+        sharex=True,
+        figsize=(8.5, fig_h),
+    )
+    if nrows == 1:
+        axes = [axes]
 
-    # Add the subplots
-    j = 0  # Used for plot attributes use in rotation
+    fig.suptitle(title, fontsize=13, fontweight="bold", y=0.97)
 
-    # Maximum of two DataFrames are considered from the data parameter
-    for i in range(len(data)):
-        plt.subplot(len(data), 1, i + 1)
+    for ax in axes:
+        ax.set_facecolor("#ffffff")
+        ax.grid(True, which="major", axis="both", linestyle="--", alpha=0.25, linewidth=0.7)
+        ax.minorticks_on()
+        ax.grid(True, which="minor", axis="y", linestyle=":", alpha=0.12, linewidth=0.6)
+        # De-emphasize spines
+        for spine in ("top", "right"):
+            ax.spines[spine].set_visible(False)
+        for spine in ("left", "bottom"):
+            ax.spines[spine].set_alpha(0.4)
 
-        for line_name in data[i].columns.values:
-            plt.plot(
-                data[i].index,
-                data[i][line_name],
-                label=line_name,
-                color=lines_color[j % len(lines_color)],
-                alpha=alpha_values[j % len(alpha_values)],
+    j = 0
+    for i, df in enumerate(data):
+        ax = axes[i]
+
+        _locator = mdates.AutoDateLocator()
+        ax.xaxis.set_major_locator(_locator)
+        ax.xaxis.set_major_formatter(mdates.ConciseDateFormatter(_locator))
+
+        for line_name in df.columns.values:
+            color = (
+                lines_color[j % len(lines_color)] if lines_color and len(lines_color) > 0 else None
             )
-
+            alpha = (
+                alpha_values[j % len(alpha_values)]
+                if alpha_values and len(alpha_values) > 0
+                else 0.9
+            )
+            ax.plot(
+                df.index,
+                df[line_name],
+                label=line_name,
+                color=color,
+                alpha=alpha,
+                linewidth=1.8,
+            )
             j += 1
 
-        plt.legend(loc=0)
-        plt.grid(which="major", axis="y", alpha=0.5)
+        ax.margins(x=0.01, y=0.10)
 
-        # Set attributes for each subplot depending its position
-        if i == 0:
-            plt.title(title, fontsize=11, fontweight="bold")
-            if len(data) > 1:
-                plt.gca().axes.get_xaxis().set_visible(False)
+        if i < nrows - 1:
+            ax.label_outer()
 
-    # Last subplot x-axis
-    plt.xlabel(x_label, fontsize=11, fontweight="bold")
-    plt.gcf().autofmt_xdate()
+    axes[-1].set_xlabel(x_label, fontsize=11, fontweight="bold", labelpad=10)
+    fig.supylabel(y_label, fontsize=11, fontweight="bold")
 
-    # Common y-axis label
-    plt.gcf().text(
-        0.04, 0.5, y_label, fontsize=11, fontweight="bold", va="center", rotation="vertical"
-    )
+    top_ax = axes[0]
+    handles_top, labels_top = top_ax.get_legend_handles_labels()
+    if handles_top:
+        fig.legend(
+            handles_top,
+            labels_top,
+            loc="upper center",
+            bbox_to_anchor=(0.5, 0.92),
+            bbox_transform=fig.transFigure,
+            frameon=False,
+            ncol=len(labels_top),
+            fontsize=9,
+        )
 
-    # Plot areas
+    if nrows >= 2:
+        bottom_ax = axes[-1]
+        handles_b, labels_b = bottom_ax.get_legend_handles_labels()
+        if handles_b and len(axes) >= 2:
+            y_mid = (axes[0].get_position().y0 + axes[1].get_position().y1) / 2
+            fig.legend(
+                handles_b,
+                labels_b,
+                loc="center",
+                bbox_to_anchor=(0.5, y_mid),
+                bbox_transform=fig.transFigure,
+                frameon=False,
+                ncol=len(labels_b),
+                fontsize=9,
+            )
+
+    fig.subplots_adjust(top=0.90, bottom=0.12, left=0.12, right=0.95, hspace=0.25)
+
     if areas is not None:
-        # Translate the areas to python objects
         areas_objects = []
 
         for a in areas:
@@ -123,8 +136,6 @@ def linesGraph(data, y_label, title, lines_color, alpha_values, areas, x_label="
 
             for area_key, area_value in a.items():
                 if type(area_value) == list:
-                    # If list it contains the data list index, the constant
-                    # 'ti_data', and the ti_data column name
                     areas_objects[-1][area_key] = data[area_value[0]][area_value[2]].to_list()
 
                 elif area_value == "ti_index":
@@ -132,7 +143,10 @@ def linesGraph(data, y_label, title, lines_color, alpha_values, areas, x_label="
                 else:
                     areas_objects[-1][area_key] = a[area_key]
 
+        target_ax = axes[-1]
         for a in areas_objects:
-            plt.gca().fill_between(x=a["x"], y1=a["y1"], y2=a["y2"], color=a["color"])
+            target_ax.fill_between(
+                x=a["x"], y1=a["y1"], y2=a["y2"], color=a.get("color", "#cccccc"), alpha=0.15
+            )
 
     return plt

@@ -43,7 +43,7 @@ def calculate_ti(indicator_object, output_file=None, add_info=None, **kwargs):
         " (" + add_info + ")" if add_info is not None else ""
     )
 
-    print(ti_name, ",", round(time.time() - start_time, 2), sep="", file=output_file)
+    print(ti_name, ",", round(time.time() - start_time, 5), sep="", file=output_file)
 
 
 if __name__ == "__main__":
