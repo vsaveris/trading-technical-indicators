@@ -40,12 +40,14 @@ class AccumulationDistributionLine(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, fill_missing_values=True):
 
+    def __init__(self, input_data, fill_missing_values=True):
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -56,17 +58,20 @@ class AccumulationDistributionLine(TechnicalIndicator):
             ``pandas.DatetimeIndex``. It contains one column, the ``adl``.
         """
 
-        adl = pd.DataFrame(index=self._input_data.index, columns=['adl'],
-                           data=0, dtype='int64')
+        adl = pd.DataFrame(index=self._input_data.index, columns=["adl"], data=0, dtype="int64")
 
-        adl['adl'] = self._input_data['volume'] * (
-                (self._input_data['close'] - self._input_data['low']) -
-                (self._input_data['high'] - self._input_data['close'])
-        ) / (self._input_data['high'] - self._input_data['low'])
+        adl["adl"] = (
+            self._input_data["volume"]
+            * (
+                (self._input_data["close"] - self._input_data["low"])
+                - (self._input_data["high"] - self._input_data["close"])
+            )
+            / (self._input_data["high"] - self._input_data["low"])
+        )
 
         adl = adl.cumsum(axis=0)
 
-        return adl.astype(dtype='int64', errors='ignore')
+        return adl.astype(dtype="int64", errors="ignore")
 
     def getTiSignal(self):
         """
@@ -82,17 +87,18 @@ class AccumulationDistributionLine(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
-        price_slope = self._input_data['close'].iat[-1] - \
-            self._input_data['close'].iat[-2]
+        price_slope = self._input_data["close"].iat[-1] - self._input_data["close"].iat[-2]
 
-        if ((price_slope < 0 < self._ti_data['adl'].iat[-1]) or
-                (price_slope > 0 and self._ti_data['adl'].iat[-1] > 0)):
-            return TRADE_SIGNALS['buy']
+        if (price_slope < 0 < self._ti_data["adl"].iat[-1]) or (
+            price_slope > 0 and self._ti_data["adl"].iat[-1] > 0
+        ):
+            return TRADE_SIGNALS["buy"]
 
-        if ((price_slope > 0 > self._ti_data['adl'].iat[-1]) or
-                (price_slope < 0 and self._ti_data['adl'].iat[-1] < 0)):
-            return TRADE_SIGNALS['sell']
+        if (price_slope > 0 > self._ti_data["adl"].iat[-1]) or (
+            price_slope < 0 and self._ti_data["adl"].iat[-1] < 0
+        ):
+            return TRADE_SIGNALS["sell"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

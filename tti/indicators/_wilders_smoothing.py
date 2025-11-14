@@ -9,8 +9,11 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class WildersSmoothing(TechnicalIndicator):
@@ -44,23 +47,23 @@ class WildersSmoothing(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, period=5, fill_missing_values=True):
 
+    def __init__(self, input_data, period=5, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
             if period > 0:
                 self._period = period
             else:
-                raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                raise WrongValueForInputParameter(period, "period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(period), 'period', 'int')
+            raise WrongTypeForInputParameter(type(period), "period", "int")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -77,20 +80,22 @@ class WildersSmoothing(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < self._period:
-            raise NotEnoughInputData('Wilder\'s Smoothing', self._period,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData(
+                "Wilder's Smoothing", self._period, len(self._input_data.index)
+            )
 
-        ws = pd.DataFrame(index=self._input_data.index, columns=['ws'],
-                          data=None, dtype='float64')
+        ws = pd.DataFrame(index=self._input_data.index, columns=["ws"], data=None, dtype="float64")
 
         # Wilder's Moving Average
-        ws.loc[ws.index[self._period - 1], 'ws'] = \
-            self._input_data['close'].iloc[:self._period].mean()
+        ws.loc[ws.index[self._period - 1], "ws"] = (
+            self._input_data["close"].iloc[: self._period].mean()
+        )
 
         for i in range(self._period, len(self._input_data.index)):
-            ws.loc[ws.index[i], 'ws'] = ws['ws'].iat[i - 1] + (
-                    self._input_data['close'].iat[i] - ws['ws'].iat[i - 1]
-            ) / self._period
+            ws.loc[ws.index[i], "ws"] = (
+                ws["ws"].iat[i - 1]
+                + (self._input_data["close"].iat[i] - ws["ws"].iat[i - 1]) / self._period
+            )
 
         return ws.round(4)
 
@@ -106,18 +111,18 @@ class WildersSmoothing(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Close price goes below indicator
-        if ((self._input_data['close'].iat[-2] > self._ti_data['ws'].iat[-2])
-                and (self._input_data['close'].iat[-1] <
-                     self._ti_data['ws'].iat[-1])):
-            return TRADE_SIGNALS['buy']
+        if (self._input_data["close"].iat[-2] > self._ti_data["ws"].iat[-2]) and (
+            self._input_data["close"].iat[-1] < self._ti_data["ws"].iat[-1]
+        ):
+            return TRADE_SIGNALS["buy"]
 
         # Close price goes above indicator
-        if ((self._input_data['close'].iat[-2] < self._ti_data['ws'].iat[-2])
-                and (self._input_data['close'].iat[-1] >
-                     self._ti_data['ws'].iat[-1])):
-            return TRADE_SIGNALS['sell']
+        if (self._input_data["close"].iat[-2] < self._ti_data["ws"].iat[-2]) and (
+            self._input_data["close"].iat[-1] > self._ti_data["ws"].iat[-1]
+        ):
+            return TRADE_SIGNALS["sell"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

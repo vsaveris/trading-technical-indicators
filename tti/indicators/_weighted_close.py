@@ -40,12 +40,14 @@ class WeightedClose(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, fill_missing_values=True):
 
+    def __init__(self, input_data, fill_missing_values=True):
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -57,11 +59,11 @@ class WeightedClose(TechnicalIndicator):
             ``pandas.DatetimeIndex``. It contains one column, the ``wc``.
         """
 
-        wc = pd.DataFrame(index=self._input_data.index, columns=['wc'],
-                          data=None, dtype='float64')
+        wc = pd.DataFrame(index=self._input_data.index, columns=["wc"], data=None, dtype="float64")
 
-        wc['wc'] = (2 * self._input_data['close'] + self._input_data['high'] +
-                    self._input_data['low']) / 4
+        wc["wc"] = (
+            2 * self._input_data["close"] + self._input_data["high"] + self._input_data["low"]
+        ) / 4
 
         return wc.round(4)
 
@@ -77,18 +79,18 @@ class WeightedClose(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Close price goes below Weighted Close
-        if ((self._input_data['close'].iat[-2] > self._ti_data['wc'].iat[-2])
-                and (self._input_data['close'].iat[-1] <
-                     self._ti_data['wc'].iat[-1])):
-            return TRADE_SIGNALS['buy']
+        if (self._input_data["close"].iat[-2] > self._ti_data["wc"].iat[-2]) and (
+            self._input_data["close"].iat[-1] < self._ti_data["wc"].iat[-1]
+        ):
+            return TRADE_SIGNALS["buy"]
 
         # Close price goes above Weighted Close
-        if ((self._input_data['close'].iat[-2] < self._ti_data['wc'].iat[-2])
-                and (self._input_data['close'].iat[-1] >
-                     self._ti_data['wc'].iat[-1])):
-            return TRADE_SIGNALS['sell']
+        if (self._input_data["close"].iat[-2] < self._ti_data["wc"].iat[-2]) and (
+            self._input_data["close"].iat[-1] > self._ti_data["wc"].iat[-1]
+        ):
+            return TRADE_SIGNALS["sell"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

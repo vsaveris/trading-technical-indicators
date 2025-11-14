@@ -42,59 +42,56 @@ def execute_simulation(indicator_object, close_values, **kwargs):
 
     indicator = indicator_object(**kwargs)
 
-    print('\nTrading Simulation for technical indicator: ',
-          type(indicator).__name__)
+    print("\nTrading Simulation for technical indicator: ", type(indicator).__name__)
 
     start_time = time.time()
 
     # Execute simulation
-    simulation, statistics, graph = indicator.getTiSimulation(
-        close_values=close_values)
+    simulation, statistics, graph = indicator.getTiSimulation(close_values=close_values)
 
-    print('\n- Simulation executed in :', round(time.time() - start_time, 2),
-          'seconds.')
+    print("\n- Simulation executed in :", round(time.time() - start_time, 2), "seconds.")
 
     # Show graph for the calculated indicator
-    #graph.show()
-    graph.savefig('foo.png')
+    # graph.show()
+    graph.savefig("foo.png")
 
     # Get simulation statistics
-    print('\n- Simulation Statistics:')
+    print("\n- Simulation Statistics:")
     for key, value in statistics.items():
-        print('\t', key, ': ', value, sep='')
+        print("\t", key, ": ", value, sep="")
 
 
-if __name__ == '__main__':
-
+if __name__ == "__main__":
     # Read data from csv file. Set the index to the correct column
     # (dates column)
-    df = pd.read_csv('./data/SCMN.SW.csv', parse_dates=True, index_col=0)
+    df = pd.read_csv("./data/SCMN.SW.csv", parse_dates=True, index_col=0)
 
     indicator_class_name = None
 
-    if len(sys.argv) > 1 and re.match('^tti\.indicators\.[A-Z,a-z]*$',
-                                      sys.argv[1]):
+    if len(sys.argv) > 1 and re.match("^tti\.indicators\.[A-Z,a-z]*$", sys.argv[1]):
         indicator_class_name = sys.argv[1]
 
     try:
         indicator = eval(indicator_class_name)
     except:
-        print('Invalid technical indicator', indicator_class_name)
+        print("Invalid technical indicator", indicator_class_name)
         exit()
 
     kwargs = {}
 
     for i in range(2, len(sys.argv)):
+        input_arg = sys.argv[i].split("=")
+        kwargs[input_arg[0]] = (
+            int(input_arg[1])
+            if re.match("^[0-9]*$", input_arg[1])
+            else (
+                float(input_arg[1]) if re.match("^[0-9]*\.[0-9]]*$", input_arg[1]) else input_arg[1]
+            )
+        )
 
-        input_arg = sys.argv[i].split('=')
-        kwargs[input_arg[0]] = int(input_arg[1]) if re.match('^[0-9]*$',
-            input_arg[1]) else (float(input_arg[1]) if
-            re.match('^[0-9]*\.[0-9]]*$', input_arg[1]) else input_arg[1])
-
-    print('Trading Simulation for the', indicator, 'with arguments', kwargs)
+    print("Trading Simulation for the", indicator, "with arguments", kwargs)
 
     # Run simulation
-    execute_simulation(indicator_object=indicator,
-                       close_values=df[['close']],
-                       input_data=df,
-                       **kwargs)
+    execute_simulation(
+        indicator_object=indicator, close_values=df[["close"]], input_data=df, **kwargs
+    )

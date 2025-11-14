@@ -40,12 +40,14 @@ class OnBalanceVolume(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, fill_missing_values=True):
 
+    def __init__(self, input_data, fill_missing_values=True):
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -57,17 +59,16 @@ class OnBalanceVolume(TechnicalIndicator):
             ``pandas.DatetimeIndex``. It contains one column, the ``obv``.
         """
 
-        obv = pd.DataFrame(index=self._input_data.index, columns=['obv'],
-                           data=0, dtype='int64')
+        obv = pd.DataFrame(index=self._input_data.index, columns=["obv"], data=0, dtype="int64")
 
-        inc = self._input_data['close'] > self._input_data['close'].shift(1)
-        dec = self._input_data['close'] < self._input_data['close'].shift(1)
+        inc = self._input_data["close"] > self._input_data["close"].shift(1)
+        dec = self._input_data["close"] < self._input_data["close"].shift(1)
 
-        obv.loc[inc, 'obv'] = self._input_data['volume']
+        obv.loc[inc, "obv"] = self._input_data["volume"]
 
-        obv.loc[dec, 'obv'] = -self._input_data['volume']
+        obv.loc[dec, "obv"] = -self._input_data["volume"]
 
-        obv['obv'] = obv['obv'].cumsum()
+        obv["obv"] = obv["obv"].cumsum()
 
         return obv
 
@@ -86,17 +87,23 @@ class OnBalanceVolume(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 3:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Warning for a downward breakout
-        if self._ti_data['obv'].iat[-3] > self._ti_data['obv'].iat[-2] > \
-                self._ti_data['obv'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        if (
+            self._ti_data["obv"].iat[-3]
+            > self._ti_data["obv"].iat[-2]
+            > self._ti_data["obv"].iat[-1]
+        ):
+            return TRADE_SIGNALS["buy"]
 
         # Warning for a upward breakout
-        elif self._ti_data['obv'].iat[-3] < self._ti_data['obv'].iat[-2] < \
-                self._ti_data['obv'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        elif (
+            self._ti_data["obv"].iat[-3]
+            < self._ti_data["obv"].iat[-2]
+            < self._ti_data["obv"].iat[-1]
+        ):
+            return TRADE_SIGNALS["sell"]
 
         else:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]

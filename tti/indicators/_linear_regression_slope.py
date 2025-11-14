@@ -9,8 +9,11 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class LinearRegressionSlope(TechnicalIndicator):
@@ -44,23 +47,23 @@ class LinearRegressionSlope(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, period=14, fill_missing_values=True):
 
+    def __init__(self, input_data, period=14, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
             if period > 0:
                 self._period = period
             else:
-                raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                raise WrongValueForInputParameter(period, "period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(period), 'period', 'int')
+            raise WrongTypeForInputParameter(type(period), "period", "int")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -77,35 +80,36 @@ class LinearRegressionSlope(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < self._period:
-            raise NotEnoughInputData('Linear Regression Slope',
-                                     self._period,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData(
+                "Linear Regression Slope", self._period, len(self._input_data.index)
+            )
 
-        lrs = pd.DataFrame(index=self._input_data.index, columns=['lrs'],
-                           data=0.0, dtype='float64')
+        lrs = pd.DataFrame(index=self._input_data.index, columns=["lrs"], data=0.0, dtype="float64")
 
-        xy = (self._input_data['close'] *
-              range(1, len(self._input_data.index) + 1)
-              ).rolling(
-            window=self._period, min_periods=self._period).sum()
+        xy = (
+            (self._input_data["close"] * range(1, len(self._input_data.index) + 1))
+            .rolling(window=self._period, min_periods=self._period)
+            .sum()
+        )
 
-        x = pd.Series(
-            index=self._input_data.index,
-            data=range(1, len(self._input_data.index) + 1)
-        ).rolling(
-            window=self._period, min_periods=self._period).sum()
+        x = (
+            pd.Series(index=self._input_data.index, data=range(1, len(self._input_data.index) + 1))
+            .rolling(window=self._period, min_periods=self._period)
+            .sum()
+        )
 
-        xx = pd.Series(
-            index=self._input_data.index,
-            data=[x**2 for x in range(1, len(self._input_data.index) + 1)]
-        ).rolling(
-            window=self._period, min_periods=self._period).sum()
+        xx = (
+            pd.Series(
+                index=self._input_data.index,
+                data=[x**2 for x in range(1, len(self._input_data.index) + 1)],
+            )
+            .rolling(window=self._period, min_periods=self._period)
+            .sum()
+        )
 
-        y = self._input_data['close'].rolling(
-            window=self._period, min_periods=self._period).sum()
+        y = self._input_data["close"].rolling(window=self._period, min_periods=self._period).sum()
 
-        lrs['lrs'] = \
-            (self._period * xy - (x * y)) / ((self._period * xx) - (x * x))
+        lrs["lrs"] = (self._period * xy - (x * y)) / ((self._period * xx) - (x * x))
 
         return lrs.round(4)
 
@@ -121,15 +125,15 @@ class LinearRegressionSlope(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Slope becomes positive
-        if self._ti_data['lrs'].iat[-2] < 0.0 < self._ti_data['lrs'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        if self._ti_data["lrs"].iat[-2] < 0.0 < self._ti_data["lrs"].iat[-1]:
+            return TRADE_SIGNALS["sell"]
 
         # Slope becomes negative
-        elif self._ti_data['lrs'].iat[-2] > 0.0 > self._ti_data['lrs'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        elif self._ti_data["lrs"].iat[-2] > 0.0 > self._ti_data["lrs"].iat[-1]:
+            return TRADE_SIGNALS["buy"]
 
         else:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]

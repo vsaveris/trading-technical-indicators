@@ -14,12 +14,13 @@ import re
 
 
 class TestParabolicSAR(unittest.TestCase, TestIndicatorsCommon):
-
     indicator = tti.indicators.ParabolicSAR
 
     ti_data_rows = [0, 1, 2]
 
-    df = pd.read_csv('./data/sample_data.csv', parse_dates=True, date_format='%Y-%m-%d', index_col=0)
+    df = pd.read_csv(
+        "./data/sample_data.csv", parse_dates=True, date_format="%Y-%m-%d", index_col=0
+    )
 
     indicator_input_arguments = {}
 
@@ -32,16 +33,15 @@ class TestParabolicSAR(unittest.TestCase, TestIndicatorsCommon):
     required_input_data_columns = ["high", "low", "close"]
 
     arguments_wrong_type = [
-        {'input_data': 'No_DataFrame'},
-        {'input_data': df, 'fill_missing_values': 'no_boolean'}
+        {"input_data": "No_DataFrame"},
+        {"input_data": df, "fill_missing_values": "no_boolean"},
     ]
 
     arguments_wrong_value = []
 
-    graph_file_name = './figures/test_parabolic_sar.png'
+    graph_file_name = "./figures/test_parabolic_sar.png"
 
-    indicator_test_data_file_name = \
-        './data/test_parabolic_sar_on_sample_data.csv'
+    indicator_test_data_file_name = "./data/test_parabolic_sar_on_sample_data.csv"
 
     assertRaises = unittest.TestCase.assertRaises
     assertEqual = unittest.TestCase.assertEqual
@@ -49,5 +49,5 @@ class TestParabolicSAR(unittest.TestCase, TestIndicatorsCommon):
     subTest = unittest.TestCase.subTest
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

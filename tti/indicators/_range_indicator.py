@@ -9,8 +9,11 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class RangeIndicator(TechnicalIndicator):
@@ -49,34 +52,30 @@ class RangeIndicator(TechnicalIndicator):
         ValueError: Value error occurred when validating the ``input_data``.
     """
 
-    def __init__(self, input_data, range_period=5, smoothing_period=3,
-                 fill_missing_values=True):
-
+    def __init__(self, input_data, range_period=5, smoothing_period=3, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(range_period, int):
             if range_period > 0:
                 self._range_period = range_period
             else:
-                raise WrongValueForInputParameter(
-                    range_period, 'range_period', '>0')
+                raise WrongValueForInputParameter(range_period, "range_period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(range_period), 'range_period', 'int')
+            raise WrongTypeForInputParameter(type(range_period), "range_period", "int")
 
         if isinstance(smoothing_period, int):
             if smoothing_period > 0:
                 self._smoothing_period = smoothing_period
             else:
-                raise WrongValueForInputParameter(
-                    smoothing_period, 'smoothing_period', '>0')
+                raise WrongValueForInputParameter(smoothing_period, "smoothing_period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(smoothing_period), 'smoothing_period', 'int')
+            raise WrongTypeForInputParameter(type(smoothing_period), "smoothing_period", "int")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -92,56 +91,72 @@ class RangeIndicator(TechnicalIndicator):
         """
 
         # Not enough data for the requested period
-        if len(self._input_data.index) < max(
-                self._range_period, self._smoothing_period):
-            raise NotEnoughInputData('Range Indicator', max(
-                self._range_period, self._smoothing_period),
-                                     len(self._input_data.index))
+        if len(self._input_data.index) < max(self._range_period, self._smoothing_period):
+            raise NotEnoughInputData(
+                "Range Indicator",
+                max(self._range_period, self._smoothing_period),
+                len(self._input_data.index),
+            )
 
-        ri = pd.DataFrame(index=self._input_data.index, columns=[
-            'true_range', 'see_text', 'see_text_range_min',
-            'see_text_range_max', 'see_text_range', 'ri'],
-                          data=None, dtype='float64')
+        ri = pd.DataFrame(
+            index=self._input_data.index,
+            columns=[
+                "true_range",
+                "see_text",
+                "see_text_range_min",
+                "see_text_range_max",
+                "see_text_range",
+                "ri",
+            ],
+            data=None,
+            dtype="float64",
+        )
 
-        ri['true_range'] = pd.concat(
-            [self._input_data['high'] - self._input_data['low'],
-             self._input_data['high'] - self._input_data['close'].shift(1),
-             self._input_data['close'].shift(1) - self._input_data['low']],
-            axis=1).max(axis=1, skipna=False)
+        ri["true_range"] = pd.concat(
+            [
+                self._input_data["high"] - self._input_data["low"],
+                self._input_data["high"] - self._input_data["close"].shift(1),
+                self._input_data["close"].shift(1) - self._input_data["low"],
+            ],
+            axis=1,
+        ).max(axis=1, skipna=False)
 
         for i in range(1, len(self._input_data.index)):
-
-            if (self._input_data['close'].iat[i] >
-                    self._input_data['close'].iat[i - 1]):
-
-                ri.loc[ri.index[i], 'see_text'] = ri['true_range'].iat[i] / (
-                        self._input_data['close'].iat[i] -
-                        self._input_data['close'].iat[i - 1])
+            if self._input_data["close"].iat[i] > self._input_data["close"].iat[i - 1]:
+                ri.loc[ri.index[i], "see_text"] = ri["true_range"].iat[i] / (
+                    self._input_data["close"].iat[i] - self._input_data["close"].iat[i - 1]
+                )
 
             else:
-                ri.loc[ri.index[i], 'see_text'] = ri['true_range'].iat[i]
+                ri.loc[ri.index[i], "see_text"] = ri["true_range"].iat[i]
 
-        ri['see_text_range_min'] = ri['see_text'].rolling(
-            window=self._range_period, min_periods=self._range_period).min()
+        ri["see_text_range_min"] = (
+            ri["see_text"].rolling(window=self._range_period, min_periods=self._range_period).min()
+        )
 
-        ri['see_text_range_max'] = ri['see_text'].rolling(
-            window=self._range_period, min_periods=self._range_period).max()
+        ri["see_text_range_max"] = (
+            ri["see_text"].rolling(window=self._range_period, min_periods=self._range_period).max()
+        )
 
-        ri['see_text_range'] = ri['see_text_range_max'] - \
-                               ri['see_text_range_min']
+        ri["see_text_range"] = ri["see_text_range_max"] - ri["see_text_range_min"]
 
-        ri.loc[ri['see_text_range'] > 0, 'see_text_range'] = 100 * (
-                ri['see_text'] - ri['see_text_range_min']
-        ) / (ri['see_text_range_max'] - ri['see_text_range_min'])
+        ri.loc[ri["see_text_range"] > 0, "see_text_range"] = (
+            100
+            * (ri["see_text"] - ri["see_text_range_min"])
+            / (ri["see_text_range_max"] - ri["see_text_range_min"])
+        )
 
-        ri.loc[ri['see_text_range'] <= 0, 'see_text_range'] = 100 * (
-                ri['see_text'] - ri['see_text_range_min'])
+        ri.loc[ri["see_text_range"] <= 0, "see_text_range"] = 100 * (
+            ri["see_text"] - ri["see_text_range_min"]
+        )
 
-        ri['ri'] = ri['see_text_range'].ewm(
-            span=self._smoothing_period, min_periods=self._smoothing_period,
-            adjust=False).mean()
+        ri["ri"] = (
+            ri["see_text_range"]
+            .ewm(span=self._smoothing_period, min_periods=self._smoothing_period, adjust=False)
+            .mean()
+        )
 
-        return ri[['ri']].round(4)
+        return ri[["ri"]].round(4)
 
     def getTiSignal(self):
         """
@@ -155,26 +170,26 @@ class RangeIndicator(TechnicalIndicator):
 
         # Not enough data for trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Indication that a new trend starts
-        if self._ti_data['ri'].iat[-2] < 20 < self._ti_data['ri'].iat[-1]:
-            if (self._input_data['close'].iat[-2] <
-                    self._input_data['close'].iat[-1]):
-                return TRADE_SIGNALS['buy']
+        if self._ti_data["ri"].iat[-2] < 20 < self._ti_data["ri"].iat[-1]:
+            if self._input_data["close"].iat[-2] < self._input_data["close"].iat[-1]:
+                return TRADE_SIGNALS["buy"]
             else:
-                return TRADE_SIGNALS['sell']
+                return TRADE_SIGNALS["sell"]
 
         # Indication that current trend ends
-        if self._ti_data['ri'].iat[-2] < 70 < self._ti_data['ri'].iat[-1]:
+        if self._ti_data["ri"].iat[-2] < 70 < self._ti_data["ri"].iat[-1]:
             try:
-                if (self._input_data['close'][
-                    self._ti_data['ri'] < 20].iat[-1] <
-                        self._input_data['close'].iat[-1]):
-                    return TRADE_SIGNALS['sell']
+                if (
+                    self._input_data["close"][self._ti_data["ri"] < 20].iat[-1]
+                    < self._input_data["close"].iat[-1]
+                ):
+                    return TRADE_SIGNALS["sell"]
                 else:
-                    return TRADE_SIGNALS['buy']
+                    return TRADE_SIGNALS["buy"]
             except KeyError:
-                return TRADE_SIGNALS['hold']
+                return TRADE_SIGNALS["hold"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

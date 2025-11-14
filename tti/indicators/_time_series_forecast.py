@@ -11,8 +11,11 @@ from ._technical_indicator import TechnicalIndicator
 from ._linear_regression_slope import LinearRegressionSlope
 from ._linear_regression_indicator import LinearRegressionIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class TimeSeriesForecast(TechnicalIndicator):
@@ -46,23 +49,23 @@ class TimeSeriesForecast(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, period=14, fill_missing_values=True):
 
+    def __init__(self, input_data, period=14, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
             if period > 1:
                 self._period = period
             else:
-                raise WrongValueForInputParameter(
-                    period, 'period', '>1')
+                raise WrongValueForInputParameter(period, "period", ">1")
         else:
-            raise WrongTypeForInputParameter(
-                type(period), 'period', 'int')
+            raise WrongTypeForInputParameter(type(period), "period", "int")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -79,19 +82,29 @@ class TimeSeriesForecast(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < self._period:
-            raise NotEnoughInputData('Time Series Forecast',
-                                     self._period,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData(
+                "Time Series Forecast", self._period, len(self._input_data.index)
+            )
 
-        tsf = pd.DataFrame(index=self._input_data.index, columns=['tsf'],
-                           data=None, dtype='float64')
+        tsf = pd.DataFrame(
+            index=self._input_data.index, columns=["tsf"], data=None, dtype="float64"
+        )
 
-        tsf.iloc[self._period-1:, 0] = pd.concat(
-            objs=[LinearRegressionSlope(input_data=self._input_data,
-                                        period=self._period).getTiData(),
-                  LinearRegressionIndicator(input_data=self._input_data,
-                                            period=self._period).getTiData()],
-            axis=1).sum(axis=1).iloc[self._period-1:]
+        tsf.iloc[self._period - 1 :, 0] = (
+            pd.concat(
+                objs=[
+                    LinearRegressionSlope(
+                        input_data=self._input_data, period=self._period
+                    ).getTiData(),
+                    LinearRegressionIndicator(
+                        input_data=self._input_data, period=self._period
+                    ).getTiData(),
+                ],
+                axis=1,
+            )
+            .sum(axis=1)
+            .iloc[self._period - 1 :]
+        )
 
         return tsf.round(4)
 
@@ -107,18 +120,20 @@ class TimeSeriesForecast(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Close price goes below Time Series Forecast
-        if self._input_data['close'].iat[-2] > self._ti_data['tsf'].iat[-2] \
-           and \
-           self._input_data['close'].iat[-1] < self._ti_data['tsf'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        if (
+            self._input_data["close"].iat[-2] > self._ti_data["tsf"].iat[-2]
+            and self._input_data["close"].iat[-1] < self._ti_data["tsf"].iat[-1]
+        ):
+            return TRADE_SIGNALS["buy"]
 
         # Close price goes above Time Series Forecast
-        if self._input_data['close'].iat[-2] < self._ti_data['tsf'].iat[-2] \
-           and \
-           self._input_data['close'].iat[-1] > self._ti_data['tsf'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        if (
+            self._input_data["close"].iat[-2] < self._ti_data["tsf"].iat[-2]
+            and self._input_data["close"].iat[-1] > self._ti_data["tsf"].iat[-1]
+        ):
+            return TRADE_SIGNALS["sell"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

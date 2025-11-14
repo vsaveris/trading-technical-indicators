@@ -41,12 +41,14 @@ class MassIndex(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, fill_missing_values=True):
 
+    def __init__(self, input_data, fill_missing_values=True):
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -63,19 +65,18 @@ class MassIndex(TechnicalIndicator):
 
         # Not enough data for the 25-Mass Index
         if len(self._input_data.index) < 25:
-            raise NotEnoughInputData('Mass Index', 25,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData("Mass Index", 25, len(self._input_data.index))
 
         # Append to input_data the 9-ema for close prices
         # This is required for the trading signal calculation and we want
         # to include it in the graph
-        self._input_data['9_ema'] = self._input_data['close'].ewm(
-            span=9, min_periods=9, adjust=False).mean()
+        self._input_data["9_ema"] = (
+            self._input_data["close"].ewm(span=9, min_periods=9, adjust=False).mean()
+        )
 
-        mi = pd.DataFrame(index=self._input_data.index, columns=['mi'],
-                          data=None, dtype='float64')
+        mi = pd.DataFrame(index=self._input_data.index, columns=["mi"], data=None, dtype="float64")
 
-        high_low_diff = self._input_data['high'] - self._input_data['low']
+        high_low_diff = self._input_data["high"] - self._input_data["low"]
 
         # Nine periods EMA of High-Low difference
         ema_9 = high_low_diff.ewm(span=9, min_periods=9, adjust=False).mean()
@@ -84,8 +85,7 @@ class MassIndex(TechnicalIndicator):
         double_ema_9 = ema_9.ewm(span=9, min_periods=9, adjust=False).mean()
 
         # 25-period Mass Index
-        mi['mi'] = (ema_9 / double_ema_9).rolling(
-            window=25, min_periods=25).sum()
+        mi["mi"] = (ema_9 / double_ema_9).rolling(window=25, min_periods=25).sum()
 
         return mi.round(4)
 
@@ -101,31 +101,27 @@ class MassIndex(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Look for a Reversal Bulge (indicator raises above 27 and then drops
         # below 26.5. Specific values for 25-Mass Index.
         reversal_bulge = False
 
-        if True or self._ti_data['mi'].iat[-1] < 26.5:
-
+        if True or self._ti_data["mi"].iat[-1] < 26.5:
             for i in range(-2, -len(self._ti_data.index) - 1, -1):
-
-                if self._ti_data['mi'].iat[i] < 26.5:
+                if self._ti_data["mi"].iat[i] < 26.5:
                     break
 
-                elif self._ti_data['mi'].iat[i] > 27.0:
+                elif self._ti_data["mi"].iat[i] > 27.0:
                     reversal_bulge = True
                     break
 
         # Signal based on 9-EMA trend
         if reversal_bulge:
-            if self._input_data['9_ema'].iat[-2] < \
-                    self._input_data['9_ema'].iat[-1]:
-                return TRADE_SIGNALS['sell']
+            if self._input_data["9_ema"].iat[-2] < self._input_data["9_ema"].iat[-1]:
+                return TRADE_SIGNALS["sell"]
 
-            if self._input_data['9_ema'].iat[-2] > \
-                    self._input_data['9_ema'].iat[-1]:
-                return TRADE_SIGNALS['buy']
+            if self._input_data["9_ema"].iat[-2] > self._input_data["9_ema"].iat[-1]:
+                return TRADE_SIGNALS["buy"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

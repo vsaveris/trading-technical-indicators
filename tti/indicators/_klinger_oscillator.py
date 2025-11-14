@@ -41,12 +41,14 @@ class KlingerOscillator(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, fill_missing_values=True):
 
+    def __init__(self, input_data, fill_missing_values=True):
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -63,20 +65,19 @@ class KlingerOscillator(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < 55:
-            raise NotEnoughInputData('Klinger Oscillator', 55,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData("Klinger Oscillator", 55, len(self._input_data.index))
 
-        ko = pd.DataFrame(index=self._input_data.index, columns=['ko'],
-                          data=None, dtype='float64')
+        ko = pd.DataFrame(index=self._input_data.index, columns=["ko"], data=None, dtype="float64")
 
         # Trend Direction
-        t = self._input_data[['high', 'low', 'close']].sum(axis=1) - \
-            self._input_data[['high', 'low', 'close']].sum(axis=1).shift(1)
+        t = self._input_data[["high", "low", "close"]].sum(axis=1) - self._input_data[
+            ["high", "low", "close"]
+        ].sum(axis=1).shift(1)
         t[t > 0.0] = 1.0
         t[t <= 0.0] = -1.0
 
         # Daily Measurement
-        dm = self._input_data['high'] - self._input_data['low']
+        dm = self._input_data["high"] - self._input_data["low"]
 
         # Cumulative Measurement
         cm = [0.0]
@@ -86,14 +87,12 @@ class KlingerOscillator(TechnicalIndicator):
             else:
                 cm.append(dm.iloc[i - 1] + dm.iloc[i])
 
-        volume_force = \
-            self._input_data['volume'] * abs(2 * (dm / cm) - 1) * t * 100
+        volume_force = self._input_data["volume"] * abs(2 * (dm / cm) - 1) * t * 100
 
-        ko['ko'] = volume_force.ewm(
-            span=34, min_periods=34, adjust=False
-        ).mean() - volume_force.ewm(
-            span=55, min_periods=55, adjust=False
-        ).mean()
+        ko["ko"] = (
+            volume_force.ewm(span=34, min_periods=34, adjust=False).mean()
+            - volume_force.ewm(span=55, min_periods=55, adjust=False).mean()
+        )
 
         return ko.round(4)
 
@@ -109,13 +108,13 @@ class KlingerOscillator(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Signal based on crossovers with zero line
-        if self._ti_data['ko'].iat[-2] < 0.0 < self._ti_data['ko'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        if self._ti_data["ko"].iat[-2] < 0.0 < self._ti_data["ko"].iat[-1]:
+            return TRADE_SIGNALS["sell"]
 
-        if self._ti_data['ko'].iat[-2] > 0.0 > self._ti_data['ko'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        if self._ti_data["ko"].iat[-2] > 0.0 > self._ti_data["ko"].iat[-1]:
+            return TRADE_SIGNALS["buy"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tti"
+version = "0.3.1"
+description = "Trading Technical Indicators, python library. Where Traditional Technical Analysis and AI are met."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Vasileios Saveris", email = "vsaveris@gmail.com" }
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX",
+  "Operating System :: Unix",
+  "Operating System :: MacOS",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Software Development",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Office/Business :: Financial",
+]
+dependencies = [
+  "pandas>=2.3.3",
+  "matplotlib>=3.10.7",
+  "numpy>=2.3.4",
+  "statsmodels>=0.14.5",
+]
+
+[project.urls]
+"Homepage" = "https://trading-technical-indicators.readthedocs.io/en/latest/index.html"
+"Bug Tracker" = "https://github.com/vsaveris/trading-technical-indicators/issues"
+"Documentation" = "https://trading-technical-indicators.readthedocs.io/en/latest/index.html"
+"Source" = "https://github.com/vsaveris/trading-technical-indicators"
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.0",
+  "ruff>=0.6.9",
+  "pre-commit>=3.8.0",
+  "pytest-cov>=7.0.0",
+  "coverage[toml]>=7.10.6",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["tti*"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E9", "F63", "F7", "F82"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

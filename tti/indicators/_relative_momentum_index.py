@@ -9,8 +9,11 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class RelativeMomentumIndex(TechnicalIndicator):
@@ -47,34 +50,31 @@ class RelativeMomentumIndex(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, period=8, momentum_period=4,
-                 fill_missing_values=True):
 
+    def __init__(self, input_data, period=8, momentum_period=4, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
             if period > 0:
                 self._period = period
             else:
-                raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                raise WrongValueForInputParameter(period, "period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(period), 'period', 'int')
+            raise WrongTypeForInputParameter(type(period), "period", "int")
 
         if isinstance(momentum_period, int):
             if momentum_period > 0:
                 self._momentum_period = momentum_period
             else:
-                raise WrongValueForInputParameter(
-                    momentum_period, 'momentum_period', '>0')
+                raise WrongValueForInputParameter(momentum_period, "momentum_period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(momentum_period), 'momentum_period', 'int')
+            raise WrongTypeForInputParameter(type(momentum_period), "momentum_period", "int")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -91,52 +91,60 @@ class RelativeMomentumIndex(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < self._period + self._momentum_period:
-            raise NotEnoughInputData('Relative Momentum Index',
-                                     self._period + self._momentum_period,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData(
+                "Relative Momentum Index",
+                self._period + self._momentum_period,
+                len(self._input_data.index),
+            )
 
-        rmi = pd.DataFrame(index=self._input_data.index,
-                           columns=['rmi', 'upc', 'dpc', 'smoothed_upc',
-                                   'smoothed_dpc'],
-                          data=None, dtype='float64')
+        rmi = pd.DataFrame(
+            index=self._input_data.index,
+            columns=["rmi", "upc", "dpc", "smoothed_upc", "smoothed_dpc"],
+            data=None,
+            dtype="float64",
+        )
 
         # Calculate price change (current close - close momentum periods ago)
-        close_price_change = self._input_data['close'] - self._input_data[
-            'close'].shift(self._momentum_period)
+        close_price_change = self._input_data["close"] - self._input_data["close"].shift(
+            self._momentum_period
+        )
 
         # Upward price change
-        rmi.loc[close_price_change > 0, 'upc'] = close_price_change
-        rmi.loc[close_price_change <= 0, 'upc'] = 0
+        rmi.loc[close_price_change > 0, "upc"] = close_price_change
+        rmi.loc[close_price_change <= 0, "upc"] = 0
 
         # Downward price change
-        rmi.loc[close_price_change < 0, 'dpc'] = abs(close_price_change)
-        rmi.loc[close_price_change >= 0, 'dpc'] = 0
+        rmi.loc[close_price_change < 0, "dpc"] = abs(close_price_change)
+        rmi.loc[close_price_change >= 0, "dpc"] = 0
 
         # Wilder's Moving Average for upc and dpc
-        rmi.loc[rmi.index[self._period + self._momentum_period - 1], 'smoothed_upc'] = \
-            rmi['upc'].iloc[
-            self._momentum_period:self._period + self._momentum_period].mean()
+        rmi.loc[rmi.index[self._period + self._momentum_period - 1], "smoothed_upc"] = (
+            rmi["upc"].iloc[self._momentum_period : self._period + self._momentum_period].mean()
+        )
 
-        rmi.loc[rmi.index[self._period + self._momentum_period - 1], 'smoothed_dpc'] = \
-            rmi['dpc'].iloc[
-            self._momentum_period:self._period + self._momentum_period].mean()
+        rmi.loc[rmi.index[self._period + self._momentum_period - 1], "smoothed_dpc"] = (
+            rmi["dpc"].iloc[self._momentum_period : self._period + self._momentum_period].mean()
+        )
 
-        for i in range(self._period + self._momentum_period,
-                       len(self._input_data.index)):
+        for i in range(self._period + self._momentum_period, len(self._input_data.index)):
+            rmi.loc[rmi.index[i], "smoothed_upc"] = (
+                rmi["smoothed_upc"].iat[i - 1]
+                + (rmi["upc"].iat[i] - rmi["smoothed_upc"].iat[i - 1]) / self._period
+            )
 
-            rmi.loc[rmi.index[i], 'smoothed_upc'] = rmi['smoothed_upc'].iat[i - 1] + (
-                    rmi['upc'].iat[i] - rmi['smoothed_upc'].iat[i - 1]
-            ) / self._period
-
-            rmi.loc[rmi.index[i], 'smoothed_dpc'] = rmi['smoothed_dpc'].iat[i - 1] + (
-                    rmi['dpc'].iat[i] - rmi['smoothed_dpc'].iat[i - 1]
-            ) / self._period
+            rmi.loc[rmi.index[i], "smoothed_dpc"] = (
+                rmi["smoothed_dpc"].iat[i - 1]
+                + (rmi["dpc"].iat[i] - rmi["smoothed_dpc"].iat[i - 1]) / self._period
+            )
 
         # Calculate indicator
-        rmi['rmi'] = 100 * (rmi['smoothed_upc'] / rmi['smoothed_dpc']) / (
-                1 + rmi['smoothed_upc'] / rmi['smoothed_dpc'])
+        rmi["rmi"] = (
+            100
+            * (rmi["smoothed_upc"] / rmi["smoothed_dpc"])
+            / (1 + rmi["smoothed_upc"] / rmi["smoothed_dpc"])
+        )
 
-        return rmi[['rmi']].round(4)
+        return rmi[["rmi"]].round(4)
 
     def getTiSignal(self):
         """
@@ -150,14 +158,14 @@ class RelativeMomentumIndex(TechnicalIndicator):
 
         # Not enough data for trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Overbought region
-        if self._ti_data['rmi'].iat[-2] < 70. < self._ti_data['rmi'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        if self._ti_data["rmi"].iat[-2] < 70.0 < self._ti_data["rmi"].iat[-1]:
+            return TRADE_SIGNALS["sell"]
 
         # Oversold region
-        if self._ti_data['rmi'].iat[-2] > 30. > self._ti_data['rmi'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        if self._ti_data["rmi"].iat[-2] > 30.0 > self._ti_data["rmi"].iat[-1]:
+            return TRADE_SIGNALS["buy"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

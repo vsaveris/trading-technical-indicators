@@ -2,7 +2,7 @@
 Trading-Technical-Indicators (tti) python library
 
 File name: test_indicator_accumulation_distribution_line.py
-    tti.indicators package, _accumulation_distribution_line.py module unit 
+    tti.indicators package, _accumulation_distribution_line.py module unit
     tests.
 """
 
@@ -16,14 +16,14 @@ import pandas as pd
 import re
 
 
-class TestAccumulationDistributionLine(unittest.TestCase,
-                                       TestIndicatorsCommon):
-
+class TestAccumulationDistributionLine(unittest.TestCase, TestIndicatorsCommon):
     indicator = tti.indicators.AccumulationDistributionLine
 
     ti_data_rows = [0, 1, 2]
 
-    df = pd.read_csv('./data/sample_data.csv', parse_dates=True, date_format='%Y-%m-%d', index_col=0)
+    df = pd.read_csv(
+        "./data/sample_data.csv", parse_dates=True, date_format="%Y-%m-%d", index_col=0
+    )
 
     indicator_input_arguments = {}
 
@@ -33,27 +33,28 @@ class TestAccumulationDistributionLine(unittest.TestCase,
 
     mandatory_arguments_missing_cases = []
 
-    required_input_data_columns = ['high', 'low', 'close', 'volume']
+    required_input_data_columns = ["high", "low", "close", "volume"]
 
     arguments_wrong_type = [
-        {'input_data': 'No_DataFrame'},
-        {'input_data': df, 'fill_missing_values': 'no_boolean'}
+        {"input_data": "No_DataFrame"},
+        {"input_data": df, "fill_missing_values": "no_boolean"},
     ]
 
     arguments_wrong_value = []
 
-    graph_file_name = '_'.join(
-        x.lower() for x in re.findall('[A-Z][^A-Z]*', str(
-            indicator).split('.')[-1][:-2]))
+    graph_file_name = "_".join(
+        x.lower() for x in re.findall("[A-Z][^A-Z]*", str(indicator).split(".")[-1][:-2])
+    )
 
-    graph_file_name = './figures/test_' + graph_file_name + '.png'
+    graph_file_name = "./figures/test_" + graph_file_name + ".png"
 
-    indicator_test_data_file_name = '_'.join(
-        x.lower() for x in re.findall('[A-Z][^A-Z]*', str(
-            indicator).split('.')[-1][:-2]))
+    indicator_test_data_file_name = "_".join(
+        x.lower() for x in re.findall("[A-Z][^A-Z]*", str(indicator).split(".")[-1][:-2])
+    )
 
-    indicator_test_data_file_name = \
-        './data/test_' + indicator_test_data_file_name + '_on_sample_data.csv'
+    indicator_test_data_file_name = (
+        "./data/test_" + indicator_test_data_file_name + "_on_sample_data.csv"
+    )
 
     assertRaises = unittest.TestCase.assertRaises
     assertEqual = unittest.TestCase.assertEqual
@@ -61,5 +62,5 @@ class TestAccumulationDistributionLine(unittest.TestCase,
     subTest = unittest.TestCase.subTest
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

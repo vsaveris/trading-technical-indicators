@@ -16,6 +16,8 @@ Project site is https://www.trading-technical-indicators.org/
 from tti import indicators
 from tti import utils
 
-__version__ = '0.2.2'
+from importlib.metadata import version
 
-__all__ = ['indicators', 'utils']
+__version__ = version("tti")
+
+__all__ = ["indicators", "utils"]

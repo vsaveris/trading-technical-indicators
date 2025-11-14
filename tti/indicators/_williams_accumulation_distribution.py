@@ -41,12 +41,14 @@ class WilliamsAccumulationDistribution(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, fill_missing_values=True):
 
+    def __init__(self, input_data, fill_missing_values=True):
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -58,30 +60,30 @@ class WilliamsAccumulationDistribution(TechnicalIndicator):
             ``pandas.DatetimeIndex``. It contains one column, the ``wad``.
         """
 
-        wad = pd.DataFrame(index=self._input_data.index, columns=['wad'],
-                           data=None, dtype='float64')
+        wad = pd.DataFrame(
+            index=self._input_data.index, columns=["wad"], data=None, dtype="float64"
+        )
 
         # Calculate the true range high
-        wad['trh'] = pd.concat(
-            [self._input_data['close'].shift(1), self._input_data['high']],
-            axis=1).max(axis=1, skipna=False)
+        wad["trh"] = pd.concat(
+            [self._input_data["close"].shift(1), self._input_data["high"]], axis=1
+        ).max(axis=1, skipna=False)
 
         # Calculate the true range low
-        wad['trl'] = pd.concat(
-            [self._input_data['close'].shift(1), self._input_data['low']],
-            axis=1).min(axis=1, skipna=False)
+        wad["trl"] = pd.concat(
+            [self._input_data["close"].shift(1), self._input_data["low"]], axis=1
+        ).min(axis=1, skipna=False)
 
         # Calculate today's Accumulation Distribution
-        wad['wad'] = self._input_data['close'] - \
-                     self._input_data['close'].shift(1)
+        wad["wad"] = self._input_data["close"] - self._input_data["close"].shift(1)
 
-        pos_mask = wad['wad'] > 0
-        neg_mask = wad['wad'] < 0
+        pos_mask = wad["wad"] > 0
+        neg_mask = wad["wad"] < 0
 
-        wad.loc[pos_mask, 'wad'] = self._input_data['close'] - wad['trl']
-        wad.loc[neg_mask, 'wad'] = self._input_data['close'] - wad['trh']
+        wad.loc[pos_mask, "wad"] = self._input_data["close"] - wad["trl"]
+        wad.loc[neg_mask, "wad"] = self._input_data["close"] - wad["trh"]
 
-        return wad[['wad']].round(4)
+        return wad[["wad"]].round(4)
 
     def getTiSignal(self):
         """
@@ -98,18 +100,16 @@ class WilliamsAccumulationDistribution(TechnicalIndicator):
 
         # Not enough data for trading signal
         if len(self._input_data.index) < span_period:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
-        if ((self._input_data['close'].iloc[-span_period:].min() ==
-                self._input_data['close'].iat[-1]) and
-                (self._ti_data['wad'].iloc[-span_period:].min() !=
-                 self._ti_data['wad'].iat[-1])):
-            return TRADE_SIGNALS['buy']
+        if (
+            self._input_data["close"].iloc[-span_period:].min() == self._input_data["close"].iat[-1]
+        ) and (self._ti_data["wad"].iloc[-span_period:].min() != self._ti_data["wad"].iat[-1]):
+            return TRADE_SIGNALS["buy"]
 
-        if ((self._input_data['close'].iloc[-span_period:].max() ==
-                self._input_data['close'].iat[-1]) and
-                (self._ti_data['wad'].iloc[-span_period:].max() !=
-                 self._ti_data['wad'].iat[-1])):
-            return TRADE_SIGNALS['sell']
+        if (
+            self._input_data["close"].iloc[-span_period:].max() == self._input_data["close"].iat[-1]
+        ) and (self._ti_data["wad"].iloc[-span_period:].max() != self._ti_data["wad"].iat[-1]):
+            return TRADE_SIGNALS["sell"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

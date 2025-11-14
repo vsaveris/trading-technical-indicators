@@ -9,8 +9,11 @@ File name: trading_simulation.py
 import pandas as pd
 import numpy as np
 from ..utils.data_validation import validateInputData
-from ..utils.exceptions import WrongTypeForInputParameter, \
-    NotValidInputDataForSimulation, WrongValueForInputParameter
+from ..utils.exceptions import (
+    WrongTypeForInputParameter,
+    NotValidInputDataForSimulation,
+    WrongValueForInputParameter,
+)
 
 
 class TradingSimulation:
@@ -151,9 +154,9 @@ class TradingSimulation:
             the simulation.
     """
 
-    def __init__(self, input_data_index, close_values, max_exposure=None,
-                 short_exposure_factor=1.5):
-
+    def __init__(
+        self, input_data_index, close_values, max_exposure=None, short_exposure_factor=1.5
+    ):
         self._input_data_index = input_data_index
         self._close_values = close_values
         self._max_exposure = max_exposure
@@ -171,35 +174,41 @@ class TradingSimulation:
         #   position: 0.0 is None, 1.0 is short, 2.0 is long
         #   status: 0.0 is None, 1.0 is open, 2.0 is closed
         #   exposure: float indicating the exposure value
-        self._portfolio = np.zeros(shape=(len(self._input_data_index), 3),
-                                   dtype=np.float64)
+        self._portfolio = np.zeros(shape=(len(self._input_data_index), 3), dtype=np.float64)
 
         # Change type to numpy array for better performance
-        self._close_values = self._close_values.to_numpy(dtype=np.float64,
-                                                         copy=True)
+        self._close_values = self._close_values.to_numpy(dtype=np.float64, copy=True)
 
         # Initialize simulation data structure (DataFrame)
         self._simulation_data = pd.DataFrame(
             index=self._input_data_index,
-            columns=['signal', 'open_trading_action', 'stock_value',
-                     'exposure', 'portfolio_value', 'earnings', 'balance'
-                     ],
-            data=None)
+            columns=[
+                "signal",
+                "open_trading_action",
+                "stock_value",
+                "exposure",
+                "portfolio_value",
+                "earnings",
+                "balance",
+            ],
+            data=None,
+        )
 
         # Initialize statistics data structure (dict)
         self._statistics = {
-            'number_of_trading_days': 0,
-            'number_of_buy_signals': 0,
-            'number_of_ignored_buy_signals': 0,
-            'number_of_sell_signals': 0,
-            'number_of_ignored_sell_signals': 0,
-            'last_stock_value': 0.0,
-            'last_exposure': 0.0,
-            'last_open_long_positions': 0,
-            'last_open_short_positions': 0,
-            'last_portfolio_value': 0.0,
-            'last_earnings': 0.0,
-            'final_balance': 0.0}
+            "number_of_trading_days": 0,
+            "number_of_buy_signals": 0,
+            "number_of_ignored_buy_signals": 0,
+            "number_of_sell_signals": 0,
+            "number_of_ignored_sell_signals": 0,
+            "last_stock_value": 0.0,
+            "last_exposure": 0.0,
+            "last_open_long_positions": 0,
+            "last_open_short_positions": 0,
+            "last_portfolio_value": 0.0,
+            "last_earnings": 0.0,
+            "final_balance": 0.0,
+        }
 
     def _validateSimulationArguments(self):
         """
@@ -216,55 +225,60 @@ class TradingSimulation:
         # Validate input_data_index that is an index
         if not isinstance(self._input_data_index, pd.DatetimeIndex):
             raise NotValidInputDataForSimulation(
-                'input_data_index', 'input_data_index should be of type ' +
-                                    'pandas.DatetimeIndex but type ' +
-                                    str(type(self._input_data_index)) +
-                                    ' found.')
+                "input_data_index",
+                "input_data_index should be of type "
+                + "pandas.DatetimeIndex but type "
+                + str(type(self._input_data_index))
+                + " found.",
+            )
 
         # Sort data
-        self._input_data_index = self._input_data_index.sort_values(
-            ascending=True)
+        self._input_data_index = self._input_data_index.sort_values(ascending=True)
 
         # Validate close_values pandas.DataFrame
         try:
             self._close_values = validateInputData(
-                input_data=self._close_values, required_columns=['close'],
-                indicator_name='TradingSimulation',
-                fill_missing_values=True)
+                input_data=self._close_values,
+                required_columns=["close"],
+                indicator_name="TradingSimulation",
+                fill_missing_values=True,
+            )
 
         except Exception as e:
             raise NotValidInputDataForSimulation(
-                'close_values', str(e).replace('input_data', 'close_values'))
+                "close_values", str(e).replace("input_data", "close_values")
+            )
 
         if not self._close_values.index.equals(self._input_data_index):
             raise NotValidInputDataForSimulation(
-                'close_values', 'Index of the `close_values` DataFrame ' +
-                                'should be the same as the index of the ' +
-                                '`input_data` argument in the indicator\'s ' +
-                                'constructor.')
+                "close_values",
+                "Index of the `close_values` DataFrame "
+                + "should be the same as the index of the "
+                + "`input_data` argument in the indicator's "
+                + "constructor.",
+            )
 
         # Validate max_exposure
         if isinstance(self._max_exposure, (int, float)):
             if self._max_exposure <= 0:
-                raise WrongValueForInputParameter(
-                    self._max_exposure, 'max_exposure', '>0 or None')
+                raise WrongValueForInputParameter(self._max_exposure, "max_exposure", ">0 or None")
         elif self._max_exposure is None:
             pass
         else:
             raise WrongTypeForInputParameter(
-                type(self._max_exposure), 'max_exposure',
-                'int or float or None')
+                type(self._max_exposure), "max_exposure", "int or float or None"
+            )
 
         # Validate short_exposure_factor
         if isinstance(self._short_exposure_factor, (int, float)):
             if self._short_exposure_factor < 1.0:
                 raise WrongValueForInputParameter(
-                    self._short_exposure_factor, 'short_exposure_factor',
-                    '>=1.0')
+                    self._short_exposure_factor, "short_exposure_factor", ">=1.0"
+                )
         else:
             raise WrongTypeForInputParameter(
-                type(self._short_exposure_factor), 'short_exposure_factor',
-                'int or float')
+                type(self._short_exposure_factor), "short_exposure_factor", "int or float"
+            )
 
     def _calculateSimulationStatistics(self):
         """
@@ -273,61 +287,52 @@ class TradingSimulation:
 
         # Simulation rounds which have been executed till now
         executed_simulation_rounds = len(
-            self._simulation_data.dropna(subset=['signal'],
-                                         inplace=False).index)
+            self._simulation_data.dropna(subset=["signal"], inplace=False).index
+        )
 
         self._statistics = {
-            'number_of_trading_days': executed_simulation_rounds,
-
-            'number_of_buy_signals':
-                len(self._simulation_data[
-                        self._simulation_data['signal'] == 'buy'].index),
-
-            'number_of_ignored_buy_signals':
-                len(self._simulation_data[
-                    (self._simulation_data['signal'] == 'buy') &
-                    (self._simulation_data['open_trading_action'] == 'none')].
-                    index),
-
-            'number_of_sell_signals':
-                len(self._simulation_data[
-                        self._simulation_data['signal'] == 'sell'].index),
-
-            'number_of_ignored_sell_signals':
-                len(self._simulation_data[
-                    (self._simulation_data['signal'] == 'sell') &
-                    (self._simulation_data['open_trading_action'] == 'none')]
-                    .index),
-
-            'last_stock_value':  0.0 if executed_simulation_rounds == 0
-                else self._simulation_data['stock_value'].iat[
-                    executed_simulation_rounds - 1].round(2),
-
-            'last_exposure': 0.0 if executed_simulation_rounds == 0
-                else round(self._simulation_data['exposure'].iat[
-                    executed_simulation_rounds - 1], 2),
-
-            'last_open_long_positions': np.count_nonzero(
-                self._portfolio[
-                    (self._portfolio[:, 0] == 2.0) &
-                    (self._portfolio[:, 1] == 1.0), 0]),
-
-            'last_open_short_positions': np.count_nonzero(
-                self._portfolio[
-                    (self._portfolio[:, 0] == 1.0) &
-                    (self._portfolio[:, 1] == 1.0), 0]),
-
-            'last_portfolio_value': 0.0 if executed_simulation_rounds == 0
-                else round(self._simulation_data['portfolio_value'].iat[
-                    executed_simulation_rounds - 1], 2),
-
-            'last_earnings': 0.0 if executed_simulation_rounds == 0
-                else round(self._simulation_data['earnings'].iat[
-                    executed_simulation_rounds - 1], 2),
-
-            'final_balance': 0.0 if executed_simulation_rounds == 0
-                else round(self._simulation_data['balance'].iat[
-                    executed_simulation_rounds - 1], 2)
+            "number_of_trading_days": executed_simulation_rounds,
+            "number_of_buy_signals": len(
+                self._simulation_data[self._simulation_data["signal"] == "buy"].index
+            ),
+            "number_of_ignored_buy_signals": len(
+                self._simulation_data[
+                    (self._simulation_data["signal"] == "buy")
+                    & (self._simulation_data["open_trading_action"] == "none")
+                ].index
+            ),
+            "number_of_sell_signals": len(
+                self._simulation_data[self._simulation_data["signal"] == "sell"].index
+            ),
+            "number_of_ignored_sell_signals": len(
+                self._simulation_data[
+                    (self._simulation_data["signal"] == "sell")
+                    & (self._simulation_data["open_trading_action"] == "none")
+                ].index
+            ),
+            "last_stock_value": 0.0
+            if executed_simulation_rounds == 0
+            else self._simulation_data["stock_value"].iat[executed_simulation_rounds - 1].round(2),
+            "last_exposure": 0.0
+            if executed_simulation_rounds == 0
+            else round(self._simulation_data["exposure"].iat[executed_simulation_rounds - 1], 2),
+            "last_open_long_positions": np.count_nonzero(
+                self._portfolio[(self._portfolio[:, 0] == 2.0) & (self._portfolio[:, 1] == 1.0), 0]
+            ),
+            "last_open_short_positions": np.count_nonzero(
+                self._portfolio[(self._portfolio[:, 0] == 1.0) & (self._portfolio[:, 1] == 1.0), 0]
+            ),
+            "last_portfolio_value": 0.0
+            if executed_simulation_rounds == 0
+            else round(
+                self._simulation_data["portfolio_value"].iat[executed_simulation_rounds - 1], 2
+            ),
+            "last_earnings": 0.0
+            if executed_simulation_rounds == 0
+            else round(self._simulation_data["earnings"].iat[executed_simulation_rounds - 1], 2),
+            "final_balance": 0.0
+            if executed_simulation_rounds == 0
+            else round(self._simulation_data["balance"].iat[executed_simulation_rounds - 1], 2),
         }
 
     def _calculatePortfolioValue(self, i_index):
@@ -344,17 +349,14 @@ class TradingSimulation:
         """
 
         open_long_positions = np.count_nonzero(
-            self._portfolio[
-                (self._portfolio[:, 0] == 2.0) &
-                (self._portfolio[:, 1] == 1.0), 0])
+            self._portfolio[(self._portfolio[:, 0] == 2.0) & (self._portfolio[:, 1] == 1.0), 0]
+        )
 
         open_short_positions = np.count_nonzero(
-            self._portfolio[
-                (self._portfolio[:, 0] == 1.0) &
-                (self._portfolio[:, 1] == 1.0), 0])
+            self._portfolio[(self._portfolio[:, 0] == 1.0) & (self._portfolio[:, 1] == 1.0), 0]
+        )
 
-        return self._close_values[i_index, 0] * (
-                open_long_positions - open_short_positions)
+        return self._close_values[i_index, 0] * (open_long_positions - open_short_positions)
 
     def _closeOpenPositions(self, i_index):
         """
@@ -373,64 +375,85 @@ class TradingSimulation:
 
         # Close only positions that bring earnings
 
-        long_to_be_closed = np.count_nonzero(self._portfolio[
-            (self._portfolio[:, 1] == 1.0) &
-            (self._portfolio[:, 0] == 2.0) &
-            (self._portfolio[:, 2] < self._close_values[i_index, 0]), 0])
+        long_to_be_closed = np.count_nonzero(
+            self._portfolio[
+                (self._portfolio[:, 1] == 1.0)
+                & (self._portfolio[:, 0] == 2.0)
+                & (self._portfolio[:, 2] < self._close_values[i_index, 0]),
+                0,
+            ]
+        )
 
-        short_to_be_closed = np.count_nonzero(self._portfolio[
-            (self._portfolio[:, 1] == 1.0) &
-            (self._portfolio[:, 0] == 1.0) &
-            (self._portfolio[:, 2] > (
-                    self._short_exposure_factor *
-                    self._close_values[i_index, 0])), 0])
+        short_to_be_closed = np.count_nonzero(
+            self._portfolio[
+                (self._portfolio[:, 1] == 1.0)
+                & (self._portfolio[:, 0] == 1.0)
+                & (
+                    self._portfolio[:, 2]
+                    > (self._short_exposure_factor * self._close_values[i_index, 0])
+                ),
+                0,
+            ]
+        )
 
-        long_closed_exposure = np.sum(self._portfolio[
-            (self._portfolio[:, 1] == 1.0) &
-            (self._portfolio[:, 0] == 2.0) &
-            (self._portfolio[:, 2] < self._close_values[i_index, 0]), 2])
+        long_closed_exposure = np.sum(
+            self._portfolio[
+                (self._portfolio[:, 1] == 1.0)
+                & (self._portfolio[:, 0] == 2.0)
+                & (self._portfolio[:, 2] < self._close_values[i_index, 0]),
+                2,
+            ]
+        )
 
-        short_closed_exposure = np.sum(self._portfolio[
-            (self._portfolio[:, 1] == 1.0) &
-            (self._portfolio[:, 0] == 1.0) &
-            (self._portfolio[:, 2] > (
-                    self._short_exposure_factor *
-                    self._close_values[i_index, 0])), 2])
+        short_closed_exposure = np.sum(
+            self._portfolio[
+                (self._portfolio[:, 1] == 1.0)
+                & (self._portfolio[:, 0] == 1.0)
+                & (
+                    self._portfolio[:, 2]
+                    > (self._short_exposure_factor * self._close_values[i_index, 0])
+                ),
+                2,
+            ]
+        )
 
         # Calculate earnings and closed_exposure
 
-        earnings = (
-            long_to_be_closed * self._close_values[i_index, 0] -
-            long_closed_exposure) + (
-                (short_closed_exposure / self._short_exposure_factor) -
-                short_to_be_closed * self._close_values[i_index, 0])
+        earnings = (long_to_be_closed * self._close_values[i_index, 0] - long_closed_exposure) + (
+            (short_closed_exposure / self._short_exposure_factor)
+            - short_to_be_closed * self._close_values[i_index, 0]
+        )
 
         closed_exposure = long_closed_exposure + short_closed_exposure
 
         # Register close actions
         self._portfolio[
-            (self._portfolio[:, 1] == 1.0) &
-            (self._portfolio[:, 0] == 2.0) &
-            (self._portfolio[:, 2] <
-            self._close_values[i_index, 0]), 1] = 2.0
+            (self._portfolio[:, 1] == 1.0)
+            & (self._portfolio[:, 0] == 2.0)
+            & (self._portfolio[:, 2] < self._close_values[i_index, 0]),
+            1,
+        ] = 2.0
 
         self._portfolio[
-            (self._portfolio[:, 1] == 1.0) &
-            (self._portfolio[:, 0] == 1.0) &
-            (self._portfolio[:, 2] >
-                (self._short_exposure_factor *
-                self._close_values[i_index, 0])), 1] = 2.0
+            (self._portfolio[:, 1] == 1.0)
+            & (self._portfolio[:, 0] == 1.0)
+            & (
+                self._portfolio[:, 2]
+                > (self._short_exposure_factor * self._close_values[i_index, 0])
+            ),
+            1,
+        ] = 2.0
 
         # create simulation data row, set only the 'exposure' and earnings.
         # Use single-step .iat DataFrame assignment to avoid chained assignment
         # warnings and remain compatible with pandas Copy-on-Write.
         # Columns: ['signal', 'open_trading_action', 'stock_value',
         #           'exposure', 'portfolio_value', 'earnings', 'balance']
-        self._simulation_data.iat[i_index, 3] = \
+        self._simulation_data.iat[i_index, 3] = (
             self._simulation_data.iat[i_index - 1, 3] - closed_exposure
+        )
 
-        self._simulation_data.iat[i_index, 5] = \
-            self._simulation_data.iat[i_index - 1, 5] + earnings
+        self._simulation_data.iat[i_index, 5] = self._simulation_data.iat[i_index - 1, 5] + earnings
 
         return earnings, closed_exposure
 
@@ -447,8 +470,7 @@ class TradingSimulation:
                 signal to be considered in this simulation round.
         """
 
-        if signal[0] == 'hold':
-
+        if signal[0] == "hold":
             # Add portfolio row, columns: 'position', 'status', 'exposure'
             self._portfolio[i_index, :] = [0.0, 0.0, 0.0]
 
@@ -459,23 +481,20 @@ class TradingSimulation:
             # 'portfolio_value', 'earnings', 'balance'. Note that 'earnings'
             # and 'exposure' had been already updated in runSimulationRound
             self._simulation_data.iloc[i_index, :] = [
-                'hold',
-                'none',
+                "hold",
+                "none",
                 self._close_values[i_index, 0],
-                self._simulation_data['exposure'].iat[i_index],
+                self._simulation_data["exposure"].iat[i_index],
                 portfolio_value,
-                self._simulation_data['earnings'].iat[i_index],
-                portfolio_value +
-                self._simulation_data['earnings'].iat[i_index]
+                self._simulation_data["earnings"].iat[i_index],
+                portfolio_value + self._simulation_data["earnings"].iat[i_index],
             ]
 
-        elif signal[0] == 'buy':
-
+        elif signal[0] == "buy":
             # Maximum exposure reached
             if self._max_exposure is not None and self._max_exposure < (
-                    self._simulation_data['exposure'].iat[i_index] +
-                    self._close_values[i_index, 0]):
-
+                self._simulation_data["exposure"].iat[i_index] + self._close_values[i_index, 0]
+            ):
                 # Add portfolio row, columns: 'position', 'status', 'exposure'
                 self._portfolio[i_index, :] = [0.0, 0.0, 0.0]
 
@@ -487,22 +506,19 @@ class TradingSimulation:
                 # 'earnings' and 'exposure' had been already updated in
                 # runSimulationRound
                 self._simulation_data.iloc[i_index, :] = [
-                    'buy',
-                    'none',
+                    "buy",
+                    "none",
                     self._close_values[i_index, 0],
-                    self._simulation_data['exposure'].iat[i_index],
+                    self._simulation_data["exposure"].iat[i_index],
                     portfolio_value,
-                    self._simulation_data['earnings'].iat[i_index],
-                    portfolio_value +
-                    self._simulation_data['earnings'].iat[i_index]
+                    self._simulation_data["earnings"].iat[i_index],
+                    portfolio_value + self._simulation_data["earnings"].iat[i_index],
                 ]
 
             # Open long position
             else:
-
                 # Add portfolio row, columns: 'position', 'status', 'exposure'
-                self._portfolio[i_index, :] = [
-                    2.0, 1.0, self._close_values[i_index, 0]]
+                self._portfolio[i_index, :] = [2.0, 1.0, self._close_values[i_index, 0]]
 
                 portfolio_value = self._calculatePortfolioValue(i_index)
 
@@ -512,25 +528,21 @@ class TradingSimulation:
                 # 'earnings' and 'exposure' had been already updated in
                 # runSimulationRound
                 self._simulation_data.iloc[i_index, :] = [
-                    'buy',
-                    'long',
+                    "buy",
+                    "long",
                     self._close_values[i_index, 0],
-                    self._simulation_data['exposure'].iat[i_index] +
-                    self._close_values[i_index, 0],
+                    self._simulation_data["exposure"].iat[i_index] + self._close_values[i_index, 0],
                     portfolio_value,
-                    self._simulation_data['earnings'].iat[i_index],
-                    portfolio_value +
-                    self._simulation_data['earnings'].iat[i_index]
+                    self._simulation_data["earnings"].iat[i_index],
+                    portfolio_value + self._simulation_data["earnings"].iat[i_index],
                 ]
 
-        elif signal[0] == 'sell':
-
+        elif signal[0] == "sell":
             # Maximum exposure reached
             if self._max_exposure is not None and self._max_exposure < (
-                    self._simulation_data['exposure'].iat[i_index] +
-                    self._short_exposure_factor *
-                    self._close_values[i_index, 0]):
-
+                self._simulation_data["exposure"].iat[i_index]
+                + self._short_exposure_factor * self._close_values[i_index, 0]
+            ):
                 # Add portfolio row, columns: 'position', 'status', 'exposure'
                 self._portfolio[i_index, :] = [0.0, 0.0, 0.0]
 
@@ -542,24 +554,23 @@ class TradingSimulation:
                 # 'earnings' and 'exposure' had been already updated in
                 # runSimulationRound
                 self._simulation_data.iloc[i_index, :] = [
-                    'sell',
-                    'none',
+                    "sell",
+                    "none",
                     self._close_values[i_index, 0],
-                    self._simulation_data['exposure'].iat[i_index],
+                    self._simulation_data["exposure"].iat[i_index],
                     portfolio_value,
-                    self._simulation_data['earnings'].iat[i_index],
-                    portfolio_value +
-                    self._simulation_data['earnings'].iat[i_index]
+                    self._simulation_data["earnings"].iat[i_index],
+                    portfolio_value + self._simulation_data["earnings"].iat[i_index],
                 ]
 
             # Open short position
             else:
-
                 # Add portfolio row, columns: 'position', 'status', 'exposure'
                 self._portfolio[i_index, :] = [
-                    1.0, 1.0,
-                    self._short_exposure_factor *
-                    self._close_values[i_index, 0]]
+                    1.0,
+                    1.0,
+                    self._short_exposure_factor * self._close_values[i_index, 0],
+                ]
 
                 portfolio_value = self._calculatePortfolioValue(i_index)
 
@@ -569,16 +580,14 @@ class TradingSimulation:
                 # 'earnings' and 'exposure' had been already updated in
                 # runSimulationRound
                 self._simulation_data.iloc[i_index, :] = [
-                    'sell',
-                    'short',
+                    "sell",
+                    "short",
                     self._close_values[i_index, 0],
-                    self._simulation_data['exposure'].iat[i_index] +
-                    self._short_exposure_factor *
-                    self._close_values[i_index, 0],
+                    self._simulation_data["exposure"].iat[i_index]
+                    + self._short_exposure_factor * self._close_values[i_index, 0],
                     portfolio_value,
-                    self._simulation_data['earnings'].iat[i_index],
-                    portfolio_value +
-                    self._simulation_data['earnings'].iat[i_index]
+                    self._simulation_data["earnings"].iat[i_index],
+                    portfolio_value + self._simulation_data["earnings"].iat[i_index],
                 ]
 
     def runSimulationRound(self, i_index, signal):
@@ -599,8 +608,14 @@ class TradingSimulation:
         # 'stock_value', 'exposure', 'portfolio_value', 'earnings', 'balance'
         if i_index == 0:
             self._simulation_data.iloc[0, :] = [
-                signal[0], 'none', self._close_values[0, 0], 0.0,
-                0.0, 0.0, 0.0]
+                signal[0],
+                "none",
+                self._close_values[0, 0],
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+            ]
 
             # Columns for the portfolio: 'position', 'status', 'exposure'
             self._portfolio[0, :] = [0.0, 0.0, 0.0]
