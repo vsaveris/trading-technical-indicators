@@ -4,7 +4,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/current_version-0.3.2_(unreleased)-yellow?style=for-the-badge)
+![Version](https://img.shields.io/badge/current_version-0.3.3_(unreleased)-yellow?style=for-the-badge)
 ![Latest Release](https://img.shields.io/badge/latest_release-0.2.2-blue?style=for-the-badge)
 ![Tests](https://img.shields.io/badge/tests-2122-purple?style=for-the-badge)
 ![Coverage](https://img.shields.io/badge/coverage-99%25-brightgreen?style=for-the-badge)
@@ -61,9 +61,10 @@ A full modernization of the project is underway:
 - Refactored & improved graphing engine
 
 ### Latest Dev Versions
-- **0.3.2** — Improved graph generation
-- **0.3.1** — Packaging / CI overhaul
-- **0.3.0** — Major code refactor for modern dependencies
+- **0.3.3** - Address pending issues (#36).
+- **0.3.2** - Improved graph generation
+- **0.3.1** - Packaging / CI overhaul
+- **0.3.0** - Major code refactor for modern dependencies
 
 ---
 
