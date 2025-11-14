@@ -27,10 +27,9 @@ def fillMissingValues(input_data):
     if isinstance(input_data, pd.DataFrame):
         # Sort dataframe on index ascending, use a copy of the original df
         data = input_data.sort_index(ascending=True)
-    
-        # First fill forward and the backward (order matters)
-        data.fillna(method='ffill', inplace=True)
-        data.fillna(method='bfill', inplace=True)
+        
+        # First fill forward and then backward (order matters)
+        data = data.ffill().bfill()
 
     else:
         raise TypeError('Invalid input_data type. It was expected ' +

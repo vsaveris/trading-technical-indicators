@@ -105,30 +105,30 @@ class RelativeMomentumIndex(TechnicalIndicator):
             'close'].shift(self._momentum_period)
 
         # Upward price change
-        rmi['upc'][close_price_change > 0] = close_price_change
-        rmi['upc'][close_price_change <= 0] = 0
+        rmi.loc[close_price_change > 0, 'upc'] = close_price_change
+        rmi.loc[close_price_change <= 0, 'upc'] = 0
 
         # Downward price change
-        rmi['dpc'][close_price_change < 0] = abs(close_price_change)
-        rmi['dpc'][close_price_change >= 0] = 0
+        rmi.loc[close_price_change < 0, 'dpc'] = abs(close_price_change)
+        rmi.loc[close_price_change >= 0, 'dpc'] = 0
 
         # Wilder's Moving Average for upc and dpc
-        rmi['smoothed_upc'].iat[self._period + self._momentum_period - 1] = \
+        rmi.loc[rmi.index[self._period + self._momentum_period - 1], 'smoothed_upc'] = \
             rmi['upc'].iloc[
             self._momentum_period:self._period + self._momentum_period].mean()
 
-        rmi['smoothed_dpc'].iat[self._period + self._momentum_period - 1] = \
+        rmi.loc[rmi.index[self._period + self._momentum_period - 1], 'smoothed_dpc'] = \
             rmi['dpc'].iloc[
             self._momentum_period:self._period + self._momentum_period].mean()
 
         for i in range(self._period + self._momentum_period,
                        len(self._input_data.index)):
 
-            rmi['smoothed_upc'].iat[i] = rmi['smoothed_upc'].iat[i - 1] + (
+            rmi.loc[rmi.index[i], 'smoothed_upc'] = rmi['smoothed_upc'].iat[i - 1] + (
                     rmi['upc'].iat[i] - rmi['smoothed_upc'].iat[i - 1]
             ) / self._period
 
-            rmi['smoothed_dpc'].iat[i] = rmi['smoothed_dpc'].iat[i - 1] + (
+            rmi.loc[rmi.index[i], 'smoothed_dpc'] = rmi['smoothed_dpc'].iat[i - 1] + (
                     rmi['dpc'].iat[i] - rmi['smoothed_dpc'].iat[i - 1]
             ) / self._period
 

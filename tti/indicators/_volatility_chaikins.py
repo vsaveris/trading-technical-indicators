@@ -106,7 +106,7 @@ class VolatilityChaikins(TechnicalIndicator):
         vch['high_low_diff_ema'] = (
                 self._input_data['high'] - self._input_data['low']).ewm(
             span=self._ema_period, min_periods=self._ema_period,
-            adjust=False, axis=0).mean()
+            adjust=False).mean()
 
         vch['high_low_diff_ema_change'] = (vch['high_low_diff_ema'] -
             vch['high_low_diff_ema'].shift(self._change_period))

@@ -1,1 +1,0 @@
-Graphs output from the execution of the unit tests.

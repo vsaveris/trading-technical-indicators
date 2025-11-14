@@ -80,38 +80,32 @@ class UltimateOscillator(TechnicalIndicator):
         uosc['range'] = uosc['true_high'] - uosc['true_low']
 
         uosc['7_range_sum'] = uosc['range'].rolling(
-            window=7, min_periods=7, center=False, win_type=None, on=None,
-            axis=0, closed=None).sum()
+            window=7, min_periods=7).sum()
 
         uosc['buying_units'] = self._input_data['close'] - uosc['true_low']
 
         uosc['7_buying_units_sum'] = uosc['buying_units'].rolling(
-            window=7, min_periods=7, center=False, win_type=None, on=None,
-            axis=0, closed=None).sum()
+            window=7, min_periods=7).sum()
 
         uosc['7_bus_rs_division'] = (
                 uosc['7_buying_units_sum'] / uosc['7_range_sum']
         )
 
         uosc['14_range_sum'] = uosc['range'].rolling(
-            window=14, min_periods=14, center=False, win_type=None, on=None,
-            axis=0, closed=None).sum()
+            window=14, min_periods=14).sum()
 
         uosc['14_buying_units_sum'] = uosc['buying_units'].rolling(
-            window=14, min_periods=14, center=False, win_type=None, on=None,
-            axis=0, closed=None).sum()
+            window=14, min_periods=14).sum()
 
         uosc['14_bus_rs_division'] = (
                 uosc['14_buying_units_sum'] / uosc['14_range_sum']
         )
 
         uosc['28_range_sum'] = uosc['range'].rolling(
-            window=28, min_periods=28, center=False, win_type=None, on=None,
-            axis=0, closed=None).sum()
+            window=28, min_periods=28).sum()
 
         uosc['28_buying_units_sum'] = uosc['buying_units'].rolling(
-            window=28, min_periods=28, center=False, win_type=None, on=None,
-            axis=0, closed=None).sum()
+            window=28, min_periods=28).sum()
 
         uosc['28_bus_rs_division'] = (
                 uosc['28_buying_units_sum'] / uosc['28_range_sum']

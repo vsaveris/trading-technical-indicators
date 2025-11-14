@@ -114,34 +114,32 @@ class RangeIndicator(TechnicalIndicator):
             if (self._input_data['close'].iat[i] >
                     self._input_data['close'].iat[i - 1]):
 
-                ri['see_text'].iat[i] = ri['true_range'].iat[i] / (
+                ri.loc[ri.index[i], 'see_text'] = ri['true_range'].iat[i] / (
                         self._input_data['close'].iat[i] -
                         self._input_data['close'].iat[i - 1])
 
             else:
-                ri['see_text'].iat[i] = ri['true_range'].iat[i]
+                ri.loc[ri.index[i], 'see_text'] = ri['true_range'].iat[i]
 
         ri['see_text_range_min'] = ri['see_text'].rolling(
-            window=self._range_period, min_periods=self._range_period,
-            center=False, win_type=None, on=None, axis=0, closed=None).min()
+            window=self._range_period, min_periods=self._range_period).min()
 
         ri['see_text_range_max'] = ri['see_text'].rolling(
-            window=self._range_period, min_periods=self._range_period,
-            center=False, win_type=None, on=None, axis=0, closed=None).max()
+            window=self._range_period, min_periods=self._range_period).max()
 
         ri['see_text_range'] = ri['see_text_range_max'] - \
                                ri['see_text_range_min']
 
-        ri['see_text_range'][ri['see_text_range'] > 0] = 100 * (
+        ri.loc[ri['see_text_range'] > 0, 'see_text_range'] = 100 * (
                 ri['see_text'] - ri['see_text_range_min']
         ) / (ri['see_text_range_max'] - ri['see_text_range_min'])
 
-        ri['see_text_range'][ri['see_text_range'] <= 0] = 100 * (
+        ri.loc[ri['see_text_range'] <= 0, 'see_text_range'] = 100 * (
                 ri['see_text'] - ri['see_text_range_min'])
 
         ri['ri'] = ri['see_text_range'].ewm(
             span=self._smoothing_period, min_periods=self._smoothing_period,
-            adjust=False, axis=0).mean()
+            adjust=False).mean()
 
         return ri[['ri']].round(4)
 

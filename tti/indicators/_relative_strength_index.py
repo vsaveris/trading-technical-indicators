@@ -94,7 +94,7 @@ class RelativeStrengthIndex(TechnicalIndicator):
                     self._input_data['close'].values[i] >
                     self._input_data['close'].values[i - 1] else 0.0, 4)
 
-        upc['smoothed_upc'].iat[self._period] = \
+        upc.loc[upc.index[self._period], 'smoothed_upc'] = \
             upc['upc'].iloc[:self._period + 1].mean()
 
         for i in range(self._period + 1, len(self._input_data.index)):
@@ -114,7 +114,7 @@ class RelativeStrengthIndex(TechnicalIndicator):
                 self._input_data['close'].values[i] <
                 self._input_data['close'].values[i - 1] else 0.0, 4)
 
-        dpc['smoothed_dpc'].iat[self._period] = \
+        dpc.loc[dpc.index[self._period], 'smoothed_dpc'] = \
             dpc['dpc'].iloc[:self._period + 1].mean()
 
         for i in range(self._period + 1, len(self._input_data.index)):

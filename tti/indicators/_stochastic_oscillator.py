@@ -161,10 +161,8 @@ class StochasticOscillator(TechnicalIndicator):
         so = pd.concat([
             so,
             so.rolling(window=self._d_periods, min_periods=self._d_periods,
-                       center=False,
-                       win_type=None if self._d_method == 'simple' else
-                       self._d_method, on=None, axis=0, closed=None).
-            mean().round(4)], axis=1)
+                       win_type=(None if self._d_method == 'simple' else self._d_method)
+                       ).mean().round(4)], axis=1)
 
         so.columns = ['%K', '%D']
 

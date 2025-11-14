@@ -86,12 +86,10 @@ class VerticalHorizontalFilter(TechnicalIndicator):
                            data=None, dtype='float64')
 
         vhf['highest_close'] = self._input_data['close'].rolling(
-                window=self._period, min_periods=self._period, center=False,
-                win_type=None, on=None, axis=0, closed=None).max()
+            window=self._period, min_periods=self._period).max()
 
         vhf['lowest_close'] = self._input_data['close'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).min()
+            window=self._period, min_periods=self._period).min()
 
         # Absolute difference between highest_close and lowest_close
         vhf['hc_lc_diff'] = (vhf['highest_close'] - vhf['lowest_close']).abs()
@@ -101,8 +99,7 @@ class VerticalHorizontalFilter(TechnicalIndicator):
                                self._input_data['close'].shift(1)).abs()
 
         vhf['close_change_sum'] = vhf['close_change'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).sum()
+            window=self._period, min_periods=self._period).sum()
 
         vhf['vhf'] = vhf['hc_lc_diff'] / vhf['close_change_sum']
 

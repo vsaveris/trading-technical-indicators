@@ -83,9 +83,10 @@ class Momentum(TechnicalIndicator):
         mom = pd.DataFrame(index=self._input_data.index, columns=['mom'],
                            data=None, dtype='float64')
 
-        mom['mom'].iloc[self._period:] = \
-            100. * self._input_data['close'].iloc[self._period:] / \
+        mom.iloc[self._period:, 0] = (
+            100.0 * self._input_data['close'].iloc[self._period:] /
             self._input_data['close'].shift(self._period).iloc[self._period:]
+        )
 
         return mom.round(4)
 
@@ -104,17 +105,16 @@ class Momentum(TechnicalIndicator):
             return TRADE_SIGNALS['hold']
 
         # Short term moving average for determining the bottoming and peaking
-        ema = self._ti_data['mom'].ewm(span=9, min_periods=9, adjust=False,
-                                       axis=0).mean()
+        ema = self._ti_data['mom'].ewm(span=9, min_periods=9, adjust=False).mean()
 
         # Indicator value goes above Moving Average
-        if self._ti_data['mom'].iat[-2] < ema[-2] and \
-                self._ti_data['mom'].iat[-1] > ema[-1]:
+        if self._ti_data['mom'].iat[-2] < ema.iloc[-2] and \
+                self._ti_data['mom'].iat[-1] > ema.iloc[-1]:
             return TRADE_SIGNALS['sell']
 
         # Indicator value goes below Moving Average
-        if self._ti_data['mom'].iat[-2] > ema[-2] and \
-                self._ti_data['mom'].iat[-1] < ema[-1]:
+        if self._ti_data['mom'].iat[-2] > ema.iloc[-2] and \
+                self._ti_data['mom'].iat[-1] < ema.iloc[-1]:
             return TRADE_SIGNALS['buy']
 
         return TRADE_SIGNALS['hold']

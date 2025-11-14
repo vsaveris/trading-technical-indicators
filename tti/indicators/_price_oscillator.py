@@ -98,13 +98,11 @@ class PriceOscillator(TechnicalIndicator):
 
         # Calculate Long Simple Moving Average
         long_ma = self._input_data.rolling(
-            window=self._long_ma, min_periods=self._long_ma, center=False,
-            win_type=None, on=None, axis=0, closed=None).mean()
+            window=self._long_ma, min_periods=self._long_ma).mean()
 
         # Calculate Short Simple Moving Average
         short_ma = self._input_data.rolling(
-            window=self._short_ma, min_periods=self._short_ma, center=False,
-            win_type=None, on=None, axis=0, closed=None).mean()
+            window=self._short_ma, min_periods=self._short_ma).mean()
 
         # Calculate MACD
         posc = 100 * (short_ma - long_ma) / long_ma

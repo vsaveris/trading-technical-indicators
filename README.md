@@ -1,4 +1,7 @@
 # trading-technical-indicators (tti)
+![Current Version](https://img.shields.io/badge/current_version-0.3.0_(not_released)-yellow?style=flat-square)
+![Latest Release](https://img.shields.io/badge/latest_release-0.2.2-blue?style=flat-square)
+
 **Trading Technical Indicators python library, where Traditional Technical Analysis and AI are met. Version 0.2.2 (stable release)**
 - Calculate technical indicators (62 indicators supported).
 - Produce graphs for any technical indicator.
@@ -8,8 +11,8 @@
 
 *Implementation based on the book 'Technical Analysis from A to Z, Steven B. Achelis'. Validation based on the 'A to Z Companion Spreadsheet, Steven B. Achelis and Jon C. DeBry'*
 
-API documentation and installation instructions can be found in the project's web-site:
-[Trading Technical Indicators](https://www.trading-technical-indicators.org/)
+API documentation and installation instructions can be found in:
+[Trading Technical Indicators](https://trading-technical-indicators.readthedocs.io/en/latest/index.html)
 
 **Change Log**
 
@@ -24,8 +27,19 @@ API documentation and installation instructions can be found in the project's we
 - 0.1.b1: Cosmetic changes in package building file applied (setup.py)
 - 0.1.b0: First beta release
 
-*Planned Releases*
-- 1.0.0: Full featured release, including machine learning related features (*planned for 01.03.2021*).
+*Under Development*
+
+![Status](https://img.shields.io/badge/status-in_development-orange?style=flat-square)
+![New](https://img.shields.io/badge/new-brightgreen?style=flat-square)
+
+The project is currently undergoing a series of updates focused on modernizing its structure and packaging, upgrading Python and other dependency versions, and introducing new Machine Learning capabilities.
+There will be no intermediate releases for these updates. Once all planned changes are complete, version `1.0.0` of the package will be published.
+- 0.3.0: Code refactoring
+  - Refactor code due to deprecated methods in various packages (i.e. pandas)
+  - Update minimum versions for dependencies
+  - Update minimum version of python (`3.11+`)
+  - Replace project's website with package documentation URL.
+
 
 **Indicators supported**
 - Accumulation Distribution Line

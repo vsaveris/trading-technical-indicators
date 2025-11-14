@@ -77,8 +77,8 @@ class MedianPrice(TechnicalIndicator):
         # This is required for the trading signal calculation and we want
         # to include it in the graph
         self._input_data['close_ema'] = self._input_data['close'].ewm(
-            span=self._period, min_periods=self._period, adjust=False,
-            axis=0).mean()
+            span=self._period, min_periods=self._period, adjust=False
+        ).mean()
 
         mp = pd.DataFrame(
             index=self._input_data.index, columns=['mp'],

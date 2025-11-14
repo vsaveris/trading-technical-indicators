@@ -83,10 +83,13 @@ class AverageTrueRange(TechnicalIndicator):
         atr['atr'] = atr[['TH-TL', 'YC-TH', 'YC-TL']].max(axis=1)
 
         # Wilder's Moving Average
-        atr['atr'] = pd.Series(
+        # Seed Wilder's MA with the mean of the first 14 TR values, then
+        # continue with an exponential moving average using alpha=1/14.
+        atr_seed = pd.Series(
             data=[atr['atr'].iloc[:14].mean()], index=[atr.index[13]]
-        ).append(atr['atr'].iloc[14:]).ewm(alpha=1 / 14,
-                                           adjust=False,).mean().round(4)
+        )
+        atr_series = pd.concat([atr_seed, atr['atr'].iloc[14:]])
+        atr['atr'] = atr_series.ewm(alpha=1 / 14, adjust=False).mean().round(4)
 
         return atr[['atr']]
 
@@ -106,12 +109,10 @@ class AverageTrueRange(TechnicalIndicator):
 
         # Calculate Simple Moving Averages
         sma_05 = self._input_data.rolling(
-            window=5, min_periods=5, center=False, win_type=None, on=None,
-            axis=0, closed=None).mean()
+            window=5, min_periods=5).mean()
 
         sma_10 = self._input_data.rolling(
-            window=10, min_periods=5, center=False, win_type=None, on=None,
-            axis=0, closed=None).mean()
+            window=10, min_periods=5).mean()
 
         # Assumption on what high volatility means
         if self._ti_data['atr'].values[-1] > \

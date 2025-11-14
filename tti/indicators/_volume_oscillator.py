@@ -103,11 +103,9 @@ class VolumeOscillator(TechnicalIndicator):
                            data=None, dtype='float64')
 
         vosc['vosc'] = self._input_data['volume'].rolling(
-            window=self._short_period, min_periods=self._short_period,
-            center=False, win_type=None, on=None, axis=0, closed=None
+            window=self._short_period, min_periods=self._short_period
         ).mean() - self._input_data['volume'].rolling(
-            window=self._long_period, min_periods=self._long_period,
-            center=False, win_type=None, on=None, axis=0, closed=None).mean()
+            window=self._long_period, min_periods=self._long_period).mean()
 
         return vosc.round(4)
 

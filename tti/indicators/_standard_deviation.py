@@ -83,8 +83,7 @@ class StandardDeviation(TechnicalIndicator):
 
         # Calculate Upper and Lower Bands
         sd = self._input_data.rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).std(ddof=0).round(4)
+            window=self._period, min_periods=self._period).std(ddof=0).round(4)
 
         sd.columns = ['sd']
 
@@ -106,8 +105,7 @@ class StandardDeviation(TechnicalIndicator):
 
         # Calculate Simple Moving Average
         sma = self._input_data.rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).mean().round(4)
+            window=self._period, min_periods=self._period).mean().round(4)
 
         # Price above average and volatility is high
         if self._input_data['close'].iat[-1] > sma.iat[-1, 0] and \

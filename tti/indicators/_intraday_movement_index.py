@@ -90,16 +90,14 @@ class IntradayMovementIndex(TechnicalIndicator):
         upc[upc < 0.0] = 0.0
 
         upc_sum = upc.rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).sum()
+            window=self._period, min_periods=self._period).sum()
 
         # Calculate Downward Price Change
         dpc = self._input_data['open'] - self._input_data['close']
         dpc[dpc < 0.0] = 0.0
 
         dpc_sum = dpc.rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).sum()
+            window=self._period, min_periods=self._period).sum()
 
         imi['imi'] = 100 * upc_sum / (upc_sum + dpc_sum)
 

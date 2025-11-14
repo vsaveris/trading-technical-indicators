@@ -81,18 +81,18 @@ class KlingerOscillator(TechnicalIndicator):
         # Cumulative Measurement
         cm = [0.0]
         for i in range(1, len(self._input_data)):
-            if t[i] == t[i - 1]:
-                cm.append(cm[i - 1] + dm[i])
+            if t.iloc[i] == t.iloc[i - 1]:
+                cm.append(cm[i - 1] + dm.iloc[i])
             else:
-                cm.append(dm[i - 1] + dm[i])
+                cm.append(dm.iloc[i - 1] + dm.iloc[i])
 
         volume_force = \
             self._input_data['volume'] * abs(2 * (dm / cm) - 1) * t * 100
 
         ko['ko'] = volume_force.ewm(
-            span=34, min_periods=34, adjust=False, axis=0
+            span=34, min_periods=34, adjust=False
         ).mean() - volume_force.ewm(
-            span=55, min_periods=55, adjust=False, axis=0
+            span=55, min_periods=55, adjust=False
         ).mean()
 
         return ko.round(4)

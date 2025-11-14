@@ -114,13 +114,11 @@ class StochasticMomentumIndex(TechnicalIndicator):
 
         # Calculate highest high for the last periods
         smi['highest_high'] = self._input_data['high'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).max()
+            window=self._period, min_periods=self._period).max()
 
         # Calculate highest high for the last periods
         smi['lowest_low'] = self._input_data['low'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).min()
+            window=self._period, min_periods=self._period).min()
 
         # Midpoint between highest high and lowest low
         smi['midpoint'] = (smi['highest_high'] + smi['lowest_low']) / 2
@@ -131,12 +129,12 @@ class StochasticMomentumIndex(TechnicalIndicator):
         # Exponential Moving Average of the distance
         smi['distance_ema'] = smi['distance'].ewm(
             span=self._smoothing_period, min_periods=self._smoothing_period,
-            adjust=False, axis=0).mean()
+            adjust=False).mean()
 
         # Double Exponential Moving Average of the distance
         smi['distance_double_ema'] = smi['distance_ema'].ewm(
             span=self._double_smoothing_period,
-            min_periods=self._double_smoothing_period, adjust=False, axis=0
+            min_periods=self._double_smoothing_period, adjust=False
         ).mean()
 
         # Difference between highest high and lowest low
@@ -146,13 +144,13 @@ class StochasticMomentumIndex(TechnicalIndicator):
         # lowest low
         smi['hh_ll_diff_ema'] = smi['hh_ll_diff'].ewm(
             span=self._smoothing_period, min_periods=self._smoothing_period,
-            adjust=False, axis=0).mean()
+            adjust=False).mean()
 
         # Double Exponential Moving Average of the difference between highest
         # high and lowest low
         smi['hh_ll_diff_double_ema'] = smi['hh_ll_diff_ema'].ewm(
             span=self._double_smoothing_period,
-            min_periods=self._double_smoothing_period, adjust=False, axis=0
+            min_periods=self._double_smoothing_period, adjust=False
         ).mean()
 
         # Calculate SMI

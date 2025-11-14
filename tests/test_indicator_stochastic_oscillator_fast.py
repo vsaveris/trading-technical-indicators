@@ -21,7 +21,7 @@ class TestStochasticOscillator(unittest.TestCase, TestIndicatorsCommon):
 
     ti_data_rows = [0, 1, 2]
 
-    df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
+    df = pd.read_csv('./data/sample_data.csv', parse_dates=True, date_format='%Y-%m-%d', index_col=0)
 
     indicator_input_arguments = {'k_periods': 14, 'k_slowing_periods': 1,
                                  'd_periods': 3, 'd_method': 'simple'}

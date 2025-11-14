@@ -98,13 +98,11 @@ class BollingerBands(TechnicalIndicator):
 
         # Calculate the Middle Band using Simple Moving Average
         bb = self._input_data.rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).mean().round(4)
+            window=self._period, min_periods=self._period).mean().round(4)
 
         # Calculate Upper and Lower Bands
         standard_deviation = self._input_data.rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).std(ddof=0)
+            window=self._period, min_periods=self._period).std(ddof=0)
 
         bb = pd.concat([bb,
                         round(bb + standard_deviation * self._std_number, 4),

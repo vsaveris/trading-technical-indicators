@@ -100,8 +100,7 @@ class Envelopes(TechnicalIndicator):
                            dtype='float64')
 
         ma = self._input_data.rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).mean()
+            window=self._period, min_periods=self._period).mean()
 
         env['upper_band'] = (1 + self._shift) * ma
         env['lower_band'] = (1 - self._shift) * ma

@@ -69,20 +69,20 @@ class PositiveVolumeIndex(TechnicalIndicator):
         pvi = pd.DataFrame(index=self._input_data.index, columns=['pvi'],
                            data=None, dtype='float64')
 
-        pvi['pvi'].iat[0] = 1000.0
+        pvi.loc[pvi.index[0], 'pvi'] = 1000.0
 
         for i in range(1, len(self._input_data.index)):
 
             if self._input_data['volume'].iat[i] > \
                     self._input_data['volume'].iat[i - 1]:
-                pvi['pvi'].iat[i] = \
+                pvi.loc[pvi.index[i], 'pvi'] = \
                     pvi['pvi'].iat[i - 1] + (
                             self._input_data['close'].iat[i] -
                             self._input_data['close'].iat[i - 1]) * (
                             pvi['pvi'].iat[i - 1] /
                             self._input_data['close'].iat[i - 1])
             else:
-                pvi['pvi'].iat[i] = pvi['pvi'].iat[i - 1]
+                pvi.loc[pvi.index[i], 'pvi'] = pvi['pvi'].iat[i - 1]
 
         return pvi.round(4)
 
@@ -101,15 +101,14 @@ class PositiveVolumeIndex(TechnicalIndicator):
             return TRADE_SIGNALS['hold']
 
         # Yearly moving average of the indicator (255 periods)
-        ema = self._ti_data['pvi'].ewm(span=255, min_periods=255, adjust=False,
-                                       axis=0).mean()
+        ema = self._ti_data['pvi'].ewm(span=255, min_periods=255, adjust=False).mean()
 
-        if ((self._ti_data['pvi'][-2] < ema[-2]) and
-                (self._ti_data['pvi'][-1] > ema[-1])):
+        if ((self._ti_data['pvi'].iloc[-2] < ema.iloc[-2]) and
+                (self._ti_data['pvi'].iloc[-1] > ema.iloc[-1])):
             return TRADE_SIGNALS['buy']
 
-        if ((self._ti_data['pvi'][-2] > ema[-2]) and
-                (self._ti_data['pvi'][-1] < ema[-1])):
+        if ((self._ti_data['pvi'].iloc[-2] > ema.iloc[-2]) and
+                (self._ti_data['pvi'].iloc[-1] < ema.iloc[-1])):
             return TRADE_SIGNALS['sell']
 
         return TRADE_SIGNALS['hold']

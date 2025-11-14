@@ -88,12 +88,10 @@ class PriceChannel(TechnicalIndicator):
                            data=None, dtype='float64')
 
         pch['highest_high'] = self._input_data['high'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).max().shift(1)
+            window=self._period, min_periods=self._period).max().shift(1)
 
         pch['lowest_low'] = self._input_data['low'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).min().shift(1)
+            window=self._period, min_periods=self._period).min().shift(1)
 
         return pch.round(4)
 

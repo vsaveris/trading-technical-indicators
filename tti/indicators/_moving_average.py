@@ -120,19 +120,17 @@ class MovingAverage(TechnicalIndicator):
         if self._ma_type == 'simple':
 
             ma['ma-' + self._ma_type] = self._input_data.rolling(
-                window=self._period, min_periods=self._period, center=False,
-                win_type=None, on=None, axis=0, closed=None).mean()
+                window=self._period, min_periods=self._period).mean()
 
         elif self._ma_type == 'exponential':
 
             ma['ma-' + self._ma_type] = self._input_data.ewm(
-                span=self._period, min_periods=self._period, adjust=False,
-                axis=0).mean()
+                span=self._period, min_periods=self._period, adjust=False).mean()
 
         elif self._ma_type == 'time_series':
 
             # Similar to Time Series Forecast
-            ma['ma-' + self._ma_type].iloc[self._period-1:] = pd.concat(objs=[
+            ma.iloc[self._period-1:, 0] = pd.concat(objs=[
                 LinearRegressionSlope(input_data=self._input_data,
                                       period=self._period).getTiData(),
                 LinearRegressionIndicator(input_data=self._input_data,
@@ -143,10 +141,8 @@ class MovingAverage(TechnicalIndicator):
 
             # Simple Moving Average of the Simple Moving Average
             ma['ma-' + self._ma_type] = self._input_data.rolling(
-                window=self._period, min_periods=self._period, center=False,
-                win_type=None, on=None, axis=0, closed=None).mean().rolling(
-                window=self._period, min_periods=self._period, center=False,
-                win_type=None, on=None, axis=0, closed=None).mean()
+                window=self._period, min_periods=self._period).mean().rolling(
+                window=self._period, min_periods=self._period).mean()
 
         elif self._ma_type == 'variable':
 
@@ -161,12 +157,12 @@ class MovingAverage(TechnicalIndicator):
             sm = 2 / (self._period + 1)
 
             # By default we start from period 22
-            ma['ma-' + self._ma_type].iat[21] = \
+            ma.loc[ma.index[21], 'ma-' + self._ma_type] = \
                 self._input_data['close'].iat[21]
 
             for i in range(22, len(self._input_data.index)):
 
-                ma['ma-' + self._ma_type].iat[i] = (
+                ma.loc[ma.index[i], 'ma-' + self._ma_type] = (
                     sm * self._input_data['close'].iat[i] * vr.iat[i, 0]) + (
                     1 - (sm * vr.iat[i, 0])
                 ) * ma['ma-' + self._ma_type].iat[i-1]

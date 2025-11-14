@@ -89,8 +89,7 @@ class CommodityChannelIndex(TechnicalIndicator):
 
         # Simple moving average of the typical price
         tp_sma = typical_price.rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).mean()
+            window=self._period, min_periods=self._period).mean()
 
         # Sum of absolute differences of the typical price sma from preceding
         # periods typical prices
