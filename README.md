@@ -1,65 +1,77 @@
-# trading-technical-indicators (tti)
-![Current Version](https://img.shields.io/badge/current_version-0.3.2_(not_released)-yellow?style=flat-square)
-![Latest Release](https://img.shields.io/badge/latest_release-0.2.2-blue?style=flat-square)
-![Total Tests](https://img.shields.io/badge/total_tests-2122-purple?style=flat-square)
-![Coverage](https://img.shields.io/badge/test_coverage-99%25-green?style=flat-square)
+<p align="center"><img src="./docs/source/images/Trading-Logo.png" width="100"/></p>
 
-**Trading Technical Indicators python library, where Traditional Technical Analysis and AI are met. Version 0.2.2 (stable release)**
-- Calculate technical indicators (62 indicators supported).
-- Produce graphs for any technical indicator.
-- Get trading signals for each indicator.
-- Trading simulation based on trading signals.
-- Machine Learning integration for prices prediction (not included in this release).
+# Trading Technical Indicators (TTI)
 
-*Implementation based on the book 'Technical Analysis from A to Z, Steven B. Achelis'. Validation based on the 'A to Z Companion Spreadsheet, Steven B. Achelis and Jon C. DeBry'*
+<div align="center">
 
-API documentation and installation instructions can be found in:
-[Trading Technical Indicators](https://trading-technical-indicators.readthedocs.io/en/latest/index.html)
+![Version](https://img.shields.io/badge/current_version-0.3.2_(unreleased)-yellow?style=for-the-badge)
+![Latest Release](https://img.shields.io/badge/latest_release-0.2.2-blue?style=for-the-badge)
+![Tests](https://img.shields.io/badge/tests-2122-purple?style=for-the-badge)
+![Coverage](https://img.shields.io/badge/coverage-99%25-brightgreen?style=for-the-badge)
 
-**Change Log**
+**Modern Technical Analysis + Python + Machine Learning**
 
-*Stable Releases*
-- 0.2.2: Incompatibilities with the latest pandas release 1.2.0 fixed ([#20](https://github.com/vsaveris/trading-technical-indicators/issues/20))
-- 0.2.1: Bug fixes, new pandas release causes an exception in some indicators calculation ([#20](https://github.com/vsaveris/trading-technical-indicators/issues/20))
-- 0.2.0: First stable release, updates described in the following github issues ([#2](https://github.com/vsaveris/trading-technical-indicators/issues/2), [#3](https://github.com/vsaveris/trading-technical-indicators/issues/3), [#14](https://github.com/vsaveris/trading-technical-indicators/issues/14), [#15](https://github.com/vsaveris/trading-technical-indicators/issues/15))
+</div>
 
-*Beta Releases*
-- 0.1.b3: Updates described in the following github issues ([#11](https://github.com/vsaveris/trading-technical-indicators/issues/11), [#7](https://github.com/vsaveris/trading-technical-indicators/issues/7), [#8](https://github.com/vsaveris/trading-technical-indicators/issues/8))
-- 0.1.b2: Bugs fixes ([#1](https://github.com/vsaveris/trading-technical-indicators/issues/1))
-- 0.1.b1: Cosmetic changes in package building file applied (setup.py)
-- 0.1.b0: First beta release
+TTI is a Python library that brings together **traditional technical analysis** and **modern AI-driven tooling**.
+It provides:
 
-*Under Development*
+- **62 technical indicators**
+- **Graph generation** for any indicator
+- **Trading signal generation**
+- **Trading simulation engine**
+- **Machine Learning integration (coming soon!)**
 
-![Status](https://img.shields.io/badge/status-in_development-orange?style=flat-square)
-![New](https://img.shields.io/badge/new-brightgreen?style=flat-square)
+> Built on *Technical Analysis from A to Z* by Steven B. Achelis. Validated against the *A to Z Companion Spreadsheet*.
 
-The project is currently undergoing a series of updates focused on modernizing its structure and packaging, upgrading Python and other dependency versions, and introducing new Machine Learning capabilities.
-There will be no intermediate releases for these updates. Once all planned changes are complete, version `1.0.0` of the package will be published.
+---
 
-To use this unreleased version, clone the repository and install the package:
-```shell
-git clone git@github.com:vsaveris/trading-technical-indicators.git
+## Installation & Documentation
+
+**Full documentation:**
+👉 https://trading-technical-indicators.readthedocs.io/en/latest
+
+### Stable Release (0.2.2)
+```bash
+pip install tti
+```
+
+### Unreleased Development Version (0.3.x → 1.0.0)
+```bash
+git clone https://github.com/vsaveris/trading-technical-indicators.git
 pip install .
 ```
 
-- 0.3.2: Update Graphs Code
-  - Improvements in generated graphs.
+---
 
-- 0.3.1: Packaging refactoring
-  - Moved to `pyproject.toml` file.
-  - Pre-commit hooks added.
-  - CI checks added.
-  - `CONTRIBUTING.md` file introduced, with instructions when contributing to the project.
+## Under Development — Toward **v1.0.0**
 
-- 0.3.0: Code refactoring
-  - Refactor code due to deprecated methods in various packages (i.e. pandas)
-  - Update minimum versions for dependencies
-  - Update minimum version of python (`3.11+`)
-  - Replace project's website with package documentation URL.
+<div align="center">
 
+![Status](https://img.shields.io/badge/STATUS-In_Development-orange?style=for-the-badge)
+![New](https://img.shields.io/badge/ML_Features-Coming_Soon-brightgreen?style=for-the-badge)
 
-**Indicators supported**
+</div>
+
+A full modernization of the project is underway:
+- Python **3.11+** migration
+- Dependency updates
+- Packaging overhaul (`pyproject.toml`, pre-commit, CI)
+- New ML forecasting pipeline
+- Refactored & improved graphing engine
+
+### Latest Dev Versions
+- **0.3.2** — Improved graph generation
+- **0.3.1** — Packaging / CI overhaul
+- **0.3.0** — Major code refactor for modern dependencies
+
+---
+
+## Supported Indicators (62 total)
+
+<details>
+<summary><strong>Click to expand the full indicator list</strong></summary>
+
 - Accumulation Distribution Line
 - Average True Range
 - Bollinger Bands
@@ -88,44 +100,46 @@ pip install .
 - Time-Series Moving Average
 - Triangular Moving Average
 - Variable Moving Average
-- Moving Average Convergence Divergence
+- MACD
 - Negative Volume Index
 - On Balance Volume
 - Parabolic SAR
 - Performance
 - Positive Volume Index
-- Price And Volume Trend
+- Price & Volume Trend
 - Price Channel
 - Price Oscillator
-- Price Rate Of Change
+- Price Rate of Change
 - Projection Bands
 - Projection Oscillator
 - Qstick
 - Range Indicator
 - Relative Momentum Index
-- Relative Strength Index
-- Relative Volatility Index
+- RSI
+- RVI
 - Standard Deviation
 - Stochastic Momentum Index
-- Fast Stochastic Oscillator
-- Slow Stochastic Oscillator
+- Stochastic Oscillators (fast/slow)
 - Swing Index
 - Time Series Forecast
-- Triple Exponential Moving Average
+- Triple EMA
 - Typical Price
 - Ultimate Oscillator
-- Vertical Horizontal Filter
-- Volatility Chaikins
+- VHF
+- Volatility (Chaikin)
 - Volume Oscillator
-- Volume Rate Of Change
+- Volume Rate of Change
 - Weighted Close
-- Wilders Smoothing
-- Williams Accumulation Distribution
+- Wilder’s Smoothing
+- Williams Accum/Distrib
 - Williams %R
 
-### Usage Example
+</details>
 
-**Code example**
+---
+
+## Usage Example
+
 ```python
 """
 Trading-Technical-Indicators (tti) python library
@@ -173,8 +187,11 @@ print('\nSimulation Statistics:\n', simulation_statistics)
 simulation_graph.show()
 ```
 
-**Output**
-```
+---
+
+**Output:**
+
+```shell
 Technical Indicator data:
                       adl
 Date
@@ -216,11 +233,20 @@ Date                                   ...
 [5651 rows x 7 columns]
 
 Simulation Statistics:
- {'number_of_trading_days': 5651, 'number_of_buy_signals': 4767, 'number_of_ignored_buy_signals': 0, 'number_of_sell_signals': 601, 'number_of_ignored_sell_signals': 0, 'last_stock_value': 475.5, 'last_exposure': 22340.73, 'last_open_long_positions': 40, 'last_open_short_positions': 0, 'last_portfolio_value': 19020.0, 'last_earnings': 19817.21, 'final_balance': 38837.21}
+ {
+   'number_of_trading_days': 5651,
+   'number_of_buy_signals': 4767,
+   'number_of_ignored_buy_signals': 0,
+   'number_of_sell_signals': 601,
+   'number_of_ignored_sell_signals': 0,
+   'last_stock_value': 475.5,
+   'last_exposure': 22340.73,
+   'last_open_long_positions': 40,
+   'last_open_short_positions': 0,
+   'last_portfolio_value': 19020.0,
+   'last_earnings': 19817.21,
+   'final_balance': 38837.21
+}
 ```
 
-**Output graphs**
-
-![](./examples/for_docs/figures/example_AccumulationDistributionLine.png?raw=true)
-
-![](./examples/for_docs/figures/simulation_AccumulationDistributionLine.png?raw=true)
+<p align="center"><img src="./examples/for_docs/figures/example_AccumulationDistributionLine.png" height="400"/> <img src="./examples/for_docs/figures/simulation_AccumulationDistributionLine.png" height="400"/></p>
