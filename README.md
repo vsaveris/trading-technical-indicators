@@ -69,9 +69,6 @@ A full modernization of the project is underway:
 
 ## Supported Indicators (62 total)
 
-<details>
-<summary><strong>Click to expand the full indicator list</strong></summary>
-
 - Accumulation Distribution Line
 - Average True Range
 - Bollinger Bands
@@ -133,8 +130,6 @@ A full modernization of the project is underway:
 - Wilder’s Smoothing
 - Williams Accum/Distrib
 - Williams %R
-
-</details>
 
 ---
 
