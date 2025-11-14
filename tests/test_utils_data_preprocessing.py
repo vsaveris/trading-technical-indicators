@@ -12,7 +12,6 @@ from tti.utils import data_preprocessing as dp
 
 
 class TestFillMissingValues(unittest.TestCase):
-
     def test_input_parameter_missing(self):
         with self.assertRaises(TypeError):
             dp.fillMissingValues()
@@ -22,53 +21,77 @@ class TestFillMissingValues(unittest.TestCase):
             self.assertEqual(dp.fillMissingValues(1), 1)
 
     def test_input_parameter_empty_dataframe(self):
-        df = pd.DataFrame(index=range(10), columns=['A'], data=None,
-                          dtype=float)
+        df = pd.DataFrame(index=range(10), columns=["A"], data=None, dtype=float)
 
         pd.testing.assert_frame_equal(dp.fillMissingValues(df), df)
 
     def test_result_sorted_input(self):
-        df = pd.DataFrame(index=range(10), columns=['A'],
-                          data=[None, None, 3., 4., None, None, 7., 8., 9.,
-                                None])
+        df = pd.DataFrame(
+            index=range(10),
+            columns=["A"],
+            data=[None, None, 3.0, 4.0, None, None, 7.0, 8.0, 9.0, None],
+        )
 
-        df_res = pd.DataFrame(index=range(10), columns=['A'],
-                              data=[3., 3., 3., 4., 4., 4., 7., 8., 9., 9.])
+        df_res = pd.DataFrame(
+            index=range(10), columns=["A"], data=[3.0, 3.0, 3.0, 4.0, 4.0, 4.0, 7.0, 8.0, 9.0, 9.0]
+        )
 
         pd.testing.assert_frame_equal(dp.fillMissingValues(df), df_res)
 
     def test_result_not_sorted_input(self):
-        df = pd.DataFrame(index=[3, 4, 2, 1, 5, 6, 7, 9, 8, 0], columns=['A'],
-                          data=[None, None, 3., 4., None, None, 7., 8., 9.,
-                                None])
+        df = pd.DataFrame(
+            index=[3, 4, 2, 1, 5, 6, 7, 9, 8, 0],
+            columns=["A"],
+            data=[None, None, 3.0, 4.0, None, None, 7.0, 8.0, 9.0, None],
+        )
 
-        df_res = pd.DataFrame(index=range(10), columns=['A'],
-                              data=[4., 4., 3., 3., 3., 3., 3., 7., 9., 8.])
+        df_res = pd.DataFrame(
+            index=range(10), columns=["A"], data=[4.0, 4.0, 3.0, 3.0, 3.0, 3.0, 3.0, 7.0, 9.0, 8.0]
+        )
 
         pd.testing.assert_frame_equal(dp.fillMissingValues(df), df_res)
 
     def test_result_input_multiple_columns(self):
-        df = pd.DataFrame(index=range(5), columns=['A', 'B', 'C'],
-                          data=[[None, 0., 0.], [1., None, 1.], [2., None, 2.],
-                                [3., 3., None], [4., 4., None]])
+        df = pd.DataFrame(
+            index=range(5),
+            columns=["A", "B", "C"],
+            data=[
+                [None, 0.0, 0.0],
+                [1.0, None, 1.0],
+                [2.0, None, 2.0],
+                [3.0, 3.0, None],
+                [4.0, 4.0, None],
+            ],
+        )
 
-        df_res = pd.DataFrame(index=range(5), columns=['A', 'B', 'C'],
-                              data=[[1., 0., 0.], [1., 0., 1.], [2., 0., 2.],
-                                    [3., 3., 2.],
-                                    [4., 4., 2.]])
+        df_res = pd.DataFrame(
+            index=range(5),
+            columns=["A", "B", "C"],
+            data=[
+                [1.0, 0.0, 0.0],
+                [1.0, 0.0, 1.0],
+                [2.0, 0.0, 2.0],
+                [3.0, 3.0, 2.0],
+                [4.0, 4.0, 2.0],
+            ],
+        )
 
         pd.testing.assert_frame_equal(dp.fillMissingValues(df), df_res)
 
     def test_all_possible_missing_places(self):
-        df_input = pd.read_csv('./data/missing_values_data.csv',
-                               parse_dates=True, date_format='%Y-%m-%d', index_col=0)
+        df_input = pd.read_csv(
+            "./data/missing_values_data.csv", parse_dates=True, date_format="%Y-%m-%d", index_col=0
+        )
 
-        df_expected_result = pd.read_csv('./data/missing_values_filled.csv',
-                                         parse_dates=True, date_format='%Y-%m-%d', index_col=0)
+        df_expected_result = pd.read_csv(
+            "./data/missing_values_filled.csv",
+            parse_dates=True,
+            date_format="%Y-%m-%d",
+            index_col=0,
+        )
 
-        pd.testing.assert_frame_equal(dp.fillMissingValues(df_input),
-                                      df_expected_result)
+        pd.testing.assert_frame_equal(dp.fillMissingValues(df_input), df_expected_result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

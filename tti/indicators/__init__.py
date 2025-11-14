@@ -29,8 +29,7 @@ from ._mass_index import MassIndex
 from ._median_price import MedianPrice
 from ._momentum import Momentum
 from ._moving_average import MovingAverage
-from ._moving_average_convergence_divergence import \
-    MovingAverageConvergenceDivergence
+from ._moving_average_convergence_divergence import MovingAverageConvergenceDivergence
 from ._negative_volume_index import NegativeVolumeIndex
 from ._on_balance_volume import OnBalanceVolume
 from ._parabolic_sar import ParabolicSAR
@@ -61,30 +60,66 @@ from ._volume_oscillator import VolumeOscillator
 from ._volume_rate_of_change import VolumeRateOfChange
 from ._weighted_close import WeightedClose
 from ._wilders_smoothing import WildersSmoothing
-from ._williams_accumulation_distribution import \
-    WilliamsAccumulationDistribution
+from ._williams_accumulation_distribution import WilliamsAccumulationDistribution
 from ._williams_r import WilliamsR
 
 
-__all__ = ['AccumulationDistributionLine', 'AverageTrueRange',
-           'BollingerBands', 'ChaikinMoneyFlow', 'ChaikinOscillator',
-           'ChandeMomentumOscillator', 'CommodityChannelIndex',
-           'DetrendedPriceOscillator', 'DirectionalMovementIndex',
-           'DoubleExponentialMovingAverage', 'EaseOfMovement', 'Envelopes',
-           'FibonacciRetracement', 'ForecastOscillator', 'IchimokuCloud',
-           'IntradayMovementIndex', 'KlingerOscillator',
-           'LinearRegressionIndicator', 'LinearRegressionSlope',
-           'MarketFacilitationIndex', 'MassIndex', 'MedianPrice', 'Momentum',
-           'MovingAverage', 'MovingAverageConvergenceDivergence',
-           'NegativeVolumeIndex', 'OnBalanceVolume', 'ParabolicSAR',
-           'Performance', 'PositiveVolumeIndex', 'PriceAndVolumeTrend',
-           'PriceChannel', 'PriceOscillator', 'PriceRateOfChange',
-           'ProjectionBands', 'ProjectionOscillator', 'Qstick',
-           'RangeIndicator', 'RelativeMomentumIndex', 'RelativeStrengthIndex',
-           'RelativeVolatilityIndex', 'StandardDeviation',
-           'StochasticMomentumIndex', 'StochasticOscillator', 'SwingIndex',
-           'TimeSeriesForecast', 'TripleExponentialMovingAverage',
-           'TypicalPrice', 'UltimateOscillator', 'VerticalHorizontalFilter',
-           'VolatilityChaikins', 'VolumeOscillator', 'VolumeRateOfChange',
-           'WeightedClose', 'WildersSmoothing',
-           'WilliamsAccumulationDistribution', 'WilliamsR']
+__all__ = [
+    "AccumulationDistributionLine",
+    "AverageTrueRange",
+    "BollingerBands",
+    "ChaikinMoneyFlow",
+    "ChaikinOscillator",
+    "ChandeMomentumOscillator",
+    "CommodityChannelIndex",
+    "DetrendedPriceOscillator",
+    "DirectionalMovementIndex",
+    "DoubleExponentialMovingAverage",
+    "EaseOfMovement",
+    "Envelopes",
+    "FibonacciRetracement",
+    "ForecastOscillator",
+    "IchimokuCloud",
+    "IntradayMovementIndex",
+    "KlingerOscillator",
+    "LinearRegressionIndicator",
+    "LinearRegressionSlope",
+    "MarketFacilitationIndex",
+    "MassIndex",
+    "MedianPrice",
+    "Momentum",
+    "MovingAverage",
+    "MovingAverageConvergenceDivergence",
+    "NegativeVolumeIndex",
+    "OnBalanceVolume",
+    "ParabolicSAR",
+    "Performance",
+    "PositiveVolumeIndex",
+    "PriceAndVolumeTrend",
+    "PriceChannel",
+    "PriceOscillator",
+    "PriceRateOfChange",
+    "ProjectionBands",
+    "ProjectionOscillator",
+    "Qstick",
+    "RangeIndicator",
+    "RelativeMomentumIndex",
+    "RelativeStrengthIndex",
+    "RelativeVolatilityIndex",
+    "StandardDeviation",
+    "StochasticMomentumIndex",
+    "StochasticOscillator",
+    "SwingIndex",
+    "TimeSeriesForecast",
+    "TripleExponentialMovingAverage",
+    "TypicalPrice",
+    "UltimateOscillator",
+    "VerticalHorizontalFilter",
+    "VolatilityChaikins",
+    "VolumeOscillator",
+    "VolumeRateOfChange",
+    "WeightedClose",
+    "WildersSmoothing",
+    "WilliamsAccumulationDistribution",
+    "WilliamsR",
+]

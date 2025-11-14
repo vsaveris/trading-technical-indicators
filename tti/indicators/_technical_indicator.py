@@ -12,8 +12,7 @@ from abc import ABC, abstractmethod
 from .properties.indicators_properties import INDICATORS_PROPERTIES
 from ..utils.plot import linesGraph
 from ..utils.data_validation import validateInputData
-from ..utils.exceptions import WrongTypeForInputParameter, \
-    TtiPackageDeprecatedMethod
+from ..utils.exceptions import WrongTypeForInputParameter, TtiPackageDeprecatedMethod
 from ..utils.trading_simulation import TradingSimulation
 
 
@@ -47,11 +46,11 @@ class TechnicalIndicator(ABC):
     """
 
     def __init__(self, calling_instance, input_data, fill_missing_values=True):
-
         # Validate fill missing values input parameter
         if not isinstance(fill_missing_values, bool):
             raise WrongTypeForInputParameter(
-                type(fill_missing_values), 'fill_missing_values', 'bool')
+                type(fill_missing_values), "fill_missing_values", "bool"
+            )
 
         self._calling_instance = calling_instance
 
@@ -59,11 +58,12 @@ class TechnicalIndicator(ABC):
         self._properties = INDICATORS_PROPERTIES[calling_instance]
 
         # Input data preprocessing
-        self._input_data = \
-            validateInputData(input_data,
-                              self._properties['required_input_data'],
-                              calling_instance,
-                              fill_missing_values=fill_missing_values)
+        self._input_data = validateInputData(
+            input_data,
+            self._properties["required_input_data"],
+            calling_instance,
+            fill_missing_values=fill_missing_values,
+        )
 
         # Calculation of the Technical Indicator
         self._ti_data = self._calculateTi()
@@ -85,9 +85,12 @@ class TechnicalIndicator(ABC):
         """
 
         return pd.Series(
-            [df.iloc[i - window: i].pipe(function) if i >= window
-             else None for i in range(1, len(df) + 1)],
-            index=df.index)
+            [
+                df.iloc[i - window : i].pipe(function) if i >= window else None
+                for i in range(1, len(df) + 1)
+            ],
+            index=df.index,
+        )
 
     @abstractmethod
     def _calculateTi(self):
@@ -130,7 +133,7 @@ class TechnicalIndicator(ABC):
 
         return self._ti_data
 
-    def getTiValue(self,  date=None):
+    def getTiValue(self, date=None):
         """
         Returns the Technical Indicator value for a given date. If the date
         is None, it returns the most recent entry.
@@ -162,22 +165,23 @@ class TechnicalIndicator(ABC):
         """
 
         # Check if split to subplots is required for this Indicator
-        if self._properties['graph_subplots']:
-            data = [self._input_data[self._properties['graph_input_columns']],
-                    self._ti_data]
+        if self._properties["graph_subplots"]:
+            data = [self._input_data[self._properties["graph_input_columns"]], self._ti_data]
         else:
-            data = pd.concat([self._input_data[
-                                  self._properties['graph_input_columns']],
-                              self._ti_data], axis=1)
+            data = pd.concat(
+                [self._input_data[self._properties["graph_input_columns"]], self._ti_data], axis=1
+            )
 
-        return linesGraph(data=data, title=self._properties['long_name'],
-                          y_label=self._properties['graph_y_label'],
-                          lines_color=self._properties['graph_lines_color'],
-                          alpha_values=self._properties['graph_alpha_values'],
-                          areas=self._properties['graph_areas'])
+        return linesGraph(
+            data=data,
+            title=self._properties["long_name"],
+            y_label=self._properties["graph_y_label"],
+            lines_color=self._properties["graph_lines_color"],
+            alpha_values=self._properties["graph_alpha_values"],
+            areas=self._properties["graph_areas"],
+        )
 
-    def runSimulation(self, close_values, max_items_per_transaction=1,
-                      max_investment=0.0):
+    def runSimulation(self, close_values, max_items_per_transaction=1, max_investment=0.0):
         """
         Deprecated method since release ``0.1.b3``. Replaced by the
         ``getTiSimulation`` method. This code will be removed from the package
@@ -188,8 +192,8 @@ class TechnicalIndicator(ABC):
         """
 
         raise TtiPackageDeprecatedMethod(
-            'runSimulation', '0.1.b3',
-            ' It has been replaced by the getTiSimulation method.')
+            "runSimulation", "0.1.b3", " It has been replaced by the getTiSimulation method."
+        )
 
     @staticmethod
     def _getSimulationGraph(simulation, title):
@@ -212,36 +216,52 @@ class TechnicalIndicator(ABC):
         plt.figure(figsize=(7, 5))
 
         plt.subplot(3, 1, 1)
-        plt.plot(list(range(1, len(simulation['stock_value']) + 1)),
-            simulation['stock_value'], label='close_price', color='limegreen')
+        plt.plot(
+            list(range(1, len(simulation["stock_value"]) + 1)),
+            simulation["stock_value"],
+            label="close_price",
+            color="limegreen",
+        )
         plt.legend(loc=0)
-        plt.grid(which='major', axis='y', alpha=0.5)
-        plt.title(title, fontsize=11, fontweight='bold')
+        plt.grid(which="major", axis="y", alpha=0.5)
+        plt.title(title, fontsize=11, fontweight="bold")
         plt.gca().axes.get_xaxis().set_visible(False)
 
         plt.subplot(3, 1, 2)
-        plt.plot(list(range(1, len(simulation['exposure']) + 1)),
-                 simulation['exposure'], label='exposure',
-                 color='tomato')
+        plt.plot(
+            list(range(1, len(simulation["exposure"]) + 1)),
+            simulation["exposure"],
+            label="exposure",
+            color="tomato",
+        )
         plt.legend(loc=0)
-        plt.grid(which='major', axis='y', alpha=0.5)
+        plt.grid(which="major", axis="y", alpha=0.5)
         plt.gca().axes.get_xaxis().set_visible(False)
 
         plt.subplot(3, 1, 3)
-        plt.plot(list(range(1, len(simulation['balance']) + 1)),
-                 simulation['balance'], label='balance',
-                 color='cornflowerblue')
+        plt.plot(
+            list(range(1, len(simulation["balance"]) + 1)),
+            simulation["balance"],
+            label="balance",
+            color="cornflowerblue",
+        )
         plt.legend(loc=0)
-        plt.grid(which='major', axis='y', alpha=0.5)
+        plt.grid(which="major", axis="y", alpha=0.5)
 
-        plt.xlabel('Transactions', fontsize=11, fontweight='bold')
-        plt.gcf().text(0.01, 0.5, 'Balance | Exposure | Price', fontsize=11,
-                       fontweight='bold', va='center', rotation='vertical')
+        plt.xlabel("Transactions", fontsize=11, fontweight="bold")
+        plt.gcf().text(
+            0.01,
+            0.5,
+            "Balance | Exposure | Price",
+            fontsize=11,
+            fontweight="bold",
+            va="center",
+            rotation="vertical",
+        )
 
         return plt
 
-    def getTiSimulation(self, close_values, max_exposure=None,
-                        short_exposure_factor=1.5):
+    def getTiSimulation(self, close_values, max_exposure=None, short_exposure_factor=1.5):
         """
         Executes trading simulation based on the trading signals produced by
         the technical indicator, by applying an Active trading strategy. With
@@ -362,7 +382,8 @@ class TechnicalIndicator(ABC):
             input_data_index=self._input_data.index,
             close_values=close_values,
             max_exposure=max_exposure,
-            short_exposure_factor=short_exposure_factor)
+            short_exposure_factor=short_exposure_factor,
+        )
 
         # keep safe the full input and indicator data
         full_ti_data = self._ti_data
@@ -370,13 +391,10 @@ class TechnicalIndicator(ABC):
 
         # Run simulation rounds for the whole period
         for i in range(len(self._ti_data.index)):
-
             # Limit the input and indicator data to this simulation round
-            self._input_data = full_input_data[
-                full_input_data.index <= full_input_data.index[i]]
+            self._input_data = full_input_data[full_input_data.index <= full_input_data.index[i]]
 
-            self._ti_data = full_ti_data[
-                full_ti_data.index <= full_ti_data.index[i]]
+            self._ti_data = full_ti_data[full_ti_data.index <= full_ti_data.index[i]]
 
             simulator.runSimulationRound(i_index=i, signal=self.getTiSignal())
 
@@ -386,6 +404,10 @@ class TechnicalIndicator(ABC):
 
         simulation_data, statistics = simulator.closeSimulation()
 
-        return simulation_data, statistics, \
-            self._getSimulationGraph(simulation_data,
-            'Trading Simulation for ' + self._calling_instance)
+        return (
+            simulation_data,
+            statistics,
+            self._getSimulationGraph(
+                simulation_data, "Trading Simulation for " + self._calling_instance
+            ),
+        )

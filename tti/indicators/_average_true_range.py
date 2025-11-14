@@ -41,12 +41,14 @@ class AverageTrueRange(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, fill_missing_values=True):
 
+    def __init__(self, input_data, fill_missing_values=True):
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -63,35 +65,29 @@ class AverageTrueRange(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < 14:
-            raise NotEnoughInputData('Average True Range', 2,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData("Average True Range", 2, len(self._input_data.index))
 
-        atr = pd.DataFrame(index=self._input_data.index, columns=['atr'],
-                           data=0, dtype='float64')
+        atr = pd.DataFrame(index=self._input_data.index, columns=["atr"], data=0, dtype="float64")
 
         # Calculate Today's High - Today's Low
-        atr['TH-TL'] = self._input_data['high'] - self._input_data['low']
+        atr["TH-TL"] = self._input_data["high"] - self._input_data["low"]
 
         # Calculate Today's High - Yesterday's Close
-        atr['YC-TH'] = \
-            self._input_data['high'] - self._input_data['close'].shift(1)
+        atr["YC-TH"] = self._input_data["high"] - self._input_data["close"].shift(1)
 
         # Calculate Yesterday's Close - Today's Low
-        atr['YC-TL'] = \
-            self._input_data['close'].shift(1) - self._input_data['low']
+        atr["YC-TL"] = self._input_data["close"].shift(1) - self._input_data["low"]
 
-        atr['atr'] = atr[['TH-TL', 'YC-TH', 'YC-TL']].max(axis=1)
+        atr["atr"] = atr[["TH-TL", "YC-TH", "YC-TL"]].max(axis=1)
 
         # Wilder's Moving Average
         # Seed Wilder's MA with the mean of the first 14 TR values, then
         # continue with an exponential moving average using alpha=1/14.
-        atr_seed = pd.Series(
-            data=[atr['atr'].iloc[:14].mean()], index=[atr.index[13]]
-        )
-        atr_series = pd.concat([atr_seed, atr['atr'].iloc[14:]])
-        atr['atr'] = atr_series.ewm(alpha=1 / 14, adjust=False).mean().round(4)
+        atr_seed = pd.Series(data=[atr["atr"].iloc[:14].mean()], index=[atr.index[13]])
+        atr_series = pd.concat([atr_seed, atr["atr"].iloc[14:]])
+        atr["atr"] = atr_series.ewm(alpha=1 / 14, adjust=False).mean().round(4)
 
-        return atr[['atr']]
+        return atr[["atr"]]
 
     def getTiSignal(self):
         """
@@ -105,30 +101,25 @@ class AverageTrueRange(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 10:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Calculate Simple Moving Averages
-        sma_05 = self._input_data.rolling(
-            window=5, min_periods=5).mean()
+        sma_05 = self._input_data.rolling(window=5, min_periods=5).mean()
 
-        sma_10 = self._input_data.rolling(
-            window=10, min_periods=5).mean()
+        sma_10 = self._input_data.rolling(window=10, min_periods=5).mean()
 
         # Assumption on what high volatility means
-        if self._ti_data['atr'].values[-1] > \
-                0.01 * self._input_data['close'].values[-1]:
-
+        if self._ti_data["atr"].values[-1] > 0.01 * self._input_data["close"].values[-1]:
             # Price falling is expected or secondary rally
-            if self._input_data['close'].iat[-1] > sma_05.iat[-1, 0]:
-
+            if self._input_data["close"].iat[-1] > sma_05.iat[-1, 0]:
                 # Assuming long term upward rally
-                if self._input_data['close'].iat[-1] > sma_10.iat[-1, 0]:
-                    return TRADE_SIGNALS['buy']
+                if self._input_data["close"].iat[-1] > sma_10.iat[-1, 0]:
+                    return TRADE_SIGNALS["buy"]
                 else:
-                    return TRADE_SIGNALS['sell']
+                    return TRADE_SIGNALS["sell"]
 
             # Price raise is expected
-            if self._input_data['close'].iat[-1] < sma_05.iat[-1, 0]:
-                return TRADE_SIGNALS['buy']
+            if self._input_data["close"].iat[-1] < sma_05.iat[-1, 0]:
+                return TRADE_SIGNALS["buy"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

@@ -9,8 +9,11 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class Qstick(TechnicalIndicator):
@@ -45,23 +48,23 @@ class Qstick(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, period=8, fill_missing_values=True):
 
+    def __init__(self, input_data, period=8, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
             if period > 0:
                 self._period = period
             else:
-                raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                raise WrongValueForInputParameter(period, "period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(period), 'period', 'int')
+            raise WrongTypeForInputParameter(type(period), "period", "int")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -78,16 +81,15 @@ class Qstick(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < self._period:
-            raise NotEnoughInputData('Qstick', self._period,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData("Qstick", self._period, len(self._input_data.index))
 
-        qstick = pd.DataFrame(index=self._input_data.index, columns=['qstick'],
-                            data=None, dtype='float64')
+        qstick = pd.DataFrame(
+            index=self._input_data.index, columns=["qstick"], data=None, dtype="float64"
+        )
 
-        qstick['qstick'] = \
-            (self._input_data['close'] - self._input_data['open']).rolling(
-                window=self._period, min_periods=self._period).sum(
-            ) / self._period
+        qstick["qstick"] = (self._input_data["close"] - self._input_data["open"]).rolling(
+            window=self._period, min_periods=self._period
+        ).sum() / self._period
 
         return qstick.round(4)
 
@@ -103,21 +105,25 @@ class Qstick(TechnicalIndicator):
 
         # Not enough data for trading signal
         if len(self._ti_data.index) < 4:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Signals based on Crossovers (zero line)
-        if (self._ti_data['qstick'].iat[-4] <
-                self._ti_data['qstick'].iat[-3] <
-                0 <
-                self._ti_data['qstick'].iat[-2] <
-                self._ti_data['qstick'].iat[-1]):
-            return TRADE_SIGNALS['buy']
+        if (
+            self._ti_data["qstick"].iat[-4]
+            < self._ti_data["qstick"].iat[-3]
+            < 0
+            < self._ti_data["qstick"].iat[-2]
+            < self._ti_data["qstick"].iat[-1]
+        ):
+            return TRADE_SIGNALS["buy"]
 
-        if (self._ti_data['qstick'].iat[-4] >
-                self._ti_data['qstick'].iat[-3] >
-                0 >
-                self._ti_data['qstick'].iat[-2] >
-                self._ti_data['qstick'].iat[-1]):
-            return TRADE_SIGNALS['sell']
+        if (
+            self._ti_data["qstick"].iat[-4]
+            > self._ti_data["qstick"].iat[-3]
+            > 0
+            > self._ti_data["qstick"].iat[-2]
+            > self._ti_data["qstick"].iat[-1]
+        ):
+            return TRADE_SIGNALS["sell"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

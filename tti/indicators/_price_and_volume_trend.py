@@ -41,12 +41,14 @@ class PriceAndVolumeTrend(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, fill_missing_values=True):
 
+    def __init__(self, input_data, fill_missing_values=True):
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -63,21 +65,18 @@ class PriceAndVolumeTrend(TechnicalIndicator):
 
         # Not enough data
         if len(self._input_data.index) < 2:
-            raise NotEnoughInputData('Price and Volume Trend', 2,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData("Price and Volume Trend", 2, len(self._input_data.index))
 
-        pvt = pd.DataFrame(index=self._input_data.index, columns=['pvt'],
-                           data=None, dtype='float64')
+        pvt = pd.DataFrame(
+            index=self._input_data.index, columns=["pvt"], data=None, dtype="float64"
+        )
 
-        pvt.loc[pvt.index[0], 'pvt'] = 0.0
+        pvt.loc[pvt.index[0], "pvt"] = 0.0
 
         for i in range(1, len(self._input_data.index)):
-
-            pvt.loc[pvt.index[i], 'pvt'] = pvt['pvt'].iat[i - 1] + (
-                    self._input_data['close'].iat[i] -
-                    self._input_data['close'].iat[i - 1]) * (
-                    self._input_data['volume'].iat[i] /
-                    self._input_data['close'].iat[i - 1])
+            pvt.loc[pvt.index[i], "pvt"] = pvt["pvt"].iat[i - 1] + (
+                self._input_data["close"].iat[i] - self._input_data["close"].iat[i - 1]
+            ) * (self._input_data["volume"].iat[i] / self._input_data["close"].iat[i - 1])
 
         return pvt.round(4)
 
@@ -96,17 +95,23 @@ class PriceAndVolumeTrend(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 3:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Warning for a downward breakout
-        if self._ti_data['pvt'].iat[-3] > self._ti_data['pvt'].iat[-2] > \
-                self._ti_data['pvt'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        if (
+            self._ti_data["pvt"].iat[-3]
+            > self._ti_data["pvt"].iat[-2]
+            > self._ti_data["pvt"].iat[-1]
+        ):
+            return TRADE_SIGNALS["buy"]
 
         # Warning for a upward breakout
-        elif self._ti_data['pvt'].iat[-3] < self._ti_data['pvt'].iat[-2] < \
-                self._ti_data['pvt'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        elif (
+            self._ti_data["pvt"].iat[-3]
+            < self._ti_data["pvt"].iat[-2]
+            < self._ti_data["pvt"].iat[-1]
+        ):
+            return TRADE_SIGNALS["sell"]
 
         else:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]

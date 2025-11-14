@@ -41,12 +41,14 @@ class PositiveVolumeIndex(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, fill_missing_values=True):
 
+    def __init__(self, input_data, fill_missing_values=True):
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -63,26 +65,21 @@ class PositiveVolumeIndex(TechnicalIndicator):
 
         # Not enough data
         if len(self._input_data.index) < 2:
-            raise NotEnoughInputData('Positive Volume Index', 2,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData("Positive Volume Index", 2, len(self._input_data.index))
 
-        pvi = pd.DataFrame(index=self._input_data.index, columns=['pvi'],
-                           data=None, dtype='float64')
+        pvi = pd.DataFrame(
+            index=self._input_data.index, columns=["pvi"], data=None, dtype="float64"
+        )
 
-        pvi.loc[pvi.index[0], 'pvi'] = 1000.0
+        pvi.loc[pvi.index[0], "pvi"] = 1000.0
 
         for i in range(1, len(self._input_data.index)):
-
-            if self._input_data['volume'].iat[i] > \
-                    self._input_data['volume'].iat[i - 1]:
-                pvi.loc[pvi.index[i], 'pvi'] = \
-                    pvi['pvi'].iat[i - 1] + (
-                            self._input_data['close'].iat[i] -
-                            self._input_data['close'].iat[i - 1]) * (
-                            pvi['pvi'].iat[i - 1] /
-                            self._input_data['close'].iat[i - 1])
+            if self._input_data["volume"].iat[i] > self._input_data["volume"].iat[i - 1]:
+                pvi.loc[pvi.index[i], "pvi"] = pvi["pvi"].iat[i - 1] + (
+                    self._input_data["close"].iat[i] - self._input_data["close"].iat[i - 1]
+                ) * (pvi["pvi"].iat[i - 1] / self._input_data["close"].iat[i - 1])
             else:
-                pvi.loc[pvi.index[i], 'pvi'] = pvi['pvi'].iat[i - 1]
+                pvi.loc[pvi.index[i], "pvi"] = pvi["pvi"].iat[i - 1]
 
         return pvi.round(4)
 
@@ -98,17 +95,19 @@ class PositiveVolumeIndex(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 255:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Yearly moving average of the indicator (255 periods)
-        ema = self._ti_data['pvi'].ewm(span=255, min_periods=255, adjust=False).mean()
+        ema = self._ti_data["pvi"].ewm(span=255, min_periods=255, adjust=False).mean()
 
-        if ((self._ti_data['pvi'].iloc[-2] < ema.iloc[-2]) and
-                (self._ti_data['pvi'].iloc[-1] > ema.iloc[-1])):
-            return TRADE_SIGNALS['buy']
+        if (self._ti_data["pvi"].iloc[-2] < ema.iloc[-2]) and (
+            self._ti_data["pvi"].iloc[-1] > ema.iloc[-1]
+        ):
+            return TRADE_SIGNALS["buy"]
 
-        if ((self._ti_data['pvi'].iloc[-2] > ema.iloc[-2]) and
-                (self._ti_data['pvi'].iloc[-1] < ema.iloc[-1])):
-            return TRADE_SIGNALS['sell']
+        if (self._ti_data["pvi"].iloc[-2] > ema.iloc[-2]) and (
+            self._ti_data["pvi"].iloc[-1] < ema.iloc[-1]
+        ):
+            return TRADE_SIGNALS["sell"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

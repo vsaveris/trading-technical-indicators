@@ -9,8 +9,11 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class DoubleExponentialMovingAverage(TechnicalIndicator):
@@ -44,23 +47,23 @@ class DoubleExponentialMovingAverage(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, period=5, fill_missing_values=True):
 
+    def __init__(self, input_data, period=5, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
             if period > 0:
                 self._period = period
             else:
-                raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                raise WrongValueForInputParameter(period, "period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(period), 'period', 'int')
+            raise WrongTypeForInputParameter(type(period), "period", "int")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -77,23 +80,19 @@ class DoubleExponentialMovingAverage(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < self._period:
-            raise NotEnoughInputData('Double Exponential Moving Average',
-                                     self._period, len(self._input_data.index))
+            raise NotEnoughInputData(
+                "Double Exponential Moving Average", self._period, len(self._input_data.index)
+            )
 
-        dema = pd.DataFrame(index=self._input_data.index, columns=['dema'],
-                            data=0, dtype='float64')
+        dema = pd.DataFrame(index=self._input_data.index, columns=["dema"], data=0, dtype="float64")
 
         # Exponential moving average of prices
-        ema = self._input_data.ewm(
-                span=self._period, min_periods=self._period, adjust=False
-                ).mean()
+        ema = self._input_data.ewm(span=self._period, min_periods=self._period, adjust=False).mean()
 
         # Exponential moving average of the exponential moving average
-        ema_of_ema = ema.ewm(
-            span=self._period, min_periods=self._period, adjust=False
-        ).mean()
+        ema_of_ema = ema.ewm(span=self._period, min_periods=self._period, adjust=False).mean()
 
-        dema['dema'] = (2 * ema) - ema_of_ema
+        dema["dema"] = (2 * ema) - ema_of_ema
 
         return dema.round(4)
 
@@ -109,10 +108,10 @@ class DoubleExponentialMovingAverage(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 1:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Close price is below Moving Average
-        if self._input_data['close'].iat[-1] < self._ti_data['dema'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        if self._input_data["close"].iat[-1] < self._ti_data["dema"].iat[-1]:
+            return TRADE_SIGNALS["buy"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

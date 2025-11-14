@@ -9,8 +9,11 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class VolumeOscillator(TechnicalIndicator):
@@ -47,39 +50,36 @@ class VolumeOscillator(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, long_period=5, short_period=2,
-                 fill_missing_values=True):
 
+    def __init__(self, input_data, long_period=5, short_period=2, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(long_period, int):
             if long_period > 0:
                 self._long_period = long_period
             else:
-                raise WrongValueForInputParameter(
-                    long_period, 'long_period', '>0')
+                raise WrongValueForInputParameter(long_period, "long_period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(long_period), 'long_period', 'int')
+            raise WrongTypeForInputParameter(type(long_period), "long_period", "int")
 
         if isinstance(short_period, int):
             if short_period > 0:
                 self._short_period = short_period
             else:
-                raise WrongValueForInputParameter(
-                    short_period, 'short_period', '>0')
+                raise WrongValueForInputParameter(short_period, "short_period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(short_period), 'short_period', 'int')
+            raise WrongTypeForInputParameter(type(short_period), "short_period", "int")
 
         if self._long_period <= self._short_period:
             raise WrongValueForInputParameter(
-                long_period, 'long_period ',
-                '> short_period [' + str(self._short_period) + ']')
+                long_period, "long_period ", "> short_period [" + str(self._short_period) + "]"
+            )
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -96,16 +96,22 @@ class VolumeOscillator(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < self._long_period:
-            raise NotEnoughInputData('Volume Oscillator', self._long_period,
-                len(self._input_data.index))
+            raise NotEnoughInputData(
+                "Volume Oscillator", self._long_period, len(self._input_data.index)
+            )
 
-        vosc = pd.DataFrame(index=self._input_data.index, columns=['vosc'],
-                           data=None, dtype='float64')
+        vosc = pd.DataFrame(
+            index=self._input_data.index, columns=["vosc"], data=None, dtype="float64"
+        )
 
-        vosc['vosc'] = self._input_data['volume'].rolling(
-            window=self._short_period, min_periods=self._short_period
-        ).mean() - self._input_data['volume'].rolling(
-            window=self._long_period, min_periods=self._long_period).mean()
+        vosc["vosc"] = (
+            self._input_data["volume"]
+            .rolling(window=self._short_period, min_periods=self._short_period)
+            .mean()
+            - self._input_data["volume"]
+            .rolling(window=self._long_period, min_periods=self._long_period)
+            .mean()
+        )
 
         return vosc.round(4)
 
@@ -121,14 +127,22 @@ class VolumeOscillator(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 3:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
-        if (0 < self._ti_data['vosc'].iat[-3] < self._ti_data['vosc'].iat[-2] <
-                self._ti_data['vosc'].iat[-1]):
-            return TRADE_SIGNALS['buy']
+        if (
+            0
+            < self._ti_data["vosc"].iat[-3]
+            < self._ti_data["vosc"].iat[-2]
+            < self._ti_data["vosc"].iat[-1]
+        ):
+            return TRADE_SIGNALS["buy"]
 
-        if (self._ti_data['vosc'].iat[-3] > self._ti_data['vosc'].iat[-2] >
-                self._ti_data['vosc'].iat[-1] > 0):
-            return TRADE_SIGNALS['sell']
+        if (
+            self._ti_data["vosc"].iat[-3]
+            > self._ti_data["vosc"].iat[-2]
+            > self._ti_data["vosc"].iat[-1]
+            > 0
+        ):
+            return TRADE_SIGNALS["sell"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

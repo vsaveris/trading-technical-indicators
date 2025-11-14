@@ -9,8 +9,11 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class CommodityChannelIndex(TechnicalIndicator):
@@ -45,23 +48,23 @@ class CommodityChannelIndex(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, period=5, fill_missing_values=True):
 
+    def __init__(self, input_data, period=5, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
             if period > 0:
                 self._period = period
             else:
-                raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                raise WrongValueForInputParameter(period, "period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(period), 'period', 'int')
+            raise WrongTypeForInputParameter(type(period), "period", "int")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -78,29 +81,29 @@ class CommodityChannelIndex(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < self._period:
-            raise NotEnoughInputData('Commodity Channel Index',  self._period,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData(
+                "Commodity Channel Index", self._period, len(self._input_data.index)
+            )
 
-        cci = pd.DataFrame(index=self._input_data.index, columns=['cci'],
-                          data=0, dtype='float64')
+        cci = pd.DataFrame(index=self._input_data.index, columns=["cci"], data=0, dtype="float64")
 
         # Average of high, low and close
-        typical_price = self._input_data.sum(axis=1) / 3.
+        typical_price = self._input_data.sum(axis=1) / 3.0
 
         # Simple moving average of the typical price
-        tp_sma = typical_price.rolling(
-            window=self._period, min_periods=self._period).mean()
+        tp_sma = typical_price.rolling(window=self._period, min_periods=self._period).mean()
 
         # Sum of absolute differences of the typical price sma from preceding
         # periods typical prices
-        differences = pd.concat(
-            [tp_sma, typical_price], axis=1).pipe(
-            self._rolling_pipe, self._period,
-            lambda x: sum((abs(x[0].values[self._period - 1] - x[1].values[i])
-                           for i in range(self._period))))
+        differences = pd.concat([tp_sma, typical_price], axis=1).pipe(
+            self._rolling_pipe,
+            self._period,
+            lambda x: sum(
+                (abs(x[0].values[self._period - 1] - x[1].values[i]) for i in range(self._period))
+            ),
+        )
 
-        cci['cci'] = \
-            (typical_price - tp_sma) / (0.015 * differences / self._period)
+        cci["cci"] = (typical_price - tp_sma) / (0.015 * differences / self._period)
 
         return cci.round(4)
 
@@ -116,15 +119,15 @@ class CommodityChannelIndex(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 1:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Oversold area
-        if self._ti_data['cci'].iat[-1] < -100:
-            return TRADE_SIGNALS['buy']
+        if self._ti_data["cci"].iat[-1] < -100:
+            return TRADE_SIGNALS["buy"]
 
         # Overbought area
-        elif self._ti_data['cci'].iat[-1] > 100:
-            return TRADE_SIGNALS['sell']
+        elif self._ti_data["cci"].iat[-1] > 100:
+            return TRADE_SIGNALS["sell"]
 
         else:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]

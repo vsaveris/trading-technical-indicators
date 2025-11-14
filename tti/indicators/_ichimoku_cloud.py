@@ -41,12 +41,14 @@ class IchimokuCloud(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, fill_missing_values=True):
 
+    def __init__(self, input_data, fill_missing_values=True):
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -62,26 +64,29 @@ class IchimokuCloud(TechnicalIndicator):
         # Build the indicator's dataframe
         ic = pd.DataFrame(
             index=self._input_data.index,
-            columns=['tenkan_sen', 'kijun_sen', 'senkou_a', 'senkou_b'],
-            data=None)
+            columns=["tenkan_sen", "kijun_sen", "senkou_a", "senkou_b"],
+            data=None,
+        )
 
-        ic['tenkan_sen'] = (self._input_data['high'].
-                            rolling(window=9, min_periods=1).max() +
-                            self._input_data['low'].
-                            rolling(window=9, min_periods=1).min()) / 2
+        ic["tenkan_sen"] = (
+            self._input_data["high"].rolling(window=9, min_periods=1).max()
+            + self._input_data["low"].rolling(window=9, min_periods=1).min()
+        ) / 2
 
-        ic['kijun_sen'] = (self._input_data['high'].
-                           rolling(window=26, min_periods=1).max() +
-                           self._input_data['low'].
-                           rolling(window=26, min_periods=1).min()) / 2
+        ic["kijun_sen"] = (
+            self._input_data["high"].rolling(window=26, min_periods=1).max()
+            + self._input_data["low"].rolling(window=26, min_periods=1).min()
+        ) / 2
 
-        ic['senkou_a'] = ((ic['tenkan_sen'] + ic['kijun_sen']) / 2).shift(26)
+        ic["senkou_a"] = ((ic["tenkan_sen"] + ic["kijun_sen"]) / 2).shift(26)
 
-        ic['senkou_b'] = ((self._input_data['high'].
-                           rolling(window=52, min_periods=1).max() +
-                           self._input_data['low'].
-                           rolling(window=52, min_periods=1).min()) / 2).\
-            shift(26)
+        ic["senkou_b"] = (
+            (
+                self._input_data["high"].rolling(window=52, min_periods=1).max()
+                + self._input_data["low"].rolling(window=52, min_periods=1).min()
+            )
+            / 2
+        ).shift(26)
 
         return ic.round(4)
 
@@ -119,41 +124,43 @@ class IchimokuCloud(TechnicalIndicator):
 
         # Not enough data for calculating a trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # If 3 all 'close', 'tenkan_sen' and 'kijun_sen' are above the cloud
         # if -3 all 'close', 'tenkan_sen' and 'kijun_sen' are below the cloud
-        position_in_cloud = \
-            self._whereInCloud(self._input_data['close'].iat[-1],
-                               [self._ti_data['senkou_a'].iat[-1],
-                                self._ti_data['senkou_b'].iat[-1]]) + \
-            self._whereInCloud(self._ti_data['tenkan_sen'].iat[-1],
-                               [self._ti_data['senkou_a'].iat[-1],
-                                self._ti_data['senkou_b'].iat[-1]]) + \
-            self._whereInCloud(self._ti_data['kijun_sen'].iat[-1],
-                               [self._ti_data['senkou_a'].iat[-1],
-                                self._ti_data['senkou_b'].iat[-1]])
+        position_in_cloud = (
+            self._whereInCloud(
+                self._input_data["close"].iat[-1],
+                [self._ti_data["senkou_a"].iat[-1], self._ti_data["senkou_b"].iat[-1]],
+            )
+            + self._whereInCloud(
+                self._ti_data["tenkan_sen"].iat[-1],
+                [self._ti_data["senkou_a"].iat[-1], self._ti_data["senkou_b"].iat[-1]],
+            )
+            + self._whereInCloud(
+                self._ti_data["kijun_sen"].iat[-1],
+                [self._ti_data["senkou_a"].iat[-1], self._ti_data["senkou_b"].iat[-1]],
+            )
+        )
 
         # A buy signal is reinforced when the Tenkan Sen crosses above the
         # Kijun Sen while the Tenkan Sen, Kijun Sen, and price are all above
         # the cloud
-        if self._ti_data['tenkan_sen'].iat[-2] < self._ti_data['kijun_sen']. \
-                iat[-2] and \
-           self._ti_data['tenkan_sen'].iat[-1] > self._ti_data['kijun_sen']. \
-                iat[-1] and \
-           position_in_cloud == 3:
-
-            return TRADE_SIGNALS['buy']
+        if (
+            self._ti_data["tenkan_sen"].iat[-2] < self._ti_data["kijun_sen"].iat[-2]
+            and self._ti_data["tenkan_sen"].iat[-1] > self._ti_data["kijun_sen"].iat[-1]
+            and position_in_cloud == 3
+        ):
+            return TRADE_SIGNALS["buy"]
 
         # A sell signal is reinforced when the TenKan Sen crosses below the
         # Kijun Sen while the Tenkan Sen, Kijun Sen, and price are all below
         # the cloud.
-        if self._ti_data['tenkan_sen'].iat[-2] > self._ti_data['kijun_sen']. \
-                iat[-2] and \
-           self._ti_data['tenkan_sen'].iat[-1] < self._ti_data['kijun_sen']. \
-                iat[-1] and \
-           position_in_cloud == -3:
+        if (
+            self._ti_data["tenkan_sen"].iat[-2] > self._ti_data["kijun_sen"].iat[-2]
+            and self._ti_data["tenkan_sen"].iat[-1] < self._ti_data["kijun_sen"].iat[-1]
+            and position_in_cloud == -3
+        ):
+            return TRADE_SIGNALS["sell"]
 
-            return TRADE_SIGNALS['sell']
-
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

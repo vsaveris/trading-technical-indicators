@@ -9,8 +9,11 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class BollingerBands(TechnicalIndicator):
@@ -48,34 +51,31 @@ class BollingerBands(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, period=20, std_number=2,
-                 fill_missing_values=True):
 
+    def __init__(self, input_data, period=20, std_number=2, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
             if period > 0:
                 self._period = period
             else:
-                raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                raise WrongValueForInputParameter(period, "period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(period), 'period', 'int')
+            raise WrongTypeForInputParameter(type(period), "period", "int")
 
         if isinstance(std_number, (int, float)):
             if std_number > 0.0:
                 self._std_number = std_number
             else:
-                raise WrongValueForInputParameter(
-                    std_number, 'std_number', '>0')
+                raise WrongValueForInputParameter(std_number, "std_number", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(std_number), 'std_number', 'int or float')
+            raise WrongTypeForInputParameter(type(std_number), "std_number", "int or float")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -93,23 +93,26 @@ class BollingerBands(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < self._period:
-            raise NotEnoughInputData('Bollinger Bands', self._period,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData("Bollinger Bands", self._period, len(self._input_data.index))
 
         # Calculate the Middle Band using Simple Moving Average
-        bb = self._input_data.rolling(
-            window=self._period, min_periods=self._period).mean().round(4)
+        bb = self._input_data.rolling(window=self._period, min_periods=self._period).mean().round(4)
 
         # Calculate Upper and Lower Bands
         standard_deviation = self._input_data.rolling(
-            window=self._period, min_periods=self._period).std(ddof=0)
+            window=self._period, min_periods=self._period
+        ).std(ddof=0)
 
-        bb = pd.concat([bb,
-                        round(bb + standard_deviation * self._std_number, 4),
-                        round(bb - standard_deviation * self._std_number, 4)],
-                       axis=1)
+        bb = pd.concat(
+            [
+                bb,
+                round(bb + standard_deviation * self._std_number, 4),
+                round(bb - standard_deviation * self._std_number, 4),
+            ],
+            axis=1,
+        )
 
-        bb.columns = ['middle_band', 'upper_band', 'lower_band']
+        bb.columns = ["middle_band", "upper_band", "lower_band"]
 
         return bb
 
@@ -125,17 +128,15 @@ class BollingerBands(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 1:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Price goes above upper band
-        if self._input_data['close'].iat[-1] > \
-                self._ti_data['upper_band'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        if self._input_data["close"].iat[-1] > self._ti_data["upper_band"].iat[-1]:
+            return TRADE_SIGNALS["sell"]
 
         # Price goes below lower band
-        elif self._input_data['close'].iat[-1] < \
-                self._ti_data['lower_band'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        elif self._input_data["close"].iat[-1] < self._ti_data["lower_band"].iat[-1]:
+            return TRADE_SIGNALS["buy"]
 
         else:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]

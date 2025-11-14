@@ -12,7 +12,7 @@ def fillMissingValues(input_data):
     """
     Fills the missing values of a dataframe by executing first a forward pass
     and then a backward pass.
-    
+
     Args:
         input_data (pandas.DataFrame): The input data. The index is of type
             ``pandas.DatetimeIndex``.
@@ -23,17 +23,20 @@ def fillMissingValues(input_data):
     Raises:
         TypeError: Type error occurred when validating the ``input_data``.
     """
-    
+
     if isinstance(input_data, pd.DataFrame):
         # Sort dataframe on index ascending, use a copy of the original df
         data = input_data.sort_index(ascending=True)
-        
+
         # First fill forward and then backward (order matters)
         data = data.ffill().bfill()
 
     else:
-        raise TypeError('Invalid input_data type. It was expected ' +
-                        '`pd.DataFrame` but `' +
-                        str(type(input_data).__name__) + '` was found.')
-    
+        raise TypeError(
+            "Invalid input_data type. It was expected "
+            + "`pd.DataFrame` but `"
+            + str(type(input_data).__name__)
+            + "` was found."
+        )
+
     return data

@@ -2,7 +2,7 @@
 Trading-Technical-Indicators (tti) python library
 
 File name: test_indicator_average_true_range.py
-    tti.indicators package, _average_true_range.py module unit 
+    tti.indicators package, _average_true_range.py module unit
     tests.
 """
 
@@ -15,12 +15,13 @@ import re
 
 
 class TestAverageTrueRange(unittest.TestCase, TestIndicatorsCommon):
-
     indicator = tti.indicators.AverageTrueRange
 
     ti_data_rows = [0, 9, 10]
 
-    df = pd.read_csv('./data/sample_data.csv', parse_dates=True, date_format='%Y-%m-%d', index_col=0)
+    df = pd.read_csv(
+        "./data/sample_data.csv", parse_dates=True, date_format="%Y-%m-%d", index_col=0
+    )
 
     indicator_input_arguments = {}
 
@@ -33,24 +34,25 @@ class TestAverageTrueRange(unittest.TestCase, TestIndicatorsCommon):
     required_input_data_columns = ["high", "low", "close"]
 
     arguments_wrong_type = [
-        {'input_data': 'No_DataFrame'},
-        {'input_data': df, 'fill_missing_values': 'no_boolean'}
+        {"input_data": "No_DataFrame"},
+        {"input_data": df, "fill_missing_values": "no_boolean"},
     ]
 
     arguments_wrong_value = []
 
-    graph_file_name = '_'.join(
-        x.lower() for x in re.findall('[A-Z][^A-Z]*', str(
-            indicator).split('.')[-1][:-2]))
+    graph_file_name = "_".join(
+        x.lower() for x in re.findall("[A-Z][^A-Z]*", str(indicator).split(".")[-1][:-2])
+    )
 
-    graph_file_name = './figures/test_' + graph_file_name + '.png'
+    graph_file_name = "./figures/test_" + graph_file_name + ".png"
 
-    indicator_test_data_file_name = '_'.join(
-        x.lower() for x in re.findall('[A-Z][^A-Z]*', str(
-            indicator).split('.')[-1][:-2]))
+    indicator_test_data_file_name = "_".join(
+        x.lower() for x in re.findall("[A-Z][^A-Z]*", str(indicator).split(".")[-1][:-2])
+    )
 
-    indicator_test_data_file_name = \
-        './data/test_' + indicator_test_data_file_name + '_on_sample_data.csv'
+    indicator_test_data_file_name = (
+        "./data/test_" + indicator_test_data_file_name + "_on_sample_data.csv"
+    )
 
     assertRaises = unittest.TestCase.assertRaises
     assertEqual = unittest.TestCase.assertEqual
@@ -58,5 +60,5 @@ class TestAverageTrueRange(unittest.TestCase, TestIndicatorsCommon):
     subTest = unittest.TestCase.subTest
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -42,12 +42,14 @@ class ChaikinOscillator(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, fill_missing_values=True):
 
+    def __init__(self, input_data, fill_missing_values=True):
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -64,17 +66,16 @@ class ChaikinOscillator(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < 10:
-            raise NotEnoughInputData('Chaikin Oscillator', 10,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData("Chaikin Oscillator", 10, len(self._input_data.index))
 
-        co = pd.DataFrame(index=self._input_data.index, columns=['co'],
-                          data=0, dtype='float64')
+        co = pd.DataFrame(index=self._input_data.index, columns=["co"], data=0, dtype="float64")
 
         adl = AccumulationDistributionLine(self._input_data).getTiData()
 
-        co['co'] = \
-            adl.ewm(span=3, min_periods=3, adjust=False).mean() - \
-            adl.ewm(span=10, min_periods=10, adjust=False).mean()
+        co["co"] = (
+            adl.ewm(span=3, min_periods=3, adjust=False).mean()
+            - adl.ewm(span=10, min_periods=10, adjust=False).mean()
+        )
 
         return co.round(4)
 
@@ -90,23 +91,26 @@ class ChaikinOscillator(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 90:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # 90-periods moving average
-        ma_90 = self._input_data['close'].iloc[-90:].mean()
+        ma_90 = self._input_data["close"].iloc[-90:].mean()
 
         # Buy signal when price above 90-MA and indicator upturns in the
         # negative area
-        if self._input_data['close'].iat[-1] > ma_90 and \
-           self._ti_data['co'].iat[-2] < self._ti_data['co'].iat[-1] < 0.0:
-            return TRADE_SIGNALS['buy']
+        if (
+            self._input_data["close"].iat[-1] > ma_90
+            and self._ti_data["co"].iat[-2] < self._ti_data["co"].iat[-1] < 0.0
+        ):
+            return TRADE_SIGNALS["buy"]
 
         # Sell signal when price below 90-MA and indicator downturns in the
         # positive area
-        elif self._input_data['close'].iat[-1] < ma_90 and \
-                self._ti_data['co'].iat[-2] > \
-                self._ti_data['co'].iat[-1] > 0.0:
-            return TRADE_SIGNALS['sell']
+        elif (
+            self._input_data["close"].iat[-1] < ma_90
+            and self._ti_data["co"].iat[-2] > self._ti_data["co"].iat[-1] > 0.0
+        ):
+            return TRADE_SIGNALS["sell"]
 
         else:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]

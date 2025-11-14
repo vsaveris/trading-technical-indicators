@@ -9,8 +9,11 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class PriceRateOfChange(TechnicalIndicator):
@@ -44,23 +47,23 @@ class PriceRateOfChange(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, period=25, fill_missing_values=True):
 
+    def __init__(self, input_data, period=25, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
             if period > 0:
                 self._period = period
             else:
-                raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                raise WrongValueForInputParameter(period, "period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(period), 'period', 'int')
+            raise WrongTypeForInputParameter(type(period), "period", "int")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -77,16 +80,19 @@ class PriceRateOfChange(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < self._period:
-            raise NotEnoughInputData('Price Rate of Change', self._period,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData(
+                "Price Rate of Change", self._period, len(self._input_data.index)
+            )
 
-        prc = pd.DataFrame(index=self._input_data.index, columns=['prc'],
-                           data=None, dtype='float64')
+        prc = pd.DataFrame(
+            index=self._input_data.index, columns=["prc"], data=None, dtype="float64"
+        )
 
-        prc['prc'] = 100 * (
-                self._input_data['close'] -
-                self._input_data['close'].shift(self._period)
-        ) / self._input_data['close'].shift(self._period)
+        prc["prc"] = (
+            100
+            * (self._input_data["close"] - self._input_data["close"].shift(self._period))
+            / self._input_data["close"].shift(self._period)
+        )
 
         return prc.round(4)
 
@@ -105,17 +111,23 @@ class PriceRateOfChange(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 3:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Warning for a downward breakout
-        if self._ti_data['prc'].iat[-3] > self._ti_data['prc'].iat[-2] > \
-                self._ti_data['prc'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        if (
+            self._ti_data["prc"].iat[-3]
+            > self._ti_data["prc"].iat[-2]
+            > self._ti_data["prc"].iat[-1]
+        ):
+            return TRADE_SIGNALS["buy"]
 
         # Warning for a upward breakout
-        elif self._ti_data['prc'].iat[-3] < self._ti_data['prc'].iat[-2] < \
-                self._ti_data['prc'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        elif (
+            self._ti_data["prc"].iat[-3]
+            < self._ti_data["prc"].iat[-2]
+            < self._ti_data["prc"].iat[-1]
+        ):
+            return TRADE_SIGNALS["sell"]
 
         else:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]

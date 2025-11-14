@@ -8,7 +8,7 @@ Example code execution for technical indicator: AccumulationDistributionLine
 
 - Technical Indicator data:
                   adl
-date                
+date
 2012-01-03   -367045
 2012-01-04   -912192
 2012-01-05   -428098
@@ -37,7 +37,7 @@ Example code execution for technical indicator: AverageTrueRange
 
 - Technical Indicator data:
                 atr
-date              
+date
 2012-01-03     NaN
 2012-01-04     NaN
 2012-01-05     NaN
@@ -66,7 +66,7 @@ Example code execution for technical indicator: BollingerBands
 
 - Technical Indicator data:
              middle_band  upper_band  lower_band
-date                                           
+date
 2012-01-03          NaN         NaN         NaN
 2012-01-04          NaN         NaN         NaN
 2012-01-05          NaN         NaN         NaN
@@ -95,7 +95,7 @@ Example code execution for technical indicator: ChaikinMoneyFlow
 
 - Technical Indicator data:
                 cmf
-date              
+date
 2012-01-03     NaN
 2012-01-04     NaN
 2012-01-05     NaN
@@ -124,7 +124,7 @@ Example code execution for technical indicator: ChaikinOscillator
 
 - Technical Indicator data:
                       co
-date                   
+date
 2012-01-03          NaN
 2012-01-04          NaN
 2012-01-05          NaN
@@ -153,7 +153,7 @@ Example code execution for technical indicator: ChandeMomentumOscillator
 
 - Technical Indicator data:
                  cmo
-date               
+date
 2012-01-03      NaN
 2012-01-04      NaN
 2012-01-05      NaN
@@ -182,7 +182,7 @@ Example code execution for technical indicator: CommodityChannelIndex
 
 - Technical Indicator data:
                   cci
-date                
+date
 2012-01-03       NaN
 2012-01-04       NaN
 2012-01-05       NaN
@@ -211,7 +211,7 @@ Example code execution for technical indicator: DetrendedPriceOscillator
 
 - Technical Indicator data:
                 dpo
-date              
+date
 2012-01-03     NaN
 2012-01-04 -0.9550
 2012-01-05  1.8133
@@ -240,7 +240,7 @@ Example code execution for technical indicator: DirectionalMovementIndex
 
 - Technical Indicator data:
                  +di      -di       dx      adx     adxr
-date                                                   
+date
 2012-01-03      NaN      NaN      NaN      NaN      NaN
 2012-01-04      NaN      NaN      NaN      NaN      NaN
 2012-01-05      NaN      NaN      NaN      NaN      NaN
@@ -269,7 +269,7 @@ Example code execution for technical indicator: DoubleExponentialMovingAverage
 
 - Technical Indicator data:
                  dema
-date                
+date
 2012-01-03       NaN
 2012-01-04       NaN
 2012-01-05       NaN
@@ -298,7 +298,7 @@ Example code execution for technical indicator: EaseOfMovement
 
 - Technical Indicator data:
                 emv  emv_ma
-date                      
+date
 2012-01-03     NaN     NaN
 2012-01-04 -0.0994     NaN
 2012-01-05  0.0062     NaN
@@ -327,7 +327,7 @@ Example code execution for technical indicator: Envelopes
 
 - Technical Indicator data:
              upper_band  lower_band
-date                              
+date
 2012-01-03         NaN         NaN
 2012-01-04         NaN         NaN
 2012-01-05         NaN         NaN
@@ -356,7 +356,7 @@ Example code execution for technical indicator: FibonacciRetracement
 
 - Technical Indicator data:
              rl_0.0   rl_23.6   rl_38.2  rl_50.0   rl_61.8  rl_100.0
-date                                                               
+date
 2012-01-03   151.0  144.6894  140.7853   137.63  134.4747    124.26
 2012-01-04   151.0  144.6894  140.7853   137.63  134.4747    124.26
 2012-01-05   151.0  144.6894  140.7853   137.63  134.4747    124.26
@@ -385,7 +385,7 @@ Example code execution for technical indicator: ForecastOscillator
 
 - Technical Indicator data:
                fosc
-date              
+date
 2012-01-03     NaN
 2012-01-04     NaN
 2012-01-05     NaN
@@ -414,7 +414,7 @@ Example code execution for technical indicator: IchimokuCloud
 
 - Technical Indicator data:
              tenkan_sen  kijun_sen  senkou_a  senkou_b
-date                                                 
+date
 2012-01-03     131.465    131.465       NaN       NaN
 2012-01-04     130.600    130.600       NaN       NaN
 2012-01-05     130.350    130.350       NaN       NaN
@@ -443,7 +443,7 @@ Example code execution for technical indicator: IntradayMovementIndex
 
 - Technical Indicator data:
                  imi
-date               
+date
 2012-01-03      NaN
 2012-01-04      NaN
 2012-01-05      NaN
@@ -472,7 +472,7 @@ Example code execution for technical indicator: KlingerOscillator
 
 - Technical Indicator data:
                        ko
-date                    
+date
 2012-01-03           NaN
 2012-01-04           NaN
 2012-01-05           NaN
@@ -501,7 +501,7 @@ Example code execution for technical indicator: LinearRegressionIndicator
 
 - Technical Indicator data:
                   lri
-date                
+date
 2012-01-03       NaN
 2012-01-04       NaN
 2012-01-05       NaN
@@ -530,7 +530,7 @@ Example code execution for technical indicator: LinearRegressionSlope
 
 - Technical Indicator data:
                 lrs
-date              
+date
 2012-01-03     NaN
 2012-01-04     NaN
 2012-01-05     NaN
@@ -559,7 +559,7 @@ Example code execution for technical indicator: MarketFacilitationIndex
 
 - Technical Indicator data:
                   mfi
-date                
+date
 2012-01-03  0.000008
 2012-01-04  0.000003
 2012-01-05  0.000006
@@ -588,7 +588,7 @@ Example code execution for technical indicator: MassIndex
 
 - Technical Indicator data:
                   mi
-date               
+date
 2012-01-03      NaN
 2012-01-04      NaN
 2012-01-05      NaN
@@ -617,7 +617,7 @@ Example code execution for technical indicator: MedianPrice
 
 - Technical Indicator data:
                   mp
-date               
+date
 2012-01-03  131.465
 2012-01-04  128.350
 2012-01-05  128.460
@@ -646,7 +646,7 @@ Example code execution for technical indicator: Momentum
 
 - Technical Indicator data:
                   mom
-date                
+date
 2012-01-03       NaN
 2012-01-04       NaN
 2012-01-05       NaN
@@ -675,7 +675,7 @@ Example code execution for technical indicator: MovingAverage (simple)
 
 - Technical Indicator data:
              ma-simple
-date                 
+date
 2012-01-03        NaN
 2012-01-04        NaN
 2012-01-05        NaN
@@ -704,7 +704,7 @@ Example code execution for technical indicator: MovingAverage (exponential)
 
 - Technical Indicator data:
              ma-exponential
-date                      
+date
 2012-01-03             NaN
 2012-01-04             NaN
 2012-01-05             NaN
@@ -733,7 +733,7 @@ Example code execution for technical indicator: MovingAverage (time_series)
 
 - Technical Indicator data:
              ma-time_series
-date                      
+date
 2012-01-03             NaN
 2012-01-04             NaN
 2012-01-05             NaN
@@ -762,7 +762,7 @@ Example code execution for technical indicator: MovingAverage (triangular)
 
 - Technical Indicator data:
              ma-triangular
-date                     
+date
 2012-01-03            NaN
 2012-01-04            NaN
 2012-01-05            NaN
@@ -791,7 +791,7 @@ Example code execution for technical indicator: MovingAverage (variable)
 
 - Technical Indicator data:
              ma-variable
-date                   
+date
 2012-01-03          NaN
 2012-01-04          NaN
 2012-01-05          NaN
@@ -820,7 +820,7 @@ Example code execution for technical indicator: MovingAverageConvergenceDivergen
 
 - Technical Indicator data:
                macd  signal_line
-date                           
+date
 2012-01-03     NaN          NaN
 2012-01-04     NaN          NaN
 2012-01-05     NaN          NaN
@@ -849,7 +849,7 @@ Example code execution for technical indicator: NegativeVolumeIndex
 
 - Technical Indicator data:
                    nvi
-date                 
+date
 2012-01-03  1000.0000
 2012-01-04  1000.0000
 2012-01-05  1018.4343
@@ -878,7 +878,7 @@ Example code execution for technical indicator: OnBalanceVolume
 
 - Technical Indicator data:
                   obv
-date                
+date
 2012-01-03         0
 2012-01-04   -683000
 2012-01-05    -82300
@@ -907,7 +907,7 @@ Example code execution for technical indicator: ParabolicSAR
 
 - Technical Indicator data:
                   sar
-date                
+date
 2012-01-03  133.9400
 2012-01-04  133.9400
 2012-01-05  133.9400
@@ -936,7 +936,7 @@ Example code execution for technical indicator: Performance
 
 - Technical Indicator data:
                 prf  target_LONG
-date                           
+date
 2012-01-03  0.0000         0.05
 2012-01-04 -0.0197         0.05
 2012-01-05 -0.0016         0.05
@@ -965,7 +965,7 @@ Example code execution for technical indicator: PositiveVolumeIndex
 
 - Technical Indicator data:
                    pvi
-date                 
+date
 2012-01-03  1000.0000
 2012-01-04   980.3137
 2012-01-05   980.3137
@@ -994,7 +994,7 @@ Example code execution for technical indicator: PriceAndVolumeTrend
 
 - Technical Indicator data:
                      pvt
-date                   
+date
 2012-01-03       0.0000
 2012-01-04  -13445.7090
 2012-01-05   -2372.2465
@@ -1023,7 +1023,7 @@ Example code execution for technical indicator: PriceChannel
 
 - Technical Indicator data:
              highest_high  lowest_low
-date                                
+date
 2012-01-03           NaN         NaN
 2012-01-04           NaN         NaN
 2012-01-05           NaN         NaN
@@ -1052,7 +1052,7 @@ Example code execution for technical indicator: PriceOscillator
 
 - Technical Indicator data:
                posc
-date              
+date
 2012-01-03     NaN
 2012-01-04     NaN
 2012-01-05     NaN
@@ -1081,7 +1081,7 @@ Example code execution for technical indicator: PriceRateOfChange
 
 - Technical Indicator data:
                 prc
-date              
+date
 2012-01-03     NaN
 2012-01-04     NaN
 2012-01-05     NaN
@@ -1110,7 +1110,7 @@ Example code execution for technical indicator: ProjectionBands
 
 - Technical Indicator data:
              upper_band  lower_band
-date                              
+date
 2012-01-03         NaN         NaN
 2012-01-04         NaN         NaN
 2012-01-05         NaN         NaN
@@ -1139,7 +1139,7 @@ Example code execution for technical indicator: ProjectionOscillator
 
 - Technical Indicator data:
                 posc  trigger_line
-date                             
+date
 2012-01-03      NaN           NaN
 2012-01-04      NaN           NaN
 2012-01-05      NaN           NaN
@@ -1168,7 +1168,7 @@ Example code execution for technical indicator: Qstick
 
 - Technical Indicator data:
              qstick
-date              
+date
 2012-01-03     NaN
 2012-01-04     NaN
 2012-01-05     NaN
@@ -1197,7 +1197,7 @@ Example code execution for technical indicator: RangeIndicator
 
 - Technical Indicator data:
                   ri
-date               
+date
 2012-01-03      NaN
 2012-01-04      NaN
 2012-01-05      NaN
@@ -1226,7 +1226,7 @@ Example code execution for technical indicator: RelativeMomentumIndex
 
 - Technical Indicator data:
                  rmi
-date               
+date
 2012-01-03      NaN
 2012-01-04      NaN
 2012-01-05      NaN
@@ -1255,7 +1255,7 @@ Example code execution for technical indicator: RelativeStrengthIndex
 
 - Technical Indicator data:
                  rsi
-date               
+date
 2012-01-03      NaN
 2012-01-04      NaN
 2012-01-05      NaN
@@ -1284,7 +1284,7 @@ Example code execution for technical indicator: RelativeVolatilityIndex
 
 - Technical Indicator data:
                  rvi
-date               
+date
 2012-01-03      NaN
 2012-01-04      NaN
 2012-01-05      NaN
@@ -1313,7 +1313,7 @@ Example code execution for technical indicator: StandardDeviation
 
 - Technical Indicator data:
                  sd
-date              
+date
 2012-01-03     NaN
 2012-01-04     NaN
 2012-01-05     NaN
@@ -1342,7 +1342,7 @@ Example code execution for technical indicator: StochasticMomentumIndex
 
 - Technical Indicator data:
                  smi
-date               
+date
 2012-01-03      NaN
 2012-01-04      NaN
 2012-01-05      NaN
@@ -1371,7 +1371,7 @@ Example code execution for technical indicator: StochasticOscillator (fast)
 
 - Technical Indicator data:
                   %K       %D
-date                        
+date
 2012-01-03      NaN      NaN
 2012-01-04      NaN      NaN
 2012-01-05      NaN      NaN
@@ -1400,7 +1400,7 @@ Example code execution for technical indicator: StochasticOscillator (slow)
 
 - Technical Indicator data:
                   %K       %D
-date                        
+date
 2012-01-03      NaN      NaN
 2012-01-04      NaN      NaN
 2012-01-05      NaN      NaN
@@ -1429,7 +1429,7 @@ Example code execution for technical indicator: SwingIndex
 
 - Technical Indicator data:
                  swi
-date               
+date
 2012-01-03      NaN
 2012-01-04 -50.8371
 2012-01-05  40.6143
@@ -1458,7 +1458,7 @@ Example code execution for technical indicator: TimeSeriesForecast
 
 - Technical Indicator data:
                   tsf
-date                
+date
 2012-01-03       NaN
 2012-01-04       NaN
 2012-01-05       NaN
@@ -1487,7 +1487,7 @@ Example code execution for technical indicator: TripleExponentialMovingAverage
 
 - Technical Indicator data:
                  tema
-date                
+date
 2012-01-03       NaN
 2012-01-04       NaN
 2012-01-05       NaN
@@ -1516,7 +1516,7 @@ Example code execution for technical indicator: TypicalPrice
 
 - Technical Indicator data:
                    tp
-date                
+date
 2012-01-03  130.9900
 2012-01-04  128.0600
 2012-01-05  128.9167
@@ -1545,7 +1545,7 @@ Example code execution for technical indicator: UltimateOscillator
 
 - Technical Indicator data:
                 uosc
-date               
+date
 2012-01-03      NaN
 2012-01-04      NaN
 2012-01-05      NaN
@@ -1574,7 +1574,7 @@ Example code execution for technical indicator: VerticalHorizontalFilter
 
 - Technical Indicator data:
                 vhf
-date              
+date
 2012-01-03     NaN
 2012-01-04     NaN
 2012-01-05     NaN
@@ -1603,7 +1603,7 @@ Example code execution for technical indicator: VolatilityChaikins
 
 - Technical Indicator data:
                  vch
-date               
+date
 2012-01-03      NaN
 2012-01-04      NaN
 2012-01-05      NaN
@@ -1632,7 +1632,7 @@ Example code execution for technical indicator: VolumeOscillator
 
 - Technical Indicator data:
                  vosc
-date                
+date
 2012-01-03       NaN
 2012-01-04       NaN
 2012-01-05       NaN
@@ -1661,7 +1661,7 @@ Example code execution for technical indicator: VolumeRateOfChange
 
 - Technical Indicator data:
                  vrc
-date               
+date
 2012-01-03      NaN
 2012-01-04      NaN
 2012-01-05      NaN
@@ -1690,7 +1690,7 @@ Example code execution for technical indicator: WeightedClose
 
 - Technical Indicator data:
                    wc
-date                
+date
 2012-01-03  130.7525
 2012-01-04  127.9150
 2012-01-05  129.1450
@@ -1719,7 +1719,7 @@ Example code execution for technical indicator: WildersSmoothing
 
 - Technical Indicator data:
                    ws
-date                
+date
 2012-01-03       NaN
 2012-01-04       NaN
 2012-01-05       NaN
@@ -1748,7 +1748,7 @@ Example code execution for technical indicator: WilliamsAccumulationDistribution
 
 - Technical Indicator data:
               wad
-date            
+date
 2012-01-03   NaN
 2012-01-04 -2.56
 2012-01-05  3.07
@@ -1777,7 +1777,7 @@ Example code execution for technical indicator: WilliamsR
 
 - Technical Indicator data:
                   wr
-date               
+date
 2012-01-03      NaN
 2012-01-04      NaN
 2012-01-05      NaN

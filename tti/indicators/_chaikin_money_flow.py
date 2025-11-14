@@ -9,8 +9,11 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class ChaikinMoneyFlow(TechnicalIndicator):
@@ -45,23 +48,23 @@ class ChaikinMoneyFlow(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, period=5, fill_missing_values=True):
 
+    def __init__(self, input_data, period=5, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
             if period > 0:
                 self._period = period
             else:
-                raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                raise WrongValueForInputParameter(period, "period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(period), 'period', 'int')
+            raise WrongTypeForInputParameter(type(period), "period", "int")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -78,29 +81,32 @@ class ChaikinMoneyFlow(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < self._period:
-            raise NotEnoughInputData('Chaikin Money Flow', self._period,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData(
+                "Chaikin Money Flow", self._period, len(self._input_data.index)
+            )
 
-        cmf = pd.DataFrame(index=self._input_data.index, columns=['cmf'],
-                           data=0, dtype='float64')
+        cmf = pd.DataFrame(index=self._input_data.index, columns=["cmf"], data=0, dtype="float64")
 
-        cmf['numerator'] = \
-            (self._input_data['volume'] * (
-                (self._input_data['close'] - self._input_data['low']) -
-                (self._input_data['high'] - self._input_data['close'])
-            ) / (
-                    self._input_data['high'] - self._input_data['low']
-            ))
+        cmf["numerator"] = (
+            self._input_data["volume"]
+            * (
+                (self._input_data["close"] - self._input_data["low"])
+                - (self._input_data["high"] - self._input_data["close"])
+            )
+            / (self._input_data["high"] - self._input_data["low"])
+        )
 
-        cmf['numerator'] = cmf['numerator'].rolling(
-            window=self._period, min_periods=self._period).sum()
+        cmf["numerator"] = (
+            cmf["numerator"].rolling(window=self._period, min_periods=self._period).sum()
+        )
 
-        cmf['denominator'] = self._input_data['volume'].rolling(
-            window=self._period, min_periods=self._period).sum()
+        cmf["denominator"] = (
+            self._input_data["volume"].rolling(window=self._period, min_periods=self._period).sum()
+        )
 
-        cmf['cmf'] = (cmf['numerator'] / cmf['denominator']).round(4)
+        cmf["cmf"] = (cmf["numerator"] / cmf["denominator"]).round(4)
 
-        return cmf[['cmf']]
+        return cmf[["cmf"]]
 
     def getTiSignal(self):
         """
@@ -114,21 +120,23 @@ class ChaikinMoneyFlow(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 3:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # A sell signal occurs when price reaches a higher high into overbought
         # with the CMF starting to fall.
-        if self._ti_data['cmf'].iat[-2] > self._ti_data['cmf'].iat[-1] and \
-                max(self._input_data['close'].iloc[-3:-1]) < \
-                self._input_data['close'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        if (
+            self._ti_data["cmf"].iat[-2] > self._ti_data["cmf"].iat[-1]
+            and max(self._input_data["close"].iloc[-3:-1]) < self._input_data["close"].iat[-1]
+        ):
+            return TRADE_SIGNALS["sell"]
 
         # A buy signal occurs when price reaches a lower low into overbought
         # with the CMF starting to rise.
-        elif self._ti_data['cmf'].iat[-2] < self._ti_data['cmf'].iat[-1] and \
-                min(self._input_data['close'].iloc[-3:-1]) >  \
-                self._input_data['close'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        elif (
+            self._ti_data["cmf"].iat[-2] < self._ti_data["cmf"].iat[-1]
+            and min(self._input_data["close"].iloc[-3:-1]) > self._input_data["close"].iat[-1]
+        ):
+            return TRADE_SIGNALS["buy"]
 
         else:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]

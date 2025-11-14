@@ -2,7 +2,7 @@ Installation
 ============
 Trading Technical Indicators (tti) package is available for installation through the pip packager. Latest release can be installed by using the below command.
 
-.. code-block:: bash 
+.. code-block:: bash
 
     $ pip install -U tti
 
@@ -14,6 +14,5 @@ Any previous release can be installed through pip, by indicating the version num
 
 
 .. note::
-    
-    The tti package requires python >=3.8.
 
+    The tti package requires python >=3.8.

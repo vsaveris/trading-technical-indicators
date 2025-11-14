@@ -7,8 +7,11 @@ File name: _price_oscillator.py
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class PriceOscillator(TechnicalIndicator):
@@ -45,38 +48,34 @@ class PriceOscillator(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, long_ma=30, short_ma=10,
-                 fill_missing_values=True):
 
+    def __init__(self, input_data, long_ma=30, short_ma=10, fill_missing_values=True):
         # Validate and store if needed, the input parameters
         if isinstance(long_ma, int):
             if long_ma > 0:
                 self._long_ma = long_ma
             else:
-                raise WrongValueForInputParameter(
-                    long_ma, 'long_ma', '>0')
+                raise WrongValueForInputParameter(long_ma, "long_ma", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(long_ma), 'long_ma', 'int')
+            raise WrongTypeForInputParameter(type(long_ma), "long_ma", "int")
 
         if isinstance(short_ma, int):
             if short_ma > 0:
                 self._short_ma = short_ma
             else:
-                raise WrongValueForInputParameter(
-                    short_ma, 'short_ma', '>0')
+                raise WrongValueForInputParameter(short_ma, "short_ma", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(short_ma), 'short_ma', 'int')
+            raise WrongTypeForInputParameter(type(short_ma), "short_ma", "int")
 
         if short_ma >= long_ma:
-            raise WrongValueForInputParameter(
-                short_ma, 'short_ma', 'long_ma > short_ma')
+            raise WrongValueForInputParameter(short_ma, "short_ma", "long_ma > short_ma")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -93,21 +92,20 @@ class PriceOscillator(TechnicalIndicator):
 
         # Not enough data
         if len(self._input_data.index) < self._long_ma:
-            raise NotEnoughInputData('Price Oscillator', self._long_ma,
-                                     len(self._input_data.index))
+            raise NotEnoughInputData("Price Oscillator", self._long_ma, len(self._input_data.index))
 
         # Calculate Long Simple Moving Average
-        long_ma = self._input_data.rolling(
-            window=self._long_ma, min_periods=self._long_ma).mean()
+        long_ma = self._input_data.rolling(window=self._long_ma, min_periods=self._long_ma).mean()
 
         # Calculate Short Simple Moving Average
         short_ma = self._input_data.rolling(
-            window=self._short_ma, min_periods=self._short_ma).mean()
+            window=self._short_ma, min_periods=self._short_ma
+        ).mean()
 
         # Calculate MACD
         posc = 100 * (short_ma - long_ma) / long_ma
 
-        posc.columns = ['posc']
+        posc.columns = ["posc"]
 
         return posc.round(4)
 
@@ -123,13 +121,13 @@ class PriceOscillator(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Signal based on crossovers with zero line
-        if self._ti_data['posc'].iat[-2] < 0.0 < self._ti_data['posc'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        if self._ti_data["posc"].iat[-2] < 0.0 < self._ti_data["posc"].iat[-1]:
+            return TRADE_SIGNALS["buy"]
 
-        if self._ti_data['posc'].iat[-2] > 0.0 > self._ti_data['posc'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        if self._ti_data["posc"].iat[-2] > 0.0 > self._ti_data["posc"].iat[-1]:
+            return TRADE_SIGNALS["sell"]
 
-        return TRADE_SIGNALS['hold']
+        return TRADE_SIGNALS["hold"]

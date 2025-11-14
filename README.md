@@ -1,5 +1,5 @@
 # trading-technical-indicators (tti)
-![Current Version](https://img.shields.io/badge/current_version-0.3.0_(not_released)-yellow?style=flat-square)
+![Current Version](https://img.shields.io/badge/current_version-0.3.1_(not_released)-yellow?style=flat-square)
 ![Latest Release](https://img.shields.io/badge/latest_release-0.2.2-blue?style=flat-square)
 ![Total Tests](https://img.shields.io/badge/total_tests-2122-purple?style=flat-square)
 ![Coverage](https://img.shields.io/badge/test_coverage-99%25-green?style=flat-square)
@@ -42,6 +42,13 @@ To use this unreleased version, clone the repository and install the package:
 git clone git@github.com:vsaveris/trading-technical-indicators.git
 pip install .
 ```
+
+- 0.3.1: Packaging refactoring
+  - Moved to `pyproject.toml` file.
+  - Pre-commit hooks added.
+  - CI checks added.
+  - `CONTRIBUTING.md` file introduced, with instructions when contributing to the project.
+
 - 0.3.0: Code refactoring
   - Refactor code due to deprecated methods in various packages (i.e. pandas)
   - Update minimum versions for dependencies

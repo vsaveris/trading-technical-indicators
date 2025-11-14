@@ -15,25 +15,26 @@ import re
 
 
 class TestSimpleMovingAverage(unittest.TestCase, TestIndicatorsCommon):
-
     indicator = tti.indicators.MovingAverage
 
     ti_data_rows = [0, 1]
 
-    df = pd.read_csv('./data/sample_data.csv', parse_dates=True, date_format='%Y-%m-%d', index_col=0)
+    df = pd.read_csv(
+        "./data/sample_data.csv", parse_dates=True, date_format="%Y-%m-%d", index_col=0
+    )
 
-    indicator_input_arguments = {'period': 20, 'ma_type': 'triangular'}
+    indicator_input_arguments = {"period": 20, "ma_type": "triangular"}
 
     indicator_other_input_arguments = [
-        {'period': 1, 'ma_type': 'triangular'},
-        {'period': 3169, 'ma_type': 'triangular'}
+        {"period": 1, "ma_type": "triangular"},
+        {"period": 3169, "ma_type": "triangular"},
     ]
 
-    indicator_minimum_required_data = indicator_input_arguments['period']
+    indicator_minimum_required_data = indicator_input_arguments["period"]
 
     mandatory_arguments_missing_cases = []
 
-    required_input_data_columns = ['close']
+    required_input_data_columns = ["close"]
 
     # Tested already with the Simple Moving Average
     arguments_wrong_type = []
@@ -41,19 +42,19 @@ class TestSimpleMovingAverage(unittest.TestCase, TestIndicatorsCommon):
     # Tested already with the Simple Moving Average
     arguments_wrong_value = []
 
-    graph_file_name = '_'.join(
-        x.lower() for x in re.findall('[A-Z][^A-Z]*', str(
-            indicator).split('.')[-1][:-2]))
+    graph_file_name = "_".join(
+        x.lower() for x in re.findall("[A-Z][^A-Z]*", str(indicator).split(".")[-1][:-2])
+    )
 
-    graph_file_name = './figures/test_' + graph_file_name + '_triangular.png'
+    graph_file_name = "./figures/test_" + graph_file_name + "_triangular.png"
 
-    indicator_test_data_file_name = '_'.join(
-        x.lower() for x in re.findall('[A-Z][^A-Z]*', str(
-            indicator).split('.')[-1][:-2]))
+    indicator_test_data_file_name = "_".join(
+        x.lower() for x in re.findall("[A-Z][^A-Z]*", str(indicator).split(".")[-1][:-2])
+    )
 
-    indicator_test_data_file_name = \
-        './data/test_' + indicator_test_data_file_name + \
-        '_triangular_on_sample_data.csv'
+    indicator_test_data_file_name = (
+        "./data/test_" + indicator_test_data_file_name + "_triangular_on_sample_data.csv"
+    )
 
     assertRaises = unittest.TestCase.assertRaises
     assertEqual = unittest.TestCase.assertEqual
@@ -61,5 +62,5 @@ class TestSimpleMovingAverage(unittest.TestCase, TestIndicatorsCommon):
     subTest = unittest.TestCase.subTest
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

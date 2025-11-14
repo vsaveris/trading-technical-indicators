@@ -40,12 +40,14 @@ class MarketFacilitationIndex(TechnicalIndicator):
         TypeError: Type error occurred when validating the ``input_data``.
         ValueError: Value error occurred when validating the ``input_data``.
     """
-    def __init__(self, input_data, fill_missing_values=True):
 
+    def __init__(self, input_data, fill_missing_values=True):
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -61,10 +63,11 @@ class MarketFacilitationIndex(TechnicalIndicator):
         """
 
         mfi = pd.DataFrame(
-            index=self._input_data.index, columns=['mfi'],
-            data=(self._input_data['high'] -
-                  self._input_data['low']) / self._input_data['volume'],
-            dtype='float64')
+            index=self._input_data.index,
+            columns=["mfi"],
+            data=(self._input_data["high"] - self._input_data["low"]) / self._input_data["volume"],
+            dtype="float64",
+        )
 
         return mfi.round(10)
 
@@ -80,15 +83,15 @@ class MarketFacilitationIndex(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Warning for a downward breakout
-        if self._ti_data['mfi'].iat[-2] > self._ti_data['mfi'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        if self._ti_data["mfi"].iat[-2] > self._ti_data["mfi"].iat[-1]:
+            return TRADE_SIGNALS["buy"]
 
         # Warning for a upward breakout
-        elif self._ti_data['mfi'].iat[-2] < self._ti_data['mfi'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        elif self._ti_data["mfi"].iat[-2] < self._ti_data["mfi"].iat[-1]:
+            return TRADE_SIGNALS["sell"]
 
         else:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]

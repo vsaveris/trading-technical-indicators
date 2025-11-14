@@ -39,69 +39,86 @@ def calculate_ti(indicator_object, output_file=None, add_info=None, **kwargs):
 
     indicator = indicator_object(**kwargs)
 
-    ti_name = str(type(indicator).__name__) + \
-        (' (' + add_info + ')' if add_info is not None else '')
+    ti_name = str(type(indicator).__name__) + (
+        " (" + add_info + ")" if add_info is not None else ""
+    )
 
-    print(ti_name, ',', round(time.time() - start_time,2), sep='',
-          file=output_file)
+    print(ti_name, ",", round(time.time() - start_time, 2), sep="", file=output_file)
 
 
-if __name__ == '__main__':
-
+if __name__ == "__main__":
     # Read data from csv file. Set the index to the correct column
     # (dates column)
-    df = pd.read_csv('./data/sample_data.csv', parse_dates=True, index_col=0)
+    df = pd.read_csv("./data/sample_data.csv", parse_dates=True, index_col=0)
 
     # File object to redirect the output of the execution
-    out_file = open('Calculation_times.csv', 'w')
-    print('indicator,calculation_time_in_seconds', file=out_file)
+    out_file = open("Calculation_times.csv", "w")
+    print("indicator,calculation_time_in_seconds", file=out_file)
 
     # Run all the indicators implemented in the tti.indicators package
     for x in inspect.getmembers(ti):
-
         if inspect.isclass(x[1]):
-
             # Moving Average includes five indicators
             if x[1] == ti.MovingAverage:
-                calculate_ti(indicator_object=x[1],
-                    output_file=out_file, add_info='simple',
+                calculate_ti(
+                    indicator_object=x[1],
+                    output_file=out_file,
+                    add_info="simple",
                     input_data=df,
-                    ma_type='simple')
+                    ma_type="simple",
+                )
 
-                calculate_ti(indicator_object=x[1],
-                    output_file=out_file, add_info='exponential',
+                calculate_ti(
+                    indicator_object=x[1],
+                    output_file=out_file,
+                    add_info="exponential",
                     input_data=df,
-                     ma_type='exponential')
+                    ma_type="exponential",
+                )
 
-                calculate_ti(indicator_object=x[1],
-                    output_file=out_file, add_info='time_series',
+                calculate_ti(
+                    indicator_object=x[1],
+                    output_file=out_file,
+                    add_info="time_series",
                     input_data=df,
-                    ma_type='time_series')
+                    ma_type="time_series",
+                )
 
-                calculate_ti(indicator_object=x[1],
-                    output_file=out_file, add_info='triangular',
+                calculate_ti(
+                    indicator_object=x[1],
+                    output_file=out_file,
+                    add_info="triangular",
                     input_data=df,
-                    ma_type='triangular')
+                    ma_type="triangular",
+                )
 
-                calculate_ti(indicator_object=x[1],
-                    output_file=out_file, add_info='variable',
+                calculate_ti(
+                    indicator_object=x[1],
+                    output_file=out_file,
+                    add_info="variable",
                     input_data=df,
-                    ma_type='variable')
+                    ma_type="variable",
+                )
 
             # Stochastic Oscillator includes two indicators
             elif x[1] == ti.StochasticOscillator:
-                calculate_ti(indicator_object=x[1],
+                calculate_ti(
+                    indicator_object=x[1],
                     output_file=out_file,
-                    add_info='fast',
+                    add_info="fast",
                     input_data=df,
-                    k_slowing_periods=1)
+                    k_slowing_periods=1,
+                )
 
-                calculate_ti(indicator_object=x[1],
-                    output_file=out_file, add_info='slow',
+                calculate_ti(
+                    indicator_object=x[1],
+                    output_file=out_file,
+                    add_info="slow",
                     input_data=df,
-                    k_slowing_periods=3)
+                    k_slowing_periods=3,
+                )
 
             else:
-                calculate_ti(indicator_object=x[1],
-                    output_file=out_file, add_info=None,
-                    input_data=df)
+                calculate_ti(
+                    indicator_object=x[1], output_file=out_file, add_info=None, input_data=df
+                )

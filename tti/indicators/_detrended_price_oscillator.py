@@ -9,8 +9,11 @@ import pandas as pd
 
 from ._technical_indicator import TechnicalIndicator
 from ..utils.constants import TRADE_SIGNALS
-from ..utils.exceptions import NotEnoughInputData, WrongTypeForInputParameter,\
-    WrongValueForInputParameter
+from ..utils.exceptions import (
+    NotEnoughInputData,
+    WrongTypeForInputParameter,
+    WrongValueForInputParameter,
+)
 
 
 class DetrendedPriceOscillator(TechnicalIndicator):
@@ -46,22 +49,21 @@ class DetrendedPriceOscillator(TechnicalIndicator):
     """
 
     def __init__(self, input_data, period=6, fill_missing_values=True):
-
         # Validate and store if needed, the input parameters
         if isinstance(period, int):
             if period > 0:
                 self._period = period
             else:
-                raise WrongValueForInputParameter(
-                    period, 'period', '>0')
+                raise WrongValueForInputParameter(period, "period", ">0")
         else:
-            raise WrongTypeForInputParameter(
-                type(period), 'period', 'int')
+            raise WrongTypeForInputParameter(type(period), "period", "int")
 
         # Control is passing to the parent class
-        super().__init__(calling_instance=self.__class__.__name__,
-                         input_data=input_data,
-                         fill_missing_values=fill_missing_values)
+        super().__init__(
+            calling_instance=self.__class__.__name__,
+            input_data=input_data,
+            fill_missing_values=fill_missing_values,
+        )
 
     def _calculateTi(self):
         """
@@ -78,21 +80,20 @@ class DetrendedPriceOscillator(TechnicalIndicator):
 
         # Not enough data for the requested period
         if len(self._input_data.index) < self._period:
-            raise NotEnoughInputData('Detrended Price Oscillator',
-                                     self._period, len(self._input_data.index))
+            raise NotEnoughInputData(
+                "Detrended Price Oscillator", self._period, len(self._input_data.index)
+            )
 
-        dpo = pd.DataFrame(index=self._input_data.index, columns=['dpo'],
-                           data=0, dtype='float64')
+        dpo = pd.DataFrame(index=self._input_data.index, columns=["dpo"], data=0, dtype="float64")
 
         # Simple moving average of the close prices
-        close_sma = self._input_data['close'].rolling(
-            window=self._period, min_periods=self._period).mean()
+        close_sma = (
+            self._input_data["close"].rolling(window=self._period, min_periods=self._period).mean()
+        )
 
-        dpo['dpo'] = \
-            self._input_data['close'] - \
-            close_sma.shift(-1 - int(self._period / 2))
+        dpo["dpo"] = self._input_data["close"] - close_sma.shift(-1 - int(self._period / 2))
 
-        return dpo.iloc[:-1 - int(self._period / 2)].round(4)
+        return dpo.iloc[: -1 - int(self._period / 2)].round(4)
 
     def getTiSignal(self):
         """
@@ -106,14 +107,14 @@ class DetrendedPriceOscillator(TechnicalIndicator):
 
         # Not enough data for calculating trading signal
         if len(self._ti_data.index) < 2:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
 
         # Signal based on crossovers with zero line
-        if self._ti_data['dpo'].iat[-2] < 0.0 < self._ti_data['dpo'].iat[-1]:
-            return TRADE_SIGNALS['buy']
+        if self._ti_data["dpo"].iat[-2] < 0.0 < self._ti_data["dpo"].iat[-1]:
+            return TRADE_SIGNALS["buy"]
 
-        elif self._ti_data['dpo'].iat[-2] > 0.0 > self._ti_data['dpo'].iat[-1]:
-            return TRADE_SIGNALS['sell']
+        elif self._ti_data["dpo"].iat[-2] > 0.0 > self._ti_data["dpo"].iat[-1]:
+            return TRADE_SIGNALS["sell"]
 
         else:
-            return TRADE_SIGNALS['hold']
+            return TRADE_SIGNALS["hold"]
