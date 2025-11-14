@@ -1,8 +1,8 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: test_indicator_intraday_movement_index.py
-    tti.indicators package, _intraday_movement_index.py module unit tests.
+File name: test_indicator_intraday_momentum_index.py
+    tti.indicators package, _intraday_momentum_index.py module unit tests.
 """
 
 import unittest
@@ -13,8 +13,8 @@ import pandas as pd
 import re
 
 
-class TestIntradayMovementIndex(unittest.TestCase, TestIndicatorsCommon):
-    indicator = tti.indicators.IntradayMovementIndex
+class TestIntradayMomentumIndex(unittest.TestCase, TestIndicatorsCommon):
+    indicator = tti.indicators.IntradayMomentumIndex
 
     ti_data_rows = [0, 1, 2]
 

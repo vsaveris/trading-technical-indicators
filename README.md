@@ -61,7 +61,10 @@ A full modernization of the project is underway:
 - Refactored & improved graphing engine
 
 ### Latest Dev Versions
-- **0.3.3** - Address pending issues (#36).
+- **0.3.3** - Address pending issues.
+  - Correct Parabolic SAR trading signal (issue [#36](https://github.com/vsaveris/trading-technical-indicators/issues/36))
+  - Rename indicator IntradayMovementIndex to IntradayMomentumIndex (issue [#29](https://github.com/vsaveris/trading-technical-indicators/issues/29))
+  -
 - **0.3.2** - Improved graph generation
 - **0.3.1** - Packaging / CI overhaul
 - **0.3.0** - Major code refactor for modern dependencies
@@ -85,7 +88,7 @@ A full modernization of the project is underway:
 - Fibonacci Retracement
 - Forecast Oscillator
 - Ichimoku Cloud
-- Intraday Movement Index
+- Intraday Momentum Index
 - Klinger Oscillator
 - Linear Regression Indicator
 - Linear Regression Slope
