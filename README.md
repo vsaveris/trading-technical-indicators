@@ -65,7 +65,6 @@ A full modernization of the project is underway:
   - Correct Parabolic SAR trading signal (issue [#36](https://github.com/vsaveris/trading-technical-indicators/issues/36))
   - Rename indicator IntradayMovementIndex to IntradayMomentumIndex (issue [#29](https://github.com/vsaveris/trading-technical-indicators/issues/29))
   - Remove deprecated function runSimulation (issue [#26](https://github.com/vsaveris/trading-technical-indicators/issues/26))
-  -
 - **0.3.2** - Improved graph generation
 - **0.3.1** - Packaging / CI overhaul
 - **0.3.0** - Major code refactor for modern dependencies
