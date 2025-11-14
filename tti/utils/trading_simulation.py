@@ -421,15 +421,16 @@ class TradingSimulation:
                 (self._short_exposure_factor *
                 self._close_values[i_index, 0])), 1] = 2.0
 
-        # create simulation data row, set only the 'exposure' and
-        # earnings, rest of the row will be created in the
-        # processSignal method
-        self._simulation_data['exposure'].iat[i_index] = \
-            self._simulation_data['exposure'].iat[i_index - 1] - \
-            closed_exposure
+        # create simulation data row, set only the 'exposure' and earnings.
+        # Use single-step .iat DataFrame assignment to avoid chained assignment
+        # warnings and remain compatible with pandas Copy-on-Write.
+        # Columns: ['signal', 'open_trading_action', 'stock_value',
+        #           'exposure', 'portfolio_value', 'earnings', 'balance']
+        self._simulation_data.iat[i_index, 3] = \
+            self._simulation_data.iat[i_index - 1, 3] - closed_exposure
 
-        self._simulation_data['earnings'].iat[i_index] = \
-            self._simulation_data['earnings'].iat[i_index - 1] + earnings
+        self._simulation_data.iat[i_index, 5] = \
+            self._simulation_data.iat[i_index - 1, 5] + earnings
 
         return earnings, closed_exposure
 

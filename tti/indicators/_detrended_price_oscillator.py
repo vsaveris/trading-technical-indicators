@@ -86,8 +86,7 @@ class DetrendedPriceOscillator(TechnicalIndicator):
 
         # Simple moving average of the close prices
         close_sma = self._input_data['close'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).mean()
+            window=self._period, min_periods=self._period).mean()
 
         dpo['dpo'] = \
             self._input_data['close'] - \

@@ -86,12 +86,10 @@ class WilliamsR(TechnicalIndicator):
                           data=None, dtype='float64')
 
         wr['highest_high'] = self._input_data['high'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).max()
+            window=self._period, min_periods=self._period).max()
 
         wr['lowest_low'] = self._input_data['low'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).min()
+            window=self._period, min_periods=self._period).min()
 
         wr['wr'] = -100 * ((wr['highest_high'] - self._input_data['close']) /
                            (wr['highest_high'] - wr['lowest_low']))

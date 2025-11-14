@@ -73,8 +73,8 @@ class ChaikinOscillator(TechnicalIndicator):
         adl = AccumulationDistributionLine(self._input_data).getTiData()
 
         co['co'] = \
-            adl.ewm(span=3, min_periods=3, adjust=False, axis=0).mean() - \
-            adl.ewm(span=10, min_periods=10, adjust=False, axis=0).mean()
+            adl.ewm(span=3, min_periods=3, adjust=False).mean() - \
+            adl.ewm(span=10, min_periods=10, adjust=False).mean()
 
         return co.round(4)
 

@@ -99,8 +99,8 @@ class ProjectionOscillator(TechnicalIndicator):
 
         # Trigger line, Exponential Moving Average of three days, can be an
         # input argument to the class constructor in a later release
-        posc['trigger_line'] = posc['posc'] .ewm(
-            span=3, min_periods=3, adjust=False, axis=0).mean()
+        posc['trigger_line'] = posc['posc'].ewm(
+            span=3, min_periods=3, adjust=False).mean()
 
         return posc.round(4)
 

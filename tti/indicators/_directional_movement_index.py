@@ -110,9 +110,9 @@ class DirectionalMovementIndex(TechnicalIndicator):
 
         # Calculate True Range and Directional Movement for 14 periods
         # (smoothed)
-        dmi['tr14'].iat[13] = dmi['true_range'].iloc[:14].sum()
-        dmi['+dm14'].iat[13] = dmi['+dm1'].iloc[:14].sum()
-        dmi['-dm14'].iat[13] = dmi['-dm1'].iloc[:14].sum()
+        dmi.loc[dmi.index[13], 'tr14'] = dmi['true_range'].iloc[:14].sum()
+        dmi.loc[dmi.index[13], '+dm14'] = dmi['+dm1'].iloc[:14].sum()
+        dmi.loc[dmi.index[13], '-dm14'] = dmi['-dm1'].iloc[:14].sum()
 
         for i in range(14, len(dmi.index)):
             dmi['tr14'].values[i] = dmi['tr14'].values[i - 1] - \
@@ -125,10 +125,10 @@ class DirectionalMovementIndex(TechnicalIndicator):
                 (dmi['-dm14'].values[i - 1] / 14) + dmi['-dm1'].values[i]
 
         # Calculate the +DI and -DI
-        dmi['+di14'].iloc[14:] = 100 * dmi['+dm14'].iloc[14:] / \
+        dmi.loc[dmi.index[14:], '+di14'] = 100 * dmi['+dm14'].iloc[14:] / \
             dmi['tr14'].iloc[14:]
 
-        dmi['-di14'].iloc[14:] = 100 * dmi['-dm14'].iloc[14:] / \
+        dmi.loc[dmi.index[14:], '-di14'] = 100 * dmi['-dm14'].iloc[14:] / \
             dmi['tr14'].iloc[14:]
 
         # Calculate DX, ADX and ADXR
@@ -137,7 +137,7 @@ class DirectionalMovementIndex(TechnicalIndicator):
 
         dmi['dx'] = 100. * dmi['di_diff'] / dmi['di_sum']
 
-        dmi['adx'].iat[27] = dmi['dx'].iloc[:28].sum() / 14
+        dmi.loc[dmi.index[27], 'adx'] = dmi['dx'].iloc[:28].sum() / 14
 
         for i in range(28, len(dmi.index)):
             dmi['adx'].values[i] = \

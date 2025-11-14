@@ -70,7 +70,7 @@ class MassIndex(TechnicalIndicator):
         # This is required for the trading signal calculation and we want
         # to include it in the graph
         self._input_data['9_ema'] = self._input_data['close'].ewm(
-            span=9, min_periods=9, adjust=False, axis=0).mean()
+            span=9, min_periods=9, adjust=False).mean()
 
         mi = pd.DataFrame(index=self._input_data.index, columns=['mi'],
                           data=None, dtype='float64')
@@ -78,17 +78,14 @@ class MassIndex(TechnicalIndicator):
         high_low_diff = self._input_data['high'] - self._input_data['low']
 
         # Nine periods EMA of High-Low difference
-        ema_9 = high_low_diff.ewm(span=9, min_periods=9, adjust=False,
-                                  axis=0).mean()
+        ema_9 = high_low_diff.ewm(span=9, min_periods=9, adjust=False).mean()
 
         # Nine periods EMA of the nine periods EMA of the High-Low difference
-        double_ema_9 = ema_9.ewm(span=9, min_periods=9, adjust=False,
-                                 axis=0).mean()
+        double_ema_9 = ema_9.ewm(span=9, min_periods=9, adjust=False).mean()
 
         # 25-period Mass Index
         mi['mi'] = (ema_9 / double_ema_9).rolling(
-            window=25, min_periods=25, center=False,
-            win_type=None, on=None, axis=0, closed=None).sum()
+            window=25, min_periods=25).sum()
 
         return mi.round(4)
 

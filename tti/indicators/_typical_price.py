@@ -95,8 +95,7 @@ class TypicalPrice(TechnicalIndicator):
 
         # Calculate moving average of the close prices
         ma = self._input_data.rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).mean()
+            window=self._period, min_periods=self._period).mean()
 
         # Indicator goes above Moving Average
         if self._ti_data['tp'].iat[-1] > ma.iat[-1, 0]:

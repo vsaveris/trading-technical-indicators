@@ -87,26 +87,22 @@ class LinearRegressionSlope(TechnicalIndicator):
         xy = (self._input_data['close'] *
               range(1, len(self._input_data.index) + 1)
               ).rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).sum()
+            window=self._period, min_periods=self._period).sum()
 
         x = pd.Series(
             index=self._input_data.index,
             data=range(1, len(self._input_data.index) + 1)
         ).rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).sum()
+            window=self._period, min_periods=self._period).sum()
 
         xx = pd.Series(
             index=self._input_data.index,
             data=[x**2 for x in range(1, len(self._input_data.index) + 1)]
         ).rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).sum()
+            window=self._period, min_periods=self._period).sum()
 
         y = self._input_data['close'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).sum()
+            window=self._period, min_periods=self._period).sum()
 
         lrs['lrs'] = \
             (self._period * xy - (x * y)) / ((self._period * xx) - (x * x))

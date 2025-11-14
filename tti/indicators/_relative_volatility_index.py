@@ -97,53 +97,49 @@ class RelativeVolatilityIndex(TechnicalIndicator):
 
         # Upward high and low change
         rvi['uh'] = 0.0
-        rvi['uh'][high_change > 0] = self._input_data['high'].rolling(
-            window=10, min_periods=10, center=False, win_type=None, on=None,
-            axis=0, closed=None).std(ddof=0)
+        rvi.loc[high_change > 0, 'uh'] = self._input_data['high'].rolling(
+            window=10, min_periods=10).std(ddof=0)
 
         rvi['ul'] = 0.0
-        rvi['ul'][low_change > 0] = self._input_data['low'].rolling(
-            window=10, min_periods=10, center=False, win_type=None, on=None,
-            axis=0, closed=None).std(ddof=0)
+        rvi.loc[low_change > 0, 'ul'] = self._input_data['low'].rolling(
+            window=10, min_periods=10).std(ddof=0)
 
         # Downward high and low change
         rvi['dh'] = 0.0
-        rvi['dh'][high_change < 0] = self._input_data['high'].rolling(
-            window=10, min_periods=10, center=False, win_type=None, on=None,
-            axis=0, closed=None).std(ddof=0)
+        rvi.loc[high_change < 0, 'dh'] = self._input_data['high'].rolling(
+            window=10, min_periods=10).std(ddof=0)
 
         rvi['dl'] = 0.0
-        rvi['dl'][low_change < 0] = self._input_data['low'].rolling(
-            window=10, min_periods=10, center=False, win_type=None, on=None,
-            axis=0, closed=None).std(ddof=0)
+        rvi.loc[low_change < 0, 'dl'] = self._input_data['low'].rolling(
+            window=10, min_periods=10).std(ddof=0)
 
         # Wilder's Moving Average for uh, ul and dh, dl
-        rvi['smoothed_uh'].iat[9 + self._period - 1] = \
+        rvi.loc[rvi.index[9 + self._period - 1], 'smoothed_uh'] = \
             rvi['uh'].iloc[9:self._period + 9].mean()
 
-        rvi['smoothed_dh'].iat[9 + self._period - 1] = \
+        rvi.loc[rvi.index[9 + self._period - 1], 'smoothed_dh'] = \
             rvi['dh'].iloc[9:self._period + 9].mean()
 
-        rvi['smoothed_ul'].iat[9 + self._period - 1] = \
+        rvi.loc[rvi.index[9 + self._period - 1], 'smoothed_ul'] = \
             rvi['ul'].iloc[9:self._period + 9].mean()
 
-        rvi['smoothed_dl'].iat[9 + self._period - 1] = \
+        rvi.loc[rvi.index[9 + self._period - 1], 'smoothed_dl'] = \
             rvi['dl'].iloc[9:self._period + 9].mean()
 
         for i in range(self._period + 9, len(self._input_data.index)):
-            rvi['smoothed_uh'].iat[i] = rvi['smoothed_uh'].iat[i - 1] + (
+            rvi.loc[rvi.index[i], 'smoothed_uh'] = rvi['smoothed_uh'].iat[i - 1] + (
                     rvi['uh'].iat[i] - rvi['smoothed_uh'].iat[i - 1]
             ) / self._period
 
-            rvi['smoothed_dh'].iat[i] = rvi['smoothed_dh'].iat[i - 1] + (
+            rvi.loc[rvi.index[i], 'smoothed_dh'] = rvi['smoothed_dh'].iat[i - 1] + (
                     rvi['dh'].iat[i] - rvi['smoothed_dh'].iat[i - 1]
             ) / self._period
 
-            rvi['smoothed_ul'].iat[i] = rvi['smoothed_ul'].iat[i - 1] + (
+            rvi.loc[rvi.index[i], 'smoothed_ul'] = rvi['smoothed_ul'].iat[i - 1] + (
                     rvi['ul'].iat[i] - rvi['smoothed_ul'].iat[i - 1]
             ) / self._period
 
-            rvi['smoothed_dl'].iat[i] = rvi['smoothed_dl'].iat[i - 1] + (
+            rvi.loc[rvi.index[i], 'smoothed_dl'] = rvi['smoothed_dl'].iat[i - 1] + (
                     rvi['dl'].iat[i] - rvi['smoothed_dl'].iat[i - 1]
             ) / self._period
 

@@ -61,10 +61,10 @@ class TestFillMissingValues(unittest.TestCase):
 
     def test_all_possible_missing_places(self):
         df_input = pd.read_csv('./data/missing_values_data.csv',
-                               parse_dates=True, index_col=0)
+                               parse_dates=True, date_format='%Y-%m-%d', index_col=0)
 
         df_expected_result = pd.read_csv('./data/missing_values_filled.csv',
-                                         parse_dates=True, index_col=0)
+                                         parse_dates=True, date_format='%Y-%m-%d', index_col=0)
 
         pd.testing.assert_frame_equal(dp.fillMissingValues(df_input),
                                       df_expected_result)

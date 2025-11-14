@@ -85,18 +85,18 @@ class TripleExponentialMovingAverage(TechnicalIndicator):
 
         # Exponential moving average of prices
         ema = self._input_data.ewm(
-            span=self._period, min_periods=self._period, adjust=False, axis=0
+            span=self._period, min_periods=self._period, adjust=False
         ).mean()
 
         # Double Exponential moving average of prices
         double_ema = ema.ewm(
-            span=self._period, min_periods=self._period, adjust=False,
-            axis=0).mean()
+            span=self._period, min_periods=self._period, adjust=False
+        ).mean()
 
         # Triple Exponential moving average of prices
         triple_ema = double_ema.ewm(
-            span=self._period, min_periods=self._period, adjust=False,
-            axis=0).mean()
+            span=self._period, min_periods=self._period, adjust=False
+        ).mean()
 
         tema['tema'] = (3 * ema) - (3 * double_ema) + triple_ema
 

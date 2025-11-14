@@ -60,11 +60,12 @@ class OnBalanceVolume(TechnicalIndicator):
         obv = pd.DataFrame(index=self._input_data.index, columns=['obv'],
                            data=0, dtype='int64')
 
-        obv['obv'][self._input_data['close'] > self._input_data['close'].
-            shift(1)] = self._input_data['volume']
+        inc = self._input_data['close'] > self._input_data['close'].shift(1)
+        dec = self._input_data['close'] < self._input_data['close'].shift(1)
 
-        obv['obv'][self._input_data['close'] < self._input_data['close'].
-            shift(1)] = -self._input_data['volume']
+        obv.loc[inc, 'obv'] = self._input_data['volume']
+
+        obv.loc[dec, 'obv'] = -self._input_data['volume']
 
         obv['obv'] = obv['obv'].cumsum()
 

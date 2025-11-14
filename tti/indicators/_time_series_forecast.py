@@ -86,7 +86,7 @@ class TimeSeriesForecast(TechnicalIndicator):
         tsf = pd.DataFrame(index=self._input_data.index, columns=['tsf'],
                            data=None, dtype='float64')
 
-        tsf['tsf'].iloc[self._period-1:] = pd.concat(
+        tsf.iloc[self._period-1:, 0] = pd.concat(
             objs=[LinearRegressionSlope(input_data=self._input_data,
                                         period=self._period).getTiData(),
                   LinearRegressionIndicator(input_data=self._input_data,

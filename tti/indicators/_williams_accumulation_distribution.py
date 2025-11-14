@@ -75,9 +75,11 @@ class WilliamsAccumulationDistribution(TechnicalIndicator):
         wad['wad'] = self._input_data['close'] - \
                      self._input_data['close'].shift(1)
 
-        wad['wad'][wad['wad'] > 0] = self._input_data['close'] - wad['trl']
+        pos_mask = wad['wad'] > 0
+        neg_mask = wad['wad'] < 0
 
-        wad['wad'][wad['wad'] < 0] = self._input_data['close'] - wad['trh']
+        wad.loc[pos_mask, 'wad'] = self._input_data['close'] - wad['trl']
+        wad.loc[neg_mask, 'wad'] = self._input_data['close'] - wad['trh']
 
         return wad[['wad']].round(4)
 

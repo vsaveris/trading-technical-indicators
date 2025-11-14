@@ -97,8 +97,7 @@ class EaseOfMovement(TechnicalIndicator):
         emv['emv'] = midpoint_move / box_ratio
 
         emv['emv_ma'] = emv['emv'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).mean()
+            window=self._period, min_periods=self._period).mean()
 
         return emv.round(4)
 

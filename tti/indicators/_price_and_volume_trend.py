@@ -69,11 +69,11 @@ class PriceAndVolumeTrend(TechnicalIndicator):
         pvt = pd.DataFrame(index=self._input_data.index, columns=['pvt'],
                            data=None, dtype='float64')
 
-        pvt['pvt'].iat[0] = 0.0
+        pvt.loc[pvt.index[0], 'pvt'] = 0.0
 
         for i in range(1, len(self._input_data.index)):
 
-            pvt['pvt'].iat[i] = pvt['pvt'].iat[i - 1] + (
+            pvt.loc[pvt.index[i], 'pvt'] = pvt['pvt'].iat[i - 1] + (
                     self._input_data['close'].iat[i] -
                     self._input_data['close'].iat[i - 1]) * (
                     self._input_data['volume'].iat[i] /

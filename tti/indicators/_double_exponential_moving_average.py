@@ -85,13 +85,13 @@ class DoubleExponentialMovingAverage(TechnicalIndicator):
 
         # Exponential moving average of prices
         ema = self._input_data.ewm(
-                span=self._period, min_periods=self._period, adjust=False,
-                axis=0).mean()
+                span=self._period, min_periods=self._period, adjust=False
+                ).mean()
 
         # Exponential moving average of the exponential moving average
         ema_of_ema = ema.ewm(
-            span=self._period, min_periods=self._period, adjust=False,
-            axis=0).mean()
+            span=self._period, min_periods=self._period, adjust=False
+        ).mean()
 
         dema['dema'] = (2 * ema) - ema_of_ema
 

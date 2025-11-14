@@ -84,11 +84,11 @@ class WildersSmoothing(TechnicalIndicator):
                           data=None, dtype='float64')
 
         # Wilder's Moving Average
-        ws['ws'].iat[self._period - 1] = \
+        ws.loc[ws.index[self._period - 1], 'ws'] = \
             self._input_data['close'].iloc[:self._period].mean()
 
         for i in range(self._period, len(self._input_data.index)):
-            ws['ws'].iat[i] = ws['ws'].iat[i - 1] + (
+            ws.loc[ws.index[i], 'ws'] = ws['ws'].iat[i - 1] + (
                     self._input_data['close'].iat[i] - ws['ws'].iat[i - 1]
             ) / self._period
 

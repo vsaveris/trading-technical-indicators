@@ -86,8 +86,7 @@ class Qstick(TechnicalIndicator):
 
         qstick['qstick'] = \
             (self._input_data['close'] - self._input_data['open']).rolling(
-                window=self._period, min_periods=self._period, center=False,
-                win_type=None, on=None, axis=0, closed=None).sum(
+                window=self._period, min_periods=self._period).sum(
             ) / self._period
 
         return qstick.round(4)

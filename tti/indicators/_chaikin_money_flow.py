@@ -93,12 +93,10 @@ class ChaikinMoneyFlow(TechnicalIndicator):
             ))
 
         cmf['numerator'] = cmf['numerator'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).sum()
+            window=self._period, min_periods=self._period).sum()
 
         cmf['denominator'] = self._input_data['volume'].rolling(
-            window=self._period, min_periods=self._period, center=False,
-            win_type=None, on=None, axis=0, closed=None).sum()
+            window=self._period, min_periods=self._period).sum()
 
         cmf['cmf'] = (cmf['numerator'] / cmf['denominator']).round(4)
 

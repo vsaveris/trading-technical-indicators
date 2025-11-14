@@ -69,17 +69,17 @@ class MovingAverageConvergenceDivergence(TechnicalIndicator):
                                      26, len(self._input_data.index))
 
         # Calculate Exponential Moving Average for 26 periods
-        ema_26 = self._input_data.ewm(span=26, min_periods=26, adjust=False,
-                                      axis=0).mean().round(4)
+        ema_26 = self._input_data.ewm(span=26, min_periods=26, adjust=False
+                                      ).mean().round(4)
 
         # Calculate Exponential Moving Average for 12 periods
-        ema_12 = self._input_data.ewm(span=12, min_periods=12, adjust=False,
-                                      axis=0).mean().round(4)
+        ema_12 = self._input_data.ewm(span=12, min_periods=12, adjust=False
+                                      ).mean().round(4)
 
         # Calculate MACD
         macd = ema_12 - ema_26
-        macd = pd.concat([macd, macd.ewm(span=9, min_periods=9, adjust=False,
-                                         axis=0).mean()], axis=1).round(4)
+        macd = pd.concat([macd, macd.ewm(span=9, min_periods=9, adjust=False
+                                         ).mean()], axis=1).round(4)
 
         macd.columns = ['macd', 'signal_line']
 
@@ -100,22 +100,21 @@ class MovingAverageConvergenceDivergence(TechnicalIndicator):
             return TRADE_SIGNALS['hold']
 
         # MACD rises above zero
-        if self._ti_data['macd'][-2] < 0 < self._ti_data['macd'][-1]:
+        if self._ti_data['macd'].iloc[-2] < 0 < self._ti_data['macd'].iloc[-1]:
             return TRADE_SIGNALS['buy']
 
         # MACD fall below zero
-        if self._ti_data['macd'][-2] > 0 > self._ti_data['macd'][-1]:
+        if self._ti_data['macd'].iloc[-2] > 0 > self._ti_data['macd'].iloc[-1]:
             return TRADE_SIGNALS['sell']
 
         # MACD falls below Signal Line
-        if self._ti_data['macd'][-2] > self._ti_data['signal_line'][-2] and \
-           self._ti_data['macd'][-1] < self._ti_data['signal_line'][-1]:
+        if self._ti_data['macd'].iloc[-2] > self._ti_data['signal_line'].iloc[-2] and \
+           self._ti_data['macd'].iloc[-1] < self._ti_data['signal_line'].iloc[-1]:
             return TRADE_SIGNALS['sell']
 
         # MACD rises above Signal Line
-        if self._ti_data['macd'][-2] < self._ti_data['signal_line'][-2] and \
-           self._ti_data['macd'][-1] > self._ti_data['signal_line'][-1]:
+        if self._ti_data['macd'].iloc[-2] < self._ti_data['signal_line'].iloc[-2] and \
+           self._ti_data['macd'].iloc[-1] > self._ti_data['signal_line'].iloc[-1]:
             return TRADE_SIGNALS['buy']
 
         return TRADE_SIGNALS['hold']
-
