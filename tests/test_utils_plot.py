@@ -171,21 +171,20 @@ class TestLinesGraph(unittest.TestCase):
             data=[1, 2, 3],
         )
 
-        self.assertEqual(
-            plot.linesGraph(
-                data=df,
-                y_label="Y",
-                title="T",
-                lines_color=["r"],
-                alpha_values=[0.5],
-                areas=None,
-                x_label="X",
-            )
-            .gca()
-            .get_title(),
-            "T",
+        plt_obj = plot.linesGraph(
+            data=df,
+            y_label="Y",
+            title="T",
+            lines_color=["r"],
+            alpha_values=[0.5],
+            areas=None,
+            x_label="X",
         )
-        plt.close("all")
+
+        fig = plt_obj.gcf()
+
+        self.assertIsNotNone(fig._suptitle)
+        self.assertEqual(fig._suptitle.get_text(), "T")
 
     def test_input_parameter_x_label(self):
         df = pd.DataFrame(

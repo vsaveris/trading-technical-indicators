@@ -1,5 +1,5 @@
 # trading-technical-indicators (tti)
-![Current Version](https://img.shields.io/badge/current_version-0.3.1_(not_released)-yellow?style=flat-square)
+![Current Version](https://img.shields.io/badge/current_version-0.3.2_(not_released)-yellow?style=flat-square)
 ![Latest Release](https://img.shields.io/badge/latest_release-0.2.2-blue?style=flat-square)
 ![Total Tests](https://img.shields.io/badge/total_tests-2122-purple?style=flat-square)
 ![Coverage](https://img.shields.io/badge/test_coverage-99%25-green?style=flat-square)
@@ -42,6 +42,9 @@ To use this unreleased version, clone the repository and install the package:
 git clone git@github.com:vsaveris/trading-technical-indicators.git
 pip install .
 ```
+
+- 0.3.2: Update Graphs Code
+  - Improvements in generated graphs.
 
 - 0.3.1: Packaging refactoring
   - Moved to `pyproject.toml` file.

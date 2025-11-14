@@ -19,44 +19,76 @@ for data_file in [
     "example_data_missing_2.csv",
     "example_data_missing_3.csv",
 ]:
-    # Read data from csv file. Set the index to the correct column
+    # Read data from the CSV file. Set the index to the date column.
     df = pd.read_csv("./data/" + data_file, parse_dates=True, index_col=0)
 
-    # Fill missing values using the fillMissingValues exposed function
+    # Fill missing values
     filled_df = fillMissingValues(df)
 
-    # Create a dataframe with original and modified values, for plotting the
-    # changes
-
+    # Combine before/after for plotting
     df = pd.concat([filled_df, df], axis=1)
     df.columns = ["After", "Before"]
 
-    # Plot the updates on the data
-    plt.plot(
+    fig, ax = plt.subplots(figsize=(8.5, 4.5))
+
+    fig.suptitle("Fill Missing Values", fontsize=13, fontweight="bold", y=0.97)
+
+    ax.plot(
         df.index,
         df["After"],
         label="Filled Values",
         color="tomato",
         linestyle="--",
-        linewidth=1,
+        linewidth=1.8,
         alpha=1.0,
     )
-    plt.plot(
+    ax.plot(
         df.index,
         df["Before"],
         label="Before",
         color="limegreen",
         linestyle="-",
-        linewidth=1,
+        linewidth=1.8,
         alpha=1.0,
     )
-    plt.grid(which="major", axis="y", alpha=0.5)
-    plt.xlabel("Date", fontsize=11, fontweight="bold")
-    plt.ylabel("Price", fontsize=11, fontweight="bold")
-    plt.title("Fill Missing Values", fontsize=11, fontweight="bold")
-    plt.gcf().autofmt_xdate()
-    plt.legend(loc=0)
-    plt.savefig("./figures/" + data_file.split(".")[0] + ".png")
-    plt.clf()
 
-    print("- Graph", "./figures/" + data_file.split(".")[0] + ".png", "saved.")
+    ax.set_facecolor("#ffffff")
+    ax.grid(True, which="major", axis="both", linestyle="--", alpha=0.25, linewidth=0.7)
+    ax.minorticks_on()
+    ax.grid(True, which="minor", axis="y", linestyle=":", alpha=0.12, linewidth=0.6)
+
+    for spine in ("top", "right"):
+        ax.spines[spine].set_visible(False)
+    for spine in ("left", "bottom"):
+        ax.spines[spine].set_alpha(0.4)
+
+    ax.margins(x=0.01, y=0.10)
+
+    ax.set_xlabel("Date", fontsize=11, fontweight="bold", labelpad=10)
+    ax.set_ylabel("Price", fontsize=11, fontweight="bold")
+
+    fig.autofmt_xdate()
+
+    ax.legend(
+        loc="upper left",
+        frameon=False,
+        fontsize=9,
+        handlelength=1.6,
+        columnspacing=1.2,
+        handletextpad=0.8,
+        labelspacing=0.5,
+        borderpad=0.4,
+    )
+
+    fig.subplots_adjust(
+        top=0.90,
+        bottom=0.18,
+        left=0.08,
+        right=0.95,
+    )
+
+    outfile = "./figures/" + data_file.split(".")[0] + ".png"
+    plt.savefig(outfile, dpi=120)
+    plt.close(fig)
+
+    print("- Graph", outfile, "saved.")
