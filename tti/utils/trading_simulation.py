@@ -19,7 +19,7 @@ from ..utils.exceptions import (
 class TradingSimulation:
     """
     Trading Simulation class implementation. Provides utilities methods for
-    the runSimulation method of the tti.indicators package.
+    the getTiSimulation method of the tti.indicators package.
 
     Args:
         input_data_index (pandas.DateTimeIndex): The indicator's input data

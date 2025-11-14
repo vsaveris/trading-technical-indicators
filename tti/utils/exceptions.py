@@ -66,19 +66,3 @@ class NotValidInputDataForSimulation(Exception):
         message += details
 
         super().__init__(message)
-
-
-class TtiPackageDeprecatedMethod(Exception):
-    def __init__(
-        self,
-        method,
-        release,
-        details,
-        message="Call to deprecated method <p_method>. The method "
-        + "has been deprecated since release <p_release>.",
-    ):
-        message = message.replace("<p_method>", method)
-        message = message.replace("<p_release>", release)
-        message += details
-
-        super().__init__(message)
