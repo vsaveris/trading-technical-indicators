@@ -12,7 +12,7 @@ from abc import ABC, abstractmethod
 from .properties.indicators_properties import INDICATORS_PROPERTIES
 from ..utils.plot import linesGraph
 from ..utils.data_validation import validateInputData
-from ..utils.exceptions import WrongTypeForInputParameter, TtiPackageDeprecatedMethod
+from ..utils.exceptions import WrongTypeForInputParameter
 from ..utils.trading_simulation import TradingSimulation
 
 
@@ -179,20 +179,6 @@ class TechnicalIndicator(ABC):
             lines_color=self._properties["graph_lines_color"],
             alpha_values=self._properties["graph_alpha_values"],
             areas=self._properties["graph_areas"],
-        )
-
-    def runSimulation(self, close_values, max_items_per_transaction=1, max_investment=0.0):
-        """
-        Deprecated method since release ``0.1.b3``. Replaced by the
-        ``getTiSimulation`` method. This code will be removed from the package
-        in stable-release ``1.0``.
-
-        Raises:
-            TtiPackageDeprecatedMethod: Method is deprecated.
-        """
-
-        raise TtiPackageDeprecatedMethod(
-            "runSimulation", "0.1.b3", " It has been replaced by the getTiSimulation method."
         )
 
     @staticmethod

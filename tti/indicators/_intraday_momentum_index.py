@@ -1,8 +1,8 @@
 """
 Trading-Technical-Indicators (tti) python library
 
-File name: _intraday_movement_index.py
-    Implements the Intraday Movement Index technical indicator.
+File name: _intraday_momentum_index.py
+    Implements the Intraday Momentum Index technical indicator.
 """
 
 import pandas as pd
@@ -16,9 +16,9 @@ from ..utils.exceptions import (
 )
 
 
-class IntradayMovementIndex(TechnicalIndicator):
+class IntradayMomentumIndex(TechnicalIndicator):
     """
-    Intraday Movement Index Technical Indicator class implementation.
+    Intraday Momentum Index Technical Indicator class implementation.
 
     Args:
         input_data (pandas.DataFrame): The input data. Required input columns
@@ -82,7 +82,7 @@ class IntradayMovementIndex(TechnicalIndicator):
         # Not enough data for the requested period
         if len(self._input_data.index) < self._period:
             raise NotEnoughInputData(
-                "Intraday Movement Index", self._period, len(self._input_data.index)
+                "Intraday Momentum Index", self._period, len(self._input_data.index)
             )
 
         imi = pd.DataFrame(
