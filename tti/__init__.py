@@ -13,11 +13,14 @@ indicators from stocks data. The library provides an API for:
 Project site is https://www.trading-technical-indicators.org/
 """
 
-from tti import indicators
-from tti import utils
+from . import (
+    indicators,
+    utils,
+    ml,
+)
 
 from importlib.metadata import version
 
 __version__ = version("tti")
 
-__all__ = ["indicators", "utils"]
+__all__ = ["indicators", "utils", "ml"]

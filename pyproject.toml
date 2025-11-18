@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tti"
-version = "0.3.3"
+version = "0.3.4"
 description = "Trading Technical Indicators, python library. Where Traditional Technical Analysis and AI are met."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -34,6 +34,12 @@ dependencies = [
   "matplotlib>=3.10.7",
   "numpy>=2.3.4",
   "statsmodels>=0.14.5",
+  "joblib",
+  "scikit-learn",
+  "tqdm>=4.66",
+  "requests>=2.32",
+  "yfinance>=0.2.50",
+  "pandas-market-calendars",
 ]
 
 [project.urls]

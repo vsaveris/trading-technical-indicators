@@ -4,7 +4,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/current_version-0.3.3_(unreleased)-yellow?style=for-the-badge)
+![Version](https://img.shields.io/badge/current_version-0.3.4_(unreleased)-yellow?style=for-the-badge)
 ![Latest Release](https://img.shields.io/badge/latest_release-0.2.2-blue?style=for-the-badge)
 ![Tests](https://img.shields.io/badge/tests-2122-purple?style=for-the-badge)
 ![Coverage](https://img.shields.io/badge/coverage-99%25-brightgreen?style=for-the-badge)
@@ -61,6 +61,7 @@ A full modernization of the project is underway:
 - Refactored & improved graphing engine
 
 ### Latest Dev Versions
+- **0.3.4** - ML features added.
 - **0.3.3** - Address pending issues.
   - Correct Parabolic SAR trading signal (issue [#36](https://github.com/vsaveris/trading-technical-indicators/issues/36))
   - Rename indicator IntradayMovementIndex to IntradayMomentumIndex (issue [#29](https://github.com/vsaveris/trading-technical-indicators/issues/29))
