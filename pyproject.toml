@@ -33,13 +33,14 @@ dependencies = [
   "pandas>=2.3.3",
   "matplotlib>=3.10.7",
   "numpy>=2.3.4",
+  "pandas-market-calendars>=4.4.1",
+  "torch>=2.2.0",
   "statsmodels>=0.14.5",
   "joblib",
   "scikit-learn",
   "tqdm>=4.66",
   "requests>=2.32",
   "yfinance>=0.2.50",
-  "pandas-market-calendars",
 ]
 
 [project.urls]

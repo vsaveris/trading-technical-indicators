@@ -6,5 +6,7 @@ related features, of the tti library.
 """
 
 from . import data
+from . import lstm
+from . import _model
 
-__all__ = ["data"]
+__all__ = ["data", "lstm", "_model"]

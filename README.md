@@ -1,7 +1,6 @@
 <p align="center"><img src="./docs/source/images/Trading-Logo.png" width="100"/></p>
 
 # Trading Technical Indicators (TTI)
-
 <div align="center">
 
 ![Version](https://img.shields.io/badge/current_version-0.3.4_(unreleased)-yellow?style=for-the-badge)
