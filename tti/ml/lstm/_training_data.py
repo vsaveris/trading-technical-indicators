@@ -474,6 +474,7 @@ def load_dataset(in_dir: Path) -> LSTMDataset:
 def prepare_prediction_window(
     df: pd.DataFrame,
     dataset: LSTMDataset,
+    asset: str,
     sequence_length: Optional[int] = None,
     indicators_to_use: Optional[Sequence[Dict]] = None,
 ) -> np.ndarray:
@@ -484,6 +485,8 @@ def prepare_prediction_window(
         df: DataFrame containing at least OHLCV columns (open, high, low, close, adj_close, volume) and 'date'.
             Must be sorted ascending.
         dataset: LSTMDataset with feature_names and scaler loaded (via load_dataset).
+        asset: Asset identifier matching the CSV filename used during dataset creation (e.g. "AAPL.csv").
+            Used to select the correct scaler statistics for each feature.
         sequence_length: If provided, overrides dataset.params['sequence_length']; otherwise required in params.
         indicators_to_use: Optional indicator definitions. If None, uses dataset.params.get("indicators_to_use")
             or falls back to ALL_TI_FEATURES.
@@ -523,10 +526,19 @@ def prepare_prediction_window(
         if col not in df.columns:
             df[col] = np.nan
 
-    for col in dataset.feature_names:
-        m, s = (
-            dataset.scaler.get(col, (0.0, 1.0)) if isinstance(dataset.scaler, dict) else (0.0, 1.0)
+    if not isinstance(dataset.scaler, dict):
+        raise ValueError(
+            "Dataset is missing scaler statistics; cannot standardize prediction window."
         )
+
+    for col in dataset.feature_names:
+        scaler_key = f"{asset}:{col}"
+        if scaler_key not in dataset.scaler:
+            raise ValueError(
+                f"Scaler stats not found for asset '{asset}' and feature '{col}'. "
+                "Ensure the asset name matches the CSV used during dataset creation."
+            )
+        m, s = dataset.scaler[scaler_key]
         df[col] = (df[col].astype(float) - m) / (s if s != 0 else 1.0)
 
     features = df[dataset.feature_names].to_numpy(dtype=np.float32)
