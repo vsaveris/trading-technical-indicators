@@ -426,10 +426,21 @@ def save_dataset(dataset: LSTMDataset, out_dir: Path) -> None:
     if dataset.test:
         np.save(out_dir / "test_X.npy", dataset.test.X)
         np.save(out_dir / "test_y.npy", dataset.test.y)
+
+    def _split_stats(split: DatasetSplit) -> Dict[str, any]:
+        y = np.asarray(split.y)
+        total = int(y.shape[0])
+        dist = {label: int((y == label_id).sum()) for label, label_id in LABEL_TO_ID.items()}
+        return {"samples": total, "class_distribution": dist}
+
     meta = {
         "feature_names": dataset.feature_names,
         "scaler": dataset.scaler,
         "params": dataset.params,
+        "stats": {
+            "train": _split_stats(dataset.train),
+            "test": _split_stats(dataset.test) if dataset.test else None,
+        },
     }
     with open(out_dir / "meta.json", "w") as fh:
         json.dump(meta, fh, indent=2)
