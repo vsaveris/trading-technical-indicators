@@ -8,16 +8,12 @@ indicators from stocks data. The library provides an API for:
 * trading technical indicators graph preparation
 * trading signal calculation
 * trading simulation based on trading signals
-* prices direction prediction based on machine learning algorithms (not included in this release)
+* prices direction prediction based on machine learning algorithms
 
 Project site is https://www.trading-technical-indicators.org/
 """
 
-from . import (
-    indicators,
-    utils,
-    ml,
-)
+from . import indicators, utils, ml
 
 from importlib.metadata import version
 

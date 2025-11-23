@@ -1,27 +1,11 @@
 """
-LSTM utilities for the tti.ml package.
+Trading-Technical-Indicators (tti) python library
+
+the `tti.ml.lstm` package includes the implementation of LSTM model (including dataset generation, training, evaluation
+and inference).
 """
 
-from ._training_data import (
-    build_lstm_dataset,
-    save_dataset,
-    load_dataset,
-    prepare_prediction_window,
-    LSTMDataset,
-    DatasetSplit,
-    LABEL_TO_ID,
-    ID_TO_LABEL,
-)
-from ._lstm import LSTMModel
+from ._training_data import LSTMData
+from ._data_loader import build_dataloader, LazyDatasetLoader
 
-__all__ = [
-    "build_lstm_dataset",
-    "save_dataset",
-    "load_dataset",
-    "prepare_prediction_window",
-    "LSTMDataset",
-    "DatasetSplit",
-    "LABEL_TO_ID",
-    "ID_TO_LABEL",
-    "LSTMModel",
-]
+__all__ = ["LSTMData", "build_dataloader", "LazyDatasetLoader"]
