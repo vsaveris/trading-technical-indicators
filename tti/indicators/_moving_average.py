@@ -169,9 +169,16 @@ class MovingAverage(TechnicalIndicator):
             ma.loc[ma.index[21], "ma-" + self._ma_type] = self._input_data["close"].iat[21]
 
             for i in range(22, len(self._input_data.index)):
+                # Skip NaN VR values by carrying forward the previous MA
+                vr_val = vr.iat[i, 0]
+                prev_ma = ma["ma-" + self._ma_type].iat[i - 1]
+                if pd.isna(vr_val) or pd.isna(prev_ma):
+                    ma.loc[ma.index[i], "ma-" + self._ma_type] = prev_ma
+                    continue
+
                 ma.loc[ma.index[i], "ma-" + self._ma_type] = (
-                    sm * self._input_data["close"].iat[i] * vr.iat[i, 0]
-                ) + (1 - (sm * vr.iat[i, 0])) * ma["ma-" + self._ma_type].iat[i - 1]
+                    sm * self._input_data["close"].iat[i] * vr_val
+                ) + (1 - (sm * vr_val)) * prev_ma
 
         return ma.round(4)
 

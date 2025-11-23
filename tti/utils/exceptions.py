@@ -66,3 +66,70 @@ class NotValidInputDataForSimulation(Exception):
         message += details
 
         super().__init__(message)
+
+
+class NoFeaturesSelectedForMLData(Exception):
+    def __init__(self, ti_features, include_close_feature, include_volume_feature):
+        message = (
+            "No features selected for the ML data. ti_features = "
+            + str(ti_features)
+            + ", include_close_feature = "
+            + str(include_close_feature)
+            + ", include_volume_feature = "
+            + str(include_volume_feature)
+        )
+
+        super().__init__(message)
+
+
+class InputDataMissingForMLData(Exception):
+    def __init__(self, column_name):
+        message = "Required column `" + column_name + "` is missing from " + "the input data."
+
+        super().__init__(message)
+
+
+class NotEnoughDataForMachineLearningTraining(Exception):
+    def __init__(self, input_data_length, required_data_length):
+        message = (
+            "Not enough input data for Machine Learning training. "
+            + "Required data length is `"
+            + str(required_data_length)
+            + "` but `"
+            + str(input_data_length)
+            + "` were given."
+        )
+
+        super().__init__(message)
+
+
+class NotEnoughDataForMachineLearningPrediction(Exception):
+    def __init__(self, input_data_length, required_data_length):
+        message = (
+            "Not enough input data for Machine Learning prediction. "
+            + "Required data length is `"
+            + str(required_data_length)
+            + "` but `"
+            + str(input_data_length)
+            + "` were given."
+        )
+
+        super().__init__(message)
+
+
+class ModelTrainingIsNotSupported(Exception):
+    def __init__(self):
+        message = "ML model training is not supported for loaded models."
+
+        super().__init__(message)
+
+
+class NasdaqAssetsRetrievalError(Exception):
+    def __init__(self, url, mc, fs, ie, ins, e):
+        message = (
+            f"Failed to download NASDAQ assets information from URL = {url}, with filters: "
+            f"Market Categories = {mc}, Financial Statuses = {fs}, Ignore ETFs = {ie}, "
+            f"Ignore Next Shares = {ins}. Error: {e}."
+        )
+
+        super().__init__(message)
